@@ -1,0 +1,31 @@
+﻿@model GamersHub.Web.ViewModels.Forums.ForumIndexViewModel
+@{
+    ViewData["Title"] = "All Forums";
+}
+
+<div class="text-center ">
+    <h1 class="display-3">@this.ViewData["Title"]</h1>
+</div>
+
+<div class="row row-cols-1 row-cols-md-2">
+    @foreach (var forum in Model.Forums)
+    {
+        <div class="col mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="#" class="card-link">@forum.Name</a>
+                    </h5>
+                    <p class="card-text">Total Posts: @forum.PostsCount</p>
+                    @for (int i = 0; i < forum.CategoryNames.Length; i++)
+                    {
+                        <p class="card-text">
+                            <a href="#" class="card-link"> @forum.CategoryNames[i]</a> @forum.CategoryDescriptions[i]
+                        </p>
+                        
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
