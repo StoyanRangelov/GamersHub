@@ -12,7 +12,7 @@ namespace GamersHub.Data.Models
         }
 
         [Required]
-        public string Title { get; set; }
+        public string Topic { get; set; }
 
         [Required]
         public string Content { get; set; }

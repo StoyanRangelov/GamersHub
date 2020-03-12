@@ -16,6 +16,8 @@ namespace GamersHub.Web.ViewModels.Forums
 
         public string[] CategoryDescriptions { get; set; }
 
+        public string Url => $"{this.Name.Replace(' ', '-')}";
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Forum, ForumViewModel>()

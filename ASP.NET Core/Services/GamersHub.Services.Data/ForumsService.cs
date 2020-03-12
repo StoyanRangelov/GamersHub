@@ -26,5 +26,14 @@ namespace GamersHub.Services.Data
 
             return query.To<T>().ToList();
         }
+
+        public T GetByName<T>(string name)
+        {
+            string originalName = name.Replace('-', ' ');
+
+            var forum = this.forumsRepository.All().Where(x => x.Name == originalName)
+                .To<T>().FirstOrDefault();
+            return forum;
+        }
     }
 }

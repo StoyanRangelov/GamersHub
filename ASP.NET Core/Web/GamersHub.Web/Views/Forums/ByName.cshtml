@@ -1,0 +1,32 @@
+﻿@model GamersHub.Web.ViewModels.Forums.ForumByNameViewModel
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="d-inline-block ">
+    <h1 class="display-3">@Model.Name</h1>
+</div>
+<div class="d-inline-block float-right">
+    <button type="button" class="btn btn-primary btn-lg">New Topic</button>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 list-group list-group-horizontal">
+    @foreach (var categoryName in Model.CategoryNames)
+    {
+        <div class="col mb-4">
+            <a href="#" class="list-group-item list-group-item-action">@categoryName</a>
+        </div>
+    }
+</div>
+
+<table class="table table-borderless">
+    <thead>
+    <tr>
+        <th scope="col">Topic</th>
+        <th scope="col">Category</th>
+        <th scope="col">Author</th>
+        <th scope="col">Replies</th>
+        <th scope="col">Created On</th>
+    </tr>
+    </thead>
+</table>

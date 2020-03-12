@@ -22,5 +22,12 @@ namespace GamersHub.Web.Controllers
 
             return this.View(viewModel);
         }
+
+        public IActionResult ByName(string name)
+        {
+            var viewModel = this.forumsService.GetByName<ForumByNameViewModel>(name);
+
+            return this.View(viewModel);
+        }
     }
 }
