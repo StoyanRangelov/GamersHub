@@ -40,7 +40,9 @@ namespace GamersHub.Web.Controllers
                 inputModel.Content,
                 this.User.Identity.Name);
 
-            return this.Redirect($"/Forums/{inputModel.ForumName}");
+            var url = inputModel.ForumName.Replace(' ', '-');
+
+            return this.Redirect($"/Forums/{url}");
         }
     }
 }

@@ -8,6 +8,10 @@ namespace GamersHub.Web.ViewModels.Forums
     public class PostInForumViewModel : IMapFrom<Post>, IHaveCustomMappings
     {
         public string Topic { get; set; }
+        public string ShortTopic =>
+            this.Topic?.Length > 40
+                ? this.Topic?.Substring(0, 40) + "..."
+                : this.Topic;
 
         public string CategoryName { get; set; }
 

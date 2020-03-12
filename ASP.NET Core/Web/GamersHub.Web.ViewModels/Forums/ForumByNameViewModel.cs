@@ -20,7 +20,9 @@ namespace GamersHub.Web.ViewModels.Forums
         {
             configuration.CreateMap<Forum, ForumByNameViewModel>()
                 .ForMember(x => x.CategoryNames, y => y
-                    .MapFrom(x => x.ForumCategories.Select(fc => fc.Category.Name)));
+                    .MapFrom(x => x.ForumCategories.Select(fc => fc.Category.Name)))
+                .ForMember(x=>x.Posts, y=>y.
+                    MapFrom(x => x.Posts.OrderByDescending(p => p.CreatedOn)));
         }
     }
 }
