@@ -1,0 +1,40 @@
+﻿@model GamersHub.Web.ViewModels.Posts.CreatePostInputModel
+@{
+    ViewData["Title"] = "Create Topic";
+}
+
+<h1>Create Topic</h1>
+
+<div class="row">
+    <div class="col-md-10">
+        <form asp-controller="Posts" asp-action="Create" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.ForumName">Forum</label>
+                <input asp-for="@Model.ForumName" class="form-control" type="text" value="@ViewData["Name"]" readonly>
+                <span asp-validation-for="@Model.Topic" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.CategoryName"> Category</label>
+                <select asp-for="CategoryName" class="form-control">
+                    @foreach (var categoryName in ViewBag.CategoryNames)
+                    {
+                        <option>@categoryName</option>
+                    }
+                </select>
+                <span asp-validation-for="@Model.Topic" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Topic"></label>
+                <input asp-for="@Model.Topic" class="form-control"/>
+                <span asp-validation-for="@Model.Topic" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Content"></label>
+                <textarea asp-for="@Model.Content" class="form-control" rows="8"></textarea>
+                <span asp-validation-for="@Model.Content" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+    </div>
+</div>

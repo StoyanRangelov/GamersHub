@@ -4,21 +4,17 @@ using AutoMapper;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
 
-namespace GamersHub.Web.ViewModels.Forums
+namespace GamersHub.Web.ViewModels.Posts
 {
-   public class ForumByNameViewModel : IMapFrom<Forum>, IHaveCustomMappings
+   public class CreatePostViewModel : IMapFrom<Forum>, IHaveCustomMappings
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public string[] CategoryNames { get; set; }
 
-        public IEnumerable<PostInForumViewModel> Posts { get; set; }
-
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<Forum, ForumByNameViewModel>()
+            configuration.CreateMap<Forum, CreatePostViewModel>()
                 .ForMember(x => x.CategoryNames, y => y
                     .MapFrom(x => x.ForumCategories.Select(fc => fc.Category.Name)));
         }

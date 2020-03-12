@@ -35,5 +35,13 @@ namespace GamersHub.Services.Data
                 .To<T>().FirstOrDefault();
             return forum;
         }
+
+        public T GetById<T>(int id)
+        {
+            var forum = this.forumsRepository.All()
+                .Where(x => x.Id == id).To<T>().FirstOrDefault();
+
+            return forum;
+        }
     }
 }

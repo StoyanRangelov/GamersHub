@@ -7,7 +7,7 @@
     <h1 class="display-3">@Model.Name</h1>
 </div>
 <div class="d-inline-block float-right">
-    <button type="button" class="btn btn-primary btn-lg">New Topic</button>
+    <a href="~/Posts/Create?id=@Model.Id" type="submit"  class="btn btn-primary btn-lg">New Topic</a>
 </div>
 
 <div class="row row-cols-1 row-cols-md-3 list-group list-group-horizontal">
