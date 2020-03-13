@@ -22,5 +22,23 @@ namespace GamersHub.Web.Controllers
 
             return this.View(viewModel);
         }
+
+        public IActionResult Create()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(CategoryCreateInputModel inputModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
+            this.categoriesService.Create(inputModel.Name, inputModel.Description);
+
+            return this.Redirect("/Categories");
+        }
     }
 }

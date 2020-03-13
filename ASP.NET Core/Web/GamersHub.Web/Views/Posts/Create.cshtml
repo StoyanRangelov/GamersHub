@@ -6,7 +6,7 @@
 <div class="text-center ">
     <h1 class="display-3">@this.ViewData["Title"]</h1>
 </div>
-
+<hr/>
 <div class="row">
     <div class="col-md-10">
         <form asp-controller="Posts" asp-action="Create" method="post">
@@ -36,7 +36,9 @@
                 <textarea asp-for="@Model.Content" class="form-control" rows="8"></textarea>
                 <span asp-validation-for="@Model.Content" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Create</button>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
         </form>
     </div>
 </div>

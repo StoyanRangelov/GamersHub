@@ -9,7 +9,7 @@
 <div class="d-inline-block float-right">
     <a asp-controller="Posts" asp-action="Create" asp-route-id="@Model.Id" type="submit" class="btn btn-primary btn-lg">New Topic</a>
 </div>
-
+<hr/>
 <div class="row row-cols-1 row-cols-md-3 list-group list-group-horizontal">
     @foreach (var categoryName in Model.CategoryNames)
     {

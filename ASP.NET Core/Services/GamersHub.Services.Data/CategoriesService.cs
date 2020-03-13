@@ -15,20 +15,30 @@ namespace GamersHub.Services.Data
             this.categoriesRepository = categoriesRepository;
         }
 
-
-
         public IEnumerable<T> GetAll<T>(int? count = null)
         {
             IQueryable<Category> query =
                 this.categoriesRepository.All()
                     .OrderByDescending(x => x.Posts.Count)
-                    .ThenByDescending(x=>x.CategoryForums.Count);
+                    .ThenByDescending(x => x.CategoryForums.Count);
             if (count.HasValue)
             {
                 query = query.Take(count.Value);
             }
 
             return query.To<T>().ToList();
+        }
+
+        public void Create(string name, string description)
+        {
+
+            this.categoriesRepository.AddAsync(new Category
+            {
+                Name = name,
+                Description = description,
+            }).GetAwaiter().GetResult();
+
+            this.categoriesRepository.SaveChangesAsync().GetAwaiter().GetResult();
         }
     }
 }

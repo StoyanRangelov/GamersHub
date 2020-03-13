@@ -1,6 +1,7 @@
-﻿@model GamersHub.Web.ViewModels.Forums.ForumCreateInputModel
+﻿@model GamersHub.Web.ViewModels.Categories.CategoryCreateInputModel
+
 @{
-    ViewData["Title"] = "Create Forum";
+    ViewData["Title"] = "Create Category";
 }
 
 <div class="text-center ">
@@ -9,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-10">
-        <form asp-controller="Forums" asp-action="Create" method="post">
+        <form asp-controller="Categories" asp-action="Create" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="@Model.Name"></label>
@@ -17,8 +18,15 @@
                 <span asp-validation-for="@Model.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="@Model.Description"></label>
+                <input asp-for="@Model.Description" class="form-control" />
+                <span asp-validation-for="@Model.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
+
+
