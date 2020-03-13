@@ -3,7 +3,9 @@
     ViewData["Title"] = "Create Topic";
 }
 
-<h1>Create Topic</h1>
+<div class="text-center ">
+    <h1 class="display-3">@this.ViewData["Title"]</h1>
+</div>
 
 <div class="row">
     <div class="col-md-10">
@@ -12,17 +14,17 @@
             <div class="form-group">
                 <label asp-for="@Model.ForumName">Forum</label>
                 <input asp-for="@Model.ForumName" class="form-control" type="text" value="@ViewData["Name"]" readonly>
-                <span asp-validation-for="@Model.Topic" class="text-danger"></span>
+                <span asp-validation-for="@Model.ForumName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.CategoryName"> Category</label>
-                <select asp-for="CategoryName" class="form-control">
+                <select asp-for="@Model.CategoryName" class="form-control">
                     @foreach (var categoryName in ViewBag.CategoryNames)
                     {
                         <option>@categoryName</option>
                     }
                 </select>
-                <span asp-validation-for="@Model.Topic" class="text-danger"></span>
+                <span asp-validation-for="@Model.CategoryName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.Topic"></label>

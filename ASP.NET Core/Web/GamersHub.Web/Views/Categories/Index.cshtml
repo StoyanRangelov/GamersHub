@@ -1,0 +1,36 @@
+﻿@model GamersHub.Web.ViewModels.Categories.CategoryIndexViewModel
+@{
+    ViewData["Title"] = "All Categories";
+}
+
+<div class="d-inline-block float-right">
+    <button type="submit" class="btn btn-primary btn-lg">New Category</button>
+</div>
+<div class="text-center ">
+    <h1 class="display-3">@this.ViewData["Title"]</h1>
+</div>
+
+<table class="table table-hover">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Forums</th>
+        <th scope="col">Posts</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var category in Model.Categories)
+    {
+        <tr>
+            <td>@category.Name</td>
+            <td>@category.Description</td>
+            <td>@category.CategoryForumsCount</td>
+            <td>@category.PostsCount</td>
+            <td>
+                <button type="button" class="btn btn-warning">Edit</button>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

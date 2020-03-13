@@ -2,12 +2,11 @@
 @{
     ViewData["Title"] = "All Forums";
 }
-
-<div class="text-center ">
-    <h1 class="display-3">@this.ViewData["Title"]</h1>
-</div>
 <div class="d-inline-block float-right">
     <a asp-controller="Forums" asp-action="Create" type="submit" class="btn btn-primary btn-lg">New Forum</a>
+</div>
+<div class="text-center ">
+    <h1 class="display-3">@this.ViewData["Title"]</h1>
 </div>
 
 <div class="row row-cols-1 row-cols-md-2">
@@ -16,6 +15,9 @@
         <div class="col mb-4">
             <div class="card">
                 <div class="card-body">
+                    <div class="d-inline-block float-right">
+                        <button type="button" class="btn btn-warning btn">Edit</button>
+                    </div>
                     <h5 class="card-title">
                         <a asp-controller="Forums" asp-action="@forum.Url" class="card-link">@forum.Name</a>
                     </h5>
@@ -25,7 +27,7 @@
                         <p class="card-text">
                             <a href="#" class="card-link"> @forum.CategoryNames[i]</a> @forum.CategoryDescriptions[i]
                         </p>
-                        
+
                     }
                 </div>
             </div>

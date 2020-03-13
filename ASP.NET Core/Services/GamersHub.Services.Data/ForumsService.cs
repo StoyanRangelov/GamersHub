@@ -18,7 +18,9 @@ namespace GamersHub.Services.Data
         public IEnumerable<T> GetAll<T>(int? count = null)
         {
             IQueryable<Forum> query =
-                this.forumsRepository.All().OrderBy(x => x.Name);
+                this.forumsRepository.All()
+                    .OrderByDescending(x => x.Posts.Count)
+                    .ThenByDescending(x=>x.ForumCategories.Count);
             if (count.HasValue)
             {
                 query = query.Take(count.Value);
