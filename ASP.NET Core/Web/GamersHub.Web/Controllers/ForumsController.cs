@@ -29,5 +29,23 @@ namespace GamersHub.Web.Controllers
 
             return this.View(viewModel);
         }
+
+        public IActionResult Create()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(ForumCreateInputModel inputModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
+            this.forumsService.Create(inputModel.Name);
+
+            return this.Redirect("/Forums");
+        }
     }
 }

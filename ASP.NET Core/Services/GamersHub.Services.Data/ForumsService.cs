@@ -43,5 +43,15 @@ namespace GamersHub.Services.Data
 
             return forum;
         }
+
+        public void Create(string name)
+        {
+            this.forumsRepository.AddAsync(new Forum
+            {
+                Name = name,
+            }).GetAwaiter().GetResult();
+
+            this.forumsRepository.SaveChangesAsync().GetAwaiter().GetResult();
+        }
     }
 }

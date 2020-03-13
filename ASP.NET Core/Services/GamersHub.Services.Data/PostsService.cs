@@ -25,7 +25,7 @@ namespace GamersHub.Services.Data
             this.categoriesRepository = categoriesRepository;
         }
 
-        public async Task Create(string forumName, string categoryName, string topic, string content, string username)
+        public void Create(string forumName, string categoryName, string topic, string content, string username)
         {
             var user = this.usersRepository.All().FirstOrDefault(x => x.UserName == username);
             var userId = user.Id;

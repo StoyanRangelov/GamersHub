@@ -9,5 +9,7 @@ namespace GamersHub.Services.Data
         T GetByName<T>(string name);
 
         T GetById<T>(int id);
+
+        void Create(string name);
     }
 }
