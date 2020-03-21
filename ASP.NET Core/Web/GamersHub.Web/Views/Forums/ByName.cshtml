@@ -11,37 +11,46 @@
 </div>
 <hr/>
 <div class="row row-cols-1 row-cols-md-3 list-group list-group-horizontal">
-    @foreach (var categoryName in Model.CategoryNames)
+    @if (this.ViewData["CategoryName"] == null)
     {
-        <div class="col mb-4">
-            <a href="#" class="list-group-item list-group-item-action">@categoryName</a>
-        </div>
+        @for (int i = 0; i < Model.CategoryNames.Length; i++)
+        {
+            <div class="col mb-4">
+                <a asp-controller="Forums" asp-action="@Model.Url" asp-route-id="@Model.CategoryNamesUrls[i]" class="list-group-item list-group-item-action">@Model.CategoryNames[i]</a>
+            </div>
+        }
     }
 </div>
 
 <table class="table table-hover">
     <thead class="thead-dark">
-        <tr>
-            <th scope="col">Topic</th>
+    <tr>
+        <th scope="col">Topic</th>
+        @if (this.ViewData["CategoryName"] == null)
+        {
             <th scope="col">Category</th>
-            <th scope="col">Author</th>
-            <th scope="col">Replies</th>
-            <th scope="col">Created On</th>
+        }
+        <th scope="col">Author</th>
+        <th scope="col">Replies</th>
+        <th scope="col">Created On</th>
 
-        </tr>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var post in Model.Posts)
-        {
-            <tr>
-                <td>
-                    <a href="#">@post.ShortTopic</a>
-                </td>
+    @foreach (var post in Model.Posts)
+    {
+        <tr>
+            <td>
+                <a href="#">@post.ShortTopic</a>
+            </td>
+            @if (this.ViewData["CategoryName"] == null)
+            {
                 <td>@post.CategoryName</td>
-                <td>@post.UserUsername</td>
-                <td>@post.RepliesCount</td>
-                <td>@post.CreatedOn</td>
-            </tr>
-        }
+            }
+            <td>@post.UserUsername</td>
+            <td>@post.RepliesCount</td>
+            <td>@post.CreatedOn</td>
+        </tr>
+    }
     </tbody>
 </table>
