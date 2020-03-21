@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
 
 namespace GamersHub.Services.Data
 {
-   public class ForumsService : IForumsService
+    public class ForumsService : IForumsService
     {
         private readonly IDeletableEntityRepository<Forum> forumsRepository;
 
@@ -20,7 +21,7 @@ namespace GamersHub.Services.Data
             IQueryable<Forum> query =
                 this.forumsRepository.All()
                     .OrderByDescending(x => x.Posts.Count)
-                    .ThenByDescending(x=>x.ForumCategories.Count);
+                    .ThenByDescending(x => x.ForumCategories.Count);
             if (count.HasValue)
             {
                 query = query.Take(count.Value);
@@ -46,14 +47,14 @@ namespace GamersHub.Services.Data
             return forum;
         }
 
-        public void Create(string name)
+        public async Task CreateAsync(string name)
         {
-            this.forumsRepository.AddAsync(new Forum
+            await this.forumsRepository.AddAsync(new Forum
             {
                 Name = name,
-            }).GetAwaiter().GetResult();
+            });
 
-            this.forumsRepository.SaveChangesAsync().GetAwaiter().GetResult();
+            await this.forumsRepository.SaveChangesAsync();
         }
     }
 }

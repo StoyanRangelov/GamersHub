@@ -1,4 +1,5 @@
-﻿using GamersHub.Services.Data;
+﻿using System.Threading.Tasks;
+using GamersHub.Services.Data;
 using GamersHub.Web.ViewModels.Forums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -42,14 +43,14 @@ namespace GamersHub.Web.Controllers
 
         [Authorize(Roles = "Administrator")]
         [HttpPost]
-        public IActionResult Create(ForumCreateInputModel inputModel)
+        public async Task<IActionResult> Create(ForumCreateInputModel inputModel)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.View(inputModel);
             }
 
-            this.forumsService.Create(inputModel.Name);
+            await this.forumsService.CreateAsync(inputModel.Name);
 
             return this.Redirect("/Forums");
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GamersHub.Services.Data
 {
@@ -10,6 +11,6 @@ namespace GamersHub.Services.Data
 
         T GetById<T>(int id);
 
-        void Create(string name);
+        Task CreateAsync(string name);
     }
 }
