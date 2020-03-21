@@ -109,7 +109,7 @@ namespace GamersHub.Web
                 endpoints =>
                     {
                         endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                        endpoints.MapControllerRoute("forum", "Forums/{name:minlength(3)}", new {controller = "Forums", action = "ByName"});
+                        endpoints.MapControllerRoute("forum", "Forums/{name:minlength(4)}/{id?}", new {controller = "Forums", action = "ByName"});
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
                     });

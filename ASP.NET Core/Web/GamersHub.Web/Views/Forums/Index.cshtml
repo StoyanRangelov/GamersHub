@@ -31,7 +31,7 @@
                     @for (int i = 0; i < forum.CategoryNames.Length; i++)
                     {
                         <p class="card-text">
-                            <a href="#" class="card-link"> @forum.CategoryNames[i]</a> @forum.CategoryDescriptions[i]
+                            <a asp-controller="Forums" asp-action="@forum.Url" asp-route-id="@forum.CategoryNamesUrls[i]" class="card-link"> @forum.CategoryNames[i]</a> @forum.CategoryDescriptions[i]
                         </p>
 
                     }

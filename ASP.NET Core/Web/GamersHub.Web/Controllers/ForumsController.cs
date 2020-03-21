@@ -25,7 +25,7 @@ namespace GamersHub.Web.Controllers
             return this.View(viewModel);
         }
 
-        public IActionResult ByName(string name)
+        public IActionResult ByName(string name, string id)
         {
             var viewModel = this.forumsService.GetByName<ForumByNameViewModel>(name);
 

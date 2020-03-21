@@ -14,6 +14,21 @@ namespace GamersHub.Web.ViewModels.Forums
 
         public string[] CategoryNames { get; set; }
 
+        public string[] CategoryNamesUrls
+        {
+            get
+            {
+                var categoryUrls = new string[this.CategoryNames.Length];
+
+                for (int i = 0; i < this.CategoryNames.Length; i++)
+                {
+                    categoryUrls[i] = this.CategoryNames[i].Replace(' ', '-');
+                }
+
+                return categoryUrls;
+            }
+        }
+
         public string[] CategoryDescriptions { get; set; }
 
         public string Url => $"{this.Name.Replace(' ', '-')}";
