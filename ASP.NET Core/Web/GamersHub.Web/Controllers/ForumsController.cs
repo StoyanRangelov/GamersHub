@@ -32,11 +32,13 @@ namespace GamersHub.Web.Controllers
             return this.View(viewModel);
         }
 
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return this.View();
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public IActionResult Create(ForumCreateInputModel inputModel)
         {
