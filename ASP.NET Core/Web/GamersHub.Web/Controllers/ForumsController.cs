@@ -1,9 +1,11 @@
 ﻿using GamersHub.Services.Data;
 using GamersHub.Web.ViewModels.Forums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GamersHub.Web.Controllers
 {
+    [Authorize]
     public class ForumsController : BaseController
     {
         private readonly IForumsService forumsService;

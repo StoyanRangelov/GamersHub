@@ -1,4 +1,6 @@
-﻿namespace GamersHub.Web
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace GamersHub.Web
 {
     using System.Reflection;
 
@@ -46,7 +48,8 @@
                         options.MinimumSameSitePolicy = SameSiteMode.None;
                     });
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(
+                options => { options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); });
             services.AddRazorPages();
 
             services.AddSingleton(this.configuration);

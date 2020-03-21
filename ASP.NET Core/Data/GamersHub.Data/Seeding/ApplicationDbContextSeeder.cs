@@ -30,6 +30,7 @@
                               new ForumsSeeder(),
                               new CategoriesSeeder(),
                               new ForumCategoriesSeeder(),
+                              new UserRolesSeeder(),
                           };
 
             foreach (var seeder in seeders)
