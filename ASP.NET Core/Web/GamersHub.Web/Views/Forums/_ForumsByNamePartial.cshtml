@@ -1,0 +1,14 @@
+﻿@model GamersHub.Web.ViewModels.Forums.PostInForumViewModel
+
+<tr>
+    <td>
+        <a href="#">@Model.ShortTopic</a>
+    </td>
+    @if (this.ViewData["CategoryName"] == null)
+    {
+        <td>@Model.CategoryName</td>
+    }
+    <td>@Model.UserUsername</td>
+    <td>@Model.RepliesCount</td>
+    <td>@Model.CreatedOn</td>
+</tr>

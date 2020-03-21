@@ -33,24 +33,12 @@
         <th scope="col">Author</th>
         <th scope="col">Replies</th>
         <th scope="col">Created On</th>
-
     </tr>
     </thead>
     <tbody>
     @foreach (var post in Model.Posts)
     {
-        <tr>
-            <td>
-                <a href="#">@post.ShortTopic</a>
-            </td>
-            @if (this.ViewData["CategoryName"] == null)
-            {
-                <td>@post.CategoryName</td>
-            }
-            <td>@post.UserUsername</td>
-            <td>@post.RepliesCount</td>
-            <td>@post.CreatedOn</td>
-        </tr>
+        @await Html.PartialAsync("_ForumsByNamePartial", @post, ViewData);
     }
     </tbody>
 </table>
