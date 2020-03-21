@@ -15,28 +15,6 @@
 <div class="row row-cols-1 row-cols-md-2">
     @foreach (var forum in Model.Forums)
     {
-        <div class="col mb-4">
-            <div class="card">
-                <div class="card-body">
-                    @if (this.User.IsInRole("Administrator"))
-                    {
-                        <div class="d-inline-block float-right">
-                            <button type="button" class="btn btn-warning btn">Edit</button>
-                        </div>
-                    }
-                    <h5 class="card-title">
-                        <a asp-controller="Forums" asp-action="@forum.Url" class="card-link">@forum.Name</a>
-                    </h5>
-                    <p class="card-text">Total Posts: @forum.PostsCount</p>
-                    @for (int i = 0; i < forum.CategoryNames.Length; i++)
-                    {
-                        <p class="card-text">
-                            <a asp-controller="Forums" asp-action="@forum.Url" asp-route-id="@forum.CategoryNamesUrls[i]" class="card-link"> @forum.CategoryNames[i]</a> @forum.CategoryDescriptions[i]
-                        </p>
-
-                    }
-                </div>
-            </div>
-        </div>
+        <partial name="_ForumsIndexPartial" model="forum"/>
     }
 </div>

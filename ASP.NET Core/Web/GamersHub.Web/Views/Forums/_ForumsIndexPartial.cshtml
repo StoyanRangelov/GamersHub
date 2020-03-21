@@ -1,0 +1,25 @@
+﻿@model GamersHub.Web.ViewModels.Forums.ForumViewModel
+
+<div class="col mb-4">
+    <div class="card">
+        <div class="card-body">
+            @if (this.User.IsInRole("Administrator"))
+            {
+                <div class="d-inline-block float-right">
+                    <button type="button" class="btn btn-warning btn">Edit</button>
+                </div>
+            }
+            <h5 class="card-title">
+                <a asp-controller="Forums" asp-action="@Model.Url" class="card-link">@Model.Name</a>
+            </h5>
+            <p class="card-text">Total Posts: @Model.PostsCount</p>
+            @for (int i = 0; i < Model.CategoryNames.Length; i++)
+            {
+                <p class="card-text">
+                    <a asp-controller="Forums" asp-action="@Model.Url" asp-route-id="@Model.CategoryNamesUrls[i]" class="card-link"> @Model.CategoryNames[i]</a> @Model.CategoryDescriptions[i]
+                </p>
+
+            }
+        </div>
+    </div>
+</div>
