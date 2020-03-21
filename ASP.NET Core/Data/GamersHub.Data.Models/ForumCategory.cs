@@ -1,6 +1,8 @@
-﻿namespace GamersHub.Data.Models
+﻿using GamersHub.Data.Common.Models;
+
+namespace GamersHub.Data.Models
 {
-   public class ForumCategory
+    public class ForumCategory : BaseDeletableModel<int>
     {
         public int ForumId { get; set; }
 
