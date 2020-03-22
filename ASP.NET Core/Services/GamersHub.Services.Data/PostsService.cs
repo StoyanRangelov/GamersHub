@@ -31,7 +31,7 @@ namespace GamersHub.Services.Data
             var post = new Post
             {
                 CreatedOn = DateTime.UtcNow,
-                Topic = name,
+                Name = name,
                 Content = content,
                 UserId = userId,
                 ForumId = forumId,
