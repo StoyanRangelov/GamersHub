@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GamersHub.Services.Data
 {
@@ -24,7 +25,9 @@ namespace GamersHub.Services.Data
 
         public async Task CreateAsync(string forumName, string categoryName, string name, string content, string userId)
         {
-            var forum = this.forumsRepository.All().First(x => x.Name == forumName);
+            var forum = this.forumsRepository.All()
+                .Include(x => x.ForumCategories)
+                .First(x => x.Name == forumName);
             var category = this.categoriesRepository.All().First(x => x.Name == categoryName);
 
             if (!forum.ForumCategories.Select(fc => fc.CategoryId).Contains(category.Id))
