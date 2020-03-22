@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
 
 namespace GamersHub.Services.Data
 {
-   public class CategoriesService : ICategoriesService
+    public class CategoriesService : ICategoriesService
     {
         private readonly IDeletableEntityRepository<Category> categoriesRepository;
 
@@ -29,15 +30,28 @@ namespace GamersHub.Services.Data
             return query.To<T>().ToList();
         }
 
-        public void Create(string name, string description)
+        public async Task CreateAsync(string name, string description)
         {
-            this.categoriesRepository.AddAsync(new Category
+            await this.categoriesRepository.AddAsync(new Category
             {
                 Name = name,
                 Description = description,
-            }).GetAwaiter().GetResult();
+            });
 
-            this.categoriesRepository.SaveChangesAsync().GetAwaiter().GetResult();
+            await this.categoriesRepository.SaveChangesAsync();
+        }
+
+        public bool CheckIfExistsByName(string name)
+        {
+            bool alreadyExists = false;
+            var category = this.categoriesRepository.All().FirstOrDefault(x => x.Name == name);
+
+            if (category != null)
+            {
+                alreadyExists = true;
+            }
+
+            return alreadyExists;
         }
     }
 }

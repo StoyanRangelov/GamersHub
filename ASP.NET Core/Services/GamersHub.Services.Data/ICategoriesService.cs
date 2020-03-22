@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GamersHub.Services.Data
 {
@@ -6,6 +7,8 @@ namespace GamersHub.Services.Data
     {
         IEnumerable<T> GetAll<T>(int? count = null);
 
-        void Create(string name, string description);
+        Task CreateAsync(string name, string description);
+
+        bool CheckIfExistsByName(string name);
     }
 }

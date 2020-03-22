@@ -1,4 +1,6 @@
-﻿using GamersHub.Common;
+﻿using System;
+using System.Threading.Tasks;
+using GamersHub.Common;
 using GamersHub.Services.Data;
 using GamersHub.Web.ViewModels.Categories;
 using Microsoft.AspNetCore.Authorization;
@@ -32,14 +34,22 @@ namespace GamersHub.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CategoryCreateInputModel inputModel)
+        public async Task<IActionResult> Create(CategoryCreateInputModel inputModel)
         {
+            bool alreadyExists = this.categoriesService.CheckIfExistsByName(inputModel.Name);
+
+            if (alreadyExists)
+            {
+                this.ModelState.AddModelError(string.Empty,
+                    string.Format("Category with name {0} already exists.", inputModel.Name ));
+            }
+
             if (!this.ModelState.IsValid)
             {
                 return this.View(inputModel);
             }
 
-            this.categoriesService.Create(inputModel.Name, inputModel.Description);
+            await this.categoriesService.CreateAsync(inputModel.Name, inputModel.Description);
 
             return this.Redirect("/Categories");
         }
