@@ -9,48 +9,37 @@ namespace GamersHub.Services.Data
     public class PostsService : IPostsService
     {
         private readonly IDeletableEntityRepository<Post> postsRepository;
-        private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
-        private readonly IDeletableEntityRepository<Forum> forumsRepository;
-        private readonly IDeletableEntityRepository<Category> categoriesRepository;
+
+        private readonly IForumsService forumsService;
+        private readonly ICategoriesService categoriesService;
 
         public PostsService(
             IDeletableEntityRepository<Post> postsRepository,
-            IDeletableEntityRepository<ApplicationUser> usersRepository,
-            IDeletableEntityRepository<Forum> forumsRepository,
-            IDeletableEntityRepository<Category> categoriesRepository)
+            IForumsService forumsService,
+            ICategoriesService categoriesService)
         {
             this.postsRepository = postsRepository;
-            this.usersRepository = usersRepository;
-            this.forumsRepository = forumsRepository;
-            this.categoriesRepository = categoriesRepository;
+            this.forumsService = forumsService;
+            this.categoriesService = categoriesService;
         }
 
-        public void Create(string forumName, string categoryName, string topic, string content, string username)
+        public async Task CreateAsync(string forumName, string categoryName, string name, string content, string userId)
         {
-            var user = this.usersRepository.All().FirstOrDefault(x => x.UserName == username);
-            var userId = user.Id;
-
-            var forum = this.forumsRepository.All().FirstOrDefault(x => x.Name == forumName);
-            var forumId = forum.Id;
-
-            var category = this.categoriesRepository.All().FirstOrDefault(x => x.Name == categoryName);
-            var categoryId = category.Id;
+            var forumId = this.forumsService.GetIdByName(forumName);
+            var categoryId = this.categoriesService.GetIdByName(categoryName);
 
             var post = new Post
             {
                 CreatedOn = DateTime.UtcNow,
-                Topic = topic,
+                Topic = name,
                 Content = content,
                 UserId = userId,
-                User = user,
                 ForumId = forumId,
-                Forum = forum,
                 CategoryId = categoryId,
-                Category = category,
             };
 
-            this.postsRepository.AddAsync(post).GetAwaiter().GetResult();
-            this.postsRepository.SaveChangesAsync().GetAwaiter().GetResult();
+            await this.postsRepository.AddAsync(post);
+            await this.postsRepository.SaveChangesAsync();
         }
     }
 }

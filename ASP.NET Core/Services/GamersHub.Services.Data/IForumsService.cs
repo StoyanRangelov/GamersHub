@@ -11,7 +11,7 @@ namespace GamersHub.Services.Data
 
         T GetByName<T>(string name);
 
-        T GetById<T>(int id);
+        int GetIdByName(string name);
 
         Task CreateAsync(string name);
 

@@ -1,6 +1,9 @@
-﻿using GamersHub.Services.Data;
+﻿using System.Threading.Tasks;
+using GamersHub.Data.Models;
+using GamersHub.Services.Data;
 using GamersHub.Web.ViewModels.Posts;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GamersHub.Web.Controllers
@@ -8,13 +11,13 @@ namespace GamersHub.Web.Controllers
     [Authorize]
     public class PostsController : BaseController
     {
-        private readonly IForumsService forumsService;
         private readonly IPostsService postsService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public PostsController(IForumsService forumsService, IPostsService postsService)
+        public PostsController(IPostsService postsService, UserManager<ApplicationUser> userManager)
         {
-            this.forumsService = forumsService;
             this.postsService = postsService;
+            this.userManager = userManager;
         }
 
         public IActionResult Create()
@@ -23,19 +26,22 @@ namespace GamersHub.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreatePostInputModel inputModel)
+        public async Task<IActionResult> Create(CreatePostInputModel inputModel)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.View(inputModel);
             }
 
-            this.postsService.Create(
+            var currentUser = await this.userManager.GetUserAsync(this.User);
+            var userId = await this.userManager.GetUserIdAsync(currentUser);
+
+            await this.postsService.CreateAsync(
                 inputModel.ForumName,
                 inputModel.CategoryName,
                 inputModel.Name,
                 inputModel.Content,
-                this.User.Identity.Name);
+                userId);
 
             var url = inputModel.ForumName.Replace(' ', '-');
 
