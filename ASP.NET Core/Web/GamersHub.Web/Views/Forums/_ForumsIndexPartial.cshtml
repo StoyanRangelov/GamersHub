@@ -3,12 +3,6 @@
 <div class="col mb-4">
     <div class="card">
         <div class="card-body">
-            @if (this.User.IsInRole("Administrator"))
-            {
-                <div class="d-inline-block float-right">
-                    <button type="button" class="btn btn-warning btn">Edit</button>
-                </div>
-            }
             <h5 class="card-title">
                 <a asp-controller="Forums" asp-action="@Model.Url" class="card-link">@Model.Name</a>
             </h5>
