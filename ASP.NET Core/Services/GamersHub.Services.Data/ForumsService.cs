@@ -44,11 +44,6 @@ namespace GamersHub.Services.Data
             return forum;
         }
 
-        public int GetIdByName(string name)
-        {
-            return this.forumsRepository.All().First(x => x.Name == name).Id;
-        }
-
         public async Task CreateAsync(string name)
         {
             await this.forumsRepository.AddAsync(new Forum

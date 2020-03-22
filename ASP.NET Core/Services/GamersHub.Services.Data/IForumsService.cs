@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using GamersHub.Data.Models;
 
 namespace GamersHub.Services.Data
 {
@@ -10,8 +11,6 @@ namespace GamersHub.Services.Data
         IEnumerable<string> GetAllNames();
 
         T GetByName<T>(string name);
-
-        int GetIdByName(string name);
 
         Task CreateAsync(string name);
 

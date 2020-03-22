@@ -35,11 +35,6 @@ namespace GamersHub.Services.Data
             return this.categoriesRepository.All().Select(x => x.Name).ToList();
         }
 
-        public int GetIdByName(string name)
-        {
-            return this.categoriesRepository.All().First(x => x.Name == name).Id;
-        }
-
         public async Task CreateAsync(string name, string description)
         {
             await this.categoriesRepository.AddAsync(new Category

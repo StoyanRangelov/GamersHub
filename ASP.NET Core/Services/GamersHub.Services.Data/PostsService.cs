@@ -9,24 +9,35 @@ namespace GamersHub.Services.Data
     public class PostsService : IPostsService
     {
         private readonly IDeletableEntityRepository<Post> postsRepository;
-
-        private readonly IForumsService forumsService;
-        private readonly ICategoriesService categoriesService;
+        private readonly IDeletableEntityRepository<Forum> forumsRepository;
+        private readonly IDeletableEntityRepository<Category> categoriesRepository;
 
         public PostsService(
             IDeletableEntityRepository<Post> postsRepository,
-            IForumsService forumsService,
-            ICategoriesService categoriesService)
+            IDeletableEntityRepository<Forum> forumsRepository,
+            IDeletableEntityRepository<Category> categoriesRepository)
         {
             this.postsRepository = postsRepository;
-            this.forumsService = forumsService;
-            this.categoriesService = categoriesService;
+            this.forumsRepository = forumsRepository;
+            this.categoriesRepository = categoriesRepository;
         }
 
         public async Task CreateAsync(string forumName, string categoryName, string name, string content, string userId)
         {
-            var forumId = this.forumsService.GetIdByName(forumName);
-            var categoryId = this.categoriesService.GetIdByName(categoryName);
+            var forum = this.forumsRepository.All().First(x => x.Name == forumName);
+            var category = this.categoriesRepository.All().First(x => x.Name == categoryName);
+
+            if (!forum.ForumCategories.Select(fc => fc.CategoryId).Contains(category.Id))
+            {
+                forum.ForumCategories.Add(new ForumCategory
+                {
+                    ForumId = forum.Id,
+                    CategoryId = category.Id,
+                });
+
+                this.forumsRepository.Update(forum);
+                await this.forumsRepository.SaveChangesAsync();
+            }
 
             var post = new Post
             {
@@ -34,8 +45,8 @@ namespace GamersHub.Services.Data
                 Name = name,
                 Content = content,
                 UserId = userId,
-                ForumId = forumId,
-                CategoryId = categoryId,
+                ForumId = forum.Id,
+                CategoryId = category.Id,
             };
 
             await this.postsRepository.AddAsync(post);
