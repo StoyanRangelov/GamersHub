@@ -12,5 +12,7 @@ namespace GamersHub.Services.Data
         T GetById<T>(int id);
 
         Task CreateAsync(string name);
+
+        bool CheckIfExistsByName(string name);
     }
 }

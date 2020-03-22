@@ -56,5 +56,19 @@ namespace GamersHub.Services.Data
 
             await this.forumsRepository.SaveChangesAsync();
         }
+
+        public bool CheckIfExistsByName(string name)
+        {
+            bool alreadyExists = false;
+
+            var forum = this.forumsRepository.All().FirstOrDefault(x => x.Name == name);
+
+            if (forum != null)
+            {
+                alreadyExists = true;
+            }
+
+            return alreadyExists;
+        }
     }
 }

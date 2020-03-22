@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using GamersHub.Services.Data;
 using GamersHub.Web.ViewModels.Forums;
 using Microsoft.AspNetCore.Authorization;
@@ -45,6 +46,13 @@ namespace GamersHub.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ForumCreateInputModel inputModel)
         {
+            bool alreadyExists = this.forumsService.CheckIfExistsByName(inputModel.Name);
+
+            if (alreadyExists)
+            {
+                this.ModelState.AddModelError(string.Empty, $"Forum name {inputModel.Name} already exists.");
+            }
+
             if (!this.ModelState.IsValid)
             {
                 return this.View(inputModel);
