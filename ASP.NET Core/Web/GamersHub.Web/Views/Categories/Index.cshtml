@@ -1,11 +1,15 @@
-﻿@model GamersHub.Web.ViewModels.Categories.CategoryIndexViewModel
+﻿@using GamersHub.Common
+@model GamersHub.Web.ViewModels.Categories.CategoryIndexViewModel
 @{
     ViewData["Title"] = "All Categories";
 }
 
-<div class="d-inline-block float-right">
-    <a asp-controller="Categories" asp-action="Create" type="submit" class="btn btn-primary btn-lg">New Category</a>
-</div>
+@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+{
+    <div class="d-inline-block float-right">
+        <a asp-controller="Categories" asp-action="Create" type="submit" class="btn btn-primary btn-lg">New Category</a>
+    </div>
+}
 <div class="text-center ">
     <h1 class="display-3">@this.ViewData["Title"]</h1>
 </div>
@@ -22,15 +26,7 @@
     <tbody>
     @foreach (var category in Model.Categories)
     {
-        <tr>
-            <td>@category.Name</td>
-            <td>@category.Description</td>
-            <td>@category.CategoryForumsCount</td>
-            <td>@category.PostsCount</td>
-            <td>
-                <button type="button" class="btn btn-warning">Edit</button>
-            </td>
-        </tr>
+        @await Html.PartialAsync("_CategoriesIndexPartial", @category);
     }
     </tbody>
 </table>

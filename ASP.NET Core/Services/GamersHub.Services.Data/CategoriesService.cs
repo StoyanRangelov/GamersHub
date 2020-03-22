@@ -31,7 +31,6 @@ namespace GamersHub.Services.Data
 
         public void Create(string name, string description)
         {
-
             this.categoriesRepository.AddAsync(new Category
             {
                 Name = name,

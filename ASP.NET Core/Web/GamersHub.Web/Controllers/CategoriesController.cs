@@ -1,9 +1,12 @@
-﻿using GamersHub.Services.Data;
+﻿using GamersHub.Common;
+using GamersHub.Services.Data;
 using GamersHub.Web.ViewModels.Categories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GamersHub.Web.Controllers
 {
+    [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     public class CategoriesController : BaseController
     {
         private readonly ICategoriesService categoriesService;
