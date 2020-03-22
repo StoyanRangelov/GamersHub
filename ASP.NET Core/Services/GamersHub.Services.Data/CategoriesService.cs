@@ -30,6 +30,11 @@ namespace GamersHub.Services.Data
             return query.To<T>().ToList();
         }
 
+        public IEnumerable<string> GetAllNames()
+        {
+            return this.categoriesRepository.All().Select(x => x.Name).ToList();
+        }
+
         public async Task CreateAsync(string name, string description)
         {
             await this.categoriesRepository.AddAsync(new Category

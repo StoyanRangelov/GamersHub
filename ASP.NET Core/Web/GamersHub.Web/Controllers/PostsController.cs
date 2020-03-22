@@ -1,9 +1,11 @@
 ﻿using GamersHub.Services.Data;
 using GamersHub.Web.ViewModels.Posts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GamersHub.Web.Controllers
 {
+    [Authorize]
     public class PostsController : BaseController
     {
         private readonly IForumsService forumsService;
@@ -15,13 +17,8 @@ namespace GamersHub.Web.Controllers
             this.postsService = postsService;
         }
 
-        public IActionResult Create(int id)
+        public IActionResult Create()
         {
-            var forum = this.forumsService.GetById<CreatePostViewModel>(id);
-
-            this.ViewData["Name"] = forum.Name;
-            this.ViewBag.CategoryNames = forum.CategoryNames;
-
             return this.View();
         }
 
@@ -36,7 +33,7 @@ namespace GamersHub.Web.Controllers
             this.postsService.Create(
                 inputModel.ForumName,
                 inputModel.CategoryName,
-                inputModel.Topic,
+                inputModel.Name,
                 inputModel.Content,
                 this.User.Identity.Name);
 

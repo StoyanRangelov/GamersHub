@@ -1,6 +1,6 @@
 ﻿@model GamersHub.Web.ViewModels.Posts.CreatePostInputModel
 @{
-    ViewData["Title"] = "Create Topic";
+    ViewData["Title"] = "Create Post";
 }
 
 <div class="text-center ">
@@ -12,24 +12,23 @@
         <form asp-controller="Posts" asp-action="Create" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="@Model.ForumName">Forum</label>
-                <input asp-for="@Model.ForumName" class="form-control" type="text" value="@ViewData["Name"]" readonly>
+                <label asp-for="@Model.ForumName">Choose a Forum</label>
+                <select asp-for="@Model.ForumName" class="form-control">
+                    @await Component.InvokeAsync("ForumNames");
+                </select>
                 <span asp-validation-for="@Model.ForumName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.CategoryName"> Category</label>
+                <label asp-for="@Model.CategoryName">Choose a Category</label>
                 <select asp-for="@Model.CategoryName" class="form-control">
-                    @foreach (var categoryName in ViewBag.CategoryNames)
-                    {
-                        <option>@categoryName</option>
-                    }
+                    @await  Component.InvokeAsync("CategoryNames");
                 </select>
                 <span asp-validation-for="@Model.CategoryName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="@Model.Topic"></label>
-                <input asp-for="@Model.Topic" class="form-control"/>
-                <span asp-validation-for="@Model.Topic" class="text-danger"></span>
+                <label asp-for="@Model.Name"></label>
+                <input asp-for="@Model.Name" class="form-control"/>
+                <span asp-validation-for="@Model.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="@Model.Content"></label>

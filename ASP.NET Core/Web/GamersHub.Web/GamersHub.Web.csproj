@@ -43,4 +43,8 @@
     <ProjectReference Include="..\GamersHub.Web.Infrastructure\GamersHub.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\GamersHub.Web.ViewModels\GamersHub.Web.ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Posts\Components\ForumsAndCategories\Default.cshtml" />
+  </ItemGroup>
 </Project>

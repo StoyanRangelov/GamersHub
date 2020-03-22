@@ -11,7 +11,7 @@ namespace GamersHub.Web.ViewModels.Posts
         public string CategoryName { get; set; }
 
         [Required]
-        public string Topic { get; set; }
+        public string Name { get; set; }
 
         [Required]
         public string Content { get; set; }

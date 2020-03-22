@@ -30,6 +30,11 @@ namespace GamersHub.Services.Data
             return query.To<T>().ToList();
         }
 
+        public IEnumerable<string> GetAllNames()
+        {
+            return this.forumsRepository.All().Select(x => x.Name).ToList();
+        }
+
         public T GetByName<T>(string name)
         {
             string originalName = name.Replace('-', ' ');

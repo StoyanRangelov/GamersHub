@@ -7,6 +7,8 @@ namespace GamersHub.Services.Data
     {
         IEnumerable<T> GetAll<T>(int? count = null);
 
+        IEnumerable<string> GetAllNames();
+
         T GetByName<T>(string name);
 
         T GetById<T>(int id);
