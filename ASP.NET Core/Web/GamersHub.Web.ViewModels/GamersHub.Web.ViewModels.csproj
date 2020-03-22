@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\GamersHub.Data.Models\GamersHub.Data.Models.csproj" />
+    <ProjectReference Include="..\..\GamersHub.Common\GamersHub.Common.csproj" />
     <ProjectReference Include="..\..\Services\GamersHub.Services.Mapping\GamersHub.Services.Mapping.csproj" />
   </ItemGroup>
 

@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using GamersHub.Common;
 
 namespace GamersHub.Web.ViewModels.Categories
 {
    public class CategoryCreateInputModel
     {
         [Required]
-        [StringLength(30, ErrorMessage = "The {0} must be between {2} and {1} characters long.", MinimumLength = 4)]
+        [StringLength(30, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 3)]
         public string Name { get; set; }
 
         [Required]
-        [StringLength(50, ErrorMessage = "The {0} must be between {2} and {1} characters long.", MinimumLength = 4)]
+        [StringLength(50, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 5)]
         public string Description { get; set; }
     }
 }

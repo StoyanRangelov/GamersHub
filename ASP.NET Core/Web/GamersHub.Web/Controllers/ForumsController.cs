@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using GamersHub.Common;
 using GamersHub.Services.Data;
 using GamersHub.Web.ViewModels.Forums;
 using Microsoft.AspNetCore.Authorization;
@@ -36,13 +37,13 @@ namespace GamersHub.Web.Controllers
             return this.View(viewModel);
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult Create()
         {
             return this.View();
         }
 
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         [HttpPost]
         public async Task<IActionResult> Create(ForumCreateInputModel inputModel)
         {
@@ -50,7 +51,8 @@ namespace GamersHub.Web.Controllers
 
             if (alreadyExists)
             {
-                this.ModelState.AddModelError(string.Empty, $"Forum name {inputModel.Name} already exists.");
+                this.ModelState.AddModelError(string.Empty,
+                    string.Format(GlobalConstants.ForumNameAlreadyExistsErrorMessage, inputModel.Name));
             }
 
             if (!this.ModelState.IsValid)

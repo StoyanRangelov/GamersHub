@@ -1,8 +1,9 @@
-﻿@model GamersHub.Web.ViewModels.Forums.ForumIndexViewModel
+﻿@using GamersHub.Common
+@model GamersHub.Web.ViewModels.Forums.ForumIndexViewModel
 @{
     ViewData["Title"] = "All Forums";
 }
-@if (this.User.IsInRole("Administrator"))
+@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
 {
     <div class="d-inline-block float-right">
         <a asp-controller="Forums" asp-action="Create" type="submit" class="btn btn-primary btn-lg">New Forum</a>
