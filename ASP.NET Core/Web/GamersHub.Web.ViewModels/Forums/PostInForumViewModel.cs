@@ -9,7 +9,9 @@ namespace GamersHub.Web.ViewModels.Forums
     {
         public string Name { get; set; }
 
-        public string ShortTopic =>
+        public string Url => $"{this.Name.Replace(' ', '-')}";
+
+        public string ShortName =>
             this.Name?.Length > 40
                 ? this.Name?.Substring(0, 40) + "..."
                 : this.Name;

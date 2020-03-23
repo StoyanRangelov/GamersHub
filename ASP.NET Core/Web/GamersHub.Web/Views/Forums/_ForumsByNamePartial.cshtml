@@ -2,7 +2,7 @@
 
 <tr>
     <td>
-        <a href="#">@Model.ShortTopic</a>
+        <a asp-controller="Posts" asp-action="@Model.Url">@Model.ShortName</a>
     </td>
     @if (this.ViewData["CategoryName"] == null)
     {
