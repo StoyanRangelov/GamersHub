@@ -2,7 +2,7 @@
 
 namespace GamersHub.Data.Models
 {
-    public class ForumCategory : BaseDeletableModel<int>
+    public class ForumCategory
     {
         public int ForumId { get; set; }
 
