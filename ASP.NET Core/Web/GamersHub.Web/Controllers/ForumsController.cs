@@ -30,7 +30,12 @@ namespace GamersHub.Web.Controllers
 
         public IActionResult ByName(string name, string id)
         {
-            this.ViewData["CategoryName"] = id;
+            if (id != null)
+            {
+                string categoryName = id.Replace('-', ' ');
+
+                this.ViewData["CategoryName"] = categoryName;
+            }
 
             var viewModel = this.forumsService.GetByName<ForumByNameViewModel>(name);
 
