@@ -23,6 +23,12 @@ namespace GamersHub.Services.Data
             this.categoriesRepository = categoriesRepository;
         }
 
+        //TODO : Implement Method
+        public T GetByName<T>(string name)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task CreateAsync(string forumName, string categoryName, string name, string content, string userId)
         {
             var forum = this.forumsRepository.All()

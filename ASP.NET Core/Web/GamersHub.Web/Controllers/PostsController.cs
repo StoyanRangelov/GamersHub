@@ -22,7 +22,10 @@ namespace GamersHub.Web.Controllers
 
         public IActionResult ByName(string name, int id)
         {
-            return this.View();
+            var viewModel = this.postsService.GetByName<PostByNameViewModel>(name);
+
+
+            return this.View(viewModel);
         }
 
         public IActionResult Create()
