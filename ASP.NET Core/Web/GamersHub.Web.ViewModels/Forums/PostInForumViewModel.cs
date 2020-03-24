@@ -50,7 +50,7 @@ namespace GamersHub.Web.ViewModels.Forums
         {
             configuration.CreateMap<Post, PostInForumViewModel>()
                 .ForMember(x => x.CreatedOn, y => y
-                    .MapFrom(y => y.CreatedOn.ToString("yyyy/dd/MM H:mm:ss")));
+                    .MapFrom(y => y.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")));
         }
     }
 }

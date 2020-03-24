@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using AutoMapper;
 using GamersHub.Data.Models;
@@ -34,9 +35,9 @@ namespace GamersHub.Web.ViewModels.Posts
         {
             configuration.CreateMap<Post, PostDetailsViewModel>()
                 .ForMember(x => x.CreatedOn, y => y
-                    .MapFrom(y => y.CreatedOn.ToString("yyyy/dd/MM H:mm:ss")))
-                .ForMember(x => x.ModifiedOn, y => y
-                    .MapFrom(y => y.ModifiedOn != null ? y.ModifiedOn.Value.ToString("yyyy/dd/MM H:mm:ss") : null));
+                    .MapFrom(y => y.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")))
+                .ForMember(x=>x.CreatedOn, y => y
+                    .MapFrom(y => y.ModifiedOn.Value.ToString("MM/dd/yyyy hh:mm tt")));
         }
     }
 }
