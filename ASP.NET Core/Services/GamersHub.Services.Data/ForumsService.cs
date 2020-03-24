@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GamersHub.Data.Common.Repositories;
@@ -48,6 +49,7 @@ namespace GamersHub.Services.Data
         {
             await this.forumsRepository.AddAsync(new Forum
             {
+                CreatedOn = DateTime.UtcNow,
                 Name = name,
             });
 

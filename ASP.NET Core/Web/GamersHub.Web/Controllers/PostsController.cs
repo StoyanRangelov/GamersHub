@@ -20,9 +20,11 @@ namespace GamersHub.Web.Controllers
             this.userManager = userManager;
         }
 
-        public IActionResult Details(string name, int? id)
+        public IActionResult Details(int id)
         {
-            return this.View();
+            var viewModel = this.postsService.GetById<PostDetailsViewModel>(id);
+            
+            return this.View(viewModel);
         }
 
         public IActionResult Create()

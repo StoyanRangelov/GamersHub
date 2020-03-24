@@ -1,6 +1,9 @@
-﻿namespace GamersHub.Web.ViewModels.Posts
+﻿using GamersHub.Data.Models;
+using GamersHub.Services.Mapping;
+
+namespace GamersHub.Web.ViewModels.Posts
 {
-    public class ReplyInPostViewModel
+    public class ReplyInPostViewModel : IMapFrom<Reply>
     {
         public string Content { get; set; }
 

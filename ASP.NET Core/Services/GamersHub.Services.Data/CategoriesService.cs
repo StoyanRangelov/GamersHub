@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GamersHub.Data.Common.Repositories;
@@ -39,6 +40,7 @@ namespace GamersHub.Services.Data
         {
             await this.categoriesRepository.AddAsync(new Category
             {
+                CreatedOn = DateTime.UtcNow,
                 Name = name,
                 Description = description,
             });

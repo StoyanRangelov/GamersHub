@@ -4,8 +4,8 @@ namespace GamersHub.Services.Data
 {
     public interface IPostsService
     {
-        T GetByName<T>(string name);
-        
+        T GetById<T>(int id);
+
         Task CreateAsync(string forumName, string categoryName, string topic, string content, string userId);
     }
 }

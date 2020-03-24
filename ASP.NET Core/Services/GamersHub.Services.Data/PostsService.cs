@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
+using GamersHub.Services.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 namespace GamersHub.Services.Data
@@ -23,10 +24,11 @@ namespace GamersHub.Services.Data
             this.categoriesRepository = categoriesRepository;
         }
 
-        //TODO : Implement Method
-        public T GetByName<T>(string name)
+        public T GetById<T>(int id)
         {
-            throw new NotImplementedException();
+            var post = this.postsRepository.All().Where(x => x.Id == id).To<T>().FirstOrDefault();
+
+            return post;
         }
 
         public async Task CreateAsync(string forumName, string categoryName, string name, string content, string userId)
