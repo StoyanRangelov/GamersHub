@@ -7,11 +7,13 @@ using GamersHub.Services.Mapping;
 
 namespace GamersHub.Web.ViewModels.Forums
 {
-    public class PostInForumViewModel : IMapFrom<Post>, IHaveCustomMappings
+    public class PostInForumViewModel : IMapFrom<Post>
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
+
+        public DateTime CreatedOn { get; set; }
 
         public string Url
         {
@@ -43,14 +45,5 @@ namespace GamersHub.Web.ViewModels.Forums
         public string UserUsername { get; set; }
 
         public int RepliesCount { get; set; }
-
-        public string CreatedOn { get; set; }
-
-        public void CreateMappings(IProfileExpression configuration)
-        {
-            configuration.CreateMap<Post, PostInForumViewModel>()
-                .ForMember(x => x.CreatedOn, y => y
-                    .MapFrom(y => y.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")));
-        }
     }
 }

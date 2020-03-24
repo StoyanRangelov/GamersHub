@@ -23,7 +23,7 @@ namespace GamersHub.Web.Controllers
         public IActionResult Details(int id)
         {
             var viewModel = this.postsService.GetById<PostDetailsViewModel>(id);
-            
+
             return this.View(viewModel);
         }
 
