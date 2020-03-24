@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text;
+using System.Text.RegularExpressions;
 using AutoMapper;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
@@ -7,9 +9,29 @@ namespace GamersHub.Web.ViewModels.Forums
 {
     public class PostInForumViewModel : IMapFrom<Post>, IHaveCustomMappings
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
-        public string Url => $"{this.Name.Replace(' ', '-')}";
+        public string Url
+        {
+            get
+            {
+                var matches = Regex.Matches(this.Name, "[^!*'();:@&=+$,/?#[\\]]+");
+
+                var result = new StringBuilder();
+
+                foreach (Match match in matches)
+                {
+                    result.Append(match.Value);
+                }
+
+                result.Replace(' ', '-');
+
+                return result.ToString().ToLower();
+            }
+        }
+
 
         public string ShortName =>
             this.Name?.Length > 40

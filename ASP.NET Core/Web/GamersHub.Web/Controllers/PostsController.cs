@@ -20,7 +20,7 @@ namespace GamersHub.Web.Controllers
             this.userManager = userManager;
         }
 
-        public IActionResult ByName(string name)
+        public IActionResult ById(string name, int id)
         {
             return this.View();
         }
