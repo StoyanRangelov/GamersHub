@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using GamersHub.Common;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
@@ -18,7 +19,7 @@ namespace GamersHub.Web.ViewModels.Posts
         public string Name { get; set; }
 
         [Required]
-        [StringLength(600, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 10)]
+        [StringLength(20000, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 10)]
         public string Content { get; set; }
     }
 }
