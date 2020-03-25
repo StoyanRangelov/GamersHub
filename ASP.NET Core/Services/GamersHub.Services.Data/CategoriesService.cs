@@ -48,13 +48,13 @@ namespace GamersHub.Services.Data
 
         public async Task CreateAsync(string name, string description)
         {
-            await this.categoriesRepository.AddAsync(new Category
+            var category = new Category
             {
-                CreatedOn = DateTime.UtcNow,
                 Name = name,
                 Description = description,
-            });
+            };
 
+            await this.categoriesRepository.AddAsync(category);
             await this.categoriesRepository.SaveChangesAsync();
         }
 

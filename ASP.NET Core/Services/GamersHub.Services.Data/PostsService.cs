@@ -40,11 +40,13 @@ namespace GamersHub.Services.Data
 
             if (!forum.ForumCategories.Select(fc => fc.CategoryId).Contains(category.Id))
             {
-                forum.ForumCategories.Add(new ForumCategory
+                var forumCategory = new ForumCategory
                 {
                     ForumId = forum.Id,
                     CategoryId = category.Id,
-                });
+                };
+
+                forum.ForumCategories.Add(forumCategory);
 
                 this.forumsRepository.Update(forum);
                 await this.forumsRepository.SaveChangesAsync();
@@ -52,7 +54,6 @@ namespace GamersHub.Services.Data
 
             var post = new Post
             {
-                CreatedOn = DateTime.UtcNow,
                 Name = name,
                 Content = content,
                 UserId = userId,

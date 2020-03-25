@@ -29,9 +29,9 @@
     </div>
     <div class="card-footer">
         <span class="d-inline">Created On: @Model.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")</span>
-        @if (Model.CreatedOn.ToString("MM/dd/yyyy hh:mm tt") != Model.ModifiedOn.ToString("MM/dd/yyyy hh:mm tt"))
+        @if (Model.ModifiedOn != null)
         {
-            <span class="float-right">Last Modified: @Model.ModifiedOn.ToString("MM/dd/yyyy hh:mm tt")</span>
+            <span class="float-right">Last Modified: @Model.ModifiedOn.Value.ToString("MM/dd/yyyy hh:mm tt")</span>
         }
     </div>
 </div>

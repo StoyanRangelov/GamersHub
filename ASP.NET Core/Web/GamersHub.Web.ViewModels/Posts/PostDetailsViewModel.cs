@@ -15,7 +15,7 @@ namespace GamersHub.Web.ViewModels.Posts
 
         public DateTime CreatedOn { get; set; }
 
-        public DateTime ModifiedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
 
         public string UserUsername { get; set; }
 

@@ -51,12 +51,12 @@ namespace GamersHub.Services.Data
 
         public async Task CreateAsync(string name)
         {
-            await this.forumsRepository.AddAsync(new Forum
+            var forum = new Forum
             {
-                CreatedOn = DateTime.UtcNow,
                 Name = name,
-            });
+            };
 
+            await this.forumsRepository.AddAsync(forum);
             await this.forumsRepository.SaveChangesAsync();
         }
 
