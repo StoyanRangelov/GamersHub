@@ -22,6 +22,10 @@ namespace GamersHub.Web.ViewModels.Forums
 
                 foreach (Match match in matches)
                 {
+                    if (match.Value.EndsWith(' '))
+                    {
+                        match.Value.Remove(match.Value.Length - 1);
+                    }
                     result.Append(match.Value);
                 }
 
@@ -49,6 +53,10 @@ namespace GamersHub.Web.ViewModels.Forums
 
                     foreach (Match match in matches)
                     {
+                        if (match.Value.EndsWith(' '))
+                        {
+                            match.Value.Remove(match.Value.Length - 1);
+                        }
                         result.Append(match.Value);
                     }
 
