@@ -9,11 +9,11 @@ namespace GamersHub.Web.ViewModels.Categories
    public class CategoryCreateInputModel
     {
         [Required]
-        [StringLength(30, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 3)]
+        [StringLength(60, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 3)]
         public string Name { get; set; }
 
         [Required]
-        [StringLength(50, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 5)]
+        [StringLength(100, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 5)]
         public string Description { get; set; }
     }
 }

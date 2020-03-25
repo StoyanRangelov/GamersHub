@@ -69,7 +69,7 @@ namespace GamersHub.Web.Controllers
 
             await this.forumsService.CreateAsync(inputModel.Name);
 
-            return this.Redirect("/Forums");
+            return this.RedirectToAction("Index");
         }
     }
 }

@@ -15,7 +15,7 @@ namespace GamersHub.Web.ViewModels.Posts
         public string CategoryName { get; set; }
 
         [Required]
-        [StringLength(60, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 4)]
+        [StringLength(100, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 4)]
         public string Name { get; set; }
 
         [Required]
