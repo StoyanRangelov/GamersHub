@@ -6,6 +6,8 @@ namespace GamersHub.Services.Data
 {
     public interface ICategoriesService
     {
+        string GetNameByUrl(string url);
+
         IEnumerable<T> GetAll<T>(int? count = null);
 
         IEnumerable<string> GetAllNames();

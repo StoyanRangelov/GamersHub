@@ -10,7 +10,7 @@ namespace GamersHub.Services.Data
 
         IEnumerable<string> GetAllNames();
 
-        T GetByName<T>(string name);
+        T GetByUrl<T>(string url);
 
         Task CreateAsync(string name);
 

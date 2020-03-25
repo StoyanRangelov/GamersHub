@@ -40,7 +40,8 @@ namespace GamersHub.Web.Controllers
 
             if (alreadyExists)
             {
-                this.ModelState.AddModelError(string.Empty,
+                this.ModelState.AddModelError(
+                    string.Empty,
                     string.Format(GlobalConstants.CategoryNameAlreadyExistsErrorMessage, inputModel.Name));
             }
 

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using AutoMapper;
+using GamersHub.Common;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
 
@@ -12,34 +13,13 @@ namespace GamersHub.Web.ViewModels.Forums
     {
         public string Name { get; set; }
 
-        public string Url
-        {
-            get
-            {
-                var matches = Regex.Matches(this.Name, "[^!*'();:@&=+$,/?#[\\]]+");
-
-                var result = new StringBuilder();
-
-                foreach (Match match in matches)
-                {
-                    if (match.Value.EndsWith(' '))
-                    {
-                        match.Value.Remove(match.Value.Length - 1);
-                    }
-                    result.Append(match.Value);
-                }
-
-                result.Replace(' ', '-');
-
-                return result.ToString();
-            }
-        }
+        public string Url => UrlParser.ParseToUrl(this.Name);
 
         public int PostsCount { get; set; }
 
         public string[] CategoryNames { get; set; }
 
-        public string[] CategoryNamesUrls
+        public string[] CategoryUrls
         {
             get
             {
@@ -47,22 +27,9 @@ namespace GamersHub.Web.ViewModels.Forums
 
                 for (int i = 0; i < this.CategoryNames.Length; i++)
                 {
-                    var matches = Regex.Matches(this.CategoryNames[i], "[^!*'();:@&=+$,/?#[\\]]+");
+                    var categoryUrl = UrlParser.ParseToUrl(this.CategoryNames[i]);
 
-                    var result = new StringBuilder();
-
-                    foreach (Match match in matches)
-                    {
-                        if (match.Value.EndsWith(' '))
-                        {
-                            match.Value.Remove(match.Value.Length - 1);
-                        }
-                        result.Append(match.Value);
-                    }
-
-                    result.Replace(' ', '-');
-
-                    categoryUrls[i] = result.ToString();
+                    categoryUrls[i] = categoryUrl;
                 }
 
                 return categoryUrls;

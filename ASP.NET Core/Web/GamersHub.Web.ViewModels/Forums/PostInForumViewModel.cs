@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using AutoMapper;
+using GamersHub.Common;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
 
@@ -15,29 +16,7 @@ namespace GamersHub.Web.ViewModels.Forums
 
         public DateTime CreatedOn { get; set; }
 
-        public string Url
-        {
-            get
-            {
-                var matches = Regex.Matches(this.Name, "[^!*'();:@&=+$,/?#[\\]]+");
-
-                var result = new StringBuilder();
-
-                foreach (Match match in matches)
-                {
-                    if (match.Value.EndsWith(' '))
-                    {
-                        match.Value.Remove(match.Value.Length - 1);
-                    }
-                    result.Append(match.Value);
-                }
-
-                result.Replace(' ', '-');
-
-                return result.ToString().ToLower();
-            }
-        }
-
+        public string Url => UrlParser.ParseToUrl(this.Name);
 
         public string ShortName =>
             this.Name?.Length > 40

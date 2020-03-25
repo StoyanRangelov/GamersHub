@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GamersHub.Common;
 using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
@@ -36,12 +37,15 @@ namespace GamersHub.Services.Data
             return this.forumsRepository.All().Select(x => x.Name).ToList();
         }
 
-        public T GetByName<T>(string name)
+        public T GetByUrl<T>(string url)
         {
-            string originalName = name.Replace('-', ' ');
+            var forums = this.forumsRepository.All().Select(x => x.Name).ToList();
 
-            var forum = this.forumsRepository.All().Where(x => x.Name == originalName)
+            var forumToReturn = forums.FirstOrDefault(x => UrlParser.ParseToUrl(x) == url);
+
+            var forum = this.forumsRepository.All().Where(x => x.Name == forumToReturn)
                 .To<T>().FirstOrDefault();
+
             return forum;
         }
 

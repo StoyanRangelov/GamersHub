@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GamersHub.Common;
 using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
@@ -15,6 +16,15 @@ namespace GamersHub.Services.Data
         public CategoriesService(IDeletableEntityRepository<Category> categoriesRepository)
         {
             this.categoriesRepository = categoriesRepository;
+        }
+
+        public string GetNameByUrl(string url)
+        {
+            var categoryNames = this.categoriesRepository.All().Select(x => x.Name).ToList();
+
+            var categoryName = categoryNames.FirstOrDefault(x => UrlParser.ParseToUrl(x) == url);
+
+            return categoryName;
         }
 
         public IEnumerable<T> GetAll<T>(int? count = null)

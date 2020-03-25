@@ -14,10 +14,12 @@ namespace GamersHub.Web.Controllers
     public class ForumsController : BaseController
     {
         private readonly IForumsService forumsService;
+        private readonly ICategoriesService categoriesService;
 
-        public ForumsController(IForumsService forumsService)
+        public ForumsController(IForumsService forumsService, ICategoriesService categoriesService)
         {
             this.forumsService = forumsService;
+            this.categoriesService = categoriesService;
         }
 
         public IActionResult Index()
@@ -30,16 +32,16 @@ namespace GamersHub.Web.Controllers
             return this.View(viewModel);
         }
 
-        public IActionResult ByName(string name, string id)
+        public IActionResult ByName(string url, string id)
         {
             if (id != null)
             {
-                string categoryName = id.Replace('-', ' ');
+                string categoryName = this.categoriesService.GetNameByUrl(id);
 
                 this.ViewData["CategoryName"] = categoryName;
             }
 
-            var viewModel = this.forumsService.GetByName<ForumByNameViewModel>(name);
+            var viewModel = this.forumsService.GetByUrl<ForumByNameViewModel>(url);
 
             return this.View(viewModel);
         }
@@ -58,7 +60,8 @@ namespace GamersHub.Web.Controllers
 
             if (alreadyExists)
             {
-                this.ModelState.AddModelError(string.Empty,
+                this.ModelState.AddModelError(
+                    string.Empty,
                     string.Format(GlobalConstants.ForumNameAlreadyExistsErrorMessage, inputModel.Name));
             }
 

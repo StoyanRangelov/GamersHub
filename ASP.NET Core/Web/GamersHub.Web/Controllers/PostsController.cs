@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using GamersHub.Common;
 using GamersHub.Data.Models;
 using GamersHub.Services.Data;
 using GamersHub.Web.ViewModels.Posts;
@@ -50,7 +51,7 @@ namespace GamersHub.Web.Controllers
                 inputModel.Content,
                 userId);
 
-            var url = inputModel.ForumName.Replace(' ', '-');
+            var url = UrlParser.ParseToUrl(inputModel.ForumName);
 
             return this.Redirect($"/Forums/{url}");
         }
