@@ -46,7 +46,7 @@ namespace GamersHub.Services.Data
             return this.categoriesRepository.All().Select(x => x.Name).ToList();
         }
 
-        public async Task CreateAsync(string name, string description)
+        public async Task<int> CreateAsync(string name, string description)
         {
             var category = new Category
             {
@@ -56,6 +56,8 @@ namespace GamersHub.Services.Data
 
             await this.categoriesRepository.AddAsync(category);
             await this.categoriesRepository.SaveChangesAsync();
+
+            return category.Id;
         }
 
         public bool CheckIfExistsByName(string name)

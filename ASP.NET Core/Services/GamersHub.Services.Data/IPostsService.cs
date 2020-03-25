@@ -6,6 +6,6 @@ namespace GamersHub.Services.Data
     {
         T GetById<T>(int id);
 
-        Task CreateAsync(string forumName, string categoryName, string topic, string content, string userId);
+        Task<int> CreateAsync(string forumName, string categoryName, string topic, string content, string userId);
     }
 }

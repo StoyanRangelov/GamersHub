@@ -12,7 +12,7 @@ namespace GamersHub.Services.Data
 
         IEnumerable<string> GetAllNames();
 
-        Task CreateAsync(string name, string description);
+        Task<int> CreateAsync(string name, string description);
 
         bool CheckIfExistsByName(string name);
     }

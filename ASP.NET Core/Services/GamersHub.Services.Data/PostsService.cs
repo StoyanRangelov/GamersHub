@@ -31,7 +31,7 @@ namespace GamersHub.Services.Data
             return post;
         }
 
-        public async Task CreateAsync(string forumName, string categoryName, string name, string content, string userId)
+        public async Task<int> CreateAsync(string forumName, string categoryName, string name, string content, string userId)
         {
             var forum = this.forumsRepository.All()
                 .Include(x => x.ForumCategories)
@@ -63,6 +63,8 @@ namespace GamersHub.Services.Data
 
             await this.postsRepository.AddAsync(post);
             await this.postsRepository.SaveChangesAsync();
+
+            return post.Id;
         }
     }
 }

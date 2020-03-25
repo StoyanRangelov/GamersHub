@@ -49,7 +49,7 @@ namespace GamersHub.Services.Data
             return forum;
         }
 
-        public async Task CreateAsync(string name)
+        public async Task<int> CreateAsync(string name)
         {
             var forum = new Forum
             {
@@ -58,6 +58,8 @@ namespace GamersHub.Services.Data
 
             await this.forumsRepository.AddAsync(forum);
             await this.forumsRepository.SaveChangesAsync();
+
+            return forum.Id;
         }
 
         public bool CheckIfExistsByName(string name)
