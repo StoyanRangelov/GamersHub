@@ -53,7 +53,7 @@ namespace GamersHub.Web.Controllers
 
             var url = UrlParser.ParseToUrl(inputModel.ForumName);
 
-            return this.Redirect($"/Forums/{url}");
+            return this.RedirectToAction("ByName", "Forums",  new { url });
         }
     }
 }
