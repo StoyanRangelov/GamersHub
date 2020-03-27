@@ -1,4 +1,5 @@
 ﻿@using GamersHub.Common
+@using System.Linq
 @model GamersHub.Web.ViewModels.Categories.CategoryIndexViewModel
 @{
     ViewData["Title"] = "All Categories";
@@ -24,7 +25,9 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var category in Model.Categories)
+    @foreach (var category in Model.Categories.
+        OrderByDescending(x => x.PostsCount)
+        .ThenByDescending(x => x.CategoryForumsCount))
     {
         @await Html.PartialAsync("_CategoriesIndexPartial", @category);
     }

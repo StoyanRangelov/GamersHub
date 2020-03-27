@@ -30,9 +30,7 @@ namespace GamersHub.Services.Data
         public IEnumerable<T> GetAll<T>(int? count = null)
         {
             IQueryable<Category> query =
-                this.categoriesRepository.All()
-                    .OrderByDescending(x => x.Posts.Count)
-                    .ThenByDescending(x => x.CategoryForums.Count);
+                this.categoriesRepository.All();
             if (count.HasValue)
             {
                 query = query.Take(count.Value);
