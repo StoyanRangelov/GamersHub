@@ -9,7 +9,7 @@ namespace GamersHub.Web.ViewModels.Categories
    public class CategoryCreateInputModel
     {
         [Required]
-        [StringLength(60, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 3)]
+        [StringLength(60, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 4)]
         public string Name { get; set; }
 
         [Required]

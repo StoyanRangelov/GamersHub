@@ -27,7 +27,7 @@ namespace GamersHub.Web.Controllers
             var forums = this.forumsService
                 .GetAll<ForumViewModel>()
                 .OrderByDescending(x => x.PostsCount)
-                .ThenByDescending(x => x.CategoryNames.Length);
+                .ThenByDescending(x => x.ForumCategories.Count());
 
             var viewModel = new ForumIndexViewModel {Forums = forums};
 
@@ -35,16 +35,14 @@ namespace GamersHub.Web.Controllers
             return this.View(viewModel);
         }
 
-        public IActionResult ByName(string url, string id)
+        public IActionResult ById(int id)
         {
-            if (id != null)
+            var viewModel = this.forumsService.GetById<ForumByNameViewModel>(id);
+
+            if (viewModel == null)
             {
-                string categoryName = this.categoriesService.GetNameByUrl(id);
-
-                this.ViewData["CategoryName"] = categoryName;
+                return this.NotFound();
             }
-
-            var viewModel = this.forumsService.GetByUrl<ForumByNameViewModel>(url);
 
             return this.View(viewModel);
         }

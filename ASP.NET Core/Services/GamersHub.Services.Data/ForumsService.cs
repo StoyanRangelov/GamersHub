@@ -6,16 +6,22 @@ using GamersHub.Common;
 using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace GamersHub.Services.Data
 {
     public class ForumsService : IForumsService
     {
         private readonly IDeletableEntityRepository<Forum> forumsRepository;
+        private readonly ICategoriesService categoriesService;
 
-        public ForumsService(IDeletableEntityRepository<Forum> forumsRepository)
+        public ForumsService(
+            IDeletableEntityRepository<Forum> forumsRepository,
+            ICategoriesService categoriesService)
         {
             this.forumsRepository = forumsRepository;
+            this.categoriesService = categoriesService;
         }
 
         public IEnumerable<T> GetAll<T>(int? count = null)
@@ -30,16 +36,12 @@ namespace GamersHub.Services.Data
             return query.To<T>().ToList();
         }
 
-        public T GetByUrl<T>(string url)
+        public T GetById<T>(int id)
         {
-            var forums = this.forumsRepository.All().Select(x => x.Name).ToList();
-
-            var forumToReturn = forums.FirstOrDefault(x => UrlParser.ParseToUrl(x) == url);
-
-            var forum = this.forumsRepository.All().Where(x => x.Name == forumToReturn)
+           var forum = this.forumsRepository.All().Where(x => x.Id == id)
                 .To<T>().FirstOrDefault();
 
-            return forum;
+           return forum;
         }
 
         public async Task<int> CreateAsync(string name)

@@ -42,7 +42,7 @@
     <tbody>
     @foreach (var post in Model.Posts)
     {
-        @await Html.PartialAsync("_ForumsByNamePartial", @post, ViewData);
+        @await Html.PartialAsync("_ForumsByIdPartial", @post, ViewData);
     }
     </tbody>
 </table>

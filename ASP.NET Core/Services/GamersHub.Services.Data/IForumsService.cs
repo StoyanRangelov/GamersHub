@@ -8,7 +8,7 @@ namespace GamersHub.Services.Data
     {
         IEnumerable<T> GetAll<T>(int? count = null);
 
-        T GetByUrl<T>(string url);
+        T GetById<T>(int id);
 
         Task<int> CreateAsync(string name);
     }
