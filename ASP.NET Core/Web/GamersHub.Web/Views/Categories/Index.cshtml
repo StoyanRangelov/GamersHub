@@ -25,9 +25,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var category in Model.Categories.
-        OrderByDescending(x => x.PostsCount)
-        .ThenByDescending(x => x.CategoryForumsCount))
+    @foreach (var category in Model.Categories)
     {
         @await Html.PartialAsync("_CategoriesIndexPartial", @category);
     }
