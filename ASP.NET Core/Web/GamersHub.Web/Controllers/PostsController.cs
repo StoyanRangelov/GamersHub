@@ -29,7 +29,7 @@ namespace GamersHub.Web.Controllers
             this.userManager = userManager;
         }
 
-        public IActionResult Details(int id)
+        public IActionResult ById(int id)
         {
             var viewModel = this.postsService.GetById<PostDetailsViewModel>(id);
 
@@ -68,7 +68,7 @@ namespace GamersHub.Web.Controllers
                 inputModel.Content,
                 userId);
 
-            return this.RedirectToAction(nameof(this.Details), new { id = postId});
+            return this.RedirectToAction(nameof(this.ById), new { id = postId});
         }
     }
 }

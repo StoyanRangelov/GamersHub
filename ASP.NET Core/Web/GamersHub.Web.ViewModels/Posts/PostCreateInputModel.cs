@@ -11,9 +11,11 @@ namespace GamersHub.Web.ViewModels.Posts
     {
 
         [Display(Name = "Forum")]
+        [Range(1, int.MaxValue)]
         public int ForumId { get; set; }
 
         [Display(Name = "Category")]
+        [Range(1, int.MaxValue)]
         public int CategoryId { get; set; }
 
         [Required]
