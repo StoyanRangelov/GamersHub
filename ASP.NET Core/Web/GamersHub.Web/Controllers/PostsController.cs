@@ -31,7 +31,12 @@ namespace GamersHub.Web.Controllers
 
         public IActionResult ById(int id)
         {
-            var viewModel = this.postsService.GetById<PostDetailsViewModel>(id);
+            var viewModel = this.postsService.GetById<PostByIdViewModel>(id);
+
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
 
             return this.View(viewModel);
         }

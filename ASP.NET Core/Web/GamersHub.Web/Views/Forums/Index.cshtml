@@ -15,7 +15,9 @@
 </div>
 <hr/>
 <div class="row row-cols-1 row-cols-md-2">
-    @foreach (var forum in Model.Forums)
+    @foreach (var forum in Model.Forums
+        .OrderByDescending(x => x.PostsCount)
+        .ThenByDescending(x => x.ForumCategories.Count()))
     {
         @await Html.PartialAsync("_ForumsIndexPartial", @forum);
     }

@@ -30,7 +30,7 @@ namespace GamersHub.Data.Models
 
         public virtual Category Category { get; set; }
 
-        public ICollection<Reply> Replies { get; set; }
+        public virtual ICollection<Reply> Replies { get; set; }
 
     }
 }

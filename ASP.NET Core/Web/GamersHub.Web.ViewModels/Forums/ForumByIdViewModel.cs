@@ -9,17 +9,14 @@ using GamersHub.Services.Mapping;
 
 namespace GamersHub.Web.ViewModels.Forums
 {
-    public class ForumViewModel : IMapFrom<Forum>
+   public class ForumByIdViewModel : IMapFrom<Forum>
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public string Url => UrlParser.ParseToUrl(this.Name);
 
-        public int PostsCount { get; set; }
+        public IEnumerable<CategoryInForumByIdViewModel> ForumCategories { get; set; }
 
-
-        public IEnumerable<CategoryInForumIndexViewModel> ForumCategories { get; set; }
+        public IEnumerable<PostInForumViewModel> Posts { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model GamersHub.Web.ViewModels.Forums.ForumByNameViewModel
+﻿@model GamersHub.Web.ViewModels.Forums.ForumByIdViewModel
 @{
     ViewData["Title"] = Model.Name;
 }
@@ -11,36 +11,26 @@
 </div>
 <hr/>
 <div class="row row-cols-1 row-cols-md-3 list-group list-group-horizontal">
-    @if (this.ViewData["CategoryName"] == null)
-    {
-        @for (int i = 0; i < Model.CategoryNames.Length; i++)
+    @foreach (var category in Model.ForumCategories)
         {
             <div class="col mb-4">
-                <a asp-controller="Forums" asp-action="@Model.Url" asp-route-id="@Model.CategoryUrls[i]" class="list-group-item list-group-item-action">@Model.CategoryNames[i]</a>
+                <a asp-controller="Forums" asp-action="@Model.Url" asp-route-id="@category.Url" class="list-group-item list-group-item-action">@category.CategoryName</a>
             </div>
         }
-    }
-    else
-    {
-        <h2>@this.ViewData["CategoryName"]</h2>
-    }
 </div>
 
 <table class="table table-hover">
     <thead class="thead-dark">
     <tr>
         <th scope="col">Topic</th>
-        @if (this.ViewData["CategoryName"] == null)
-        {
-            <th scope="col">Category</th>
-        }
+        <th scope="col">Category</th>
         <th scope="col">Author</th>
         <th scope="col">Replies</th>
         <th scope="col">Created On</th>
     </tr>
     </thead>
     <tbody>
-    @foreach (var post in Model.Posts)
+    @foreach (var post in Model.Posts.OrderByDescending(x=>x.CreatedOn))
     {
         @await Html.PartialAsync("_ForumsByIdPartial", @post, ViewData);
     }

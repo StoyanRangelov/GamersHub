@@ -22,6 +22,7 @@
     <ProjectReference Include="..\..\Data\GamersHub.Data.Common\GamersHub.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\GamersHub.Data.Models\GamersHub.Data.Models.csproj" />
     <ProjectReference Include="..\..\GamersHub.Common\GamersHub.Common.csproj" />
+    <ProjectReference Include="..\..\Web\GamersHub.Web.ViewModels\GamersHub.Web.ViewModels.csproj" />
     <ProjectReference Include="..\GamersHub.Services.Mapping\GamersHub.Services.Mapping.csproj" />
   </ItemGroup>
 

@@ -4,10 +4,8 @@ using GamersHub.Services.Mapping;
 
 namespace GamersHub.Web.ViewModels.Forums
 {
-    public class CategoryInForumViewModel : IMapFrom<ForumCategory>
+    public class CategoryInForumIndexViewModel : IMapFrom<ForumCategory>
     {
-        public int CategoryId { get; set; }
-
         public string CategoryName { get; set; }
 
         public string Url => UrlParser.ParseToUrl(this.CategoryName);

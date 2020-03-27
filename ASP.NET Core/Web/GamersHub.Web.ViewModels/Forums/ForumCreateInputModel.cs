@@ -6,7 +6,7 @@ namespace GamersHub.Web.ViewModels.Forums
     public class ForumCreateInputModel
     {
         [Required]
-        [StringLength(60, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 4)]
+        [StringLength(60, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 3)]
         public string Name { get; set; }
     }
 }

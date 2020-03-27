@@ -30,6 +30,20 @@ namespace GamersHub.Web.Controllers
 
             return this.View(viewModel);
         }
+
+        public IActionResult ByName(string name, int id)
+        {
+            var viewModel = this.categoriesService.GetByName(name, id);
+
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View();
+        }
+
+
         public IActionResult Create()
         {
             return this.View();

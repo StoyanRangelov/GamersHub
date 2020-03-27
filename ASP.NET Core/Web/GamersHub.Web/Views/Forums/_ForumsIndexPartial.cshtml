@@ -11,7 +11,7 @@
             @foreach (var category in Model.ForumCategories)
             {
                 <p class="card-text">
-                    <a asp-controller="Forums" asp-action="@Model.Url" asp-route-id="@category.Url" class="card-link"> @category.CategoryName</a>
+                    <a asp-controller="Categories" asp-action="@category.Url" asp-route-id="@Model.Id" class="card-link"> @category.CategoryName:</a>
                     @category.CategoryDescription
                 </p>
             }

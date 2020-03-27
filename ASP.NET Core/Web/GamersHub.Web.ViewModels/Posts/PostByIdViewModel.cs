@@ -7,7 +7,7 @@ using GamersHub.Services.Mapping;
 
 namespace GamersHub.Web.ViewModels.Posts
 {
-    public class PostDetailsViewModel : IMapFrom<Post>
+    public class PostByIdViewModel : IMapFrom<Post>
     {
         public string Name { get; set; }
 

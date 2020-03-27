@@ -15,8 +15,8 @@ namespace GamersHub.Data.Models
         [Required]
         public string Name { get; set; }
 
-        public ICollection<ForumCategory> ForumCategories { get; set; }
+        public virtual ICollection<ForumCategory> ForumCategories { get; set; }
 
-        public ICollection<Post> Posts { get; set; }
+        public virtual ICollection<Post> Posts { get; set; }
     }
 }

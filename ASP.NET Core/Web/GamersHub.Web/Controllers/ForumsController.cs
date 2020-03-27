@@ -25,9 +25,7 @@ namespace GamersHub.Web.Controllers
         public IActionResult Index()
         {
             var forums = this.forumsService
-                .GetAll<ForumViewModel>()
-                .OrderByDescending(x => x.PostsCount)
-                .ThenByDescending(x => x.ForumCategories.Count());
+                .GetAll<ForumViewModel>();
 
             var viewModel = new ForumIndexViewModel {Forums = forums};
 
@@ -37,7 +35,7 @@ namespace GamersHub.Web.Controllers
 
         public IActionResult ById(int id)
         {
-            var viewModel = this.forumsService.GetById<ForumByNameViewModel>(id);
+            var viewModel = this.forumsService.GetById<ForumByIdViewModel>(id);
 
             if (viewModel == null)
             {
