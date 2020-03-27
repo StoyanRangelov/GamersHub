@@ -26,7 +26,7 @@ namespace GamersHub.Web.Controllers
                 .OrderByDescending(x => x.PostsCount)
                 .ThenByDescending(x => x.CategoryForumsCount);
 
-            var viewModel = new CategoryIndexViewModel { Categories = categories};
+            var viewModel = new CategoryIndexViewModel {Categories = categories};
 
             return this.View(viewModel);
         }
@@ -39,9 +39,9 @@ namespace GamersHub.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CategoryCreateInputModel inputModel)
         {
-            bool alreadyExists = this.categoriesService.CheckIfExistsByName(inputModel.Name);
+            var categoryId = await this.categoriesService.CreateAsync(inputModel.Name, inputModel.Description);
 
-            if (alreadyExists)
+            if (categoryId == 0)
             {
                 this.ModelState.AddModelError(
                     nameof(inputModel.Name),
@@ -52,8 +52,6 @@ namespace GamersHub.Web.Controllers
             {
                 return this.View(inputModel);
             }
-
-            await this.categoriesService.CreateAsync(inputModel.Name, inputModel.Description);
 
             return this.RedirectToAction(nameof(this.Index));
         }

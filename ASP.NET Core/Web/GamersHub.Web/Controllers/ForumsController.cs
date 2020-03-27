@@ -29,7 +29,7 @@ namespace GamersHub.Web.Controllers
                 .OrderByDescending(x => x.PostsCount)
                 .ThenByDescending(x => x.CategoryNames.Length);
 
-            var viewModel = new ForumIndexViewModel { Forums = forums};
+            var viewModel = new ForumIndexViewModel {Forums = forums};
 
 
             return this.View(viewModel);
@@ -59,9 +59,9 @@ namespace GamersHub.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ForumCreateInputModel inputModel)
         {
-            bool alreadyExists = this.forumsService.CheckIfExistsByName(inputModel.Name);
+            var forumId = await this.forumsService.CreateAsync(inputModel.Name);
 
-            if (alreadyExists)
+            if (forumId == 0)
             {
                 this.ModelState.AddModelError(
                     string.Empty,
@@ -72,8 +72,6 @@ namespace GamersHub.Web.Controllers
             {
                 return this.View(inputModel);
             }
-
-            await this.forumsService.CreateAsync(inputModel.Name);
 
             return this.RedirectToAction(nameof(this.Index));
         }

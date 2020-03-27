@@ -41,6 +41,13 @@ namespace GamersHub.Services.Data
 
         public async Task<int> CreateAsync(string name, string description)
         {
+            var alreadyExists = this.CheckIfExistsByName(name);
+
+            if (alreadyExists)
+            {
+                return 0;
+            }
+
             var category = new Category
             {
                 Name = name,
@@ -53,7 +60,7 @@ namespace GamersHub.Services.Data
             return category.Id;
         }
 
-        public bool CheckIfExistsByName(string name)
+        private bool CheckIfExistsByName(string name)
         {
             bool alreadyExists = false;
             var category = this.categoriesRepository.All().FirstOrDefault(x => x.Name == name);

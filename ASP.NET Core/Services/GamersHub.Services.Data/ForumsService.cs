@@ -44,6 +44,13 @@ namespace GamersHub.Services.Data
 
         public async Task<int> CreateAsync(string name)
         {
+            bool alreadyExists = this.CheckIfExistsByName(name);
+
+            if (alreadyExists)
+            {
+                return 0;
+            }
+
             var forum = new Forum
             {
                 Name = name,
@@ -55,7 +62,7 @@ namespace GamersHub.Services.Data
             return forum.Id;
         }
 
-        public bool CheckIfExistsByName(string name)
+        private bool CheckIfExistsByName(string name)
         {
             bool alreadyExists = false;
 

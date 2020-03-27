@@ -11,7 +11,5 @@ namespace GamersHub.Services.Data
         IEnumerable<T> GetAll<T>(int? count = null);
 
         Task<int> CreateAsync(string name, string description);
-
-        bool CheckIfExistsByName(string name);
     }
 }
