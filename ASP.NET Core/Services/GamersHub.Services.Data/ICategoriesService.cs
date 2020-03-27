@@ -10,8 +10,6 @@ namespace GamersHub.Services.Data
 
         IEnumerable<T> GetAll<T>(int? count = null);
 
-        IEnumerable<string> GetAllNames();
-
         Task<int> CreateAsync(string name, string description);
 
         bool CheckIfExistsByName(string name);

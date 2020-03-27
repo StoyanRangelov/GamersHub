@@ -24,10 +24,13 @@ namespace GamersHub.Web.Controllers
 
         public IActionResult Index()
         {
-            var viewModel = new ForumIndexViewModel
-            {
-                Forums = this.forumsService.GetAll<ForumViewModel>(),
-            };
+            var forums = this.forumsService
+                .GetAll<ForumViewModel>()
+                .OrderByDescending(x => x.PostsCount)
+                .ThenByDescending(x => x.CategoryNames.Length);
+
+            var viewModel = new ForumIndexViewModel { Forums = forums};
+
 
             return this.View(viewModel);
         }

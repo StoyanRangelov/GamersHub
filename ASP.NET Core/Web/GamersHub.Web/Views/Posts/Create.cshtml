@@ -1,4 +1,4 @@
-﻿@model GamersHub.Web.ViewModels.Posts.CreatePostInputModel
+﻿@model GamersHub.Web.ViewModels.Posts.PostCreateInputModel
 @{
     ViewData["Title"] = "Create Post";
     var forums = Model.Forums.Select(x => new SelectListItem(x.Name, x.Id.ToString()));

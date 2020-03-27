@@ -7,7 +7,7 @@ using GamersHub.Services.Mapping;
 
 namespace GamersHub.Web.ViewModels.Posts
 {
-   public class CreatePostInputModel
+   public class PostCreateInputModel
     {
 
         [Display(Name = "Forum")]

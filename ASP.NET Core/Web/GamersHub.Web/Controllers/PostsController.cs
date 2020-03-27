@@ -41,7 +41,7 @@ namespace GamersHub.Web.Controllers
             var forums = this.forumsService.GetAll<ForumDropDownViewModel>();
             var categories = this.categoriesService.GetAll<CategoryDropDownViewModel>();
 
-            var viewModel = new CreatePostInputModel
+            var viewModel = new PostCreateInputModel
             {
                 Forums = forums,
                 Categories = categories,
@@ -51,7 +51,7 @@ namespace GamersHub.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreatePostInputModel inputModel)
+        public async Task<IActionResult> Create(PostCreateInputModel inputModel)
         {
             if (!this.ModelState.IsValid)
             {

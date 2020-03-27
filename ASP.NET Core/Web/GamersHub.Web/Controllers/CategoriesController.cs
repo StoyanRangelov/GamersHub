@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using GamersHub.Common;
 using GamersHub.Services.Data;
@@ -20,10 +21,12 @@ namespace GamersHub.Web.Controllers
 
         public IActionResult Index()
         {
-            var viewModel = new CategoryIndexViewModel
-            {
-                Categories = this.categoriesService.GetAll<CategoryViewModel>(),
-            };
+            var categories = this.categoriesService
+                .GetAll<CategoryViewModel>()
+                .OrderByDescending(x => x.PostsCount)
+                .ThenByDescending(x => x.CategoryForumsCount);
+
+            var viewModel = new CategoryIndexViewModel { Categories = categories};
 
             return this.View(viewModel);
         }
