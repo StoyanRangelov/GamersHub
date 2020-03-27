@@ -13,11 +13,19 @@ namespace GamersHub.Web.Controllers
     public class PostsController : BaseController
     {
         private readonly IPostsService postsService;
+        private readonly ICategoriesService categoriesService;
+        private readonly IForumsService forumsService;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public PostsController(IPostsService postsService, UserManager<ApplicationUser> userManager)
+        public PostsController(
+            IPostsService postsService,
+            ICategoriesService categoriesService,
+            IForumsService forumsService,
+            UserManager<ApplicationUser> userManager)
         {
             this.postsService = postsService;
+            this.categoriesService = categoriesService;
+            this.forumsService = forumsService;
             this.userManager = userManager;
         }
 
@@ -30,7 +38,16 @@ namespace GamersHub.Web.Controllers
 
         public IActionResult Create()
         {
-            return this.View();
+            var forums = this.forumsService.GetAll<ForumDropDownViewModel>();
+            var categories = this.categoriesService.GetAll<CategoryDropDownViewModel>();
+
+            var viewModel = new CreatePostInputModel
+            {
+                Forums = forums,
+                Categories = categories,
+            };
+
+            return this.View(viewModel);
         }
 
         [HttpPost]
@@ -44,16 +61,14 @@ namespace GamersHub.Web.Controllers
             var currentUser = await this.userManager.GetUserAsync(this.User);
             var userId = await this.userManager.GetUserIdAsync(currentUser);
 
-            await this.postsService.CreateAsync(
-                inputModel.ForumName,
-                inputModel.CategoryName,
+            var postId =  await this.postsService.CreateAsync(
+                inputModel.ForumId,
+                inputModel.CategoryId,
                 inputModel.Name,
                 inputModel.Content,
                 userId);
 
-            var url = UrlParser.ParseToUrl(inputModel.ForumName);
-
-            return this.RedirectToAction("ByName", "Forums",  new { url });
+            return this.RedirectToAction(nameof(this.Details), new { id = postId});
         }
     }
 }

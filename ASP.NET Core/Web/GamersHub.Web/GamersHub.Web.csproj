@@ -46,5 +46,7 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Posts\Components\ForumsAndCategories\Default.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\Components\CategoryNames\Default.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\Components\ForumNames\Default.cshtml" />
   </ItemGroup>
 </Project>

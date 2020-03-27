@@ -52,7 +52,7 @@ namespace GamersHub.Web.Controllers
 
             await this.categoriesService.CreateAsync(inputModel.Name, inputModel.Description);
 
-            return this.RedirectToAction("Index");
+            return this.RedirectToAction(nameof(this.Index));
         }
     }
 }

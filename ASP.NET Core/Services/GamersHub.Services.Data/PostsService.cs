@@ -31,19 +31,18 @@ namespace GamersHub.Services.Data
             return post;
         }
 
-        public async Task<int> CreateAsync(string forumName, string categoryName, string name, string content, string userId)
+        public async Task<int> CreateAsync(int forumId, int categoryId, string name, string content, string userId)
         {
             var forum = this.forumsRepository.All()
                 .Include(x => x.ForumCategories)
-                .First(x => x.Name == forumName);
-            var category = this.categoriesRepository.All().First(x => x.Name == categoryName);
+                .First(x => x.Id == forumId);
 
-            if (!forum.ForumCategories.Select(fc => fc.CategoryId).Contains(category.Id))
+            if (!forum.ForumCategories.Select(fc => fc.CategoryId).Contains(categoryId))
             {
                 var forumCategory = new ForumCategory
                 {
-                    ForumId = forum.Id,
-                    CategoryId = category.Id,
+                    ForumId = forumId,
+                    CategoryId = categoryId,
                 };
 
                 forum.ForumCategories.Add(forumCategory);
@@ -54,11 +53,11 @@ namespace GamersHub.Services.Data
 
             var post = new Post
             {
+                ForumId = forumId,
+                CategoryId = categoryId,
                 Name = name,
                 Content = content,
                 UserId = userId,
-                ForumId = forum.Id,
-                CategoryId = category.Id,
             };
 
             await this.postsRepository.AddAsync(post);

@@ -72,7 +72,7 @@ namespace GamersHub.Web.Controllers
 
             await this.forumsService.CreateAsync(inputModel.Name);
 
-            return this.RedirectToAction("Index");
+            return this.RedirectToAction(nameof(this.Index));
         }
     }
 }
