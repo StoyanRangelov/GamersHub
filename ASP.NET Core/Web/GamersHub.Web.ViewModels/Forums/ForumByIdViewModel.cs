@@ -11,6 +11,7 @@ namespace GamersHub.Web.ViewModels.Forums
 {
    public class ForumByIdViewModel : IMapFrom<Forum>
     {
+        public int Id { get; set; }
         public string Name { get; set; }
 
         public string Url => UrlParser.ParseToUrl(this.Name);

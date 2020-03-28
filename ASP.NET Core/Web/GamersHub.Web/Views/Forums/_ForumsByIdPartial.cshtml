@@ -5,6 +5,7 @@
         <a asp-controller="Posts" asp-action="@Model.Url" asp-route-id="@Model.Id">@Model.ShortName</a>
     </td>
     <td><i class="fas fa-user"></i> @Model.UserUsername</td>
+    <td>@Model.CategoryName</td>
     <td><i class="fas fa-comments"></i> @Model.RepliesCount</td>
     <td><i class="fas fa-calendar-alt"></i> @Model.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")</td>
 </tr>

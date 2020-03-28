@@ -62,5 +62,18 @@ namespace GamersHub.Services.Data
 
             return post.Id;
         }
+
+        public async Task<int> Edit(int id, string name, string content)
+        {
+            var post = this.postsRepository.All().FirstOrDefault(x => x.Id == id);
+
+            post.Name = name;
+            post.Content = content;
+
+            this.postsRepository.Update(post);
+            await this.postsRepository.SaveChangesAsync();
+
+            return post.Id;
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace GamersHub.Web.ViewModels.Posts
 {
     public class PostByIdViewModel : IMapFrom<Post>
     {
+        public int Id { get; set; }
         public string Name { get; set; }
 
         public string Content { get; set; }

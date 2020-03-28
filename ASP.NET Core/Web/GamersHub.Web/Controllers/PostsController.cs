@@ -66,14 +66,34 @@ namespace GamersHub.Web.Controllers
             var currentUser = await this.userManager.GetUserAsync(this.User);
             var userId = await this.userManager.GetUserIdAsync(currentUser);
 
-            var postId =  await this.postsService.CreateAsync(
+            var postId = await this.postsService.CreateAsync(
                 inputModel.ForumId,
                 inputModel.CategoryId,
                 inputModel.Name,
                 inputModel.Content,
                 userId);
 
-            return this.RedirectToAction(nameof(this.ById), new { id = postId});
+            return this.RedirectToAction(nameof(this.ById), new {id = postId});
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var viewModel = this.postsService.GetById<PostEditViewModel>(id);
+
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(PostEditViewModel input)
+        {
+            await this.postsService.Edit(input.Id, input.Name, input.Content);
+
+            return this.RedirectToAction(nameof(this.ById), new { id = input.Id });
         }
     }
 }

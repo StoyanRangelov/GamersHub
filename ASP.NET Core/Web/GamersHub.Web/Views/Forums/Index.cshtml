@@ -6,10 +6,15 @@
 }
 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
 {
-    <div class="d-inline-block float-right">
-        <a asp-controller="Forums" asp-action="Create" type="submit" class="btn btn-primary btn-lg">New Forum</a>
+    <div class="d-inline-block">
+        <a asp-controller="Forums" asp-action="Create" type="submit" class="btn btn-primary btn-lg">+ New Forum</a>
     </div>
 }
+
+<div class="d-inline-block float-right">
+    <a asp-controller="Posts" asp-action="Create" type="submit" class="btn btn-primary btn-lg">+ New Post</a>
+</div>
+
 <div class="text-center ">
     <h1 class="display-3">@this.ViewData["Title"]</h1>
 </div>

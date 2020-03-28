@@ -8,30 +8,24 @@
 <hr/>
 <div class="card">
     <div class="card-header">
-        <span class="d-inline">@Model.UserUsername</span>
-        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) && this.User.IsInRole(GlobalConstants.ModeratorRoleName))
-        {
-            <span class="d-inline text-primary"><i class="fas fa-user-shield"></i> Administrator</span>
-        }
-        else if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-        {
-            <span class="d-inline text-primary"><i class="fas fa-user-shield"></i> Administrator</span>
-        }
-        else if (this.User.IsInRole(GlobalConstants.ModeratorRoleName))
-        {
-            <span class="d-inline text-primary"><i class="fas fa-user-shield"></i> Moderator</span>
-        }
-        <span class="float-right">@Model.Publications Publications</span>
+        <h5 class="d-inline">@Model.UserUsername</h5>
+        <h5 class="float-right">User Publications: @Model.Publications</h5>
     </div>
     <div class="card-body">
         <h5 class="card-title">@Model.Name</h5>
         <p class="card-text">@Model.Content</p>
+        @if (this.User.Identity.Name == this.Model.UserUsername ||
+             this.User.IsInRole(GlobalConstants.AdministratorRoleName) ||
+             this.User.IsInRole(GlobalConstants.ModeratorRoleName))
+        {
+            <a asp-controller="Posts" asp-action="Edit" asp-route-id="@Model.Id" class="d-inline-block float-right btn btn-warning" type="submit">Edit</a>
+        }
     </div>
     <div class="card-footer">
-        <span class="d-inline">Created On: @Model.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")</span>
+        <span class="d-inline"><i class="fas fa-calendar-alt"></i> Created On: @Model.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")</span>
         @if (Model.ModifiedOn != null)
         {
-            <span class="float-right">Last Modified: @Model.ModifiedOn.Value.ToString("MM/dd/yyyy hh:mm tt")</span>
+            <span class="float-right"><i class="fas fa-calendar-alt"></i> Last Modified: @Model.ModifiedOn.Value.ToString("MM/dd/yyyy hh:mm tt")</span>
         }
     </div>
 </div>
@@ -39,5 +33,5 @@
 @foreach (var reply in Model.Replies)
 {
     <hr/>
-    @await Html.PartialAsync("_ProductsDetailsPartial", reply);
+    @await Html.PartialAsync("_PostsRepliesPartial", reply);
 }

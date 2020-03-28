@@ -4,13 +4,11 @@
 }
 
 <div class="d-inline-block ">
-    <h1 class="display-3">@Model.CategoryName</h1>
+    <h2 class="display-3">@Model.ForumName</h2>
+    <h2>@Model.CategoryName</h2>
 </div>
 <div class="d-inline-block float-right">
-    <a asp-controller="Posts" asp-action="Create" type="submit" class="btn btn-primary btn-lg">New Post</a>
-</div>
-<div>
-    <h3>@Model.ForumName</h3>
+    <a asp-controller="Posts" asp-action="Create" type="submit" class="btn btn-primary btn-lg">+ New Post</a>
 </div>
 <hr/>
 

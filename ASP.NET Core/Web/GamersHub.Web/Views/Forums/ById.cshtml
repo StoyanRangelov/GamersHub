@@ -7,14 +7,14 @@
     <h1 class="display-3">@Model.Name</h1>
 </div>
 <div class="d-inline-block float-right">
-    <a asp-controller="Posts" asp-action="Create" type="submit" class="btn btn-primary btn-lg">New Post</a>
+    <a asp-controller="Posts" asp-action="Create" type="submit" class="btn btn-primary btn-lg">+ New Post</a>
 </div>
 <hr/>
 <div class="row row-cols-1 row-cols-md-3 list-group list-group-horizontal">
     @foreach (var category in Model.ForumCategories)
         {
             <div class="col mb-4">
-                <a asp-controller="Forums" asp-action="@Model.Url" asp-route-id="@category.Url" class="list-group-item list-group-item-action">@category.CategoryName</a>
+                <a asp-controller="Categories" asp-action="@category.Url" asp-route-id="@Model.Id" class="list-group-item list-group-item-action">@category.CategoryName</a>
             </div>
         }
 </div>
