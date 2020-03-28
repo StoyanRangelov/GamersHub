@@ -1,1 +1,32 @@
-﻿
+﻿@model GamersHub.Web.ViewModels.Categories.CategoryByNameViewModel
+@{
+    ViewData["Title"] = $"{Model.ForumName} - {Model.CategoryName}";
+}
+
+<div class="d-inline-block ">
+    <h1 class="display-3">@Model.CategoryName</h1>
+</div>
+<div class="d-inline-block float-right">
+    <a asp-controller="Posts" asp-action="Create" type="submit" class="btn btn-primary btn-lg">New Post</a>
+</div>
+<div>
+    <h3>@Model.ForumName</h3>
+</div>
+<hr/>
+
+<table class="table table-hover">
+<thead class="thead-dark">
+<tr>
+    <th scope="col">Topic</th>
+    <th scope="col">Author</th>
+    <th scope="col">Replies</th>
+    <th scope="col">Created On</th>
+</tr>
+</thead>
+<tbody>
+ @foreach (var post in Model.CategoryPosts.OrderByDescending(x=>x.CreatedOn))
+    {
+        @await Html.PartialAsync("_CategoriesByNamePartial", post);
+    }
+</tbody>
+</table>

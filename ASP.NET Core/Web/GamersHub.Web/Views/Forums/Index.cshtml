@@ -19,6 +19,6 @@
         .OrderByDescending(x => x.PostsCount)
         .ThenByDescending(x => x.ForumCategories.Count()))
     {
-        @await Html.PartialAsync("_ForumsIndexPartial", @forum);
+        @await Html.PartialAsync("_ForumsIndexPartial", forum);
     }
 </div>

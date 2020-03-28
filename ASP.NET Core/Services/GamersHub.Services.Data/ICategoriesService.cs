@@ -7,7 +7,7 @@ namespace GamersHub.Services.Data
 {
     public interface ICategoriesService
     {
-        CategoryByNameViewModel GetByName(string name, int id);
+        CategoryByNameViewModel GetByNameAndForumId(string name, int id);
 
         IEnumerable<T> GetAll<T>(int? count = null);
 

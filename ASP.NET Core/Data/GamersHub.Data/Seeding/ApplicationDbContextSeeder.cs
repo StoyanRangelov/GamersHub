@@ -27,9 +27,8 @@
                           {
                               new RolesSeeder(),
                               new SettingsSeeder(),
-                              new ForumsSeeder(),
                               new CategoriesSeeder(),
-                              new ForumCategoriesSeeder(),
+                              new ForumsSeeder(),
                               new UserRolesSeeder(),
                           };
 

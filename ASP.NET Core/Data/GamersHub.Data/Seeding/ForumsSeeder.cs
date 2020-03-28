@@ -29,6 +29,13 @@ namespace GamersHub.Data.Seeding
                 await dbContext.Forums.AddAsync(new Forum
                 {
                     Name = forum,
+                    ForumCategories = new List<ForumCategory>
+                    {
+                        new ForumCategory
+                        {
+                            CategoryId = dbContext.Categories.First().Id,
+                        },
+                    },
                 });
             }
         }

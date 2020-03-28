@@ -12,16 +12,13 @@ namespace GamersHub.Services.Data
     {
         private readonly IDeletableEntityRepository<Post> postsRepository;
         private readonly IDeletableEntityRepository<Forum> forumsRepository;
-        private readonly IDeletableEntityRepository<Category> categoriesRepository;
 
         public PostsService(
             IDeletableEntityRepository<Post> postsRepository,
-            IDeletableEntityRepository<Forum> forumsRepository,
-            IDeletableEntityRepository<Category> categoriesRepository)
+            IDeletableEntityRepository<Forum> forumsRepository)
         {
             this.postsRepository = postsRepository;
             this.forumsRepository = forumsRepository;
-            this.categoriesRepository = categoriesRepository;
         }
 
         public T GetById<T>(int id)

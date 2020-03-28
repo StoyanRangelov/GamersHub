@@ -33,14 +33,14 @@ namespace GamersHub.Web.Controllers
 
         public IActionResult ByName(string name, int id)
         {
-            var viewModel = this.categoriesService.GetByName(name, id);
+            var viewModel = this.categoriesService.GetByNameAndForumId(name, id);
 
             if (viewModel == null)
             {
                 return this.NotFound();
             }
 
-            return this.View();
+            return this.View(viewModel);
         }
 
 

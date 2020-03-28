@@ -32,7 +32,7 @@
     <tbody>
     @foreach (var post in Model.Posts.OrderByDescending(x=>x.CreatedOn))
     {
-        @await Html.PartialAsync("_ForumsByIdPartial", @post, ViewData);
+        @await Html.PartialAsync("_ForumsByIdPartial", post);
     }
     </tbody>
 </table>

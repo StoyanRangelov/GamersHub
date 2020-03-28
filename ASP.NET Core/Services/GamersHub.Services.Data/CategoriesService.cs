@@ -26,7 +26,7 @@ namespace GamersHub.Services.Data
             this.forumCategoriesRepository = forumCategoriesRepository;
         }
 
-        public CategoryByNameViewModel GetByName(string name, int id)
+        public CategoryByNameViewModel GetByNameAndForumId(string name, int id)
         {
             var categoryName = this.GetNormalisedName(name);
 
