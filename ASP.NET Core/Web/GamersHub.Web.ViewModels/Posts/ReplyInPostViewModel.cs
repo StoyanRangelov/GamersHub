@@ -6,6 +6,8 @@ namespace GamersHub.Web.ViewModels.Posts
 {
     public class ReplyInPostViewModel : IMapFrom<Reply>
     {
+        public int Id { get; set; }
+
         public string Content { get; set; }
 
         public string UserUsername { get; set; }

@@ -65,6 +65,7 @@ namespace GamersHub.Web
             services.AddTransient<IForumsService, ForumsService>();
             services.AddTransient<IPostsService, PostsService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
+            services.AddTransient<IRepliesService, RepliesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

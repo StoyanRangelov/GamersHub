@@ -91,9 +91,15 @@ namespace GamersHub.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(PostEditViewModel input)
         {
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
             await this.postsService.Edit(input.Id, input.Name, input.Content);
 
-            return this.RedirectToAction(nameof(this.ById), new { id = input.Id });
+            return this.RedirectToAction(nameof(this.ById), new { id = input.Id, name = input.Url });
         }
     }
 }

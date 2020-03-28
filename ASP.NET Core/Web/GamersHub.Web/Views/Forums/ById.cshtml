@@ -3,12 +3,18 @@
     ViewData["Title"] = Model.Name;
 }
 
-<div class="d-inline-block ">
-    <h1 class="display-3">@Model.Name</h1>
+<div class="d-inline-block">
+    <a asp-controller="Forums" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Back to Forums</a>
 </div>
+
 <div class="d-inline-block float-right">
     <a asp-controller="Posts" asp-action="Create" type="submit" class="btn btn-primary btn-lg">+ New Post</a>
 </div>
+
+<div class="d-block">
+    <h1 class="display-3">@Model.Name</h1>
+</div>
+
 <hr/>
 <div class="row row-cols-1 row-cols-md-3 list-group list-group-horizontal">
     @foreach (var category in Model.ForumCategories)

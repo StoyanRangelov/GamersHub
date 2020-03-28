@@ -1,10 +1,21 @@
 ﻿@using GamersHub.Common
 @model GamersHub.Web.ViewModels.Posts.PostByIdViewModel
+@{
+    ViewData["Title"] = "Post";
+}
+<div class="d-inline-block">
+    <a asp-controller="Forums" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Back to Forums</a>
+</div>
 
-<div class="d-inline-block ">
+<div class="d-inline-block float-right">
+    <a asp-controller="Replies" asp-action="Create" asp-route-id="@Model.Id" type="submit" class="btn btn-primary btn-lg">Post a Reply</a>
+</div>
+
+<div class="d-block">
     <h2 class="display-3">@Model.ForumName</h2>
     <h2>@Model.CategoryName</h2>
 </div>
+
 <hr/>
 <div class="card">
     <div class="card-header">
@@ -28,6 +39,10 @@
             <span class="float-right"><i class="fas fa-calendar-alt"></i> Last Modified: @Model.ModifiedOn.Value.ToString("MM/dd/yyyy hh:mm tt")</span>
         }
     </div>
+</div>
+
+<div class="d-block">
+    <h2>Replies</h2>
 </div>
 
 @foreach (var reply in Model.Replies)

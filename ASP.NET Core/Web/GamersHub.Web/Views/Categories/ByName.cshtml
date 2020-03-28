@@ -2,14 +2,19 @@
 @{
     ViewData["Title"] = $"{Model.ForumName} - {Model.CategoryName}";
 }
-
-<div class="d-inline-block ">
-    <h2 class="display-3">@Model.ForumName</h2>
-    <h2>@Model.CategoryName</h2>
+<div class="d-inline-block">
+    <a asp-controller="Forums" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Back to Forums</a>
 </div>
+
 <div class="d-inline-block float-right">
     <a asp-controller="Posts" asp-action="Create" type="submit" class="btn btn-primary btn-lg">+ New Post</a>
 </div>
+<div class="d-block">
+    <h2 class="display-3">@Model.ForumName</h2>
+    <h2>@Model.CategoryName</h2>
+</div>
+
+
 <hr/>
 
 <table class="table table-hover">

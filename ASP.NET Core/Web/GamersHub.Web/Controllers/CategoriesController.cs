@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GamersHub.Web.Controllers
 {
-    [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
+    [Authorize]
     public class CategoriesController : BaseController
     {
         private readonly ICategoriesService categoriesService;
@@ -19,6 +19,7 @@ namespace GamersHub.Web.Controllers
             this.categoriesService = categoriesService;
         }
 
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult Index()
         {
             var categories = this.categoriesService

@@ -1,1 +1,25 @@
-﻿@model GamersHub.Web.ViewModels.Posts.ReplyInPostViewModel
+﻿@using GamersHub.Common
+@model GamersHub.Web.ViewModels.Posts.ReplyInPostViewModel
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="d-inline">@Model.UserUsername</h5>
+        <h5 class="float-right">User Publications: @Model.Publications</h5>
+    </div>
+    <div class="card-body">
+        <p class="card-text">@Model.Content</p>
+        @if (this.User.Identity.Name == this.Model.UserUsername ||
+             this.User.IsInRole(GlobalConstants.AdministratorRoleName) ||
+             this.User.IsInRole(GlobalConstants.ModeratorRoleName))
+        {
+            <a asp-controller="Replies" asp-action="Edit" asp-route-id="@Model.Id" class="d-inline-block float-right btn btn-warning" type="submit">Edit</a>
+        }
+    </div>
+    <div class="card-footer">
+        <span class="d-inline"><i class="fas fa-calendar-alt"></i> Created On: @Model.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")</span>
+        @if (Model.ModifiedOn != null)
+        {
+            <span class="float-right"><i class="fas fa-calendar-alt"></i> Last Modified: @Model.ModifiedOn.Value.ToString("MM/dd/yyyy hh:mm tt")</span>
+        }
+    </div>
+</div>
