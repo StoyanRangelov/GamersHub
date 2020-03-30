@@ -5,8 +5,9 @@ using Ganss.XSS;
 
 namespace GamersHub.Web.ViewModels.Replies
 {
-    public class ReplyCreateInputModel : IMapFrom<Reply>
+    public class ReplyCreateViewModel : IMapFrom<Reply>
     {
+
         [Required]
         public string Content { get; set; }
 
@@ -14,6 +15,6 @@ namespace GamersHub.Web.ViewModels.Replies
 
         public string PostUrl { get; set; }
 
-        public ReplyPostCreateViewModel Post { get; set; }
+        public ReplyPostViewModel Post { get; set; }
     }
 }

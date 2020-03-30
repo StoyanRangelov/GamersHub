@@ -38,5 +38,32 @@ namespace GamersHub.Services.Data
 
             return reply.Id;
         }
+
+        public async Task<int> EditAsync(int id, string content)
+        {
+            var reply = this.repliesRepository.All()
+                .FirstOrDefault(x => x.Id == id);
+
+            if (reply == null)
+            {
+                return 0;
+            }
+
+            reply.Content = content;
+
+            this.repliesRepository.Update(reply);
+            await this.repliesRepository.SaveChangesAsync();
+
+            return reply.Id;
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var reply = this.repliesRepository.All()
+                .FirstOrDefault(x => x.Id == id);
+
+            this.repliesRepository.Delete(reply);
+            await this.repliesRepository.SaveChangesAsync();
+        }
     }
 }

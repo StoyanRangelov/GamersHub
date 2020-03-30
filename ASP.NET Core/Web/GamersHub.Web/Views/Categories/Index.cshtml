@@ -27,7 +27,7 @@
     <tbody>
     @foreach (var category in Model.Categories)
     {
-        @await Html.PartialAsync("_CategoriesIndexPartial", category);
+        @await Html.PartialAsync("_CategoriesIndexPartial", category)
     }
     </tbody>
 </table>

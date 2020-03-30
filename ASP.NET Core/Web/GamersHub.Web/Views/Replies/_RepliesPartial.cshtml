@@ -1,5 +1,15 @@
-﻿@using GamersHub.Common
-@model GamersHub.Web.ViewModels.Posts.ReplyInPostViewModel
+﻿@model GamersHub.Web.ViewModels.Replies.ReplyPostViewModel
+
+<div class="d-block">
+    <h2 class="display-3">@Model.ForumName</h2>
+    <h2>@Model.CategoryName</h2>
+</div>
+
+<hr/>
+
+<div class="d-block">
+    <h2>Post</h2>
+</div>
 
 <div class="card">
     <div class="card-header">
@@ -7,15 +17,8 @@
         <h5 class="float-right">User Publications: @Model.Publications</h5>
     </div>
     <div class="card-body">
+        <h5 class="card-title">@Model.Name</h5>
         <p class="card-text">@Html.Raw(Model.SanitizedContent)</p>
-        @if (this.User.Identity.Name == this.Model.UserUsername ||
-             this.User.IsInRole(GlobalConstants.AdministratorRoleName) ||
-             this.User.IsInRole(GlobalConstants.ModeratorRoleName))
-        {
-            <a asp-controller="Replies" asp-action="Delete" asp-route-id="@Model.Id" class="d-inline-block float-right m-1 btn btn-lg btn-danger" type="submit">Delete</a>
-            <a asp-controller="Replies" asp-action="Edit" asp-route-id="@Model.Id" class="d-inline-block float-right m-1 btn btn-lg btn-warning" type="submit">Edit</a>
-
-        }
     </div>
     <div class="card-footer">
         <span class="d-inline"><i class="fas fa-calendar-alt"></i> Created On: @Model.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")</span>
@@ -24,4 +27,10 @@
             <span class="float-right"><i class="fas fa-calendar-alt"></i> Last Modified: @Model.ModifiedOn.Value.ToString("MM/dd/yyyy hh:mm tt")</span>
         }
     </div>
+</div>
+
+<hr/>
+
+<div class="d-block">
+    <h2>@ViewData["Title"]</h2>
 </div>

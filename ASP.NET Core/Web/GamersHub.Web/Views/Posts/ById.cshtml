@@ -29,7 +29,7 @@
              this.User.IsInRole(GlobalConstants.AdministratorRoleName) ||
              this.User.IsInRole(GlobalConstants.ModeratorRoleName))
         {
-            <a asp-controller="Posts" asp-action="Edit" asp-route-id="@Model.Id" class="d-inline-block float-right btn btn-warning" type="submit">Edit</a>
+            <a asp-controller="Posts" asp-action="Edit" asp-route-id="@Model.Id" class="d-inline-block float-right m-1 btn btn-lg btn-warning" type="submit">Edit</a>
         }
     </div>
     <div class="card-footer">
@@ -48,5 +48,5 @@
 @foreach (var reply in Model.Replies)
 {
     <hr/>
-    @await Html.PartialAsync("_PostsRepliesPartial", reply);
+    @await Html.PartialAsync("_PostsRepliesPartial", reply)
 }

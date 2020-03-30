@@ -1,1 +1,37 @@
-﻿
+﻿@model GamersHub.Web.ViewModels.Replies.ReplyEditViewModel
+@{
+    ViewData["Title"] = "Edit Reply";
+}
+
+@await Html.PartialAsync("_RepliesPartial", Model.Post, ViewData)
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-controller="Replies" asp-action="Edit" method="post">
+            <div class="form-group">
+                <label asp-for="Content"></label>
+                <textarea asp-for="Content" class="form-control" rows="20"></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="PostId" value="@Model.Post.Id"/>
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="PostUrl" value="@Model.Post.Url"/>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-primary btn-lg"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/lib/tinymce/tinymce.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    tinymce.init({
+        selector: "textarea",
+        plugins: [
+            "image paste table link code media"
+        ]
+    });
+</script>

@@ -1,49 +1,9 @@
-﻿@using GamersHub.Common
-@model GamersHub.Web.ViewModels.Replies.ReplyCreateInputModel
+﻿@model GamersHub.Web.ViewModels.Replies.ReplyCreateViewModel
 @{
     ViewData["Title"] = "Post a Reply";
 }
 
-<div class="d-block">
-    <h2 class="display-3">@Model.Post.ForumName</h2>
-    <h2>@Model.Post.CategoryName</h2>
-</div>
-
-<hr/>
-
-<div class="d-block">
-    <h2>Post</h2>
-</div>
-
-<div class="card">
-    <div class="card-header">
-        <h5 class="d-inline">@Model.Post.UserUsername</h5>
-        <h5 class="float-right">User Publications: @Model.Post.Publications</h5>
-    </div>
-    <div class="card-body">
-        <h5 class="card-title">@Model.Post.Name</h5>
-        <p class="card-text">@Html.Raw(Model.Post.SanitizedContent)</p>
-        @if (this.User.Identity.Name == this.Model.Post.UserUsername ||
-             this.User.IsInRole(GlobalConstants.AdministratorRoleName) ||
-             this.User.IsInRole(GlobalConstants.ModeratorRoleName))
-        {
-            <a asp-controller="Posts" asp-action="Edit" asp-route-id="@Model.Post.Id" class="d-inline-block float-right btn btn-warning" type="submit">Edit</a>
-        }
-    </div>
-    <div class="card-footer">
-        <span class="d-inline"><i class="fas fa-calendar-alt"></i> Created On: @Model.Post.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")</span>
-        @if (Model.Post.ModifiedOn != null)
-        {
-            <span class="float-right"><i class="fas fa-calendar-alt"></i> Last Modified: @Model.Post.ModifiedOn.Value.ToString("MM/dd/yyyy hh:mm tt")</span>
-        }
-    </div>
-</div>
-
-<hr/>
-
-<div class="d-block">
-    <h2>Reply</h2>
-</div>
+@await Html.PartialAsync("_RepliesPartial", Model.Post, ViewData)
 
 <div class="row">
     <div class="col-md-12">

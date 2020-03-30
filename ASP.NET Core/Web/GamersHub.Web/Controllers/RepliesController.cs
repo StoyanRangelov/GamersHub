@@ -26,9 +26,14 @@ namespace GamersHub.Web.Controllers
 
         public IActionResult Create(int id)
         {
-            var post = this.postsService.GetById<ReplyPostCreateViewModel>(id);
+            var post = this.postsService.GetById<ReplyPostViewModel>(id);
 
-            var viewModel = new ReplyCreateInputModel
+            if (post == null)
+            {
+                return this.NotFound();
+            }
+
+            var viewModel = new ReplyCreateViewModel
             {
                 Post = post,
             };
@@ -37,7 +42,7 @@ namespace GamersHub.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ReplyCreateInputModel input)
+        public async Task<IActionResult> Create(ReplyCreateViewModel input)
         {
             if (!this.ModelState.IsValid)
             {
@@ -54,14 +59,53 @@ namespace GamersHub.Web.Controllers
 
         public IActionResult Edit(int id)
         {
-            var viewModel = this.repliesService.GetById<ReplyInputModel>(id);
+            var viewModel = this.repliesService.GetById<ReplyEditViewModel>(id);
+
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
 
             return this.View(viewModel);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Edit(ReplyEditViewModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
+            var replyId = await this.repliesService.EditAsync(input.Id, input.Content);
+
+            if (replyId == 0)
+            {
+                return this.NotFound();
+            }
+
+            return this.RedirectToAction("ById", "Posts", new {id = input.PostId, name = input.PostUrl});
+
+        }
+
         public IActionResult Delete(int id)
         {
-            return this.View();
+            var viewModel = this.repliesService.GetById<ReplyDeleteViewModel>(id);
+
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(ReplyDeleteViewModel input)
+        {
+           await this.repliesService.DeleteAsync(input.Id);
+
+           return this.RedirectToAction("ById", "Posts", new {id = input.PostId, name = input.PostUrl});
         }
     }
 }

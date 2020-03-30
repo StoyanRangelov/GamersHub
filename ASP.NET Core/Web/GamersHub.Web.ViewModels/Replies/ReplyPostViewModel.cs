@@ -6,7 +6,7 @@ using Ganss.XSS;
 
 namespace GamersHub.Web.ViewModels.Replies
 {
-    public class ReplyPostCreateViewModel : IMapFrom<Post>
+    public class ReplyPostViewModel : IMapFrom<Post>
     {
         public int Id { get; set; }
 
