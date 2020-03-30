@@ -7,12 +7,14 @@
         <h5 class="float-right">User Publications: @Model.Publications</h5>
     </div>
     <div class="card-body">
-        <p class="card-text">@Model.Content</p>
+        <p class="card-text">@Html.Raw(Model.SanitizedContent)</p>
         @if (this.User.Identity.Name == this.Model.UserUsername ||
              this.User.IsInRole(GlobalConstants.AdministratorRoleName) ||
              this.User.IsInRole(GlobalConstants.ModeratorRoleName))
         {
-            <a asp-controller="Replies" asp-action="Edit" asp-route-id="@Model.Id" class="d-inline-block float-right btn btn-warning" type="submit">Edit</a>
+            <a asp-controller="Replies" asp-action="Delete" asp-route-id="@Model.Id" class="d-inline-block float-right m-1 btn btn-danger" type="submit">Delete</a>
+            <a asp-controller="Replies" asp-action="Edit" asp-route-id="@Model.Id" class="d-inline-block float-right m-1 btn btn-warning" type="submit">Edit</a>
+
         }
     </div>
     <div class="card-footer">

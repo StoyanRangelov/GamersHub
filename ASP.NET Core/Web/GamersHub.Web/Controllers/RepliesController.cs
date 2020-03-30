@@ -54,6 +54,13 @@ namespace GamersHub.Web.Controllers
 
         public IActionResult Edit(int id)
         {
+            var viewModel = this.repliesService.GetById<ReplyInputModel>(id);
+
+            return this.View(viewModel);
+        }
+
+        public IActionResult Delete(int id)
+        {
             return this.View();
         }
     }

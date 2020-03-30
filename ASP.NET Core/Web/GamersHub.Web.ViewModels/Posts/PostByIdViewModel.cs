@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
+using Ganss.XSS;
 
 namespace GamersHub.Web.ViewModels.Posts
 {
@@ -13,6 +14,8 @@ namespace GamersHub.Web.ViewModels.Posts
         public string Name { get; set; }
 
         public string Content { get; set; }
+
+        public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content);
 
         public DateTime CreatedOn { get; set; }
 

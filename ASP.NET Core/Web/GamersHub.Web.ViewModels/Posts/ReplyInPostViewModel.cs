@@ -1,6 +1,7 @@
 ﻿using System;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
+using Ganss.XSS;
 
 namespace GamersHub.Web.ViewModels.Posts
 {
@@ -9,6 +10,8 @@ namespace GamersHub.Web.ViewModels.Posts
         public int Id { get; set; }
 
         public string Content { get; set; }
+
+        public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content);
 
         public string UserUsername { get; set; }
 

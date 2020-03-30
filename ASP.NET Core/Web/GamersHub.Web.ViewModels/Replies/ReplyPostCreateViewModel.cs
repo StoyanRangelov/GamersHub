@@ -2,6 +2,7 @@
 using GamersHub.Common;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
+using Ganss.XSS;
 
 namespace GamersHub.Web.ViewModels.Replies
 {
@@ -14,6 +15,8 @@ namespace GamersHub.Web.ViewModels.Replies
         public string Url => UrlParser.ParseToUrl(this.Name);
 
         public string Content { get; set; }
+
+        public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content);
 
         public DateTime CreatedOn { get; set; }
 
