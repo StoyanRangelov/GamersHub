@@ -1,0 +1,53 @@
+﻿@using GamersHub.Common
+@using System.Linq
+@model GamersHub.Web.ViewModels.Administration.Categories.CategoryIndexViewModel
+@{
+    ViewData["Title"] = "Administration - Categories";
+}
+
+@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+{
+    <div class="d-inline-block">
+        <a asp-area="Administration" asp-controller="Dashboard" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Back to Dashboard</a>
+    </div>
+    
+    <div class="d-inline-block float-right">
+        <a asp-area="Administration" asp-controller="Categories" asp-action="Create" type="submit" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i>&nbsp; New Category</a>
+    </div>
+
+    <div class="text-center ">
+        <h1 class="display-4">@this.ViewData["Title"]</h1>
+    </div>
+    <hr/>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Forums</th>
+            <th scope="col">Posts</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var category in Model.Categories
+            .OrderByDescending(x => x.PostsCount)
+            .ThenByDescending(x => x.CategoryForumsCount))
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>@category.ShortDescription</td>
+                <td>@category.CategoryForumsCount</td>
+                <td>@category.PostsCount</td>
+                <td>
+                    <a asp-area="Administration" asp-controller="Categories" asp-action="Edit" asp-route-id="@category.Id" class="d-inline-block btn btn-warning" type="submit">Edit</a>
+                </td>
+                <td>
+                    <a asp-area="Administration" asp-controller="Categories" asp-action="Delete" asp-route-id="@category.Id" class="d-inline-block btn btn-danger" type="submit">Delete</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

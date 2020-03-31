@@ -51,6 +51,11 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             return this.RedirectToAction(nameof(this.Index));
         }
 
+        public IActionResult Edit(int id)
+        {
+            return this.View();
+        }
+
         public IActionResult Delete(int id)
         {
             var viewModel = this.forumsService.GetById<ForumDeleteViewModel>(id);

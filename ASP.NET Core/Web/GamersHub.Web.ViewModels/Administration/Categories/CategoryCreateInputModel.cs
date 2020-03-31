@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 using GamersHub.Common;
 
-namespace GamersHub.Web.ViewModels.Categories
+namespace GamersHub.Web.ViewModels.Administration.Categories
 {
    public class CategoryCreateInputModel
     {

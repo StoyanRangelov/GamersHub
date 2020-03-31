@@ -19,8 +19,8 @@ namespace GamersHub.Web.ViewModels.Forums
         public string Url => UrlParser.ParseToUrl(this.Name);
 
         public string ShortName =>
-            this.Name?.Length > 40
-                ? this.Name?.Substring(0, 40) + "..."
+            this.Name?.Length > 60
+                ? this.Name?.Substring(0, 60) + "..."
                 : this.Name;
 
         public string CategoryName { get; set; }

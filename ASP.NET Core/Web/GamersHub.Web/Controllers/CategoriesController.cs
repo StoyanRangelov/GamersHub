@@ -19,19 +19,6 @@ namespace GamersHub.Web.Controllers
             this.categoriesService = categoriesService;
         }
 
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult Index()
-        {
-            var categories = this.categoriesService
-                .GetAll<CategoryViewModel>()
-                .OrderByDescending(x => x.PostsCount)
-                .ThenByDescending(x => x.CategoryForumsCount);
-
-            var viewModel = new CategoryIndexViewModel {Categories = categories};
-
-            return this.View(viewModel);
-        }
-
         public IActionResult ByName(string name, int id)
         {
             var viewModel = this.categoriesService.GetByNameAndForumId(name, id);
@@ -42,32 +29,6 @@ namespace GamersHub.Web.Controllers
             }
 
             return this.View(viewModel);
-        }
-
-
-        public IActionResult Create()
-        {
-            return this.View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(CategoryCreateInputModel inputModel)
-        {
-            var categoryId = await this.categoriesService.CreateAsync(inputModel.Name, inputModel.Description);
-
-            if (categoryId == 0)
-            {
-                this.ModelState.AddModelError(
-                    nameof(inputModel.Name),
-                    string.Format(GlobalConstants.CategoryNameAlreadyExistsErrorMessage, inputModel.Name));
-            }
-
-            if (!this.ModelState.IsValid)
-            {
-                return this.View(inputModel);
-            }
-
-            return this.RedirectToAction(nameof(this.Index));
         }
     }
 }
