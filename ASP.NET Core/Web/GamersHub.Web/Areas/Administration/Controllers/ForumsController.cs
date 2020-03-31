@@ -50,5 +50,20 @@ namespace GamersHub.Web.Areas.Administration.Controllers
 
             return this.RedirectToAction(nameof(this.Index));
         }
+
+        public IActionResult Delete(int id)
+        {
+            var viewModel = this.forumsService.GetById<ForumDeleteViewModel>(id);
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(ForumDeleteViewModel input)
+        {
+            await this.forumsService.DeleteAsync(input.Id);
+
+            return this.RedirectToAction(nameof(this.Index));
+        }
     }
 }

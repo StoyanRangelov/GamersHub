@@ -64,6 +64,15 @@ namespace GamersHub.Services.Data
             return forum.Id;
         }
 
+        public async Task DeleteAsync(int id)
+        {
+            var reply = this.forumsRepository.All()
+                .FirstOrDefault(x => x.Id == id);
+
+            this.forumsRepository.Delete(reply);
+            await this.forumsRepository.SaveChangesAsync();
+        }
+
         private bool CheckIfExistsByName(string name)
         {
             bool alreadyExists = false;

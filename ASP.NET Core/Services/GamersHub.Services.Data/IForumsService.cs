@@ -11,5 +11,7 @@ namespace GamersHub.Services.Data
         T GetById<T>(int id);
 
         Task<int> CreateAsync(string name);
+
+        Task DeleteAsync(int id);
     }
 }
