@@ -4,6 +4,7 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using GamersHub.Common;
 using GamersHub.Services.Data;
+using GamersHub.Web.ViewModels.Administration.Forums;
 using GamersHub.Web.ViewModels.Forums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -43,33 +44,6 @@ namespace GamersHub.Web.Controllers
             }
 
             return this.View(viewModel);
-        }
-
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public IActionResult Create()
-        {
-            return this.View();
-        }
-
-        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        [HttpPost]
-        public async Task<IActionResult> Create(ForumCreateInputModel inputModel)
-        {
-            var forumId = await this.forumsService.CreateAsync(inputModel.Name);
-
-            if (forumId == 0)
-            {
-                this.ModelState.AddModelError(
-                    string.Empty,
-                    string.Format(GlobalConstants.ForumNameAlreadyExistsErrorMessage, inputModel.Name));
-            }
-
-            if (!this.ModelState.IsValid)
-            {
-                return this.View(inputModel);
-            }
-
-            return this.RedirectToAction(nameof(this.Index));
         }
     }
 }

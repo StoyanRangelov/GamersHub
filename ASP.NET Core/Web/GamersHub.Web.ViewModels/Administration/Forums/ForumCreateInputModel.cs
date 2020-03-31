@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using GamersHub.Common;
 
-namespace GamersHub.Web.ViewModels.Forums
+namespace GamersHub.Web.ViewModels.Administration.Forums
 {
     public class ForumCreateInputModel
     {
