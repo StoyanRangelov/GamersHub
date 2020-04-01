@@ -29,7 +29,7 @@
 <tbody>
  @foreach (var post in Model.CategoryPosts.OrderByDescending(x=>x.CreatedOn))
     {
-        @await Html.PartialAsync("_CategoriesByNamePartial", post)
+        <partial name="_CategoriesByNamePartial" model="post"/>
     }
 </tbody>
 </table>

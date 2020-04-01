@@ -3,7 +3,7 @@
     ViewData["Title"] = "Post a Reply";
 }
 
-@await Html.PartialAsync("_RepliesPartial", Model.Post, ViewData)
+<partial name="_RepliesPartial" model="Model.Post" view-data="ViewData"/>
 
 <div class="row">
     <div class="col-md-12">

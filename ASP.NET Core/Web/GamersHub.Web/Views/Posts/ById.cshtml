@@ -48,5 +48,5 @@
 @foreach (var reply in Model.Replies)
 {
     <hr/>
-    @await Html.PartialAsync("_PostsRepliesPartial", reply)
+    <partial name="_PostsRepliesPartial" model="reply"/>
 }

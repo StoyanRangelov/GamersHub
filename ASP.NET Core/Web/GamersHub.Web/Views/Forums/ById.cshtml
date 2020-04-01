@@ -38,7 +38,7 @@
     <tbody>
     @foreach (var post in Model.Posts.OrderByDescending(x=>x.CreatedOn))
     {
-        @await Html.PartialAsync("_ForumsByIdPartial", post)
+        <partial name="_ForumsByIdPartial" model="post"/>
     }
     </tbody>
 </table>
