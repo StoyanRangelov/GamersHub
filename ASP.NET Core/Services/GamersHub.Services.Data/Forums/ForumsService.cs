@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
+using GamersHub.Services.Data.ForumCategories;
+using GamersHub.Services.Data.Posts;
 using GamersHub.Services.Mapping;
 
 namespace GamersHub.Services.Data.Forums
@@ -10,10 +12,18 @@ namespace GamersHub.Services.Data.Forums
     public class ForumsService : IForumsService
     {
         private readonly IDeletableEntityRepository<Forum> forumsRepository;
+        private readonly IDeletableEntityRepository<Post> postsRepository;
+        private readonly IRepository<ForumCategory> forumCategoriesRepository;
+       
 
-        public ForumsService(IDeletableEntityRepository<Forum> forumsRepository)
+        public ForumsService(
+            IDeletableEntityRepository<Forum> forumsRepository,
+            IDeletableEntityRepository<Post> postsRepository,
+            IRepository<ForumCategory> forumCategoriesRepository)
         {
             this.forumsRepository = forumsRepository;
+            this.postsRepository = postsRepository;
+            this.forumCategoriesRepository = forumCategoriesRepository;
         }
 
         public IEnumerable<T> GetAll<T>(int? count = null)
@@ -34,37 +44,6 @@ namespace GamersHub.Services.Data.Forums
                 .To<T>().FirstOrDefault();
 
             return forum;
-        }
-
-        public async Task AddForumCategoryIfCategoryDoesNotExist(int forumId, int categoryId)
-        {
-            var forum = this.forumsRepository
-                .All()
-                .FirstOrDefault(x => x.Id == forumId);
-
-            if (forum == null)
-            {
-                return;
-            }
-
-            var forumCategoryExists = forum.ForumCategories
-                .Select(fc => fc.CategoryId).Contains(categoryId);
-
-            if (forumCategoryExists)
-            {
-                return;
-            }
-
-            var forumCategory = new ForumCategory
-            {
-                ForumId = forumId,
-                CategoryId = categoryId,
-            };
-
-            forum.ForumCategories.Add(forumCategory);
-
-            this.forumsRepository.Update(forum);
-            await this.forumsRepository.SaveChangesAsync();
         }
 
         public async Task<int> CreateAsync(string name)
@@ -91,6 +70,32 @@ namespace GamersHub.Services.Data.Forums
         {
             var forum = this.forumsRepository.All()
                 .FirstOrDefault(x => x.Id == id);
+
+            if (forum == null)
+            {
+                return;
+            }
+
+            var posts = this.postsRepository.All()
+                .Where(x => x.ForumId == id);
+
+            foreach (var post in posts)
+            {
+                this.postsRepository.Delete(post);
+            }
+
+            await this.postsRepository.SaveChangesAsync();
+
+            var forumCategories = this.forumCategoriesRepository.All()
+                .Where(x => x.ForumId == id).ToList();
+
+            foreach (var forumCategory in forumCategories)
+            {
+                this.forumCategoriesRepository.Delete(forumCategory);
+            }
+
+            await this.forumCategoriesRepository.SaveChangesAsync();
+
 
             this.forumsRepository.Delete(forum);
             await this.forumsRepository.SaveChangesAsync();

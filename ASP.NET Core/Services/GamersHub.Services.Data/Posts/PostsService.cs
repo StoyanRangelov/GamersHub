@@ -11,14 +11,14 @@ namespace GamersHub.Services.Data.Posts
     public class PostsService : IPostsService
     {
         private readonly IDeletableEntityRepository<Post> postsRepository;
-        private readonly IForumsService forumsService;
+        private readonly IDeletableEntityRepository<Forum> forumsRepository;
 
         public PostsService(
             IDeletableEntityRepository<Post> postsRepository,
-            IForumsService forumsService)
+            IDeletableEntityRepository<Forum> forumsRepository)
         {
             this.postsRepository = postsRepository;
-            this.forumsService = forumsService;
+            this.forumsRepository = forumsRepository;
         }
 
         public T GetById<T>(int id)
@@ -39,7 +39,23 @@ namespace GamersHub.Services.Data.Posts
 
         public async Task<int> CreateAsync(int forumId, int categoryId, string name, string content, string userId)
         {
-            await this.forumsService.AddForumCategoryIfCategoryDoesNotExist(forumId, categoryId);
+            var forum = this.forumsRepository
+                .All()
+                .First(x => x.Id == forumId);
+
+            if (!forum.ForumCategories.Select(fc => fc.CategoryId).Contains(categoryId))
+            {
+                var forumCategory = new ForumCategory
+                {
+                    ForumId = forumId,
+                    CategoryId = categoryId,
+                };
+
+                forum.ForumCategories.Add(forumCategory);
+
+                this.forumsRepository.Update(forum);
+                await this.forumsRepository.SaveChangesAsync();
+            }
 
             var post = new Post
             {
@@ -67,19 +83,6 @@ namespace GamersHub.Services.Data.Posts
             await this.postsRepository.SaveChangesAsync();
 
             return post.Id;
-        }
-
-        public async Task DeleteAllByCategoryIdAsync(int id)
-        {
-            var posts = this.postsRepository.All()
-                .Where(x => x.CategoryId == id);
-
-            foreach (var post in posts)
-            {
-                this.postsRepository.Delete(post);
-            }
-
-            await this.postsRepository.SaveChangesAsync();
         }
     }
 }

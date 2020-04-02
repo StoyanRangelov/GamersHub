@@ -9,8 +9,6 @@ namespace GamersHub.Services.Data.Forums
 
         T GetById<T>(int id);
 
-        Task AddForumCategoryIfCategoryDoesNotExist(int forumId, int categoryId);
-
         Task<int> CreateAsync(string name);
 
         Task DeleteAsync(int id);

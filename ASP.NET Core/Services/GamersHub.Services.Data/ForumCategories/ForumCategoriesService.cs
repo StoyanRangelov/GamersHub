@@ -24,18 +24,5 @@ namespace GamersHub.Services.Data.ForumCategories
 
             return forumCategory;
         }
-
-        public async Task DeleteAllByCategoryIdAsync(int id)
-        {
-            var categoryForums = this.forumCategoriesRepository.All()
-                .Where(x => x.Category.Id == id).ToList();
-
-            foreach (var categoryForum in categoryForums)
-            {
-                this.forumCategoriesRepository.Delete(categoryForum);
-            }
-
-            await this.forumCategoriesRepository.SaveChangesAsync();
-        }
     }
 }

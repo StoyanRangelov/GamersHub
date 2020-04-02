@@ -73,11 +73,11 @@ namespace GamersHub.Web
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
             services.AddTransient<ISettingsService, SettingsService>();
-            services.AddTransient<IForumsService, ForumsService>();
+            services.AddTransient<IForumCategoriesService, ForumCategoriesService>();
             services.AddTransient<IPostsService, PostsService>();
+            services.AddTransient<IForumsService, ForumsService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<IRepliesService, RepliesService>();
-            services.AddTransient<IForumCategoriesService, ForumCategoriesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

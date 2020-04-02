@@ -14,17 +14,17 @@ namespace GamersHub.Services.Data.Categories
     public class CategoriesService : ICategoriesService
     {
         private readonly IDeletableEntityRepository<Category> categoriesRepository;
-        private readonly IForumCategoriesService forumCategoriesService;
-        private readonly IPostsService postsService;
+        private readonly IDeletableEntityRepository<Post> postsRepository;
+        private readonly IRepository<ForumCategory> forumCategoriesRepository;
 
         public CategoriesService(
             IDeletableEntityRepository<Category> categoriesRepository,
-            IPostsService postsService,
-            IForumCategoriesService forumCategoriesService)
+            IDeletableEntityRepository<Post> postsRepository,
+            IRepository<ForumCategory> forumCategoriesRepository)
         {
             this.categoriesRepository = categoriesRepository;
-            this.postsService = postsService;
-            this.forumCategoriesService = forumCategoriesService;
+            this.postsRepository = postsRepository;
+            this.forumCategoriesRepository = forumCategoriesRepository;
         }
 
         public IEnumerable<T> GetAll<T>(int? count = null)
@@ -78,8 +78,25 @@ namespace GamersHub.Services.Data.Categories
                 return;
             }
 
-            await this.postsService.DeleteAllByCategoryIdAsync(category.Id);
-            await this.forumCategoriesService.DeleteAllByCategoryIdAsync(category.Id);
+            var posts = this.postsRepository.All()
+                .Where(x => x.CategoryId == id);
+
+            foreach (var post in posts)
+            {
+                this.postsRepository.Delete(post);
+            }
+
+            await this.postsRepository.SaveChangesAsync();
+
+            var categoryForums = this.forumCategoriesRepository.All()
+                .Where(x => x.CategoryId == id).ToList();
+
+            foreach (var categoryForum in categoryForums)
+            {
+                this.forumCategoriesRepository.Delete(categoryForum);
+            }
+
+            await this.forumCategoriesRepository.SaveChangesAsync();
 
             this.categoriesRepository.Delete(category);
             await this.categoriesRepository.SaveChangesAsync();
