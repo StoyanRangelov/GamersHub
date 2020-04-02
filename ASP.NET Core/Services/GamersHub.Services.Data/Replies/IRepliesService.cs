@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace GamersHub.Services.Data
+namespace GamersHub.Services.Data.Replies
 {
     public interface IRepliesService
     {

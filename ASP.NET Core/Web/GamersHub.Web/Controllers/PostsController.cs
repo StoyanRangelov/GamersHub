@@ -2,6 +2,9 @@
 using GamersHub.Common;
 using GamersHub.Data.Models;
 using GamersHub.Services.Data;
+using GamersHub.Services.Data.Categories;
+using GamersHub.Services.Data.Forums;
+using GamersHub.Services.Data.Posts;
 using GamersHub.Web.ViewModels.Posts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

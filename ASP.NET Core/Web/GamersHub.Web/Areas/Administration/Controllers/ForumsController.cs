@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using GamersHub.Common;
 using GamersHub.Services.Data;
+using GamersHub.Services.Data.Forums;
 using GamersHub.Web.ViewModels.Administration.Forums;
 using Microsoft.AspNetCore.Mvc;
 
@@ -59,6 +60,11 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         public IActionResult Delete(int id)
         {
             var viewModel = this.forumsService.GetById<ForumDeleteViewModel>(id);
+
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
 
             return this.View(viewModel);
         }

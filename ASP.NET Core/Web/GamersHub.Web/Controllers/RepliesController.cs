@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 using GamersHub.Data.Models;
 using GamersHub.Services.Data;
+using GamersHub.Services.Data.Posts;
+using GamersHub.Services.Data.Replies;
 using GamersHub.Web.ViewModels.Posts;
 using GamersHub.Web.ViewModels.Replies;
 using Microsoft.AspNetCore.Authorization;

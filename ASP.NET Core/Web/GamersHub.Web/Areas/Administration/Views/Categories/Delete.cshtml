@@ -1,7 +1,7 @@
 ﻿@using GamersHub.Common
-@model GamersHub.Web.ViewModels.Administration.Forums.ForumDeleteViewModel
+@model GamersHub.Web.ViewModels.Administration.Categories.CategoryDeleteViewModel
 @{
-    ViewData["Title"] = "Delete Forum";
+    ViewData["Title"] = "Delete Category";
 }
 
 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
@@ -11,7 +11,7 @@
     </div>
     <hr/>
     <div class="d-block">
-        <h2>You are about to delete the following Forum:</h2>
+        <h2>You are about to delete the following Category:</h2>
     </div>
 
     <div class="row">
@@ -21,19 +21,19 @@
                     <h5 class="card-title">@Model.Name</h5>
                     <p class="card-text">Total Posts: @Model.PostsCount</p>
                     <div class="card-header">
-                        Categories
-                        <span class="badge badge-primary float-right">@Model.ForumCategoriesCount</span>
+                        Forums
+                        <span class="badge badge-primary float-right">@Model.CategoryForumsCount</span>
                     </div>
                     <ul class="list-group list-group-flush">
-                        @if (!Model.ForumCategories.Any())
+                        @if (!Model.CategoryForums.Any())
                         {
                             <li class="list-group-item">None</li>
                         }
                         else
                         {
-                            @foreach (var category in Model.ForumCategories)
+                            @foreach (var category in Model.CategoryForums)
                             {
-                                <li class="list-group-item">@category.CategoryName</li>
+                                <li class="list-group-item">@category.ForumName</li>
                             }
                         }
                     </ul>
@@ -42,13 +42,13 @@
         </div>
     </div>
 
-    <form class="d-inline-block m-1" asp-area="Administration" asp-controller="Forums" asp-action="Delete" method="post">
+    <form class="d-inline-block m-1" asp-area="Administration" asp-controller="Categories" asp-action="Delete" method="post">
         <div class="form-group">
             <input type="submit" value="Delete" class="btn btn-danger btn-lg"/>
         </div>
     </form>
 
     <div class="d-inline-block m-1">
-        <a asp-area="Administration" asp-controller="Forums" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Cancel</a>
+        <a asp-area="Administration" asp-controller="Categories" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Cancel</a>
     </div>
 }

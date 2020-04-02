@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using GamersHub.Common;
 using GamersHub.Services.Data;
+using GamersHub.Services.Data.Categories;
 using GamersHub.Web.ViewModels.Administration.Categories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -47,6 +48,26 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             {
                 return this.View(inputModel);
             }
+
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var viewModel = this.categoriesService.GetById<CategoryDeleteViewModel>(id);
+
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(CategoryDeleteViewModel input)
+        {
+            await this.categoriesService.DeleteAsync(input.Id);
 
             return this.RedirectToAction(nameof(this.Index));
         }

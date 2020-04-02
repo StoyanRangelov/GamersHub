@@ -4,6 +4,8 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using GamersHub.Common;
 using GamersHub.Services.Data;
+using GamersHub.Services.Data.Categories;
+using GamersHub.Services.Data.Forums;
 using GamersHub.Web.ViewModels.Administration.Forums;
 using GamersHub.Web.ViewModels.Forums;
 using Microsoft.AspNetCore.Authorization;

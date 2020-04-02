@@ -1,4 +1,4 @@
-﻿namespace GamersHub.Services.Data
+﻿namespace GamersHub.Services.Data.ForumCategories
 {
     public interface IForumCategoriesService
     {

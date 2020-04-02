@@ -3,7 +3,7 @@ using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
 
-namespace GamersHub.Services.Data
+namespace GamersHub.Services.Data.ForumCategories
 {
     public class ForumCategoriesService : IForumCategoriesService
     {

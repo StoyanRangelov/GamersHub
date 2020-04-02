@@ -1,4 +1,9 @@
-﻿using GamersHub.Web.Infrastructure;
+﻿using GamersHub.Services.Data.Categories;
+using GamersHub.Services.Data.ForumCategories;
+using GamersHub.Services.Data.Forums;
+using GamersHub.Services.Data.Posts;
+using GamersHub.Services.Data.Replies;
+using GamersHub.Web.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GamersHub.Web

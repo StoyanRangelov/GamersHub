@@ -1,23 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GamersHub.Common;
 using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
+using GamersHub.Services.Data.Posts;
 using GamersHub.Services.Mapping;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
-namespace GamersHub.Services.Data
+namespace GamersHub.Services.Data.Categories
 {
     public class CategoriesService : ICategoriesService
     {
         private readonly IDeletableEntityRepository<Category> categoriesRepository;
+        private readonly IPostsService postsService;
 
-        public CategoriesService(IDeletableEntityRepository<Category> categoriesRepository)
+        public CategoriesService(IDeletableEntityRepository<Category> categoriesRepository, IPostsService postsService)
         {
             this.categoriesRepository = categoriesRepository;
+            this.postsService = postsService;
         }
 
         public IEnumerable<T> GetAll<T>(int? count = null)
@@ -30,6 +31,15 @@ namespace GamersHub.Services.Data
             }
 
             return query.To<T>().ToList();
+        }
+
+        public T GetById<T>(int id)
+        {
+            var category = this.categoriesRepository.All()
+                .Where(x => x.Id == id)
+                .To<T>().FirstOrDefault();
+
+            return category;
         }
 
         public async Task<int> CreateAsync(string name, string description)
@@ -51,6 +61,26 @@ namespace GamersHub.Services.Data
             await this.categoriesRepository.SaveChangesAsync();
 
             return category.Id;
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var category = this.categoriesRepository.All()
+                .Include(x=>x.Posts)
+                .FirstOrDefault(x => x.Id == id);
+
+            if (category == null)
+            {
+                return;
+            }
+
+            foreach (var categoryPost in category.Posts)
+            {
+                await this.postsService.DeleteAsync(categoryPost.Id);
+            }
+
+            this.categoriesRepository.Delete(category);
+            await this.categoriesRepository.SaveChangesAsync();
         }
 
         public string GetNormalisedName(string name)

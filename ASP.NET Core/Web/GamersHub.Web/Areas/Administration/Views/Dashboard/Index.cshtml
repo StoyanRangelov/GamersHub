@@ -1,50 +1,54 @@
-﻿@model GamersHub.Web.ViewModels.Administration.Dashboard.IndexViewModel
+﻿@using GamersHub.Common
+@model GamersHub.Web.ViewModels.Administration.Dashboard.IndexViewModel
 @{
     this.ViewData["Title"] = "Administration dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-3">@this.ViewData["Title"]</h1>
-</div>
-<hr/>
+@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+{
+    <div class="text-center">
+        <h1 class="display-3">@this.ViewData["Title"]</h1>
+    </div>
+    <hr/>
 
-<div class="row row-cols-1 row-cols-md-2">
-    <div class="col mb-4">
-        <div class="card">
-            <div class="card-header">Most Popular Forums
-                <a asp-area="Administration" asp-controller="Forums" asp-action="Index" class="card-link float-right">To Forums</a>
-            </div>
-            <div class="card-body">
-                <ul class="list-group list-group-flush">
-                    @foreach (var forum in Model.Forums)
-                    {
-                        <li class="list-group-item">@forum.Name
-                            <span class="float-right">Posts: @forum.PostsCount</span>
-                        </li>
-                    }
-                </ul>
+    <div class="row row-cols-1 row-cols-md-2">
+        <div class="col mb-4">
+            <div class="card">
+                <div class="card-header">
+                    Most Popular Forums
+                    <a asp-area="Administration" asp-controller="Forums" asp-action="Index" class="card-link float-right">To Forums</a>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var forum in Model.Forums)
+                        {
+                            <li class="list-group-item">
+                                @forum.Name
+                                <span class="float-right">Posts: @forum.PostsCount</span>
+                            </li>
+                        }
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col mb-4">
+        <div class="col mb-4">
             <div class="card">
-                <div class="card-header">Most Popular Categories
+                <div class="card-header">
+                    Most Popular Categories
                     <a asp-area="Administration" asp-controller="Categories" asp-action="Index" class="card-link float-right">To Categories</a>
                 </div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         @foreach (var category in Model.Categories)
                         {
-                            <li class="list-group-item">@category.Name
+                            <li class="list-group-item">
+                                @category.Name
                                 <span class="float-right">Posts: @category.PostsCount</span>
                             </li>
                         }
                     </ul>
-    
                 </div>
             </div>
         </div>
-</div>
-
-
-    
+    </div>
+}

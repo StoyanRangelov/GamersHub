@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace GamersHub.Services.Data
+namespace GamersHub.Services.Data.Posts
 {
     public interface IPostsService
     {
@@ -12,5 +12,7 @@ namespace GamersHub.Services.Data
         Task<int> CreateAsync(int forumId, int categoryId, string name, string content, string userId);
 
         Task<int> Edit(int id, string name, string content);
+
+        Task DeleteAsync(int id);
     }
 }

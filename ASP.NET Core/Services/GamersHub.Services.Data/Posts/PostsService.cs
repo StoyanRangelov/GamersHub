@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
+using GamersHub.Services.Data.Forums;
 using GamersHub.Services.Mapping;
-using Microsoft.EntityFrameworkCore;
 
-namespace GamersHub.Services.Data
+namespace GamersHub.Services.Data.Posts
 {
     public class PostsService : IPostsService
     {
@@ -68,6 +67,15 @@ namespace GamersHub.Services.Data
             await this.postsRepository.SaveChangesAsync();
 
             return post.Id;
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var post = this.postsRepository.All()
+                .FirstOrDefault(x => x.Id == id);
+
+            this.postsRepository.Delete(post);
+            await this.postsRepository.SaveChangesAsync();
         }
     }
 }
