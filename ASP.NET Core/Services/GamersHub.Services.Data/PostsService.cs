@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GamersHub.Data.Common.Repositories;
@@ -26,6 +27,15 @@ namespace GamersHub.Services.Data
             var post = this.postsRepository.All().Where(x => x.Id == id).To<T>().FirstOrDefault();
 
             return post;
+        }
+
+        public IEnumerable<T> GetAllByCategoryNameAndForumId<T>(string name, int id)
+        {
+            var posts = this.postsRepository.All()
+                .Where(x => x.ForumId == id && x.Category.Name == name)
+                .To<T>().ToList();
+
+            return posts;
         }
 
         public async Task<int> CreateAsync(int forumId, int categoryId, string name, string content, string userId)

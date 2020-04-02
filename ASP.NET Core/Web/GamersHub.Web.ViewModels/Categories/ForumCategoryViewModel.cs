@@ -11,11 +11,9 @@ using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace GamersHub.Web.ViewModels.Categories
 {
-    public class CategoryByNameViewModel
+    public class ForumCategoryViewModel
     {
-        public string ForumName { get; set; }
-
-        public string CategoryName { get; set; }
+        public ForumCategoryByNameViewModel ForumCategory { get; set; }
 
         public IEnumerable<PostInCategoryViewModel> CategoryPosts { get; set; }
     }

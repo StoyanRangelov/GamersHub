@@ -16,7 +16,7 @@ namespace GamersHub.Web.ViewModels.Forums
 
         public DateTime CreatedOn { get; set; }
 
-        public string Url => UrlParser.ParseToUrl(this.Name);
+        public string Url => UrlParser.ParseToUrl(this.Name).ToLower();
 
         public string ShortName =>
             this.Name?.Length > 60

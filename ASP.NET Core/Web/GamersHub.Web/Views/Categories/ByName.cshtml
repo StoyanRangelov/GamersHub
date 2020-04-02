@@ -1,6 +1,6 @@
-﻿@model GamersHub.Web.ViewModels.Categories.CategoryByNameViewModel
+﻿@model GamersHub.Web.ViewModels.Categories.ForumCategoryViewModel
 @{
-    ViewData["Title"] = $"{Model.ForumName} - {Model.CategoryName}";
+    ViewData["Title"] = $"{Model.ForumCategory.ForumName} - {Model.ForumCategory.CategoryName}";
 }
 <div class="d-inline-block">
     <a asp-controller="Forums" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Back to Forums</a>
@@ -10,8 +10,8 @@
     <a asp-controller="Posts" asp-action="Create" type="submit" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i>&nbsp; New Post</a>
 </div>
 <div class="d-block">
-    <h2 class="display-3">@Model.ForumName</h2>
-    <h2>@Model.CategoryName</h2>
+    <h2 class="display-3">@Model.ForumCategory.ForumName</h2>
+    <h2>@Model.ForumCategory.CategoryName</h2>
 </div>
 
 

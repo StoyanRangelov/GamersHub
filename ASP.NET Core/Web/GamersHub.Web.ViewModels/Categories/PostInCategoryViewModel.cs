@@ -6,7 +6,7 @@ using GamersHub.Services.Mapping;
 
 namespace GamersHub.Web.ViewModels.Categories
 {
-    public class PostInCategoryViewModel : IMapFrom<Category>
+    public class PostInCategoryViewModel : IMapFrom<Post>
     {
         public int Id { get; set; }
 
@@ -14,14 +14,12 @@ namespace GamersHub.Web.ViewModels.Categories
 
         public DateTime CreatedOn { get; set; }
 
-        public string Url => UrlParser.ParseToUrl(this.Name);
+        public string Url => UrlParser.ParseToUrl(this.Name).ToLower();
 
         public string ShortName =>
             this.Name?.Length > 40
                 ? this.Name?.Substring(0, 40) + "..."
                 : this.Name;
-
-        public string CategoryName { get; set; }
 
         public string UserUsername { get; set; }
 

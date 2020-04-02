@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GamersHub.Web.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GamersHub.Web
 {
@@ -49,7 +50,12 @@ namespace GamersHub.Web
                     });
 
             services.AddControllersWithViews(
-                options => { options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); });
+                options =>
+                {
+                    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                    options.Conventions.Add(new ControllerNameAttributeConvention());
+                });
+
             services.AddRazorPages();
 
             services.AddSingleton(this.configuration);
@@ -66,6 +72,7 @@ namespace GamersHub.Web
             services.AddTransient<IPostsService, PostsService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<IRepliesService, RepliesService>();
+            services.AddTransient<IForumCategoriesService, ForumCategoriesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -14,14 +14,10 @@ namespace GamersHub.Services.Data
     public class ForumsService : IForumsService
     {
         private readonly IDeletableEntityRepository<Forum> forumsRepository;
-        private readonly ICategoriesService categoriesService;
 
-        public ForumsService(
-            IDeletableEntityRepository<Forum> forumsRepository,
-            ICategoriesService categoriesService)
+        public ForumsService(IDeletableEntityRepository<Forum> forumsRepository)
         {
             this.forumsRepository = forumsRepository;
-            this.categoriesService = categoriesService;
         }
 
         public IEnumerable<T> GetAll<T>(int? count = null)
