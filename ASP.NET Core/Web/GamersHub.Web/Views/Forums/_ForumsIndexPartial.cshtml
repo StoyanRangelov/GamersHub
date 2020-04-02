@@ -6,7 +6,7 @@
             <h5 class="card-title">
                 <a asp-controller="Forums" asp-action="@Model.Url" asp-route-id="@Model.Id" class="card-link">@Model.Name</a>
             </h5>
-            <p class="card-text">Total Posts: @Model.PostsCount</p>
+            <p class="card-text">Total Posts: <span class="badge badge-primary">@Model.PostsCount</span></p>
             
             @foreach (var category in Model.ForumCategories)
             {
