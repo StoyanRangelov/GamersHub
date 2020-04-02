@@ -34,10 +34,41 @@ namespace GamersHub.Services.Data
 
         public T GetById<T>(int id)
         {
-           var forum = this.forumsRepository.All().Where(x => x.Id == id)
+            var forum = this.forumsRepository.All().Where(x => x.Id == id)
                 .To<T>().FirstOrDefault();
 
-           return forum;
+            return forum;
+        }
+
+        public async Task AddForumCategoryIfCategoryDoesNotExist(int forumId, int categoryId)
+        {
+            var forum = this.forumsRepository
+                .All()
+                .FirstOrDefault(x => x.Id == forumId);
+
+            if (forum == null)
+            {
+                return;
+            }
+
+            var forumCategoryExists = forum.ForumCategories
+                .Select(fc => fc.CategoryId).Contains(categoryId);
+
+            if (forumCategoryExists)
+            {
+                return;
+            }
+
+            var forumCategory = new ForumCategory
+            {
+                ForumId = forumId,
+                CategoryId = categoryId,
+            };
+
+            forum.ForumCategories.Add(forumCategory);
+
+            this.forumsRepository.Update(forum);
+            await this.forumsRepository.SaveChangesAsync();
         }
 
         public async Task<int> CreateAsync(string name)

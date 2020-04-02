@@ -12,14 +12,14 @@ namespace GamersHub.Services.Data
     public class PostsService : IPostsService
     {
         private readonly IDeletableEntityRepository<Post> postsRepository;
-        private readonly IDeletableEntityRepository<Forum> forumsRepository;
+        private readonly IForumsService forumsService;
 
         public PostsService(
             IDeletableEntityRepository<Post> postsRepository,
-            IDeletableEntityRepository<Forum> forumsRepository)
+            IForumsService forumsService)
         {
             this.postsRepository = postsRepository;
-            this.forumsRepository = forumsRepository;
+            this.forumsService = forumsService;
         }
 
         public T GetById<T>(int id)
@@ -40,23 +40,7 @@ namespace GamersHub.Services.Data
 
         public async Task<int> CreateAsync(int forumId, int categoryId, string name, string content, string userId)
         {
-            var forum = this.forumsRepository.All()
-                .Include(x => x.ForumCategories)
-                .First(x => x.Id == forumId);
-
-            if (!forum.ForumCategories.Select(fc => fc.CategoryId).Contains(categoryId))
-            {
-                var forumCategory = new ForumCategory
-                {
-                    ForumId = forumId,
-                    CategoryId = categoryId,
-                };
-
-                forum.ForumCategories.Add(forumCategory);
-
-                this.forumsRepository.Update(forum);
-                await this.forumsRepository.SaveChangesAsync();
-            }
+            await this.forumsService.AddForumCategoryIfCategoryDoesNotExist(forumId, categoryId);
 
             var post = new Post
             {
