@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using GamersHub.Common;
 using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
+using GamersHub.Services.Data.ForumCategories;
 using GamersHub.Services.Data.Posts;
 using GamersHub.Services.Mapping;
 using Microsoft.EntityFrameworkCore;
@@ -13,12 +14,17 @@ namespace GamersHub.Services.Data.Categories
     public class CategoriesService : ICategoriesService
     {
         private readonly IDeletableEntityRepository<Category> categoriesRepository;
+        private readonly IForumCategoriesService forumCategoriesService;
         private readonly IPostsService postsService;
 
-        public CategoriesService(IDeletableEntityRepository<Category> categoriesRepository, IPostsService postsService)
+        public CategoriesService(
+            IDeletableEntityRepository<Category> categoriesRepository,
+            IPostsService postsService,
+            IForumCategoriesService forumCategoriesService)
         {
             this.categoriesRepository = categoriesRepository;
             this.postsService = postsService;
+            this.forumCategoriesService = forumCategoriesService;
         }
 
         public IEnumerable<T> GetAll<T>(int? count = null)
@@ -65,19 +71,15 @@ namespace GamersHub.Services.Data.Categories
 
         public async Task DeleteAsync(int id)
         {
-            var category = this.categoriesRepository.All()
-                .Include(x=>x.Posts)
-                .FirstOrDefault(x => x.Id == id);
+            var category = this.categoriesRepository.All().FirstOrDefault(x => x.Id == id);
 
             if (category == null)
             {
                 return;
             }
 
-            foreach (var categoryPost in category.Posts)
-            {
-                await this.postsService.DeleteAsync(categoryPost.Id);
-            }
+            await this.postsService.DeleteAllByCategoryIdAsync(category.Id);
+            await this.forumCategoriesService.DeleteAllByCategoryIdAsync(category.Id);
 
             this.categoriesRepository.Delete(category);
             await this.categoriesRepository.SaveChangesAsync();

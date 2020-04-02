@@ -1,4 +1,5 @@
-﻿using GamersHub.Data.Models;
+﻿using AutoMapper;
+using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
 
 namespace GamersHub.Web.ViewModels.Administration.Categories
@@ -19,5 +20,6 @@ namespace GamersHub.Web.ViewModels.Administration.Categories
         public int CategoryForumsCount { get; set; }
 
         public int PostsCount { get; set; }
+       
     }
 }

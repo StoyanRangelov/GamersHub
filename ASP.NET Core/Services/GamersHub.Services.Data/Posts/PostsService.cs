@@ -69,12 +69,16 @@ namespace GamersHub.Services.Data.Posts
             return post.Id;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAllByCategoryIdAsync(int id)
         {
-            var post = this.postsRepository.All()
-                .FirstOrDefault(x => x.Id == id);
+            var posts = this.postsRepository.All()
+                .Where(x => x.CategoryId == id);
 
-            this.postsRepository.Delete(post);
+            foreach (var post in posts)
+            {
+                this.postsRepository.Delete(post);
+            }
+
             await this.postsRepository.SaveChangesAsync();
         }
     }

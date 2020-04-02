@@ -13,6 +13,6 @@ namespace GamersHub.Services.Data.Posts
 
         Task<int> Edit(int id, string name, string content);
 
-        Task DeleteAsync(int id);
+        Task DeleteAllByCategoryIdAsync(int id);
     }
 }
