@@ -1,7 +1,11 @@
-﻿namespace GamersHub.Web.ViewModels.Administration.Dashboard
+﻿using System.Collections.Generic;
+
+namespace GamersHub.Web.ViewModels.Administration.Dashboard
 {
     public class IndexViewModel
     {
-        public int SettingsCount { get; set; }
+        public IEnumerable<ForumDashboardViewModel> Forums { get; set; }
+        
+        public IEnumerable<CategoryDashboardViewModel> Categories { get; set; }
     }
 }
