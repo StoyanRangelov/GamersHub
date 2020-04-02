@@ -11,6 +11,10 @@ namespace GamersHub.Services.Data.Forums
 
         Task<int> CreateAsync(string name);
 
+        Task<int> EditAsync(int id, string name);
+
+        Task<int> EditAsync(int id, string name, int[] categoryIds, bool[] areSelected);
+
         Task DeleteAsync(int id);
     }
 }

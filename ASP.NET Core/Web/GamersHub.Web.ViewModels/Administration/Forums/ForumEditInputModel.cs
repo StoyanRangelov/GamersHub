@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using GamersHub.Common;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
 
 namespace GamersHub.Web.ViewModels.Administration.Forums
 {
-    public class ForumDeleteViewModel : IMapFrom<Forum>
+    public class ForumEditInputModel : IMapFrom<Forum>
     {
-        public int Id { get; set; }
-
+        [Required]
+        [Display(Name ="Name")]
+        [StringLength(60, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 3)]
         public string Name { get; set; }
-
-        public int PostsCount { get; set; }
-
-        public int ForumCategoriesCount { get; set; }
 
         public IEnumerable<CategoryInForumViewModel> ForumCategories { get; set; }
     }

@@ -39,6 +39,15 @@ namespace GamersHub.Services.Data.Categories
             return query.To<T>().ToList();
         }
 
+        public IEnumerable<T> GetAllByForumId<T>(int id)
+        {
+            var categories = this.categoriesRepository.All()
+                .Where(x => x.CategoryForums.Select(x => x.ForumId).All(x => !x.Equals(id)))
+                .To<T>().ToList();
+
+            return categories;
+        }
+
         public T GetById<T>(int id)
         {
             var category = this.categoriesRepository.All()

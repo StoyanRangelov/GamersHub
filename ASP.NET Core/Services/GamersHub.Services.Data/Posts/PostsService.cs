@@ -72,9 +72,14 @@ namespace GamersHub.Services.Data.Posts
             return post.Id;
         }
 
-        public async Task<int> Edit(int id, string name, string content)
+        public async Task<int> EditAsync(int id, string name, string content)
         {
             var post = this.postsRepository.All().FirstOrDefault(x => x.Id == id);
+
+            if (post == null)
+            {
+                return 0;
+            }
 
             post.Name = name;
             post.Content = content;

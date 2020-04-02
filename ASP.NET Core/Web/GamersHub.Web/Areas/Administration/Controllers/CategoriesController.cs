@@ -52,6 +52,18 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             return this.RedirectToAction(nameof(this.Index));
         }
 
+        public IActionResult Edit(int id)
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public IActionResult Edit()
+        {
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
+
         public IActionResult Delete(int id)
         {
             var viewModel = this.categoriesService.GetById<CategoryDeleteViewModel>(id);

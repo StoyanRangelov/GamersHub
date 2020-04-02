@@ -66,6 +66,56 @@ namespace GamersHub.Services.Data.Forums
             return forum.Id;
         }
 
+        public async Task<int> EditAsync(int id, string name)
+        {
+            var forum = this.forumsRepository.All()
+                .FirstOrDefault(x => x.Id == id);
+
+            if (forum == null)
+            {
+                return 0;
+            }
+
+            forum.Name = name;
+
+            this.forumsRepository.Update(forum);
+            await this.forumsRepository.SaveChangesAsync();
+
+            return forum.Id;
+        }
+
+        public async Task<int> EditAsync(int id, string name, int[] categoryIds, bool[] areSelected)
+        {
+            var forum = this.forumsRepository.All()
+                .FirstOrDefault(x => x.Id == id);
+
+            if (forum == null)
+            {
+                return 0;
+            }
+
+            forum.Name = name;
+
+            for (int i = 0; i < categoryIds.Length; i++)
+            {
+                if (areSelected[i])
+                {
+                    var forumCategory = new ForumCategory
+                    {
+                        ForumId = id,
+                        CategoryId = categoryIds[i],
+                    };
+
+                    forum.ForumCategories.Add(forumCategory);
+                }
+            }
+
+            this.forumsRepository.Update(forum);
+            await this.forumsRepository.SaveChangesAsync();
+
+            return forum.Id;
+        }
+
         public async Task DeleteAsync(int id)
         {
             var forum = this.forumsRepository.All()
