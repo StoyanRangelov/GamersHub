@@ -34,11 +34,11 @@ namespace GamersHub.Web.Controllers
         public IActionResult ByName(string name, int id)
         {
             var normalisedName = this.categoriesService.GetNormalisedName(name);
-            
-            var forumCategory = this.forumCategoriesService.GetByNameAndForumId<ForumCategoryByNameViewModel>(normalisedName, id);
-            var cateogryPosts = this.postsService.GetAllByCategoryNameAndForumId<PostInCategoryViewModel>(normalisedName,id);
 
-            if (forumCategory == null || cateogryPosts == null)
+            var forumCategory = this.forumCategoriesService.GetByNameAndForumId<ForumCategoryByNameViewModel>(normalisedName, id);
+            var categoryPosts = this.postsService.GetAllByCategoryNameAndForumId<PostInCategoryViewModel>(normalisedName,id);
+
+            if (forumCategory == null || categoryPosts == null)
             {
                 return this.NotFound();
             }
@@ -46,7 +46,7 @@ namespace GamersHub.Web.Controllers
             var viewModel = new ForumCategoryViewModel
             {
                 ForumCategory = forumCategory,
-                CategoryPosts = cateogryPosts,
+                CategoryPosts = categoryPosts,
             };
 
             // ReSharper disable once Mvc.ViewNotResolved

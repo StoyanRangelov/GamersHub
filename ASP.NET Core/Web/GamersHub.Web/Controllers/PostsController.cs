@@ -63,6 +63,12 @@ namespace GamersHub.Web.Controllers
         {
             if (!this.ModelState.IsValid)
             {
+                var forums = this.forumsService.GetAll<ForumDropDownViewModel>();
+                var categories = this.categoriesService.GetAll<CategoryDropDownViewModel>();
+
+                inputModel.Forums = forums;
+                inputModel.Categories = categories;
+
                 return this.View(inputModel);
             }
 

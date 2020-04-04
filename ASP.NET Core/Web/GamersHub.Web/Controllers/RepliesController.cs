@@ -18,7 +18,9 @@ namespace GamersHub.Web.Controllers
         private readonly IPostsService postsService;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public RepliesController(IPostsService postsService, IRepliesService repliesService,
+        public RepliesController(
+            IPostsService postsService,
+            IRepliesService repliesService,
             UserManager<ApplicationUser> userManager)
         {
             this.postsService = postsService;
@@ -48,6 +50,10 @@ namespace GamersHub.Web.Controllers
         {
             if (!this.ModelState.IsValid)
             {
+                var post = this.postsService.GetById<ReplyPostViewModel>(input.PostId);
+
+                input.Post = post;
+
                 return this.View(input);
             }
 
@@ -76,7 +82,9 @@ namespace GamersHub.Web.Controllers
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View(input);
+                var viewModel = this.repliesService.GetById<ReplyEditViewModel>(input.Id);
+
+                return this.View(viewModel);
             }
 
             var replyId = await this.repliesService.EditAsync(input.Id, input.Content);
