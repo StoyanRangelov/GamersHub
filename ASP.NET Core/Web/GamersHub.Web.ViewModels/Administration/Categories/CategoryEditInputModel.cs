@@ -15,7 +15,7 @@ namespace GamersHub.Web.ViewModels.Administration.Categories
         [Required]
         [StringLength(100, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 5)]
         public string Description { get; set; }
-        
+
         public IEnumerable<ForumInCategoryViewModel> CategoryForums { get; set; }
     }
 }

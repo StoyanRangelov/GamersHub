@@ -6,7 +6,9 @@
 
         public CategoryEditInputModel Category { get; set; }
 
-        public ForumEditInputModel[] ForumsInput { get; set; }
+        public int[] ForumIds { get; set; }
+
+        public bool[] AreSelected { get; set; }
 
         public ForumEditViewModel[] Forums { get; set; }
     }

@@ -78,25 +78,6 @@ namespace GamersHub.Services.Data.Categories
             return category.Id;
         }
 
-        public async Task<int> EditAsync(int id, string name, string description)
-        {
-            var category = this.categoriesRepository.All()
-                .FirstOrDefault(x => x.Id == id);
-
-            if (category == null)
-            {
-                return 0;
-            }
-
-            category.Name = name;
-            category.Description = description;
-
-            this.categoriesRepository.Update(category);
-            await this.categoriesRepository.SaveChangesAsync();
-
-            return category.Id;
-        }
-
         public async Task<int> EditAsync(int id, string name, string description, int[] forumIds, bool[] areSelected)
         {
             var category = this.categoriesRepository.All()
@@ -104,23 +85,36 @@ namespace GamersHub.Services.Data.Categories
 
             if (category == null)
             {
-                return 0;
+                return -1;
+            }
+
+            if (category.Name != name)
+            {
+                var alreadyExists = this.CheckIfExistsByName(name);
+
+                if (alreadyExists)
+                {
+                    return 0;
+                }
             }
 
             category.Name = name;
             category.Description = description;
 
-            for (int i = 0; i < forumIds.Length; i++)
+            if (forumIds != null)
             {
-                if (areSelected[i])
+                for (int i = 0; i < forumIds.Length; i++)
                 {
-                    var categoryForum = new ForumCategory
+                    if (areSelected[i])
                     {
-                        CategoryId = id,
-                        ForumId = forumIds[i],
-                    };
+                        var categoryForum = new ForumCategory
+                        {
+                            CategoryId = id,
+                            ForumId = forumIds[i],
+                        };
 
-                    category.CategoryForums.Add(categoryForum);
+                        category.CategoryForums.Add(categoryForum);
+                    }
                 }
             }
 

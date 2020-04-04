@@ -38,6 +38,11 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CategoryCreateInputModel inputModel)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
             var categoryId = await this.categoriesService.CreateAsync(inputModel.Name, inputModel.Description);
 
             if (categoryId == 0)
@@ -80,29 +85,38 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         {
             if (!this.ModelState.IsValid)
             {
+                var category = this.categoriesService.GetById<CategoryEditInputModel>(input.Id);
+                var forums = this.forumsService.GetAllByCategoryId<ForumEditViewModel>(input.Id).ToArray();
+
+                input.Category = category;
+                input.Forums = forums;
+
                 return this.View(input);
             }
 
-            if (input.ForumsInput == null)
-            {
-                var categoryId = await this.categoriesService.EditAsync(input.Id, input.Category.Name, input.Category.Description);
+            var categoryId = await this.categoriesService.EditAsync(input.Id, input.Category.Name, input.Category.Description, input.ForumIds, input.AreSelected);
 
-                if (categoryId == 0)
-                {
-                    return this.NotFound();
-                }
+            if (categoryId == -1)
+            {
+                return this.NotFound();
             }
-            else
+
+            if (categoryId == 0)
             {
-                var forumIds = input.ForumsInput.Select(x => x.Id).ToArray();
-                var areSelected = input.ForumsInput.Select(x => x.IsSelected).ToArray();
+                this.ModelState.AddModelError(
+                    "Category.Name",
+                    string.Format(GlobalConstants.CategoryNameAlreadyExistsErrorMessage, input.Category.Name));
+            }
 
-                var categoryId = await this.categoriesService.EditAsync(input.Id, input.Category.Name, input.Category.Description, forumIds, areSelected);
+            if (!this.ModelState.IsValid)
+            {
+                var category = this.categoriesService.GetById<CategoryEditInputModel>(input.Id);
+                var forums = this.forumsService.GetAllByCategoryId<ForumEditViewModel>(input.Id).ToArray();
 
-                if (categoryId == 0)
-                {
-                    return this.NotFound();
-                }
+                input.Category = category;
+                input.Forums = forums;
+
+                return this.View(input);
             }
 
             return this.RedirectToAction(nameof(this.Index));
