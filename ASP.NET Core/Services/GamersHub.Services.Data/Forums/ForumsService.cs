@@ -76,24 +76,6 @@ namespace GamersHub.Services.Data.Forums
             return forum.Id;
         }
 
-        public async Task<int> EditAsync(int id, string name)
-        {
-            var forum = this.forumsRepository.All()
-                .FirstOrDefault(x => x.Id == id);
-
-            if (forum == null)
-            {
-                return 0;
-            }
-
-            forum.Name = name;
-
-            this.forumsRepository.Update(forum);
-            await this.forumsRepository.SaveChangesAsync();
-
-            return forum.Id;
-        }
-
         public async Task<int> EditAsync(int id, string name, int[] categoryIds, bool[] areSelected)
         {
             var forum = this.forumsRepository.All()
@@ -101,22 +83,35 @@ namespace GamersHub.Services.Data.Forums
 
             if (forum == null)
             {
-                return 0;
+                return -1;
+            }
+
+            if (forum.Name != name)
+            {
+                var alreadyExists = this.CheckIfExistsByName(name);
+
+                if (alreadyExists)
+                {
+                    return 0;
+                }
             }
 
             forum.Name = name;
 
-            for (int i = 0; i < categoryIds.Length; i++)
+            if (categoryIds != null)
             {
-                if (areSelected[i])
+                for (int i = 0; i < categoryIds.Length; i++)
                 {
-                    var forumCategory = new ForumCategory
+                    if (areSelected[i])
                     {
-                        ForumId = id,
-                        CategoryId = categoryIds[i],
-                    };
+                        var forumCategory = new ForumCategory
+                        {
+                            ForumId = id,
+                            CategoryId = categoryIds[i],
+                        };
 
-                    forum.ForumCategories.Add(forumCategory);
+                        forum.ForumCategories.Add(forumCategory);
+                    }
                 }
             }
 

@@ -8,7 +8,9 @@ namespace GamersHub.Web.ViewModels.Administration.Forums
 
         public ForumEditInputModel Forum { get; set; }
 
-        public CategoryEditInputModel[] CategoriesInput { get; set; }
+        public int[] CategoryIds { get; set; }
+
+        public  bool[] AreSelected { get; set; }
 
         public CategoryEditViewModel[] Categories { get; set; }
     }

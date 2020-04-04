@@ -50,12 +50,11 @@
                                             {
                                                 <li class="list-group-item">
                                                     <div class="custom-control custom-checkbox">
-                                                        <input asp-for="CategoriesInput[i].IsSelected" type="checkbox" class="custom-control-input"/>
-                                                        <label asp-for="CategoriesInput[i].IsSelected" class="custom-control-label">@Model.Categories[i].Name</label>
-                                                        <span asp-validation-for="CategoriesInput[i].IsSelected" class="text-danger"></span>
+                                                        <input asp-for="AreSelected[i]" type="checkbox" class="custom-control-input"/>
+                                                        <label asp-for="AreSelected[i]" class="custom-control-label">@Model.Categories[i].Name</label>
                                                     </div>
                                                     <div class="form-group">
-                                                        <input type="hidden" name="CategoriesInput[@i].Id" value="@Model.Categories[i].Id"/>
+                                                        <input type="hidden" name="ForumIds[@i]" value="@Model.Categories[i].Id"/>
                                                     </div>
                                                 </li>
                                             }
