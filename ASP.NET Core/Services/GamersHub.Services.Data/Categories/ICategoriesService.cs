@@ -13,6 +13,10 @@ namespace GamersHub.Services.Data.Categories
 
         Task<int> CreateAsync(string name, string description);
 
+        Task<int> EditAsync(int id, string name, string description);
+
+        Task<int> EditAsync(int id, string name, string description, int[] forumIds, bool[] areSelected);
+
         Task DeleteAsync(int id);
 
         public string GetNormalisedName(string name);

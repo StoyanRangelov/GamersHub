@@ -67,7 +67,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
 
             var categories = this.categoriesService.GetAllByForumId<CategoryEditViewModel>(id).ToArray();
 
-            var viewModel = new EditInputModel
+            var viewModel = new ForumAdministrationEditInputModel
             {
                 Forum = forum,
                 Categories = categories,
@@ -77,7 +77,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(EditInputModel input)
+        public async Task<IActionResult> Edit(ForumAdministrationEditInputModel input)
         {
             if (!this.ModelState.IsValid)
             {

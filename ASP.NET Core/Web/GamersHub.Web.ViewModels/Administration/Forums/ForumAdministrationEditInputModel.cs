@@ -2,7 +2,7 @@
 
 namespace GamersHub.Web.ViewModels.Administration.Forums
 {
-    public class EditInputModel
+    public class ForumAdministrationEditInputModel
     {
         public int Id { get; set; }
 
