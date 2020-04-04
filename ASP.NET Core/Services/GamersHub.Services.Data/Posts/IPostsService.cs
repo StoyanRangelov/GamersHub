@@ -12,5 +12,7 @@ namespace GamersHub.Services.Data.Posts
         Task<int> CreateAsync(int forumId, int categoryId, string name, string content, string userId);
 
         Task<int> EditAsync(int id, string name, string content);
+
+        Task DeleteAsync(int id);
     }
 }

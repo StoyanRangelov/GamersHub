@@ -114,5 +114,25 @@ namespace GamersHub.Web.Controllers
 
             return this.RedirectToAction(nameof(this.ById), new {id = input.Id, name = input.Url});
         }
+
+
+        [Authorize(Roles = GlobalConstants.AdministratorAndModeratorRoleNames)]
+        public IActionResult Delete(int id)
+        {
+            var viedModel = this.postsService.GetById<PostDeleteViewModel>(id);
+
+            return this.View(viedModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = GlobalConstants.AdministratorAndModeratorRoleNames)]
+        public async Task<IActionResult> Delete(PostDeleteViewModel input)
+        {
+            await this.postsService.DeleteAsync(input.Id);
+
+            var forumUrl = UrlParser.ParseToUrl(input.ForumName);
+
+            return this.RedirectToAction("ById", "Forums", new {id = input.ForumId, name = forumUrl});
+        }
     }
 }

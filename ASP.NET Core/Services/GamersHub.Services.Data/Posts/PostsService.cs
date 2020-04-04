@@ -5,6 +5,7 @@ using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
 using GamersHub.Services.Data.Forums;
 using GamersHub.Services.Mapping;
+using Microsoft.EntityFrameworkCore;
 
 namespace GamersHub.Services.Data.Posts
 {
@@ -12,13 +13,16 @@ namespace GamersHub.Services.Data.Posts
     {
         private readonly IDeletableEntityRepository<Post> postsRepository;
         private readonly IDeletableEntityRepository<Forum> forumsRepository;
+        private readonly IDeletableEntityRepository<Reply> repliesRepository;
 
         public PostsService(
             IDeletableEntityRepository<Post> postsRepository,
-            IDeletableEntityRepository<Forum> forumsRepository)
+            IDeletableEntityRepository<Forum> forumsRepository,
+            IDeletableEntityRepository<Reply> repliesRepository)
         {
             this.postsRepository = postsRepository;
             this.forumsRepository = forumsRepository;
+            this.repliesRepository = repliesRepository;
         }
 
         public T GetById<T>(int id)
@@ -41,6 +45,7 @@ namespace GamersHub.Services.Data.Posts
         {
             var forum = this.forumsRepository
                 .All()
+                .Include(x=>x.ForumCategories)
                 .First(x => x.Id == forumId);
 
             if (!forum.ForumCategories.Select(fc => fc.CategoryId).Contains(categoryId))
@@ -88,6 +93,30 @@ namespace GamersHub.Services.Data.Posts
             await this.postsRepository.SaveChangesAsync();
 
             return post.Id;
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var post = this.postsRepository.All()
+                .FirstOrDefault(x => x.Id == id);
+
+            if (post == null)
+            {
+                return;
+            }
+
+            var replies = this.repliesRepository.All()
+                .Where(x => x.PostId == id).ToList();
+
+            foreach (var reply in replies)
+            {
+                this.repliesRepository.Delete(reply);
+            }
+
+            await this.repliesRepository.SaveChangesAsync();
+
+            this.postsRepository.Delete(post);
+            await this.postsRepository.SaveChangesAsync();
         }
     }
 }

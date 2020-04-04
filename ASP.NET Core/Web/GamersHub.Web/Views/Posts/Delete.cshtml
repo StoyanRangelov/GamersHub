@@ -1,17 +1,23 @@
-﻿@model GamersHub.Web.ViewModels.Replies.ReplyDeleteViewModel
+﻿@using GamersHub.Common
+@model GamersHub.Web.ViewModels.Posts.PostDeleteViewModel
 @{
-    ViewData["Title"] = "Delete Reply";
-    
+    ViewData["Title"] = "Delete Post";
+
+    var postUrl = UrlParser.ParseToUrl(Model.Name);
 }
 
-<partial name="_RepliesPartial" model="Model.Post" view-data="ViewData"/>
+<div class="text-center ">
+    <h1 class="display-3">@this.ViewData["Title"]</h1>
+</div>
 
+<hr/>
 <div class="card">
     <div class="card-header">
         <h5 class="d-inline">@Model.UserUsername</h5>
         <h5 class="float-right">User Publications: @Model.Publications</h5>
     </div>
     <div class="card-body">
+        <h5 class="card-title">@Model.Name</h5>
         <p class="card-text">@Html.Raw(Model.SanitizedContent)</p>
     </div>
     <div class="card-footer">
@@ -24,15 +30,15 @@
 </div>
 
 <div class="d-block">
-    <h2>Are you sure you want to Delete this reply ?</h2>
+    <h2>Are you sure you want to Delete this post ?</h2>
 </div>
 
-<form class="d-inline-block m-1" asp-controller="Replies" asp-action="Delete" method="post">
+<form class="d-inline-block m-1" asp-controller="Posts" asp-action="Delete" method="post">
     <div class="form-group">
-        <input type="hidden" name="PostId" value="@Model.Post.Id"/>
+        <input type="hidden" name="ForumName" value="@Model.ForumName"/>
     </div>
     <div class="form-group">
-        <input type="hidden" name="PostUrl" value="@Model.Post.Url"/>
+        <input type="hidden" name="ForumId" value="@Model.ForumId"/>
     </div>
     <div class="form-group">
         <input type="submit" value="Delete" class="btn btn-danger btn-lg"/>
@@ -40,5 +46,5 @@
 </form>
 
 <div class="d-inline-block m-1">
-    <a asp-controller="Posts" asp-action="@Model.Post.Url" asp-route-id="@Model.Post.Id" type="submit" class="btn btn-primary btn-lg">Cancel</a>
+    <a asp-controller="Posts" asp-action="@postUrl" asp-route-id="@Model.Id" type="submit" class="btn btn-primary btn-lg">Cancel</a>
 </div>

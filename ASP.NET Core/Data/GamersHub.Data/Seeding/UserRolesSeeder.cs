@@ -14,20 +14,7 @@ namespace GamersHub.Data.Seeding
                 return;
             }
 
-            var userRole = dbContext.Roles.First(r => r.Name == "User");
-
-            var users = dbContext.Users.ToList();
-
-            foreach (var user in users)
-            {
-                await dbContext.UserRoles.AddAsync(new IdentityUserRole<string>
-                {
-                    UserId = user.Id,
-                    RoleId = userRole.Id,
-                });
-            }
-
-            var firstUser = users[0];
+            var firstUser = dbContext.Users.First();
             var adminRole = dbContext.Roles.First(r => r.Name == "Administrator");
 
             await dbContext.UserRoles.AddAsync(new IdentityUserRole<string>

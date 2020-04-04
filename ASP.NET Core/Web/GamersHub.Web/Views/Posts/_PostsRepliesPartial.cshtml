@@ -12,9 +12,8 @@
              this.User.IsInRole(GlobalConstants.AdministratorRoleName) ||
              this.User.IsInRole(GlobalConstants.ModeratorRoleName))
         {
-            <a asp-controller="Replies" asp-action="Delete" asp-route-id="@Model.Id" class="d-inline-block float-right m-1 btn btn-lg btn-danger" type="submit">Delete</a>
-            <a asp-controller="Replies" asp-action="Edit" asp-route-id="@Model.Id" class="d-inline-block float-right m-1 btn btn-lg btn-warning" type="submit">Edit</a>
-
+            <a asp-controller="Replies" asp-action="Delete" asp-route-id="@Model.Id" class="d-inline-block float-right m-1 btn btn-danger" type="submit">Delete</a>
+            <a asp-controller="Replies" asp-action="Edit" asp-route-id="@Model.Id" class="d-inline-block float-right m-1 btn btn-warning" type="submit">Edit</a>
         }
     </div>
     <div class="card-footer">

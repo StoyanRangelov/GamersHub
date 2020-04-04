@@ -6,9 +6,9 @@
 
         public const string AdministratorRoleName = "Administrator";
 
-        public const string UserRoleName = "User";
-
         public const string ModeratorRoleName = "Moderator";
+
+        public const string AdministratorAndModeratorRoleNames = "Administrator,Moderator";
 
         public const string ForumNameAlreadyExistsErrorMessage = "Forum name {0} already exists.";
 
