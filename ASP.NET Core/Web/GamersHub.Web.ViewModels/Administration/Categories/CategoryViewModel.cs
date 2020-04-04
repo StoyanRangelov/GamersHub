@@ -11,7 +11,7 @@ namespace GamersHub.Web.ViewModels.Administration.Categories
         public string Name { get; set; }
 
         public string Description { get; set; }
-        
+
         public string ShortDescription =>
             this.Description?.Length > 60
                 ? this.Description?.Substring(0, 60) + "..."

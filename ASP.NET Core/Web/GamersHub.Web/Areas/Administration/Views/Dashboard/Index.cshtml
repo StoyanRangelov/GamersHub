@@ -50,5 +50,24 @@
                 </div>
             </div>
         </div>
+        <div class="col mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            Most Discussed Posts
+                            <a asp-area="Administration" asp-controller="Posts" asp-action="Index" class="card-link float-right">To Posts</a>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                @foreach (var post in Model.Posts)
+                                {
+                                    <li class="list-group-item">
+                                        @post.ShortName
+                                        <span class="float-right">Replies: <span class="badge badge-primary">@post.RepliesCount</span></span>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
     </div>
 }

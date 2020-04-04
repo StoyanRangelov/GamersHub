@@ -32,6 +32,11 @@ namespace GamersHub.Services.Data.Posts
             return post;
         }
 
+        public IEnumerable<T> GetAll<T>()
+        {
+            return this.postsRepository.All().To<T>().ToList();
+        }
+
         public IEnumerable<T> GetAllByCategoryNameAndForumId<T>(string name, int id)
         {
             var posts = this.postsRepository.All()

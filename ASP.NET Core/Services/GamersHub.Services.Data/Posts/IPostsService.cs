@@ -7,6 +7,8 @@ namespace GamersHub.Services.Data.Posts
     {
         T GetById<T>(int id);
 
+        IEnumerable<T> GetAll<T>();
+
         IEnumerable<T> GetAllByCategoryNameAndForumId<T>(string name, int id);
 
         Task<int> CreateAsync(int forumId, int categoryId, string name, string content, string userId);
