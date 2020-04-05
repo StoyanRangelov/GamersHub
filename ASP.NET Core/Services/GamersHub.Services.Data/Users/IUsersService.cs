@@ -7,6 +7,8 @@ namespace GamersHub.Services.Data.Users
     {
         IEnumerable<T> GetAllPromotableUsers<T>();
 
+        IEnumerable<T> GetAllBannedUsers<T>();
+
         IEnumerable<T> GetAllAdministrators<T>();
 
         IEnumerable<T> GetAllModerators<T>();

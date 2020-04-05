@@ -6,8 +6,12 @@
 
 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
 {
+    <div class="d-inline-block float-right">
+        <a asp-area="Administration" asp-controller="Users" asp-action="Banned" type="submit" class="btn btn-primary btn-lg"> Unban a User</a>
+    </div>
+    
     <div class="text-center">
-        <h1 class="display-3">@this.ViewData["Title"]</h1>
+        <h1 class="display-4">@this.ViewData["Title"]</h1>
     </div>
     <hr/>
     <div class="row row-cols-1 row-cols-md-2">

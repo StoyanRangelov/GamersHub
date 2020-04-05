@@ -43,6 +43,15 @@ namespace GamersHub.Services.Data.Users
             return users;
         }
 
+        public IEnumerable<T> GetAllBannedUsers<T>()
+        {
+            var users = this.userManager.Users
+                .Where(x => x.LockoutEnd != null)
+                .To<T>().ToList();
+
+            return users;
+        }
+
         public IEnumerable<T> GetAllAdministrators<T>()
         {
             var administrator = this.roleManager.Roles

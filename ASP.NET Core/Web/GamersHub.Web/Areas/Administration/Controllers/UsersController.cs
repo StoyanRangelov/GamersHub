@@ -63,7 +63,16 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         {
             await this.usersService.BanAsync(input.Id);
 
-            return this.RedirectToAction(nameof(this.Index));
+            return this.RedirectToAction(nameof(this.Banned));
+        }
+
+        public IActionResult Banned()
+        {
+            var users = this.usersService.GetAllBannedUsers<UserBannedViewModel>();
+
+            var viewModel = new UserAdministrationBannedViewModel {BannedUsers = users};
+
+            return this.View(viewModel);
         }
     }
 }
