@@ -4,6 +4,8 @@
     {
         public const string SystemName = "GamersHub";
 
+        public const string NotFound = "NotFound";
+
         public const string AdministratorRoleName = "Administrator";
 
         public const string ModeratorRoleName = "Moderator";

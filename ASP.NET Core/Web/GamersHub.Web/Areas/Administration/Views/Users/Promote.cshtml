@@ -1,0 +1,54 @@
+﻿@using GamersHub.Common
+@model GamersHub.Web.ViewModels.Administration.Users.UserAdministrationPromoteInputModel
+@{
+    ViewData["Title"] = "Promote User";
+}
+<div class="text-center">
+    <h1 class="display-3">@this.ViewData["Title"]</h1>
+</div>
+<hr/>
+<div class="row row-cols-1 row-cols-md-2">
+    <div class="col-md-6">
+        <div class="form-group">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Moderator</h5>
+                    <p class="card-text">Promote User @Model.User.Username to the Moderator Role:</p>
+                    <form asp-area="Administration" asp-controller="Users" asp-action="Promote" method="post">
+                        <div class="form-group">
+                            <input type="hidden" name="UserId" value="@Model.User.Id"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="RoleName" value="@GlobalConstants.ModeratorRoleName"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Promote" class="btn btn-lg btn-primary"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class=" col-md-6">
+        <div class="form-group">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Administrator</h5>
+                    <p class="card-text">Promote User @Model.User.Username to the Administrator Role:</p>
+                    <form asp-area="Administration" asp-controller="Users" asp-action="Promote" method="post">
+                        <div class="form-group">
+                            <input type="hidden" name="UserId" value="@Model.User.Id"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="RoleName" value="@GlobalConstants.AdministratorRoleName"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Promote" class="btn btn-lg btn-primary"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -10,8 +10,33 @@
         <h1 class="display-3">@this.ViewData["Title"]</h1>
     </div>
     <hr/>
-
     <div class="row row-cols-1 row-cols-md-2">
+        <div class="col mb-4">
+            <div class="card">
+                <div class="card-header">Administrators</div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var administrator in Model.Administrators)
+                        {
+                            <li class="list-group-item">@administrator.Username</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col mb-4">
+            <div class="card">
+                <div class="card-header">Moderators</div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var moderator in Model.Moderators)
+                        {
+                            <li class="list-group-item">@moderator.Username</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
         <div class="col mb-4">
             <div class="card">
                 <div class="card-header">
@@ -51,23 +76,42 @@
             </div>
         </div>
         <div class="col mb-4">
-                    <div class="card">
-                        <div class="card-header">
-                            Most Discussed Posts
-                            <a asp-area="Administration" asp-controller="Posts" asp-action="Index" class="card-link float-right">To Posts</a>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-group list-group-flush">
-                                @foreach (var post in Model.Posts)
-                                {
-                                    <li class="list-group-item">
-                                        @post.ShortName
-                                        <span class="float-right">Replies: <span class="badge badge-primary">@post.RepliesCount</span></span>
-                                    </li>
-                                }
-                            </ul>
-                        </div>
-                    </div>
+            <div class="card">
+                <div class="card-header">
+                    Most Discussed Posts
+                    <a asp-area="Administration" asp-controller="Posts" asp-action="Index" class="card-link float-right">To Posts</a>
                 </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var post in Model.Posts)
+                        {
+                            <li class="list-group-item">
+                                @post.ShortName
+                                <span class="float-right">Replies: <span class="badge badge-primary">@post.RepliesCount</span></span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col mb-4">
+            <div class="card">
+                <div class="card-header">
+                    Most Active Users
+                    <a asp-area="Administration" asp-controller="Users" asp-action="Index" class="card-link float-right">To Users</a>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var user in Model.Users)
+                        {
+                            <li class="list-group-item">
+                                @user.ShortUsername
+                                <span class="float-right">Posts: <span class="badge badge-primary">@user.PostsCount</span></span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 }

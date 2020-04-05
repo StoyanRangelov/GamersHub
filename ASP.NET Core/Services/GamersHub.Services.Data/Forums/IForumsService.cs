@@ -7,6 +7,8 @@ namespace GamersHub.Services.Data.Forums
     {
         IEnumerable<T> GetAll<T>(int? count = null);
 
+        IEnumerable<T> GetTopFive<T>();
+
         IEnumerable<T> GetAllByCategoryId<T>(int id);
 
         T GetById<T>(int id);

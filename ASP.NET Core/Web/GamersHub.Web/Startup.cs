@@ -3,6 +3,7 @@ using GamersHub.Services.Data.ForumCategories;
 using GamersHub.Services.Data.Forums;
 using GamersHub.Services.Data.Posts;
 using GamersHub.Services.Data.Replies;
+using GamersHub.Services.Data.Users;
 using GamersHub.Web.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
@@ -78,6 +79,7 @@ namespace GamersHub.Web
             services.AddTransient<IForumsService, ForumsService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<IRepliesService, RepliesService>();
+            services.AddTransient<IUsersService, UsersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

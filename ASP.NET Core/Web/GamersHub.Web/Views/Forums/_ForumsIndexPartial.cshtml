@@ -2,12 +2,13 @@
 
 <div class="col mb-4">
     <div class="card">
+        <div class="card-header">
+            @Model.Name
+            <a asp-controller="Forums" asp-action="@Model.Url" asp-route-id="@Model.Id" class="card-link float-right">To Forum</a>
+        </div>
         <div class="card-body">
-            <h5 class="card-title">
-                <a asp-controller="Forums" asp-action="@Model.Url" asp-route-id="@Model.Id" class="card-link">@Model.Name</a>
-            </h5>
             <p class="card-text">Total Posts: <span class="badge badge-primary">@Model.PostsCount</span></p>
-            
+            <h6 class="card-subtitle mb-2 text-muted">Categories</h6>
             @foreach (var category in Model.ForumCategories)
             {
                 <p class="card-text">

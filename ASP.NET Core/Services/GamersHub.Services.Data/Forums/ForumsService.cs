@@ -38,6 +38,15 @@ namespace GamersHub.Services.Data.Forums
             return query.To<T>().ToList();
         }
 
+        public IEnumerable<T> GetTopFive<T>()
+        {
+            var forums = this.forumsRepository.All()
+                .OrderByDescending(x => x.Posts.Count)
+                .Take(5).To<T>().ToList();
+
+            return forums;
+        }
+
         public IEnumerable<T> GetAllByCategoryId<T>(int id)
         {
             var forums = this.forumsRepository.All()
