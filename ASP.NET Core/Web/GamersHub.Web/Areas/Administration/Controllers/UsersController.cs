@@ -46,11 +46,24 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         [HttpPost]
         public async Task<IActionResult> Promote(UserAdministrationPromoteInputModel input)
         {
-            var user = this.userManager.Users.FirstOrDefault(x => x.Id == input.UserId);
+            await this.usersService.PromoteAsync(input.UserId, input.RoleName);
 
-            await this.userManager.AddToRoleAsync(user, input.RoleName);
-           
             return this.RedirectToAction("Index", "Dashboard");
+        }
+
+        public IActionResult Ban(string id)
+        {
+            var viewModel = this.usersService.GetById<UserBanViewModel>(id);
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Ban(UserBanViewModel input)
+        {
+            await this.usersService.BanAsync(input.Id);
+
+            return this.RedirectToAction(nameof(this.Index));
         }
     }
 }

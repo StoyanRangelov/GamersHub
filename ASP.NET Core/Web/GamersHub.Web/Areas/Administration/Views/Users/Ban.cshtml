@@ -1,0 +1,36 @@
+﻿@model GamersHub.Web.ViewModels.Administration.Users.UserBanViewModel
+@{
+    ViewData["Title"] = "Ban User";
+}
+<div class="text-center ">
+    <h1 class="display-3">@this.ViewData["Title"]</h1>
+</div>
+
+<hr/>
+<div class="d-block">
+    <h2>You are about to Ban the following User:</h2>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Username</h5>
+                <div class="card-header">Activity</div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Posts: <span class="badge badge-primary">@Model.PostsCount</span></li>
+                    <li class="list-group-item">Replies: <span class="badge badge-primary">@Model.RepliesCount</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form class="d-inline-block m-1" asp-area="Administration" asp-controller="Users" asp-action="Ban" method="post">
+    <div class="form-group">
+        <input type="submit" value="Ban" class="btn btn-danger btn-lg"/>
+    </div>
+</form>
+
+<div class="d-inline-block m-1">
+    <a asp-area="Administration" asp-controller="Users" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Cancel</a>
+</div>

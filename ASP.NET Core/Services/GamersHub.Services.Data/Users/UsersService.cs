@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GamersHub.Common;
@@ -34,6 +35,7 @@ namespace GamersHub.Services.Data.Users
                     .Select(x => x.RoleId).All(x => !x.Equals(moderator.Id)))
                 .Where(x => x.Roles
                     .Select(x => x.RoleId).All(x => !x.Equals(administrator.Id)))
+                .Where(x=>x.LockoutEnd == null)
                 .OrderByDescending(x=>x.Posts.Count)
                 .ThenByDescending(x=>x.Replies.Count)
                 .To<T>().ToList();
@@ -82,6 +84,23 @@ namespace GamersHub.Services.Data.Users
                 .Where(x => x.Id == id).To<T>().FirstOrDefault();
 
             return user;
+        }
+
+        public async Task PromoteAsync(string id, string role)
+        {
+            var user = this.userManager.Users.FirstOrDefault(x => x.Id == id);
+
+            await this.userManager.AddToRoleAsync(user, role);
+        }
+
+        public async Task BanAsync(string id)
+        {
+            var user = this.userManager.Users.FirstOrDefault(x => x.Id == id);
+
+            var dateTimeOffset = new DateTimeOffset(DateTime.UtcNow);
+            var banLength = dateTimeOffset.AddDays(30);
+
+            await this.userManager.SetLockoutEndDateAsync(user, banLength);
         }
     }
 }

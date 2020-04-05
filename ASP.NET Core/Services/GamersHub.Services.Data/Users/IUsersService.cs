@@ -14,5 +14,9 @@ namespace GamersHub.Services.Data.Users
         IEnumerable<T> GetTopFive<T>();
 
         T GetById<T>(string id);
+
+        Task PromoteAsync(string id, string role);
+
+        Task BanAsync(string id);
     }
 }
