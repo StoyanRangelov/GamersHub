@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using GamersHub.Common;
 using GamersHub.Data.Models;
 using GamersHub.Services.Data.Users;
 using GamersHub.Web.ViewModels.Administration.Users;
@@ -11,13 +12,11 @@ namespace GamersHub.Web.Areas.Administration.Controllers
     public class UsersController : AdministrationController
     {
         private readonly IUsersService usersService;
-        private readonly UserManager<ApplicationUser> userManager;
 
 
-        public UsersController(IUsersService usersService, UserManager<ApplicationUser> userManager)
+        public UsersController(IUsersService usersService)
         {
             this.usersService = usersService;
-            this.userManager = userManager;
         }
 
         public IActionResult Index()
@@ -74,5 +73,26 @@ namespace GamersHub.Web.Areas.Administration.Controllers
 
             return this.View(viewModel);
         }
+
+        public IActionResult Unban(string id)
+        {
+            var viewModel = this.usersService.GetById<UserUnbanViewModel>(id);
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Unban(UserUnbanViewModel input)
+        {
+           var userRole = await this.usersService.UnbanAsync(input.Id);
+
+           if (userRole == GlobalConstants.ModeratorRoleName)
+           {
+               return this.RedirectToAction("Index", "Moderators");
+           }
+
+           return this.RedirectToAction(nameof(this.Index));
+        }
+
     }
 }

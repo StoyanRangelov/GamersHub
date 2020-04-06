@@ -1,0 +1,35 @@
+﻿@model GamersHub.Web.ViewModels.Administration.Users.UserUnbanViewModel
+@{
+    ViewData["Title"] = "Unban User";
+}
+<div class="text-center ">
+    <h1 class="display-3">@this.ViewData["Title"]</h1>
+</div>
+
+<hr/>
+<div class="d-block">
+    <h2>You are about to Unban the following User:</h2>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Ban Expires: @Model.LockoutEnd.ToString("MM/dd/yyyy hh:mm tt")</div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.Username</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Previous activity</h6>
+                <p class="card-text">Posts: <span class="badge badge-primary">@Model.PostsCount</span></p>
+                <p class="card-text">Posts: <span class="badge badge-primary">@Model.RepliesCount</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form class="d-inline-block m-1" asp-area="Administration" asp-controller="Users" asp-action="Unban" method="post">
+    <div class="form-group">
+        <input type="submit" value="Unban" class="btn btn-primary btn-lg"/>
+    </div>
+</form>
+
+<div class="d-inline-block m-1">
+    <a asp-area="Administration" asp-controller="Users" asp-action="Banned" type="submit" class="btn btn-primary btn-lg">Cancel</a>
+</div>

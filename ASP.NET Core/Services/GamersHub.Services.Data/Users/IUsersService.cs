@@ -15,10 +15,14 @@ namespace GamersHub.Services.Data.Users
 
         IEnumerable<T> GetTopFive<T>();
 
+        IEnumerable<T> GetTopFiveBanned<T>();
+
         T GetById<T>(string id);
 
         Task PromoteAsync(string id, string role);
 
         Task BanAsync(string id);
+
+        Task<string> UnbanAsync(string id);
     }
 }

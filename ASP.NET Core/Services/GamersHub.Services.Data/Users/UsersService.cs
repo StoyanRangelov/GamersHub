@@ -87,6 +87,16 @@ namespace GamersHub.Services.Data.Users
             return users;
         }
 
+        public IEnumerable<T> GetTopFiveBanned<T>()
+        {
+            var users = this.userManager.Users
+                .Where(x=>x.LockoutEnd != null)
+                .OrderByDescending(x => x.LockoutEnd)
+                .Take(5).To<T>().ToList();
+
+            return users;
+        }
+
         public T GetById<T>(string id)
         {
             var user = this.userManager.Users
@@ -110,6 +120,24 @@ namespace GamersHub.Services.Data.Users
             var banLength = dateTimeOffset.AddDays(30);
 
             await this.userManager.SetLockoutEndDateAsync(user, banLength);
+        }
+
+        public async Task<string> UnbanAsync(string id)
+        {
+            string userRole = string.Empty;
+
+            var user = this.userManager.Users.FirstOrDefault(x => x.Id == id);
+
+            bool isModerator = await this.userManager.IsInRoleAsync(user, GlobalConstants.ModeratorRoleName);
+
+            if (isModerator)
+            {
+                userRole = GlobalConstants.ModeratorRoleName;
+            }
+
+            await this.userManager.SetLockoutEndDateAsync(user, null);
+
+            return userRole;
         }
     }
 }

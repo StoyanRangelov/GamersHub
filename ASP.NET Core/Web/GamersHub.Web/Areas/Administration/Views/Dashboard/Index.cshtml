@@ -6,10 +6,6 @@
 
 @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
 {
-    <div class="d-inline-block float-right">
-        <a asp-area="Administration" asp-controller="Users" asp-action="Banned" type="submit" class="btn btn-primary btn-lg"> Unban a User</a>
-    </div>
-    
     <div class="text-center">
         <h1 class="display-4">@this.ViewData["Title"]</h1>
     </div>
@@ -38,6 +34,52 @@
                             <li class="list-group-item">@moderator.Username</li>
                         }
                     </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col mb-4">
+            <div class="card">
+                <div class="card-header">
+                    Most Active Users
+                    <a asp-area="Administration" asp-controller="Users" asp-action="Index" class="card-link float-right">To Users</a>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var user in Model.Users)
+                        {
+                            <li class="list-group-item">
+                                @user.ShortUsername
+                                <span class="float-right">Posts: <span class="badge badge-primary">@user.PostsCount</span></span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col mb-4">
+            <div class="card">
+                <div class="card-header">
+                    Recently Banned Users
+                    <a asp-area="Administration" asp-controller="Users" asp-action="Banned" class="card-link float-right">To Banned Users</a>
+                </div>
+                <div class="card-body">
+                    @if (Model.BannedUsers.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var user in Model.BannedUsers)
+                            {
+                                <li class="list-group-item">
+                                    @user.ShortUsername
+                                    <span class="float-right">Ban Expires on: <span class="badge badge-primary">@user.LockoutEnd.ToString("MM/dd/yyyy hh:mm tt")</span></span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="card-text">None</p>
+                    }
+
                 </div>
             </div>
         </div>
@@ -92,25 +134,6 @@
                             <li class="list-group-item">
                                 @post.ShortName
                                 <span class="float-right">Replies: <span class="badge badge-primary">@post.RepliesCount</span></span>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col mb-4">
-            <div class="card">
-                <div class="card-header">
-                    Most Active Users
-                    <a asp-area="Administration" asp-controller="Users" asp-action="Index" class="card-link float-right">To Users</a>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        @foreach (var user in Model.Users)
-                        {
-                            <li class="list-group-item">
-                                @user.ShortUsername
-                                <span class="float-right">Posts: <span class="badge badge-primary">@user.PostsCount</span></span>
                             </li>
                         }
                     </ul>

@@ -43,6 +43,8 @@ namespace GamersHub.Web.Areas.Administration.Controllers
 
             var users = this.usersService.GetTopFive<UserDashboardViewModel>();
 
+            var bannedUsers = this.usersService.GetTopFiveBanned<UserBannedDashboardViewModel>();
+
             var administrators = this.usersService.GetAllAdministrators<UserInRoleViewModel>();
 
             var moderators = this.usersService.GetAllModerators<UserInRoleViewModel>();
@@ -53,6 +55,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
                 Categories = categories,
                 Posts = posts,
                 Users = users,
+                BannedUsers = bannedUsers,
                 Administrators = administrators,
                 Moderators = moderators,
             };

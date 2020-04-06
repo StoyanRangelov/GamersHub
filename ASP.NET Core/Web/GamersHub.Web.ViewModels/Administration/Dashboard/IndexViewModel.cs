@@ -13,6 +13,8 @@ namespace GamersHub.Web.ViewModels.Administration.Dashboard
 
         public IEnumerable<UserDashboardViewModel> Users { get; set; }
 
+        public IEnumerable<UserBannedDashboardViewModel> BannedUsers { get; set; }
+
         public IEnumerable<UserInRoleViewModel> Moderators { get; set; }
 
         public IEnumerable<UserInRoleViewModel> Administrators { get; set; }
