@@ -21,6 +21,8 @@ namespace GamersHub.Services.Data.Users
 
         Task PromoteAsync(string id, string role);
 
+        Task DemoteAsync(string id);
+
         Task BanAsync(string id);
 
         Task UnbanAsync(string id);

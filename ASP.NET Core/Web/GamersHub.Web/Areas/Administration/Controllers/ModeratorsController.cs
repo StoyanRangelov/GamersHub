@@ -1,4 +1,5 @@
-﻿using GamersHub.Services.Data.Users;
+﻿using System.Threading.Tasks;
+using GamersHub.Services.Data.Users;
 using GamersHub.Web.ViewModels.Administration.Moderators;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,6 +21,22 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             var viewModel = new ModeratorIndexViewModel {Moderators = moderators};
 
             return this.View(viewModel);
+        }
+
+        public IActionResult Demote(string id)
+        {
+            var viewModel = this.usersService.GetById<ModeratorDemoteViewModel>(id);
+
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Demote(ModeratorDemoteViewModel input)
+        {
+            await this.usersService.DemoteAsync(input.Id);
+
+            return this.RedirectToAction("Index", "Dashboard");
         }
     }
 }

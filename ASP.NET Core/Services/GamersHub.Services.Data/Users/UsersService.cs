@@ -112,6 +112,13 @@ namespace GamersHub.Services.Data.Users
             await this.userManager.AddToRoleAsync(user, role);
         }
 
+        public async Task DemoteAsync(string id)
+        {
+            var user = this.userManager.Users.FirstOrDefault(x => x.Id == id);
+
+            await this.userManager.RemoveFromRoleAsync(user, GlobalConstants.ModeratorRoleName);
+        }
+
         public async Task BanAsync(string id)
         {
             var user = this.userManager.Users.FirstOrDefault(x => x.Id == id);
