@@ -4,47 +4,45 @@
     ViewData["Title"] = "Administration - Forums";
 }
 
-@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-{
-    <div class="d-inline-block">
-        <a asp-area="Administration" asp-controller="Dashboard" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Back to Dashboard</a>
-    </div>
-    
-    <div class="d-inline-block float-right">
-        <a asp-area="Administration" asp-controller="Forums" asp-action="Create" type="submit" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i>&nbsp; New Forum</a>
-    </div>
 
-    <div class="text-center ">
-        <h1 class="display-4">@this.ViewData["Title"]</h1>
-    </div>
-    <hr/>
-    <table class="table table-hover">
-        <thead class="thead-dark">
+<div class="d-inline-block">
+    <a asp-area="Administration" asp-controller="Dashboard" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Back to Dashboard</a>
+</div>
+
+<div class="d-inline-block float-right">
+    <a asp-area="Administration" asp-controller="Forums" asp-action="Create" type="submit" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i>&nbsp; New Forum</a>
+</div>
+
+<div class="text-center ">
+    <h1 class="display-4">@this.ViewData["Title"]</h1>
+</div>
+<hr/>
+<table class="table table-hover">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Categories</th>
+        <th scope="col">Posts</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var forum in Model.Forums
+        .OrderByDescending(x => x.PostsCount)
+        .ThenByDescending(x => x.ForumCategoriesCount))
+    {
         <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Categories</th>
-            <th scope="col">Posts</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Delete</th>
+            <td>@forum.Name</td>
+            <td>@forum.ForumCategoriesCount</td>
+            <td>@forum.PostsCount</td>
+            <td>
+                <a asp-area="Administration" asp-controller="Forums" asp-action="Edit" asp-route-id="@forum.Id" class="d-inline-block btn btn-warning" type="submit">Edit</a>
+            </td>
+            <td>
+                <a asp-area="Administration" asp-controller="Forums" asp-action="Delete" asp-route-id="@forum.Id" class="d-inline-block btn btn-danger" type="submit">Delete</a>
+            </td>
         </tr>
-        </thead>
-        <tbody>
-        @foreach (var forum in Model.Forums
-            .OrderByDescending(x => x.PostsCount)
-            .ThenByDescending(x => x.ForumCategoriesCount))
-        {
-            <tr>
-                <td>@forum.Name</td>
-                <td>@forum.ForumCategoriesCount</td>
-                <td>@forum.PostsCount</td>
-                <td>
-                    <a asp-area="Administration" asp-controller="Forums" asp-action="Edit" asp-route-id="@forum.Id" class="d-inline-block btn btn-warning" type="submit">Edit</a>
-                </td>
-                <td>
-                    <a asp-area="Administration" asp-controller="Forums" asp-action="Delete" asp-route-id="@forum.Id" class="d-inline-block btn btn-danger" type="submit">Delete</a>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
-}
+    }
+    </tbody>
+</table>

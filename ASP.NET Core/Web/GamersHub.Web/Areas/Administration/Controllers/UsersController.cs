@@ -84,14 +84,9 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         [HttpPost]
         public async Task<IActionResult> Unban(UserUnbanViewModel input)
         {
-           var userRole = await this.usersService.UnbanAsync(input.Id);
+           await this.usersService.UnbanAsync(input.Id);
 
-           if (userRole == GlobalConstants.ModeratorRoleName)
-           {
-               return this.RedirectToAction("Index", "Moderators");
-           }
-
-           return this.RedirectToAction(nameof(this.Index));
+           return this.RedirectToAction(nameof(this.Banned));
         }
 
     }

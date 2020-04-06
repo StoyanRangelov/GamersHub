@@ -1,1 +1,40 @@
-﻿
+﻿@model GamersHub.Web.ViewModels.Administration.Moderators.ModeratorIndexViewModel
+@{
+    ViewData["Title"] = "Administration - Moderators";
+
+}
+
+<div class="d-inline-block">
+    <a asp-area="Administration" asp-controller="Dashboard" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Back to Dashboard</a>
+</div>
+<div class="text-center ">
+    <h1 class="display-4">@this.ViewData["Title"]</h1>
+</div>
+<hr/>
+<table class="table table-hover">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Username</th>
+        <th scope="col">Posts</th>
+        <th scope="col">Replies</th>
+        <th scope="col">Demote</th>
+        <th scope="col">Ban</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in Model.Moderators)
+    {
+        <tr>
+            <td>@user.Username</td>
+            <td>@user.PostsCount</td>
+            <td>@user.RepliesCount</td>
+            <td>
+                <a asp-area="Administration" asp-controller="Moderators" asp-action="Demote" asp-route-id="@user.Id" class="d-inline-block btn btn-primary" type="submit">Demote</a>
+            </td>
+            <td>
+                <a asp-area="Administration" asp-controller="Users" asp-action="Ban" asp-route-id="@user.Id" class="d-inline-block btn btn-danger" type="submit">Ban</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -23,6 +23,6 @@ namespace GamersHub.Services.Data.Users
 
         Task BanAsync(string id);
 
-        Task<string> UnbanAsync(string id);
+        Task UnbanAsync(string id);
     }
 }

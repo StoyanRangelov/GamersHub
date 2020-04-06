@@ -4,141 +4,143 @@
     this.ViewData["Title"] = "Administration dashboard";
 }
 
-@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-{
-    <div class="text-center">
-        <h1 class="display-4">@this.ViewData["Title"]</h1>
+
+<div class="text-center">
+    <h1 class="display-4">@this.ViewData["Title"]</h1>
+</div>
+<hr/>
+<div class="row row-cols-1 row-cols-md-2">
+    <div class="col mb-4">
+        <div class="card">
+            <div class="card-header">Administrators</div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    @foreach (var administrator in Model.Administrators)
+                    {
+                        <li class="list-group-item">@administrator.Username</li>
+                    }
+                </ul>
+            </div>
+        </div>
     </div>
-    <hr/>
-    <div class="row row-cols-1 row-cols-md-2">
-        <div class="col mb-4">
-            <div class="card">
-                <div class="card-header">Administrators</div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        @foreach (var administrator in Model.Administrators)
-                        {
-                            <li class="list-group-item">@administrator.Username</li>
-                        }
-                    </ul>
-                </div>
+    <div class="col mb-4">
+        <div class="card">
+            <div class="card-header">
+                Moderators
+                <a asp-area="Administration" asp-controller="Moderators" asp-action="Index" class="card-link float-right">To Moderators</a>
+
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    @foreach (var moderator in Model.Moderators)
+                    {
+                        <li class="list-group-item">@moderator.Username</li>
+                    }
+                </ul>
             </div>
         </div>
-        <div class="col mb-4">
-            <div class="card">
-                <div class="card-header">Moderators</div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        @foreach (var moderator in Model.Moderators)
-                        {
-                            <li class="list-group-item">@moderator.Username</li>
-                        }
-                    </ul>
-                </div>
+    </div>
+    <div class="col mb-4">
+        <div class="card">
+            <div class="card-header">
+                Most Active Users
+                <a asp-area="Administration" asp-controller="Users" asp-action="Index" class="card-link float-right">To Users</a>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    @foreach (var user in Model.Users)
+                    {
+                        <li class="list-group-item">
+                            @user.ShortUsername
+                            <span class="float-right">Posts: <span class="badge badge-primary">@user.PostsCount</span></span>
+                        </li>
+                    }
+                </ul>
             </div>
         </div>
-        <div class="col mb-4">
-            <div class="card">
-                <div class="card-header">
-                    Most Active Users
-                    <a asp-area="Administration" asp-controller="Users" asp-action="Index" class="card-link float-right">To Users</a>
-                </div>
-                <div class="card-body">
+    </div>
+    <div class="col mb-4">
+        <div class="card">
+            <div class="card-header">
+                Recently Banned Users
+                <a asp-area="Administration" asp-controller="Users" asp-action="Banned" class="card-link float-right">To Banned Users</a>
+            </div>
+            <div class="card-body">
+                @if (Model.BannedUsers.Any())
+                {
                     <ul class="list-group list-group-flush">
-                        @foreach (var user in Model.Users)
+                        @foreach (var user in Model.BannedUsers)
                         {
                             <li class="list-group-item">
                                 @user.ShortUsername
-                                <span class="float-right">Posts: <span class="badge badge-primary">@user.PostsCount</span></span>
+                                <span class="float-right">Ban Expires on: <span class="badge badge-primary">@user.LockoutEnd.ToString("MM/dd/yyyy hh:mm tt")</span></span>
                             </li>
                         }
                     </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col mb-4">
-            <div class="card">
-                <div class="card-header">
-                    Recently Banned Users
-                    <a asp-area="Administration" asp-controller="Users" asp-action="Banned" class="card-link float-right">To Banned Users</a>
-                </div>
-                <div class="card-body">
-                    @if (Model.BannedUsers.Any())
-                    {
-                        <ul class="list-group list-group-flush">
-                            @foreach (var user in Model.BannedUsers)
-                            {
-                                <li class="list-group-item">
-                                    @user.ShortUsername
-                                    <span class="float-right">Ban Expires on: <span class="badge badge-primary">@user.LockoutEnd.ToString("MM/dd/yyyy hh:mm tt")</span></span>
-                                </li>
-                            }
-                        </ul>
-                    }
-                    else
-                    {
-                        <p class="card-text">None</p>
-                    }
+                }
+                else
+                {
+                    <p class="card-text">None</p>
+                }
 
-                </div>
-            </div>
-        </div>
-        <div class="col mb-4">
-            <div class="card">
-                <div class="card-header">
-                    Most Popular Forums
-                    <a asp-area="Administration" asp-controller="Forums" asp-action="Index" class="card-link float-right">To Forums</a>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        @foreach (var forum in Model.Forums)
-                        {
-                            <li class="list-group-item">
-                                @forum.Name
-                                <span class="float-right">Posts: <span class="badge badge-primary">@forum.PostsCount</span></span>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col mb-4">
-            <div class="card">
-                <div class="card-header">
-                    Most Popular Categories
-                    <a asp-area="Administration" asp-controller="Categories" asp-action="Index" class="card-link float-right">To Categories</a>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        @foreach (var category in Model.Categories)
-                        {
-                            <li class="list-group-item">
-                                @category.Name
-                                <span class="float-right">Posts: <span class="badge badge-primary">@category.PostsCount</span></span>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col mb-4">
-            <div class="card">
-                <div class="card-header">
-                    Most Discussed Posts
-                    <a asp-area="Administration" asp-controller="Posts" asp-action="Index" class="card-link float-right">To Posts</a>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        @foreach (var post in Model.Posts)
-                        {
-                            <li class="list-group-item">
-                                @post.ShortName
-                                <span class="float-right">Replies: <span class="badge badge-primary">@post.RepliesCount</span></span>
-                            </li>
-                        }
-                    </ul>
-                </div>
             </div>
         </div>
     </div>
-}
+    <div class="col mb-4">
+        <div class="card">
+            <div class="card-header">
+                Most Popular Forums
+                <a asp-area="Administration" asp-controller="Forums" asp-action="Index" class="card-link float-right">To Forums</a>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    @foreach (var forum in Model.Forums)
+                    {
+                        <li class="list-group-item">
+                            @forum.Name
+                            <span class="float-right">Posts: <span class="badge badge-primary">@forum.PostsCount</span></span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col mb-4">
+        <div class="card">
+            <div class="card-header">
+                Most Popular Categories
+                <a asp-area="Administration" asp-controller="Categories" asp-action="Index" class="card-link float-right">To Categories</a>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    @foreach (var category in Model.Categories)
+                    {
+                        <li class="list-group-item">
+                            @category.Name
+                            <span class="float-right">Posts: <span class="badge badge-primary">@category.PostsCount</span></span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col mb-4">
+        <div class="card">
+            <div class="card-header">
+                Most Discussed Posts
+                <a asp-area="Administration" asp-controller="Posts" asp-action="Index" class="card-link float-right">To Posts</a>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    @foreach (var post in Model.Posts)
+                    {
+                        <li class="list-group-item">
+                            @post.ShortName
+                            <span class="float-right">Replies: <span class="badge badge-primary">@post.RepliesCount</span></span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

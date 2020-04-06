@@ -4,71 +4,68 @@
     ViewData["Title"] = "Edit Forum";
 }
 
-@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-{
-    <div class="text-center">
-        <h1 class="display-3">@this.ViewData["Title"]</h1>
-    </div>
-    <hr/>
-    <div class="row">
-        <div class="col-md-8">
-            <form asp-area="Administration" asp-controller="Forums" asp-action="Edit" method="post">
-                <div class="form-group">
-                    <label asp-for="Forum.Name"></label>
-                    <input asp-for="Forum.Name" class="form-control"/>
-                    <span asp-validation-for="Forum.Name" class="text-danger"></span>
-                </div>
-                <hr/>
-                <div class="form-group">
-                    @if (Model.Categories.Length == 0)
-                    {
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">The Forum contains all available Categories:</h5>
-                                        <ul class="list-group list-group-flush">
-                                            @foreach (var category in Model.Forum.ForumCategories)
-                                            {
-                                                <li class="list-group-item">@category.CategoryName</li>
-                                            }
-                                        </ul>
-                                    </div>
+<div class="text-center">
+    <h1 class="display-3">@this.ViewData["Title"]</h1>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-md-8">
+        <form asp-area="Administration" asp-controller="Forums" asp-action="Edit" method="post">
+            <div class="form-group">
+                <label asp-for="Forum.Name"></label>
+                <input asp-for="Forum.Name" class="form-control"/>
+                <span asp-validation-for="Forum.Name" class="text-danger"></span>
+            </div>
+            <hr/>
+            <div class="form-group">
+                @if (Model.Categories.Length == 0)
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">The Forum contains all available Categories:</h5>
+                                    <ul class="list-group list-group-flush">
+                                        @foreach (var category in Model.Forum.ForumCategories)
+                                        {
+                                            <li class="list-group-item">@category.CategoryName</li>
+                                        }
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-                    }
-                    else
-                    {
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">You can add any of the following Categories to the Forum:</h5>
-                                        <ul class="list-group list-group-flush">
-                                            @for (var i = 0; i < Model.Categories.Length; i++)
-                                            {
-                                                <li class="list-group-item">
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input asp-for="AreSelected[i]" type="checkbox" class="custom-control-input"/>
-                                                        <label asp-for="AreSelected[i]" class="custom-control-label">@Model.Categories[i].Name</label>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <input type="hidden" name="ForumIds[@i]" value="@Model.Categories[i].Id"/>
-                                                    </div>
-                                                </li>
-                                            }
-                                        </ul>
-                                    </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">You can add any of the following Categories to the Forum:</h5>
+                                    <ul class="list-group list-group-flush">
+                                        @for (var i = 0; i < Model.Categories.Length; i++)
+                                        {
+                                            <li class="list-group-item">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input asp-for="AreSelected[i]" type="checkbox" class="custom-control-input"/>
+                                                    <label asp-for="AreSelected[i]" class="custom-control-label">@Model.Categories[i].Name</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="hidden" name="ForumIds[@i]" value="@Model.Categories[i].Id"/>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-                    }
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Edit" class="btn btn-lg btn-primary"/>
-                </div>
-            </form>
-        </div>
+                    </div>
+                }
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-lg btn-primary"/>
+            </div>
+        </form>
     </div>
-}
+</div>

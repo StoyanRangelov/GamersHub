@@ -4,24 +4,22 @@
     ViewData["Title"] = "Create Forum";
 }
 
-@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-{
-    <div class="text-center ">
-        <h1 class="display-3">@this.ViewData["Title"]</h1>
+
+<div class="text-center ">
+    <h1 class="display-3">@this.ViewData["Title"]</h1>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-md-10">
+        <form asp-area="Administration" asp-controller="Forums" asp-action="Create" method="post">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control"/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary"/>
+            </div>
+        </form>
     </div>
-    <hr />
-    <div class="row">
-        <div class="col-md-10">
-            <form asp-area="Administration" asp-controller="Forums" asp-action="Create" method="post">
-                <div class="form-group">
-                    <label asp-for="Name"></label>
-                    <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
-            </form>
-        </div>
-    </div>
-}
+</div>

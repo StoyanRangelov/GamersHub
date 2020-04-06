@@ -35,9 +35,9 @@ namespace GamersHub.Services.Data.Users
                     .Select(x => x.RoleId).All(x => !x.Equals(moderator.Id)))
                 .Where(x => x.Roles
                     .Select(x => x.RoleId).All(x => !x.Equals(administrator.Id)))
-                .Where(x=>x.LockoutEnd == null)
-                .OrderByDescending(x=>x.Posts.Count)
-                .ThenByDescending(x=>x.Replies.Count)
+                .Where(x => x.LockoutEnd == null)
+                .OrderByDescending(x => x.Posts.Count)
+                .ThenByDescending(x => x.Replies.Count)
                 .To<T>().ToList();
 
             return users;
@@ -90,7 +90,7 @@ namespace GamersHub.Services.Data.Users
         public IEnumerable<T> GetTopFiveBanned<T>()
         {
             var users = this.userManager.Users
-                .Where(x=>x.LockoutEnd != null)
+                .Where(x => x.LockoutEnd != null)
                 .OrderByDescending(x => x.LockoutEnd)
                 .Take(5).To<T>().ToList();
 
@@ -122,22 +122,11 @@ namespace GamersHub.Services.Data.Users
             await this.userManager.SetLockoutEndDateAsync(user, banLength);
         }
 
-        public async Task<string> UnbanAsync(string id)
+        public async Task UnbanAsync(string id)
         {
-            string userRole = string.Empty;
-
             var user = this.userManager.Users.FirstOrDefault(x => x.Id == id);
 
-            bool isModerator = await this.userManager.IsInRoleAsync(user, GlobalConstants.ModeratorRoleName);
-
-            if (isModerator)
-            {
-                userRole = GlobalConstants.ModeratorRoleName;
-            }
-
             await this.userManager.SetLockoutEndDateAsync(user, null);
-
-            return userRole;
         }
     }
 }

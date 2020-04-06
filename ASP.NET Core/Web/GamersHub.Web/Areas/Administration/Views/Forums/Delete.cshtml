@@ -4,51 +4,49 @@
     ViewData["Title"] = "Delete Forum";
 }
 
-@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-{
-    <div class="text-center">
-        <h1 class="display-3">@this.ViewData["Title"]</h1>
-    </div>
-    <hr/>
-    <div class="d-block">
-        <h2>You are about to delete the following Forum:</h2>
-    </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">@Model.Name</h5>
-                    <p class="card-text">Total Posts: <span class="badge badge-primary">@Model.PostsCount</span></p>
-                    <div class="card-header">
-                        Categories
-                        <span class="badge badge-primary float-right">@Model.ForumCategoriesCount</span>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        @if (!Model.ForumCategories.Any())
-                        {
-                            <li class="list-group-item">None</li>
-                        }
-                        else
-                        {
-                            @foreach (var category in Model.ForumCategories)
-                            {
-                                <li class="list-group-item">@category.CategoryName</li>
-                            }
-                        }
-                    </ul>
+<div class="text-center">
+    <h1 class="display-3">@this.ViewData["Title"]</h1>
+</div>
+<hr/>
+<div class="d-block">
+    <h2>You are about to delete the following Forum:</h2>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Name</h5>
+                <p class="card-text">Total Posts: <span class="badge badge-primary">@Model.PostsCount</span></p>
+                <div class="card-header">
+                    Categories
+                    <span class="badge badge-primary float-right">@Model.ForumCategoriesCount</span>
                 </div>
+                <ul class="list-group list-group-flush">
+                    @if (!Model.ForumCategories.Any())
+                    {
+                        <li class="list-group-item">None</li>
+                    }
+                    else
+                    {
+                        @foreach (var category in Model.ForumCategories)
+                        {
+                            <li class="list-group-item">@category.CategoryName</li>
+                        }
+                    }
+                </ul>
             </div>
         </div>
     </div>
+</div>
 
-    <form class="d-inline-block m-1" asp-area="Administration" asp-controller="Forums" asp-action="Delete" method="post">
-        <div class="form-group">
-            <input type="submit" value="Delete" class="btn btn-danger btn-lg"/>
-        </div>
-    </form>
-
-    <div class="d-inline-block m-1">
-        <a asp-area="Administration" asp-controller="Forums" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Cancel</a>
+<form class="d-inline-block m-1" asp-area="Administration" asp-controller="Forums" asp-action="Delete" method="post">
+    <div class="form-group">
+        <input type="submit" value="Delete" class="btn btn-danger btn-lg"/>
     </div>
-}
+</form>
+
+<div class="d-inline-block m-1">
+    <a asp-area="Administration" asp-controller="Forums" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Cancel</a>
+</div>
