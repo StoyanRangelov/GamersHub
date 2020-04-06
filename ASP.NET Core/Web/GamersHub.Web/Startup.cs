@@ -1,4 +1,5 @@
-﻿using GamersHub.Services.Data.Categories;
+﻿using System.IO;
+using GamersHub.Services.Data.Categories;
 using GamersHub.Services.Data.ForumCategories;
 using GamersHub.Services.Data.Forums;
 using GamersHub.Services.Data.Posts;
@@ -10,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace GamersHub.Web
 {
     using System.Reflection;
-
     using GamersHub.Data;
     using GamersHub.Data.Common;
     using GamersHub.Data.Common.Repositories;
@@ -21,7 +21,6 @@ namespace GamersHub.Web
     using GamersHub.Services.Mapping;
     using GamersHub.Services.Messaging;
     using GamersHub.Web.ViewModels;
-
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -37,6 +36,14 @@ namespace GamersHub.Web
         public Startup(IConfiguration configuration)
         {
             this.configuration = configuration;
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile("appsettings.Development.json", true)
+                .AddJsonFile("appsettings.Production.json", true);
+
+            this.configuration = builder.Build();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -50,10 +57,10 @@ namespace GamersHub.Web
 
             services.Configure<CookiePolicyOptions>(
                 options =>
-                    {
-                        options.CheckConsentNeeded = context => true;
-                        options.MinimumSameSitePolicy = SameSiteMode.None;
-                    });
+                {
+                    options.CheckConsentNeeded = context => true;
+                    options.MinimumSameSitePolicy = SameSiteMode.None;
+                });
 
             services.AddControllersWithViews(
                 options =>
@@ -65,6 +72,12 @@ namespace GamersHub.Web
             services.AddRazorPages();
 
             services.AddSingleton(this.configuration);
+
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = this.configuration["Facebook:AppId"];
+                facebookOptions.AppSecret = this.configuration["Facebook:AppSecret"];
+            });
 
             // Data repositories
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
@@ -97,7 +110,8 @@ namespace GamersHub.Web
                     dbContext.Database.Migrate();
                 }
 
-                new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
+                new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter()
+                    .GetResult();
             }
 
             if (env.IsDevelopment())
@@ -122,14 +136,17 @@ namespace GamersHub.Web
 
             app.UseEndpoints(
                 endpoints =>
-                    {
-                        endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                        endpoints.MapControllerRoute("forum", "Forums/{name:minlength(3)}/{id}", new {controller = "Forums", action = "ById"});
-                        endpoints.MapControllerRoute("category", "Categories/{name:minlength(3)}/{id}", new { controller = "Categories", action = "ByName"});
-                        endpoints.MapControllerRoute("post", "Posts/{name:minlength(3)}/{id}", new {controller = "Posts", action = "ById"});
-                        endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
-                        endpoints.MapRazorPages();
-                    });
+                {
+                    endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                    endpoints.MapControllerRoute("forum", "Forums/{name:minlength(3)}/{id}",
+                        new {controller = "Forums", action = "ById"});
+                    endpoints.MapControllerRoute("category", "Categories/{name:minlength(3)}/{id}",
+                        new {controller = "Categories", action = "ByName"});
+                    endpoints.MapControllerRoute("post", "Posts/{name:minlength(3)}/{id}",
+                        new {controller = "Posts", action = "ById"});
+                    endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                    endpoints.MapRazorPages();
+                });
         }
     }
 }
