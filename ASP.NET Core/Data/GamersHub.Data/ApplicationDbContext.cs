@@ -36,6 +36,10 @@
 
         public DbSet<Reply> Replies { get; set; }
 
+        public DbSet<Game> Games { get; set; }
+
+        public DbSet<Review> Reviews { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

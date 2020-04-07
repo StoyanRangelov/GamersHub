@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using CloudinaryDotNet;
 using GamersHub.Services.Data.Categories;
 using GamersHub.Services.Data.ForumCategories;
 using GamersHub.Services.Data.Forums;
@@ -71,13 +72,22 @@ namespace GamersHub.Web
 
             services.AddRazorPages();
 
-            services.AddSingleton(this.configuration);
+            Account account = new Account
+            (
+                this.configuration["Cloudinary:AppName"],
+                this.configuration["Cloudinary:AppKey"],
+                this.configuration["Cloudinary:AppSecret"]
+            );
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
                 facebookOptions.AppId = this.configuration["Facebook:AppId"];
                 facebookOptions.AppSecret = this.configuration["Facebook:AppSecret"];
             });
+
+
+            services.AddSingleton(this.configuration);
+
 
             // Data repositories
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
