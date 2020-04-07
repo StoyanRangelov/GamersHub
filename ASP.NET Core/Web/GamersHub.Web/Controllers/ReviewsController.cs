@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
+using GamersHub.Common;
 using GamersHub.Data.Models;
 using GamersHub.Services.Data.Games;
 using GamersHub.Services.Data.Reviews;
+using GamersHub.Web.ViewModels.Replies;
 using GamersHub.Web.ViewModels.Reviews;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -58,6 +60,40 @@ namespace GamersHub.Web.Controllers
             var gameUrl = this.gamesService.GetUrl(input.GameId);
 
             return this.RedirectToAction("ById", "Games", new {id = input.GameId, name = gameUrl});
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var viewModel = this.reviewsService.GetById<ReviewEditViewModel>(id);
+
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(viewModel);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(ReviewEditViewModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
+            var reviewId = await this.reviewsService.EditAsync(input.Id, input.Content, input.IsPositive);
+
+            if (reviewId == 0)
+            {
+                return this.NotFound();
+            }
+
+            var gameUrl = UrlParser.ParseToUrl(input.GameTitle);
+
+            return this.RedirectToAction("ById", "Games", new {id = input.GameId, name = gameUrl});
+
         }
 
     }

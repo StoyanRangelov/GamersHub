@@ -1,21 +1,19 @@
-﻿@model GamersHub.Web.ViewModels.Reviews.ReviewCreateInputModel
+﻿@model GamersHub.Web.ViewModels.Reviews.ReviewEditViewModel
 @{
-    ViewData["Title"] = "Create Review";
-    var games = Model.Games.Select(x => new SelectListItem(x.Title, x.Id.ToString()));
+    ViewData["Title"] = "Edit Review";
 }
-
 <div class="text-center ">
     <h1 class="display-3">@this.ViewData["Title"]</h1>
 </div>
-<hr/>
+
 <div class="row">
-    <div class="col-md-10">
-        <form asp-controller="Reviews" asp-action="Create" method="post">
-            <div class="form-group">
-                <label asp-for="GameId"></label>
-                <select asp-for="GameId" asp-items="games" class="form-control"></select>
-                <span asp-validation-for="GameId" class="text-danger"></span>
-            </div>
+    <div class="col-md-12">
+        <h2>@Model.GameTitle</h2>
+        @if (Model.GameSubTitle != null)
+        {
+            <h4>@Model.GameSubTitle</h4>
+        }
+        <form asp-controller="Reviews" asp-action="Edit" method="post">
             <div class="form-check">
                 <label asp-for="IsPositive">
                     <i class="fas fa-thumbs-up fa-lg text-primary"></i>
@@ -32,7 +30,13 @@
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-lg btn-primary"/>
+                <input type="hidden" name="GameTitle" value="@Model.GameTitle"/>
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="GameId" value="@Model.GameId"/>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Edit" class="btn btn-primary btn-lg"/>
             </div>
         </form>
     </div>
