@@ -1,1 +1,18 @@
-﻿
+﻿@model GamersHub.Web.ViewModels.Games.GameIndexViewModel
+@{
+    ViewData["Title"] = "All Games";
+}
+<div class="d-inline-block float-right">
+    <a asp-controller="Posts" asp-action="Create" type="submit" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i>&nbsp; New Post</a>
+</div>
+
+<div class="text-center">
+    <h1 class="display-3">@this.ViewData["Title"]</h1>
+</div>
+<hr/>
+<div class="row row-cols-1 row-cols-md-2">
+    @foreach (var game in Model.Games)
+    {
+        <partial name="_GamesIndexPartial" model="game"/>
+    }
+</div>

@@ -1,6 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
+using GamersHub.Services.Mapping;
 
 namespace GamersHub.Services.Data.Games
 {
@@ -11,6 +14,14 @@ namespace GamersHub.Services.Data.Games
         public GamesService(IDeletableEntityRepository<Game> gamesRepository)
         {
             this.gamesRepository = gamesRepository;
+        }
+
+        public IEnumerable<T> GetAll<T>()
+        {
+            var games = this.gamesRepository.All()
+                .To<T>().ToList();
+
+            return games;
         }
 
         public async Task<int> CreateAsync(string title, string subTitle, string description, string imageUrl)
