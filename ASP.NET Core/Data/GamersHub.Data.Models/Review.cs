@@ -5,7 +5,8 @@ namespace GamersHub.Data.Models
 {
     public class Review : BaseDeletableModel<int>
     {
-        [Required] public string Content { get; set; }
+        [Required]
+        public string Content { get; set; }
 
         public string UserId { get; set; }
 

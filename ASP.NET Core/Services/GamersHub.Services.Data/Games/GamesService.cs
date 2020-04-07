@@ -16,6 +16,15 @@ namespace GamersHub.Services.Data.Games
             this.gamesRepository = gamesRepository;
         }
 
+        public T GetById<T>(int id)
+        {
+            var game = this.gamesRepository.All()
+                .Where(x => x.Id == id)
+                .To<T>().FirstOrDefault();
+
+            return game;
+        }
+
         public IEnumerable<T> GetAll<T>()
         {
             var games = this.gamesRepository.All()

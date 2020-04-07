@@ -33,7 +33,12 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(GameCreateInputModel input)
         {
-            using var stream = input.Image.OpenReadStream();
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
+            await using var stream = input.Image.OpenReadStream();
 
             var uploadParams = new ImageUploadParams
             {

@@ -23,5 +23,17 @@ namespace GamersHub.Web.Controllers
 
             return this.View(viewModel);
         }
+
+        public IActionResult ById(int id)
+        {
+            var viewModel = this.gamesService.GetById<GameByIdViewModel>(id);
+
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(viewModel);
+        }
     }
 }
