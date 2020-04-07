@@ -17,11 +17,15 @@
                 <span asp-validation-for="GameId" class="text-danger"></span>
             </div>
             <div class="form-check">
-                <label asp-for="IsPositive"><i class="fas fa-thumbs-up fa-lg text-primary"></i></label>
+                <label asp-for="IsPositive">
+                    <i class="fas fa-thumbs-up fa-lg text-primary"></i>
+                </label>
                 <input asp-for="IsPositive" type="radio" value="@true"/>
             </div>
             <div class="form-check">
-                <label asp-for="IsPositive"><i class="fas fa-thumbs-down fa-lg text-danger"></i></label>
+                <label asp-for="IsPositive">
+                    <i class="fas fa-thumbs-down fa-lg text-danger"></i>
+                </label>
                 <input asp-for="IsPositive" type="radio" value="@false"/>
             </div>
             <div class="form-group">

@@ -1,10 +1,19 @@
 ﻿@using GamersHub.Common
-@model GamersHub.Web.ViewModels.Posts.ReplyInPostViewModel
+@model GamersHub.Web.ViewModels.Games.ReviewInGameViewModel
 
 <div class="card">
     <div class="card-header">
-        <h5 class="d-inline">@Model.UserUsername</h5>
-        <h5 class="float-right">User Publications: @Model.Publications</h5>
+        <h5 class="d-inline">@Model.UserUsername 
+        @if (Model.IsPositive)
+        {
+            <i class="fas fa-thumbs-up fa-lg text-primary"></i>
+        }
+        else
+        {
+            <i class="fas fa-thumbs-down fa-lg text-danger"></i>
+        }
+            </h5>
+        <h5 class="float-right">User Reviews: @Model.UserReviewsCount</h5>
     </div>
     <div class="card-body">
         <p class="card-text">@Html.Raw(Model.SanitizedContent)</p>
@@ -12,8 +21,8 @@
              this.User.IsInRole(GlobalConstants.AdministratorRoleName) ||
              this.User.IsInRole(GlobalConstants.ModeratorRoleName))
         {
-            <a asp-controller="Replies" asp-action="Delete" asp-route-id="@Model.Id" class="d-inline-block float-right m-1 btn btn-danger" type="submit">Delete</a>
-            <a asp-controller="Replies" asp-action="Edit" asp-route-id="@Model.Id" class="d-inline-block float-right m-1 btn btn-warning" type="submit">Edit</a>
+            <a asp-controller="Reviews" asp-action="Delete" asp-route-id="@Model.Id" class="d-inline-block float-right m-1 btn btn-danger" type="submit">Delete</a>
+            <a asp-controller="Reviews" asp-action="Edit" asp-route-id="@Model.Id" class="d-inline-block float-right m-1 btn btn-warning" type="submit">Edit</a>
         }
     </div>
     <div class="card-footer">

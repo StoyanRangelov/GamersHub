@@ -82,7 +82,7 @@ namespace GamersHub.Web.Controllers
                 inputModel.Content,
                 userId);
 
-            return this.RedirectToAction(nameof(this.ById), new {id = postId});
+            return this.RedirectToAction(nameof(this.ById), new {id = postId, name = inputModel.Url});
         }
 
         public IActionResult Edit(int id)
@@ -116,7 +116,7 @@ namespace GamersHub.Web.Controllers
         }
 
 
-        [Authorize(Roles = GlobalConstants.AdministratorAndModeratorRoleNames)]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public IActionResult Delete(int id)
         {
             var viedModel = this.postsService.GetById<PostDeleteViewModel>(id);
@@ -125,7 +125,7 @@ namespace GamersHub.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = GlobalConstants.AdministratorAndModeratorRoleNames)]
+        [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Delete(PostDeleteViewModel input)
         {
             await this.postsService.DeleteAsync(input.Id);

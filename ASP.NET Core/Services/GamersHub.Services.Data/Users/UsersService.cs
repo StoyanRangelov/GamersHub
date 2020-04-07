@@ -36,7 +36,9 @@ namespace GamersHub.Services.Data.Users
                 .Where(x => x.Roles
                     .Select(x => x.RoleId).All(x => !x.Equals(administrator.Id)))
                 .Where(x => x.LockoutEnd == null)
-                .OrderByDescending(x => x.Posts.Count)
+                .OrderByDescending(x => x.CreatedOn)
+                .ThenByDescending(x => x.Posts.Count)
+                .ThenByDescending(x => x.Reviews.Count)
                 .ThenByDescending(x => x.Replies.Count)
                 .To<T>().ToList();
 
@@ -47,6 +49,7 @@ namespace GamersHub.Services.Data.Users
         {
             var users = this.userManager.Users
                 .Where(x => x.LockoutEnd != null)
+                .OrderByDescending(x=>x.LockoutEnd)
                 .To<T>().ToList();
 
             return users;

@@ -22,6 +22,8 @@ namespace GamersHub.Web.ViewModels.Posts
         [StringLength(100, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 3)]
         public string Name { get; set; }
 
+        public string Url => UrlParser.ParseToUrl(this.Name);
+
         [Required]
         public string Content { get; set; }
 

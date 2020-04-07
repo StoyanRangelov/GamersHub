@@ -3,6 +3,9 @@
 <div class="col mb-4">
     <div class="card">
         <div class="card-header">
+            Reviews: 
+            <i class="fas fa-thumbs-up fa-lg text-primary"></i> @Model.PositiveReviews
+            <i class="fas fa-thumbs-down fa-lg text-danger"></i> @Model.NegativeReviews
             <a asp-controller="Games" asp-action="@Model.Url" asp-route-id="@Model.Id" class="card-link float-right">To Game</a>
         </div>
         <img class="card-img-top" src="@Model.ImgUrl" alt="@Model.Title" style="height: 500px"/>
@@ -12,10 +15,6 @@
             {
                 <h6 class="card-subtitle mb-2 text-muted">@Model.SubTitle</h6>
             }
-            <p class="card-text">Reviews:</p>
-            <p class="card-text float-right">
-            <i class="fas fa-thumbs-up fa-lg text-primary"></i> @Model.PositiveReviews
-            <i class="fas fa-thumbs-down fa-lg text-danger"></i> @Model.NegativeReviews
         </div>
     </div>
 </div>

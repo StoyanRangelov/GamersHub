@@ -18,6 +18,7 @@ namespace GamersHub.Data.Models
             this.Logins = new HashSet<IdentityUserLogin<string>>();
             this.Posts = new HashSet<Post>();
             this.Replies = new HashSet<Reply>();
+            this.Reviews = new HashSet<Review>();
         }
 
         // Audit info
@@ -39,5 +40,7 @@ namespace GamersHub.Data.Models
         public virtual ICollection<Post> Posts { get; set; }
 
         public virtual ICollection<Reply> Replies { get; set; }
+
+        public virtual ICollection<Review> Reviews { get; set; }
     }
 }

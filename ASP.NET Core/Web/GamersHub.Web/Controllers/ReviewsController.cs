@@ -55,7 +55,10 @@ namespace GamersHub.Web.Controllers
 
             await this.reviewsService.CreateAsync(input.GameId, input.IsPositive, input.Content, userId);
 
-            return this.View();
+            var gameUrl = this.gamesService.GetUrl(input.GameId);
+
+            return this.RedirectToAction("ById", "Games", new {id = input.GameId, name = gameUrl});
         }
+
     }
 }

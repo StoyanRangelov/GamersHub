@@ -25,12 +25,10 @@ namespace GamersHub.Web.ViewModels.Games
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Game, GameViewModel>()
-                .ForMember(x => x.PositiveReviews, y => y
-                    .MapFrom(x => x.Reviews.Count(x => x.IsPositive)));
-
-            configuration.CreateMap<Game, GameViewModel>()
                 .ForMember(x => x.NegativeReviews, y => y
-                    .MapFrom(x => x.Reviews.Count(x => x.IsPositive == false)));
+                    .MapFrom(x => x.Reviews.Count(x => x.IsPositive == false)))
+                .ForMember(x=>x.PositiveReviews, y => y
+                    .MapFrom(x=>x.Reviews.Count(x=>x.IsPositive)));
         }
     }
 }

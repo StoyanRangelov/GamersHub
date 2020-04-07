@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GamersHub.Common;
 using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
@@ -14,6 +15,16 @@ namespace GamersHub.Services.Data.Games
         public GamesService(IDeletableEntityRepository<Game> gamesRepository)
         {
             this.gamesRepository = gamesRepository;
+        }
+
+        public string GetUrl(int id)
+        {
+            var gameName = this.gamesRepository.All()
+                .First(x => x.Id == id).Title;
+
+            var url = UrlParser.ParseToUrl(gameName);
+
+            return url;
         }
 
         public T GetById<T>(int id)

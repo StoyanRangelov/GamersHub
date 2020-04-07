@@ -6,6 +6,7 @@ using GamersHub.Services.Data.Forums;
 using GamersHub.Services.Data.Games;
 using GamersHub.Services.Data.Posts;
 using GamersHub.Services.Data.Replies;
+using GamersHub.Services.Data.Reviews;
 using GamersHub.Services.Data.Users;
 using GamersHub.Web.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -108,6 +109,7 @@ namespace GamersHub.Web
             services.AddTransient<IRepliesService, RepliesService>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IGamesService, GamesService>();
+            services.AddTransient<IReviewsService, ReviewsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -153,12 +155,22 @@ namespace GamersHub.Web
                 endpoints =>
                 {
                     endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                    endpoints.MapControllerRoute("forum", "Forums/{name:minlength(3)}/{id}",
+                    endpoints.MapControllerRoute(
+                        "forum",
+                        "Forums/{name:minlength(3)}/{id}",
                         new {controller = "Forums", action = "ById"});
-                    endpoints.MapControllerRoute("category", "Categories/{name:minlength(3)}/{id}",
+                    endpoints.MapControllerRoute(
+                        "category",
+                        "Categories/{name:minlength(3)}/{id}",
                         new {controller = "Categories", action = "ByName"});
-                    endpoints.MapControllerRoute("post", "Posts/{name:minlength(3)}/{id}",
+                    endpoints.MapControllerRoute(
+                        "post",
+                        "Posts/{name:minlength(3)}/{id}",
                         new {controller = "Posts", action = "ById"});
+                    endpoints.MapControllerRoute(
+                        "game",
+                        "Games/{name:minlength(3)}/{id}",
+                        new {controller = "Games", action = "ById"});
                     endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapRazorPages();
                 });

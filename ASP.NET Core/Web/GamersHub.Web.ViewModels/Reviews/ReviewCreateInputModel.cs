@@ -13,7 +13,7 @@ namespace GamersHub.Web.ViewModels.Reviews
         public string Content { get; set; }
 
         public bool IsPositive { get; set; }
-        
+
         public IEnumerable<GameDropDownViewModel> Games { get; set; }
     }
 }

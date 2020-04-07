@@ -5,6 +5,8 @@ namespace GamersHub.Services.Data.Games
 {
     public interface IGamesService
     {
+        string GetUrl(int id);
+
         T GetById<T>(int id);
 
         IEnumerable<T> GetAll<T>();

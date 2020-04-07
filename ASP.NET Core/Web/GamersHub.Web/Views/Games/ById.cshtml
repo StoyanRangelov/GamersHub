@@ -1,1 +1,51 @@
-﻿
+﻿@using GamersHub.Common
+@model GamersHub.Web.ViewModels.Games.GameByIdViewModel
+@{
+    ViewData["Title"] = "Game";
+}
+<div class="d-inline-block">
+    <a asp-controller="Games" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Back to Games</a>
+</div>
+
+<div class="d-inline-block float-right">
+    <a asp-controller="Reviews" asp-action="Create" type="submit" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i>&nbsp; New Review</a>
+</div>
+
+<div class="d-block">
+    <h2 class="display-3">@Model.Title</h2>
+    @if (Model.SubTitle != null)
+    {
+        <h2>@Model.SubTitle</h2>
+    }
+</div>
+
+<hr/>
+<div class="card">
+    <img class="card-img-top" src="@Model.ImgUrl" alt="@Model.Title"/>
+    <div class="card-body">
+        <p class="card-text">@Html.Raw(Model.SanitisedDescription)</p>
+        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+        {
+            <a asp-area="Administration" asp-controller="Games" asp-action="Delete" asp-route-id="@Model.Id" class="d-inline-block float-right m-1 btn btn-danger" type="submit">Delete</a>
+        }
+        @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) ||
+             this.User.IsInRole(GlobalConstants.ModeratorRoleName))
+        {
+            <a asp-area="Administration" asp-controller="Games" asp-action="Edit" asp-route-id="@Model.Id" class="d-inline-block float-right m-1 btn btn-warning" type="submit">Edit</a>
+        }
+    </div>
+</div>
+
+<div class="d-block">
+    <h2>Reviews</h2>
+    <h2 class="card-tex">
+        <i class="fas fa-thumbs-up fa-lg text-primary"></i> @Model.PositiveReviews
+        <i class="fas fa-thumbs-down fa-lg text-danger"></i> @Model.NegativeReviews
+    </h2>
+</div>
+
+@foreach (var review in Model.Reviews.OrderByDescending(x=>x.CreatedOn))
+{
+    <hr/>
+    <partial name="_GamesByIdPartial" model="review"/>
+}
