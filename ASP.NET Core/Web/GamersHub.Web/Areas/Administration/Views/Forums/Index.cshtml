@@ -33,7 +33,9 @@
         .ThenByDescending(x => x.ForumCategoriesCount))
     {
         <tr>
-            <td>@forum.Name</td>
+            <td>
+                 <a asp-area="" asp-controller="Forums" asp-action="@forum.Url" asp-route-id="@forum.Id" class="card-link">@forum.Name</a>
+            </td>
             <td>@forum.ForumCategoriesCount</td>
             <td>@forum.PostsCount</td>
             <td>

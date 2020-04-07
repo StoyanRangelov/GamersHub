@@ -29,7 +29,9 @@
         .OrderByDescending(x => x.RepliesCount))
     {
         <tr>
-            <td>@post.ShortName</td>
+            <td>
+                <a asp-area="" asp-controller="Posts" asp-action="@post.Url" asp-route-id="@post.Id" class="card-link">@post.ShortName</a>
+            </td>
             <td>@post.ShortUsername</td>
             <td>@post.ShortForumName</td>
             <td>@post.ShortCategoryName</td>
