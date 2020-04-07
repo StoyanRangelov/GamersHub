@@ -3,6 +3,7 @@ using CloudinaryDotNet;
 using GamersHub.Services.Data.Categories;
 using GamersHub.Services.Data.ForumCategories;
 using GamersHub.Services.Data.Forums;
+using GamersHub.Services.Data.Games;
 using GamersHub.Services.Data.Posts;
 using GamersHub.Services.Data.Replies;
 using GamersHub.Services.Data.Users;
@@ -74,10 +75,12 @@ namespace GamersHub.Web
 
             Account account = new Account
             (
-                this.configuration["Cloudinary:AppName"],
-                this.configuration["Cloudinary:AppKey"],
-                this.configuration["Cloudinary:AppSecret"]
+                this.configuration["Cloudinary:CloudName"],
+                this.configuration["Cloudinary:ApiKey"],
+                this.configuration["Cloudinary:ApiSecret"]
             );
+
+            Cloudinary cloudinary = new Cloudinary(account);
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
@@ -87,6 +90,7 @@ namespace GamersHub.Web
 
 
             services.AddSingleton(this.configuration);
+            services.AddSingleton(cloudinary);
 
 
             // Data repositories
@@ -103,6 +107,7 @@ namespace GamersHub.Web
             services.AddTransient<ICategoriesService, CategoriesService>();
             services.AddTransient<IRepliesService, RepliesService>();
             services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<IGamesService, GamesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

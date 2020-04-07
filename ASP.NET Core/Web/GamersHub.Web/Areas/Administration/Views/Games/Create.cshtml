@@ -1,1 +1,40 @@
-﻿
+﻿@model GamersHub.Web.ViewModels.Administration.Games.GameCreateInputModel
+@{
+    ViewData["Title"] = "Create Game";
+}
+
+
+<div class="text-center ">
+    <h1 class="display-3">@this.ViewData["Title"]</h1>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-md-10">
+        <form asp-area="Administration" asp-controller="Games" asp-action="Create" enctype="multipart/form-data" method="post">
+            <div class="form-group">
+                <label asp-for="Title"></label>
+                <input asp-for="Title" class="form-control"/>
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubTitle"></label>
+                <h6 class="text-muted">(Optional)</h6>
+                <input asp-for="SubTitle" class="form-control"/>
+                <span asp-validation-for="SubTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description" class="form-control" rows="15"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Image"></label>
+                <input asp-for="Image" type="file">
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
