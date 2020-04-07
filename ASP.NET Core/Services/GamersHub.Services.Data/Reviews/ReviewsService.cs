@@ -58,5 +58,14 @@ namespace GamersHub.Services.Data.Reviews
 
             return review.Id;
         }
+
+        public async Task DeleteAsync(int id)
+        {
+            var review = this.reviewsRepository.All()
+                .FirstOrDefault(x => x.Id == id);
+
+            this.reviewsRepository.Delete(review);
+            await this.reviewsRepository.SaveChangesAsync();
+        }
     }
 }

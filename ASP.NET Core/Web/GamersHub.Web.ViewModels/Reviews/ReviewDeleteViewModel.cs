@@ -1,13 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
 using GamersHub.Common;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
+using Ganss.XSS;
 
 namespace GamersHub.Web.ViewModels.Reviews
 {
-    public class ReviewEditViewModel : IMapFrom<Review>
+    public class ReviewDeleteViewModel : IMapFrom<Review>
     {
         public int Id { get; set; }
+
+        public DateTime CreatedOn { get; set; }
+
+        public DateTime? ModifiedOn { get; set; }
 
         public int GameId { get; set; }
 
@@ -17,7 +22,13 @@ namespace GamersHub.Web.ViewModels.Reviews
 
         public string GameSubTitle { get; set; }
 
-        [Required] public string Content { get; set; }
+        public string Content { get; set; }
+
+        public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content);
+
+        public string UserUsername { get; set; }
+
+        public string UserReviewsCount { get; set; }
 
         public bool IsPositive { get; set; }
     }

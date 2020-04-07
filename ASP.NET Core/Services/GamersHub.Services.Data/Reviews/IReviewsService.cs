@@ -9,5 +9,7 @@ namespace GamersHub.Services.Data.Reviews
         Task<int> CreateAsync(int gameId, bool isPositive, string content, string userId);
 
         Task<int> EditAsync(int id, string content, bool isPositive);
+
+        Task DeleteAsync(int id);
     }
 }

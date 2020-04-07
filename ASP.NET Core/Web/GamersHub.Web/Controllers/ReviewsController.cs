@@ -90,11 +90,27 @@ namespace GamersHub.Web.Controllers
                 return this.NotFound();
             }
 
-            var gameUrl = UrlParser.ParseToUrl(input.GameTitle);
-
-            return this.RedirectToAction("ById", "Games", new {id = input.GameId, name = gameUrl});
-
+            return this.RedirectToAction("ById", "Games", new {id = input.GameId, name = input.GameUrl});
         }
 
+        public IActionResult Delete(int id)
+        {
+            var viewModel = this.reviewsService.GetById<ReviewDeleteViewModel>(id);
+
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(ReviewDeleteViewModel input)
+        {
+            await this.reviewsService.DeleteAsync(input.Id);
+
+            return this.RedirectToAction("ById", "Games", new {id = input.GameId, name = input.GameUrl});
+        }
     }
 }
