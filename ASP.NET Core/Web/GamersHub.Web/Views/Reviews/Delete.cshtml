@@ -19,16 +19,17 @@
 }
 <div class="card">
     <div class="card-header">
-        <h5 class="d-inline">@Model.UserUsername 
-        @if (Model.IsPositive)
-        {
-            <i class="fas fa-thumbs-up fa-lg text-primary"></i>
-        }
-        else
-        {
-            <i class="fas fa-thumbs-down fa-lg text-danger"></i>
-        }
-            </h5>
+        <h5 class="d-inline">
+            @Model.UserUsername
+            @if (Model.IsPositive)
+            {
+                <i class="fas fa-thumbs-up fa-lg text-primary"></i>
+            }
+            else
+            {
+                <i class="fas fa-thumbs-down fa-lg text-danger"></i>
+            }
+        </h5>
         <h5 class="float-right">User Reviews: @Model.UserReviewsCount</h5>
     </div>
     <div class="card-body">
@@ -45,11 +46,14 @@
 
 <form class="d-inline-block m-1" asp-area="" asp-controller="Reviews" asp-action="Delete" method="post">
     <div class="form-group">
-            <input type="hidden" name="GameTitle" value="@Model.GameTitle"/>
-        </div>
-        <div class="form-group">
-            <input type="hidden" name="GameId" value="@Model.GameId"/>
-        </div>
+        <input type="hidden" name="GameTitle" value="@Model.GameTitle"/>
+    </div>
+    <div class="form-group">
+        <input type="hidden" name="GameId" value="@Model.GameId"/>
+    </div>
+    <div class="form-group">
+        <input type="hidden" name="UserId" value="@Model.UserId"/>
+    </div>
     <div class="form-group">
         <input type="submit" value="Delete" class="btn btn-danger btn-lg"/>
     </div>

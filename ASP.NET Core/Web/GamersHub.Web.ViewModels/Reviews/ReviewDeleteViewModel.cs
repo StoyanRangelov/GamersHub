@@ -26,6 +26,8 @@ namespace GamersHub.Web.ViewModels.Reviews
 
         public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content);
 
+        public string UserId { get; set; }
+
         public string UserUsername { get; set; }
 
         public string UserReviewsCount { get; set; }

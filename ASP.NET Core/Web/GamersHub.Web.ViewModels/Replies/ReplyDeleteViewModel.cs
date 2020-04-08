@@ -22,6 +22,8 @@ namespace GamersHub.Web.ViewModels.Replies
 
         public string PostUrl { get; set; }
 
+        public string UserId { get; set; }
+
         public string UserUsername { get; set; }
 
         public int UserPostsCount { get; set; }

@@ -49,7 +49,7 @@ namespace GamersHub.Services.Data.Users
         {
             var users = this.userManager.Users
                 .Where(x => x.LockoutEnd != null)
-                .OrderByDescending(x=>x.LockoutEnd)
+                .OrderByDescending(x => x.LockoutEnd)
                 .To<T>().ToList();
 
             return users;
@@ -137,6 +137,21 @@ namespace GamersHub.Services.Data.Users
             var user = this.userManager.Users.FirstOrDefault(x => x.Id == id);
 
             await this.userManager.SetLockoutEndDateAsync(user, null);
+        }
+
+        public async Task<bool> ValidateUserCanEditDeleteById(string id, ApplicationUser user)
+        {
+            var userId = await this.userManager.GetUserIdAsync(user);
+            var userRoles = await this.userManager.GetRolesAsync(user);
+
+            if (userId != id &&
+                !userRoles.Contains(GlobalConstants.AdministratorRoleName) &&
+                !userRoles.Contains(GlobalConstants.ModeratorRoleName))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

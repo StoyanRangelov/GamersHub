@@ -5,6 +5,7 @@ using GamersHub.Services.Data;
 using GamersHub.Services.Data.Categories;
 using GamersHub.Services.Data.Forums;
 using GamersHub.Services.Data.Posts;
+using GamersHub.Services.Data.Users;
 using GamersHub.Web.ViewModels.Posts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,17 +20,20 @@ namespace GamersHub.Web.Controllers
         private readonly ICategoriesService categoriesService;
         private readonly IForumsService forumsService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUsersService usersService;
 
         public PostsController(
             IPostsService postsService,
             ICategoriesService categoriesService,
             IForumsService forumsService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IUsersService usersService)
         {
             this.postsService = postsService;
             this.categoriesService = categoriesService;
             this.forumsService = forumsService;
             this.userManager = userManager;
+            this.usersService = usersService;
         }
 
         public IActionResult ById(int id)
@@ -85,7 +89,7 @@ namespace GamersHub.Web.Controllers
             return this.RedirectToAction(nameof(this.ById), new {id = postId, name = inputModel.Url});
         }
 
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var viewModel = this.postsService.GetById<PostEditViewModel>(id);
 
@@ -94,12 +98,30 @@ namespace GamersHub.Web.Controllers
                 return this.NotFound();
             }
 
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            bool isUserAllowedToEdit = await this.usersService.ValidateUserCanEditDeleteById(viewModel.UserId, user);
+
+            if (isUserAllowedToEdit == false)
+            {
+                return this.Redirect("/Identity/Account/AccessDenied");
+            }
+
             return this.View(viewModel);
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(PostEditViewModel input)
         {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            bool isUserAllowedToEdit = await this.usersService.ValidateUserCanEditDeleteById(input.UserId, user);
+
+            if (isUserAllowedToEdit == false)
+            {
+                return this.Redirect("/Identity/Account/AccessDenied");
+            }
+
             if (!this.ModelState.IsValid)
             {
                 return this.View(input);

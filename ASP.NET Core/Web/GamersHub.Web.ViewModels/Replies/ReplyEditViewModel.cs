@@ -8,8 +8,9 @@ namespace GamersHub.Web.ViewModels.Replies
     {
         public int Id { get; set; }
 
-        [Required]
-        public string Content { get; set; }
+        public string UserId { get; set; }
+
+        [Required] public string Content { get; set; }
 
         public int PostId { get; set; }
 

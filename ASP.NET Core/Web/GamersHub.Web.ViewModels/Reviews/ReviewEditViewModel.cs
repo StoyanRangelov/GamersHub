@@ -9,6 +9,8 @@ namespace GamersHub.Web.ViewModels.Reviews
     {
         public int Id { get; set; }
 
+        public string UserId { get; set; }
+
         public int GameId { get; set; }
 
         public string GameTitle { get; set; }

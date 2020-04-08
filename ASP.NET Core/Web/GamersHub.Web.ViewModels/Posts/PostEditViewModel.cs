@@ -9,6 +9,8 @@ namespace GamersHub.Web.ViewModels.Posts
     {
         public int Id { get; set; }
 
+        public string UserId { get; set; }
+
         [Required]
         [StringLength(100, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 3)]
         public string Name { get; set; }

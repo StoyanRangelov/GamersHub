@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using GamersHub.Data.Models;
 
 namespace GamersHub.Services.Data.Users
 {
@@ -26,5 +27,7 @@ namespace GamersHub.Services.Data.Users
         Task BanAsync(string id);
 
         Task UnbanAsync(string id);
+
+        Task<bool> ValidateUserCanEditDeleteById(string id, ApplicationUser user);
     }
 }
