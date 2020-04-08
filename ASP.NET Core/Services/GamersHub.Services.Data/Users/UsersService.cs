@@ -138,20 +138,5 @@ namespace GamersHub.Services.Data.Users
 
             await this.userManager.SetLockoutEndDateAsync(user, null);
         }
-
-        public async Task<bool> ValidateUserCanEditDeleteById(string id, ApplicationUser user)
-        {
-            var userId = await this.userManager.GetUserIdAsync(user);
-            var userRoles = await this.userManager.GetRolesAsync(user);
-
-            if (userId != id &&
-                !userRoles.Contains(GlobalConstants.AdministratorRoleName) &&
-                !userRoles.Contains(GlobalConstants.ModeratorRoleName))
-            {
-                return false;
-            }
-
-            return true;
-        }
     }
 }

@@ -36,6 +36,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         {
             await this.usersService.DemoteAsync(input.Id);
 
+            this.TempData["InfoMessage"] = "Moderator demoted successfully!";
             return this.RedirectToAction("Index", "Dashboard");
         }
     }

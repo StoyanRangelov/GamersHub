@@ -47,6 +47,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         {
             await this.usersService.PromoteAsync(input.UserId, input.RoleName);
 
+            this.TempData["InfoMessage"] = "User promoted successfully!";
             return this.RedirectToAction("Index", "Dashboard");
         }
 
@@ -62,6 +63,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         {
             await this.usersService.BanAsync(input.Id);
 
+            this.TempData["InfoMessage"] = "User banned successfully!";
             return this.RedirectToAction(nameof(this.Banned));
         }
 
@@ -86,6 +88,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         {
            await this.usersService.UnbanAsync(input.Id);
 
+           this.TempData["InfoMessage"] = "User unbanned successfully!";
            return this.RedirectToAction(nameof(this.Banned));
         }
 

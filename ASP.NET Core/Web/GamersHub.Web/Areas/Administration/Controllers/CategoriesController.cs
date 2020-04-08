@@ -57,6 +57,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
                 return this.View(inputModel);
             }
 
+            this.TempData["InfoMessage"] = "Category created successfully!";
             return this.RedirectToAction(nameof(this.Index));
         }
 
@@ -119,6 +120,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
                 return this.View(input);
             }
 
+            this.TempData["InfoMessage"] = "Category edited successfully!";
             return this.RedirectToAction(nameof(this.Index));
         }
 
@@ -140,6 +142,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         {
             await this.categoriesService.DeleteAsync(input.Id);
 
+            this.TempData["InfoMessage"] = "Category deleted successfully!";
             return this.RedirectToAction(nameof(this.Index));
         }
     }

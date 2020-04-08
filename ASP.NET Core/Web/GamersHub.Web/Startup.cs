@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using CloudinaryDotNet;
 using GamersHub.Services.Data.Categories;
 using GamersHub.Services.Data.ForumCategories;
@@ -58,6 +59,13 @@ namespace GamersHub.Web
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.Configure<CookiePolicyOptions>(
+                options =>
+                {
+                    options.CheckConsentNeeded = context => true;
+                    options.MinimumSameSitePolicy = SameSiteMode.None;
+                });
+
             services.AddDistributedSqlServerCache(options =>
             {
                 options.ConnectionString = this.configuration.GetConnectionString("DefaultConnection");
@@ -65,12 +73,13 @@ namespace GamersHub.Web
                 options.TableName = "CacheRecords";
             });
 
-            services.Configure<CookiePolicyOptions>(
-                options =>
-                {
-                    options.CheckConsentNeeded = context => true;
-                    options.MinimumSameSitePolicy = SameSiteMode.None;
-                });
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromDays(2);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
 
             services.AddControllersWithViews(
                 options =>
@@ -153,6 +162,7 @@ namespace GamersHub.Web
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthentication();

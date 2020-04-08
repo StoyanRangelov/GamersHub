@@ -4,6 +4,14 @@
    
 }
 
+@if (this.TempData["InfoMessage"] != null)
+{
+    <div class="alert alert-success">
+        @this.TempData["InfoMessage"]
+    </div>
+}
+<br/>
+
 <div class="d-inline-block">
     <a asp-area="Administration" asp-controller="Dashboard" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Back to Dashboard</a>
 </div>

@@ -18,18 +18,15 @@ namespace GamersHub.Web.Controllers
         private readonly IGamesService gamesService;
         private readonly IReviewsService reviewsService;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IUsersService usersService;
 
         public ReviewsController(
             IGamesService gamesService,
             IReviewsService reviewsService,
-            UserManager<ApplicationUser> userManager,
-            IUsersService usersService)
+            UserManager<ApplicationUser> userManager)
         {
             this.gamesService = gamesService;
             this.reviewsService = reviewsService;
             this.userManager = userManager;
-            this.usersService = usersService;
         }
 
         public IActionResult Create()
@@ -63,6 +60,7 @@ namespace GamersHub.Web.Controllers
 
             var gameUrl = this.gamesService.GetUrl(input.GameId);
 
+            this.TempData["InfoMessage"] = "Review created successfully!";
             return this.RedirectToAction("ById", "Games", new {id = input.GameId, name = gameUrl});
         }
 
@@ -75,13 +73,16 @@ namespace GamersHub.Web.Controllers
                 return this.NotFound();
             }
 
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            bool isUserAllowedToEdit = await this.usersService.ValidateUserCanEditDeleteById(viewModel.UserId, user);
-
-            if (isUserAllowedToEdit == false)
+            if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName) &&
+                !this.User.IsInRole(GlobalConstants.ModeratorRoleName))
             {
-                return this.Redirect("/Identity/Account/AccessDenied");
+                var user = await this.userManager.GetUserAsync(this.User);
+                var userId = await this.userManager.GetUserIdAsync(user);
+
+                if (userId != viewModel.UserId)
+                {
+                    return this.Redirect("/Identity/Account/AccessDenied");
+                }
             }
 
             return this.View(viewModel);
@@ -91,13 +92,16 @@ namespace GamersHub.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(ReviewEditViewModel input)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            bool isUserAllowedToEdit = await this.usersService.ValidateUserCanEditDeleteById(input.UserId, user);
-
-            if (isUserAllowedToEdit == false)
+            if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName) &&
+                !this.User.IsInRole(GlobalConstants.ModeratorRoleName))
             {
-                return this.Redirect("/Identity/Account/AccessDenied");
+                var user = await this.userManager.GetUserAsync(this.User);
+                var userId = await this.userManager.GetUserIdAsync(user);
+
+                if (userId != input.UserId)
+                {
+                    return this.Redirect("/Identity/Account/AccessDenied");
+                }
             }
 
             if (!this.ModelState.IsValid)
@@ -112,6 +116,7 @@ namespace GamersHub.Web.Controllers
                 return this.NotFound();
             }
 
+            this.TempData["InfoMessage"] = "Review edited successfully!";
             return this.RedirectToAction("ById", "Games", new {id = input.GameId, name = input.GameUrl});
         }
 
@@ -124,13 +129,16 @@ namespace GamersHub.Web.Controllers
                 return this.NotFound();
             }
 
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            bool isUserAllowedToDelete = await this.usersService.ValidateUserCanEditDeleteById(viewModel.UserId, user);
-
-            if (isUserAllowedToDelete == false)
+            if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName) &&
+                !this.User.IsInRole(GlobalConstants.ModeratorRoleName))
             {
-                return this.Redirect("/Identity/Account/AccessDenied");
+                var user = await this.userManager.GetUserAsync(this.User);
+                var userId = await this.userManager.GetUserIdAsync(user);
+
+                if (userId != viewModel.UserId)
+                {
+                    return this.Redirect("/Identity/Account/AccessDenied");
+                }
             }
 
             return this.View(viewModel);
@@ -139,17 +147,21 @@ namespace GamersHub.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(ReviewDeleteViewModel input)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            bool isUserAllowedToDelete = await this.usersService.ValidateUserCanEditDeleteById(input.UserId, user);
-
-            if (isUserAllowedToDelete == false)
+            if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName) &&
+                !this.User.IsInRole(GlobalConstants.ModeratorRoleName))
             {
-                return this.Redirect("/Identity/Account/AccessDenied");
+                var user = await this.userManager.GetUserAsync(this.User);
+                var userId = await this.userManager.GetUserIdAsync(user);
+
+                if (userId != input.UserId)
+                {
+                    return this.Redirect("/Identity/Account/AccessDenied");
+                }
             }
 
             await this.reviewsService.DeleteAsync(input.Id);
 
+            this.TempData["InfoMessage"] = "Review deleted successfully!";
             return this.RedirectToAction("ById", "Games", new {id = input.GameId, name = input.GameUrl});
         }
     }

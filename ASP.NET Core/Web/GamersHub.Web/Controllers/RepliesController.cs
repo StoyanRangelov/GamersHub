@@ -19,17 +19,15 @@ namespace GamersHub.Web.Controllers
         private readonly IRepliesService repliesService;
         private readonly IPostsService postsService;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IUsersService usersService;
 
         public RepliesController(
             IPostsService postsService,
             IRepliesService repliesService,
-            UserManager<ApplicationUser> userManager, IUsersService usersService)
+            UserManager<ApplicationUser> userManager)
         {
             this.postsService = postsService;
             this.repliesService = repliesService;
             this.userManager = userManager;
-            this.usersService = usersService;
         }
 
         public IActionResult Create(int id)
@@ -66,6 +64,7 @@ namespace GamersHub.Web.Controllers
 
             await this.repliesService.CreateAsync(input.PostId, userId, input.Content);
 
+            this.TempData["InfoMessage"] = "Reply created successfully!";
             return this.RedirectToAction("ById", "Posts", new {id = input.PostId, name = input.PostUrl});
         }
 
@@ -78,13 +77,16 @@ namespace GamersHub.Web.Controllers
                 return this.NotFound();
             }
 
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            bool isUserAllowedToEdit = await this.usersService.ValidateUserCanEditDeleteById(viewModel.UserId, user);
-
-            if (isUserAllowedToEdit == false)
+            if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName) &&
+                !this.User.IsInRole(GlobalConstants.ModeratorRoleName))
             {
-                return this.Redirect("/Identity/Account/AccessDenied");
+                var user = await this.userManager.GetUserAsync(this.User);
+                var userId = await this.userManager.GetUserIdAsync(user);
+
+                if (userId != viewModel.UserId)
+                {
+                    return this.Redirect("/Identity/Account/AccessDenied");
+                }
             }
 
             return this.View(viewModel);
@@ -93,13 +95,16 @@ namespace GamersHub.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(ReplyEditViewModel input)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            bool isUserAllowedToEdit = await this.usersService.ValidateUserCanEditDeleteById(input.UserId, user);
-
-            if (isUserAllowedToEdit == false)
+            if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName) &&
+                !this.User.IsInRole(GlobalConstants.ModeratorRoleName))
             {
-                return this.Redirect("/Identity/Account/AccessDenied");
+                var user = await this.userManager.GetUserAsync(this.User);
+                var userId = await this.userManager.GetUserIdAsync(user);
+
+                if (userId != input.UserId)
+                {
+                    return this.Redirect("/Identity/Account/AccessDenied");
+                }
             }
 
             if (!this.ModelState.IsValid)
@@ -116,6 +121,7 @@ namespace GamersHub.Web.Controllers
                 return this.NotFound();
             }
 
+            this.TempData["InfoMessage"] = "Reply edited successfully!";
             return this.RedirectToAction("ById", "Posts", new {id = input.PostId, name = input.PostUrl});
         }
 
@@ -128,13 +134,16 @@ namespace GamersHub.Web.Controllers
                 return this.NotFound();
             }
 
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            bool isUserAllowedToDelete = await this.usersService.ValidateUserCanEditDeleteById(viewModel.UserId, user);
-
-            if (isUserAllowedToDelete == false)
+            if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName) &&
+                !this.User.IsInRole(GlobalConstants.ModeratorRoleName))
             {
-                return this.Redirect("/Identity/Account/AccessDenied");
+                var user = await this.userManager.GetUserAsync(this.User);
+                var userId = await this.userManager.GetUserIdAsync(user);
+
+                if (userId != viewModel.UserId)
+                {
+                    return this.Redirect("/Identity/Account/AccessDenied");
+                }
             }
 
             return this.View(viewModel);
@@ -143,17 +152,21 @@ namespace GamersHub.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(ReplyDeleteViewModel input)
         {
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            bool isUserAllowedToDelete = await this.usersService.ValidateUserCanEditDeleteById(input.UserId, user);
-
-            if (isUserAllowedToDelete == false)
+            if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName) &&
+                !this.User.IsInRole(GlobalConstants.ModeratorRoleName))
             {
-                return this.Redirect("/Identity/Account/AccessDenied");
+                var user = await this.userManager.GetUserAsync(this.User);
+                var userId = await this.userManager.GetUserIdAsync(user);
+
+                if (userId != input.UserId)
+                {
+                    return this.Redirect("/Identity/Account/AccessDenied");
+                }
             }
 
             await this.repliesService.DeleteAsync(input.Id);
 
+            this.TempData["InfoMessage"] = "Reply deleted successfully!";
             return this.RedirectToAction("ById", "Posts", new {id = input.PostId, name = input.PostUrl});
         }
     }

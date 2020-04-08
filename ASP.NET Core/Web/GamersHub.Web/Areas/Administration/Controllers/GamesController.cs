@@ -54,6 +54,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
 
             await this.gamesService.CreateAsync(input.Title, input.SubTitle, input.Description, imageUrl);
 
+            this.TempData["InfoMessage"] = "Game created successfully!";
             return this.RedirectToAction(nameof(this.Index));
         }
     }

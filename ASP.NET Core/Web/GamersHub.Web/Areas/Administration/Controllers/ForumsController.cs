@@ -58,6 +58,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
                 return this.View(inputModel);
             }
 
+            this.TempData["InfoMessage"] = "Forum created successfully!";
             return this.RedirectToAction(nameof(this.Index));
         }
 
@@ -120,6 +121,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
                 return this.View(input);
             }
 
+            this.TempData["InfoMessage"] = "Forum edited successfully!";
             return this.RedirectToAction(nameof(this.Index));
         }
 
@@ -140,6 +142,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         {
             await this.forumsService.DeleteAsync(input.Id);
 
+            this.TempData["InfoMessage"] = "Forum deleted successfully!";
             return this.RedirectToAction(nameof(this.Index));
         }
     }
