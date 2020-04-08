@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
 
@@ -7,6 +8,8 @@ namespace GamersHub.Web.ViewModels.Administration.Categories
     public class CategoryDeleteViewModel : IMapFrom<Category>
     {
         public int Id { get; set; }
+
+        public DateTime CreatedOn { get; set; }
 
         public string Name { get; set; }
 

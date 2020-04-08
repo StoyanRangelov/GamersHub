@@ -16,6 +16,9 @@
 <div class="row">
     <div class="col-md-6">
         <div class="card">
+            <div class="card-header">
+                <span class="float-right">Created on: <time datetime="@Model.CreatedOn"></time></span>
+            </div>
             <div class="card-body">
                 <h5 class="card-title">@Model.Name</h5>
                 <p class="card-text">Total Posts: <span class="badge badge-primary">@Model.PostsCount</span></p>
