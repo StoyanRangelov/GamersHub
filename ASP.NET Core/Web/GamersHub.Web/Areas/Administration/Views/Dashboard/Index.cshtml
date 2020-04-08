@@ -80,7 +80,7 @@
                         {
                             <li class="list-group-item">
                                 @user.ShortUsername
-                                <span class="float-right">Ban Expires on: <span class="badge badge-primary">@user.LockoutEnd.ToString("MM/dd/yyyy hh:mm tt")</span></span>
+                                <span class="float-right">Ban Expires on: <span class="badge badge-primary"><time datetime="@user.LockoutEnd"></time></span></span>
                             </li>
                         }
                     </ul>

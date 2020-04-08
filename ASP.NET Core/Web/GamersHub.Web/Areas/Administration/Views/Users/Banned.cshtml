@@ -24,7 +24,7 @@
     {
         <tr>
             <td>@user.Username</td>
-            <td>@user.LockoutEnd.ToString("MM/dd/yyyy hh:mm tt")</td>
+            <td><time datetime="@user.LockoutEnd"></time></td>
             <td>
                 <a asp-area="Administration" asp-controller="Users" asp-action="Unban" asp-route-id="@user.Id" class="d-inline-block btn btn-primary" type="submit">Unban</a>
             </td>

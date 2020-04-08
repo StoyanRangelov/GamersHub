@@ -15,10 +15,10 @@
         <p class="card-text">@Html.Raw(Model.SanitizedContent)</p>
     </div>
     <div class="card-footer">
-        <span class="d-inline"><i class="fas fa-calendar-alt"></i> Posted On: @Model.CreatedOn.ToString("MM/dd/yyyy hh:mm tt")</span>
+        <span class="d-inline"><i class="fas fa-calendar-alt"></i> Posted on: <time datetime="@Model.CreatedOn"></time></span>
         @if (Model.ModifiedOn != null)
         {
-            <span class="float-right"><i class="fas fa-calendar-alt"></i> Last Modified: @Model.ModifiedOn.Value.ToString("MM/dd/yyyy hh:mm tt")</span>
+            <span class="float-right"><i class="fas fa-calendar-alt"></i> Last Modified: <time datetime="@Model.ModifiedOn"></time></span>
         }
     </div>
 </div>
