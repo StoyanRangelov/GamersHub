@@ -80,6 +80,8 @@ namespace GamersHub.Web
                 options.Cookie.IsEssential = true;
             });
 
+            services.AddResponseCompression(options => { options.EnableForHttps = true; });
+
 
             services.AddControllersWithViews(
                 options =>
@@ -158,6 +160,7 @@ namespace GamersHub.Web
                 app.UseHsts();
             }
 
+            app.UseResponseCompression();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

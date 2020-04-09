@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Security.Claims;
+using System.Threading.Tasks;
 using GamersHub.Common;
 using GamersHub.Data.Models;
 using GamersHub.Services.Data.Games;
@@ -53,8 +54,7 @@ namespace GamersHub.Web.Controllers
                 return this.View(input);
             }
 
-            var currentUser = await this.userManager.GetUserAsync(this.User);
-            var userId = await this.userManager.GetUserIdAsync(currentUser);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             await this.reviewsService.CreateAsync(input.GameId, input.IsPositive, input.Content, userId);
 
@@ -64,7 +64,7 @@ namespace GamersHub.Web.Controllers
             return this.RedirectToAction("ById", "Games", new {id = input.GameId, name = gameUrl});
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public ActionResult Edit(int id)
         {
             var viewModel = this.reviewsService.GetById<ReviewEditViewModel>(id);
 
@@ -76,8 +76,7 @@ namespace GamersHub.Web.Controllers
             if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName) &&
                 !this.User.IsInRole(GlobalConstants.ModeratorRoleName))
             {
-                var user = await this.userManager.GetUserAsync(this.User);
-                var userId = await this.userManager.GetUserIdAsync(user);
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 if (userId != viewModel.UserId)
                 {
@@ -95,8 +94,7 @@ namespace GamersHub.Web.Controllers
             if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName) &&
                 !this.User.IsInRole(GlobalConstants.ModeratorRoleName))
             {
-                var user = await this.userManager.GetUserAsync(this.User);
-                var userId = await this.userManager.GetUserIdAsync(user);
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 if (userId != input.UserId)
                 {
@@ -120,7 +118,7 @@ namespace GamersHub.Web.Controllers
             return this.RedirectToAction("ById", "Games", new {id = input.GameId, name = input.GameUrl});
         }
 
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
             var viewModel = this.reviewsService.GetById<ReviewDeleteViewModel>(id);
 
@@ -132,8 +130,7 @@ namespace GamersHub.Web.Controllers
             if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName) &&
                 !this.User.IsInRole(GlobalConstants.ModeratorRoleName))
             {
-                var user = await this.userManager.GetUserAsync(this.User);
-                var userId = await this.userManager.GetUserIdAsync(user);
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 if (userId != viewModel.UserId)
                 {
@@ -150,8 +147,7 @@ namespace GamersHub.Web.Controllers
             if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName) &&
                 !this.User.IsInRole(GlobalConstants.ModeratorRoleName))
             {
-                var user = await this.userManager.GetUserAsync(this.User);
-                var userId = await this.userManager.GetUserIdAsync(user);
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 if (userId != input.UserId)
                 {

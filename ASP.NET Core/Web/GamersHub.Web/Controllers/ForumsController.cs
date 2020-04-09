@@ -17,12 +17,10 @@ namespace GamersHub.Web.Controllers
     public class ForumsController : BaseController
     {
         private readonly IForumsService forumsService;
-        private readonly ICategoriesService categoriesService;
 
-        public ForumsController(IForumsService forumsService, ICategoriesService categoriesService)
+        public ForumsController(IForumsService forumsService)
         {
             this.forumsService = forumsService;
-            this.categoriesService = categoriesService;
         }
 
         public IActionResult Index()

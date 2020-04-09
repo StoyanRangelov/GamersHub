@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Security.Claims;
+using System.Threading.Tasks;
 using GamersHub.Common;
 using GamersHub.Data.Models;
 using GamersHub.Services.Data;
@@ -73,8 +74,7 @@ namespace GamersHub.Web.Controllers
                 return this.View(inputModel);
             }
 
-            var currentUser = await this.userManager.GetUserAsync(this.User);
-            var userId = await this.userManager.GetUserIdAsync(currentUser);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var postId = await this.postsService.CreateAsync(
                 inputModel.ForumId,
@@ -87,7 +87,7 @@ namespace GamersHub.Web.Controllers
             return this.RedirectToAction(nameof(this.ById), new {id = postId, name = inputModel.Url});
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public IActionResult Edit(int id)
         {
             var viewModel = this.postsService.GetById<PostEditViewModel>(id);
 
@@ -99,8 +99,7 @@ namespace GamersHub.Web.Controllers
             if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName) &&
                 !this.User.IsInRole(GlobalConstants.ModeratorRoleName))
             {
-                var user = await this.userManager.GetUserAsync(this.User);
-                var userId = await this.userManager.GetUserIdAsync(user);
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 if (userId != viewModel.UserId)
                 {
@@ -117,8 +116,7 @@ namespace GamersHub.Web.Controllers
             if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName) &&
                 !this.User.IsInRole(GlobalConstants.ModeratorRoleName))
             {
-                var user = await this.userManager.GetUserAsync(this.User);
-                var userId = await this.userManager.GetUserIdAsync(user);
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 if (userId != input.UserId)
                 {
