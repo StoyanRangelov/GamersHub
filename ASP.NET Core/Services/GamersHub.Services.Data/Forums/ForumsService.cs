@@ -141,7 +141,7 @@ namespace GamersHub.Services.Data.Forums
             }
 
             var posts = this.postsRepository.All()
-                .Where(x => x.ForumId == id);
+                .Where(x => x.ForumId == id).ToList();
 
             foreach (var post in posts)
             {

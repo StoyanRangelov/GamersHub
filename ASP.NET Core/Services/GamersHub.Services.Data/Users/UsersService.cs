@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using GamersHub.Common;
 using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
+using GamersHub.Services.Data.Posts;
+using GamersHub.Services.Data.Replies;
+using GamersHub.Services.Data.Reviews;
 using GamersHub.Services.Mapping;
 using Microsoft.AspNetCore.Identity;
 
@@ -14,11 +17,16 @@ namespace GamersHub.Services.Data.Users
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<ApplicationRole> roleManager;
+        private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
 
-        public UsersService(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+        public UsersService(
+            UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager,
+            IDeletableEntityRepository<ApplicationUser> usersRepository)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
+            this.usersRepository = usersRepository;
         }
 
         public IEnumerable<T> GetAllPromotableUsers<T>()
@@ -137,6 +145,38 @@ namespace GamersHub.Services.Data.Users
             var user = this.userManager.Users.FirstOrDefault(x => x.Id == id);
 
             await this.userManager.SetLockoutEndDateAsync(user, null);
+        }
+
+        public async Task<bool> DeleteAsync(string id)
+        {
+            var user = this.usersRepository.All().FirstOrDefault(x => x.Id == id);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            var isAdministrator = await userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
+            var isModerator = await userManager.IsInRoleAsync(user, GlobalConstants.ModeratorRoleName);
+
+
+            if (isAdministrator)
+            {
+                await userManager.RemoveFromRoleAsync(user, GlobalConstants.AdministratorRoleName);
+            }
+
+            if (isModerator)
+            {
+                await userManager.RemoveFromRoleAsync(user, GlobalConstants.ModeratorRoleName);
+            }
+
+            user.UserName = null;
+            user.NormalizedUserName = null;
+            this.usersRepository.Delete(user);
+
+            await this.usersRepository.SaveChangesAsync();
+
+            return true;
         }
     }
 }

@@ -143,7 +143,7 @@ namespace GamersHub.Services.Data.Categories
             }
 
             var posts = this.postsRepository.All()
-                .Where(x => x.CategoryId == id);
+                .Where(x => x.CategoryId == id).ToList();
 
             foreach (var post in posts)
             {
