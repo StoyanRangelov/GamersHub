@@ -2,7 +2,11 @@
 @model GamersHub.Web.ViewModels.Games.GameByIdViewModel
 @{
     ViewData["Title"] = "Game";
+    ViewData["Description"] = $"Reviews for Video Game {@Model.Title}";
 }
+
+<meta name="description" content="@ViewData["Description"]"/>
+<meta name="keywords" content="Video Game,Reviews,@Model.Title"/>
 
 @if (this.TempData["InfoMessage"] != null)
 {

@@ -1,7 +1,11 @@
 ﻿@model GamersHub.Web.ViewModels.Categories.ForumCategoryViewModel
 @{
     ViewData["Title"] = $"{Model.ForumCategory.ForumName} - {Model.ForumCategory.CategoryName}";
+    ViewData["Description"] = "Video Game Forum with Categories for discussions.";
 }
+<meta name="description" content="@ViewData["Description"]"/>
+<meta name="keywords" content="Game,@Model.ForumCategory.ForumName,@Model.ForumCategory.CategoryName," />
+
 <div class="d-inline-block">
     <a asp-controller="Forums" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Back to Forums</a>
 </div>

@@ -3,7 +3,12 @@
 @model GamersHub.Web.ViewModels.Forums.ForumIndexViewModel
 @{
     ViewData["Title"] = "All Forums";
+    ViewData["Description"] = "Video Game Forums for discussions.";
 }
+
+<meta name="description" content="@ViewData["Description"]"/>
+<meta name="keywords" content="Video Game,Forums,Discussion"/>
+
 <div class="d-inline-block float-right">
     <a asp-controller="Posts" asp-action="Create" type="submit" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i>&nbsp; New Post</a>
 </div>

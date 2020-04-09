@@ -1,7 +1,11 @@
 ﻿@model GamersHub.Web.ViewModels.Forums.ForumByIdViewModel
 @{
     ViewData["Title"] = Model.Name;
+    ViewData["Description"] = $"Video Game Forum for {@Model.Name}";
 }
+
+<meta name="description" content="@ViewData["Description"]"/>
+<meta name="keywords" content="Video Game,Forum,@Model.Name"/>
 
 @if (this.TempData["InfoMessage"] != null)
 {
