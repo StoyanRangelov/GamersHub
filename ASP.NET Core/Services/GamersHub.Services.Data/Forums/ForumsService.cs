@@ -30,10 +30,11 @@ namespace GamersHub.Services.Data.Forums
             this.repliesRepository = repliesRepository;
         }
 
-        public IEnumerable<T> GetAll<T>(int? count = null)
+        public IEnumerable<T> GetAll<T>(int? count = null, int skip = 0)
         {
             IQueryable<Forum> query =
-                this.forumsRepository.All();
+                this.forumsRepository.All()
+                    .OrderByDescending(x => x.Posts.Count).Skip(skip);
             if (count.HasValue)
             {
                 query = query.Take(count.Value);
@@ -169,6 +170,11 @@ namespace GamersHub.Services.Data.Forums
 
             this.forumsRepository.Delete(forum);
             await this.forumsRepository.SaveChangesAsync();
+        }
+
+        public int GetCount()
+        {
+            return this.forumsRepository.All().Count();
         }
 
         private bool CheckIfExistsByName(string name)

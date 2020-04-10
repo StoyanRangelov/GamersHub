@@ -5,7 +5,7 @@ namespace GamersHub.Services.Data.Forums
 {
     public interface IForumsService
     {
-        IEnumerable<T> GetAll<T>(int? count = null);
+        IEnumerable<T> GetAll<T>(int? count = null, int skip = 0);
 
         IEnumerable<T> GetTopFive<T>();
 
@@ -18,5 +18,7 @@ namespace GamersHub.Services.Data.Forums
         Task<int> EditAsync(int id, string name, int[] categoryIds, bool[] areSelected);
 
         Task DeleteAsync(int id);
+
+        int GetCount();
     }
 }

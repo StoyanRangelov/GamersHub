@@ -16,6 +16,8 @@ namespace GamersHub.Web.Controllers
     [Authorize]
     public class ForumsController : BaseController
     {
+        private const int ForumsPerPage = 6;
+
         private readonly IForumsService forumsService;
 
         public ForumsController(IForumsService forumsService)
@@ -23,13 +25,22 @@ namespace GamersHub.Web.Controllers
             this.forumsService = forumsService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int id = 1)
         {
             var forums = this.forumsService
-                .GetAll<ForumViewModel>();
+                .GetAll<ForumViewModel>(ForumsPerPage, (id - 1) * ForumsPerPage);
 
             var viewModel = new ForumIndexViewModel {Forums = forums};
 
+            var count = this.forumsService.GetCount();
+
+            viewModel.PagesCount = (int) Math.Ceiling((double) count / ForumsPerPage);
+            if (viewModel.PagesCount == 0)
+            {
+                viewModel.PagesCount = 1;
+            }
+
+            viewModel.CurrentPage = id;
 
             return this.View(viewModel);
         }
