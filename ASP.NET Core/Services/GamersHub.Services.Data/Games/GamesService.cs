@@ -72,6 +72,32 @@ namespace GamersHub.Services.Data.Games
            return game.Id;
         }
 
+        public async Task<int> EditAsync(int id, string title, string subTitle, string description, string imageUrl)
+        {
+            var game = this.gamesRepository.All()
+                .FirstOrDefault(x => x.Id == id);
+
+            if (game == null)
+            {
+                return 0;
+            }
+
+            game.Title = title;
+            game.SubTitle = subTitle;
+            game.Description = description;
+
+            if (imageUrl != string.Empty)
+            {
+                game.ImgUrl = imageUrl;
+            }
+
+            this.gamesRepository.Update(game);
+            await this.gamesRepository.SaveChangesAsync();
+
+            return game.Id;
+
+        }
+
         public async Task DeleteAsync(int id)
         {
             var game = this.gamesRepository.All()

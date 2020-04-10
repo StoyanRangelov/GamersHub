@@ -15,6 +15,9 @@ namespace GamersHub.Services.Data.Games
 
         Task<int> CreateAsync(string title, string subTitle, string description, string imageUrl);
 
+        Task<int> EditAsync(int id, string title, string subTitle, string description, string imageUrl);
+
+
         Task DeleteAsync(int id);
     }
 }

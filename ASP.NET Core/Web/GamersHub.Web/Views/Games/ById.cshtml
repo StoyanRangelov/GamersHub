@@ -44,7 +44,7 @@
         @if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) ||
              this.User.IsInRole(GlobalConstants.ModeratorRoleName))
         {
-            <a asp-area="Administration" asp-controller="Games" asp-action="Edit" asp-route-id="@Model.Id" class="d-inline-block float-right m-1 btn btn-warning" type="submit">Edit</a>
+            <a asp-area="" asp-controller="Games" asp-action="Edit" asp-route-id="@Model.Id" class="d-inline-block float-right m-1 btn btn-warning" type="submit">Edit</a>
         }
     </div>
 </div>
