@@ -5,7 +5,7 @@ namespace GamersHub.Services.Data.Categories
 {
     public interface ICategoriesService
     {
-        IEnumerable<T> GetAll<T>(int? count = null);
+        IEnumerable<T> GetAll<T>(int? count = null, int skip = 0);
 
         IEnumerable<T> GetTopFive<T>();
 
@@ -20,5 +20,7 @@ namespace GamersHub.Services.Data.Categories
         Task DeleteAsync(int id);
 
         public string GetNormalisedName(string name);
+
+        int GetCount();
     }
 }

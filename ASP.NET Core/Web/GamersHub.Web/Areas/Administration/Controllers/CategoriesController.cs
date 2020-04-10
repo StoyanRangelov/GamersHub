@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using GamersHub.Common;
 using GamersHub.Services.Data;
@@ -11,6 +12,8 @@ namespace GamersHub.Web.Areas.Administration.Controllers
 {
     public class CategoriesController : AdministrationController
     {
+        private const int CategoriesPerPage = 14;
+        
         private readonly ICategoriesService categoriesService;
         private readonly IForumsService forumsService;
 
@@ -20,12 +23,21 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             this.forumsService = forumsService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int id = 1)
         {
             var categories = this.categoriesService
-                .GetAll<CategoryViewModel>();
+                .GetAll<CategoryViewModel>( CategoriesPerPage, (id - 1) * CategoriesPerPage);
 
             var viewModel = new CategoryIndexViewModel {Categories = categories};
+
+            var count = this.categoriesService.GetCount();
+            viewModel.PagesCount = (int) Math.Ceiling((double) count / CategoriesPerPage);
+            if (viewModel.PagesCount == 0)
+            {
+                viewModel.PagesCount = 1;
+            }
+
+            viewModel.CurrentPage = id;
 
             return this.View(viewModel);
         }

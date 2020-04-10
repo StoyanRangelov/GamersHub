@@ -30,10 +30,12 @@ namespace GamersHub.Services.Data.Categories
             this.repliesRepository = repliesRepository;
         }
 
-        public IEnumerable<T> GetAll<T>(int? count = null)
+        public IEnumerable<T> GetAll<T>(int? count = null, int skip = 0)
         {
             IQueryable<Category> query =
-                this.categoriesRepository.All();
+                this.categoriesRepository.All()
+                    .OrderByDescending(x => x.Posts.Count)
+                    .ThenByDescending(x => x.CategoryForums.Count).Skip(skip);
             if (count.HasValue)
             {
                 query = query.Take(count.Value);
@@ -179,6 +181,11 @@ namespace GamersHub.Services.Data.Categories
             var categoryName = categories.FirstOrDefault(x => UrlParser.ParseToUrl(x) == name);
 
             return categoryName;
+        }
+
+        public int GetCount()
+        {
+            return this.categoriesRepository.All().Count();
         }
 
         private bool CheckIfExistsByName(string name)

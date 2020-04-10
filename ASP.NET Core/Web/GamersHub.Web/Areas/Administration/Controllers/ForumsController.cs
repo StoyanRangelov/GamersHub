@@ -13,7 +13,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
     public class ForumsController : AdministrationController
     {
         private const int ForumsPerPage = 14;
-        
+
         private readonly IForumsService forumsService;
         private readonly ICategoriesService categoriesService;
 
