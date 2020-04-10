@@ -9,7 +9,7 @@ using GamersHub.Services.Mapping;
 
 namespace GamersHub.Web.ViewModels.Forums
 {
-   public class ForumByIdViewModel : IMapFrom<Forum>
+    public class ForumByNameViewModel : IMapFrom<Forum>
     {
         public int Id { get; set; }
 
@@ -17,8 +17,12 @@ namespace GamersHub.Web.ViewModels.Forums
 
         public string Url => UrlParser.ParseToUrl(this.Name);
 
-        public IEnumerable<CategoryInForumByIdViewModel> ForumCategories { get; set; }
+        public int PagesCount { get; set; }
 
-        public IEnumerable<PostInForumViewModel> Posts { get; set; }
+        public int CurrentPage { get; set; }
+
+        public IEnumerable<CategoryInForumByNameViewModel> ForumCategories { get; set; }
+
+        public IEnumerable<PostInForumViewModel> ForumPosts { get; set; }
     }
 }

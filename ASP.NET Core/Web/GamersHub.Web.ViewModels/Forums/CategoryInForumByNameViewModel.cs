@@ -4,7 +4,7 @@ using GamersHub.Services.Mapping;
 
 namespace GamersHub.Web.ViewModels.Forums
 {
-    public class CategoryInForumByIdViewModel : IMapFrom<ForumCategory>
+    public class CategoryInForumByNameViewModel : IMapFrom<ForumCategory>
     {
         public string CategoryName { get; set; }
 

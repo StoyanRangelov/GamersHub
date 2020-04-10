@@ -160,7 +160,7 @@ namespace GamersHub.Web.Controllers
             var forumUrl = UrlParser.ParseToUrl(input.ForumName);
 
             this.TempData["InfoMessage"] = "Post deleted successfully!";
-            return this.RedirectToAction("ById", "Forums", new {id = input.ForumId, name = forumUrl});
+            return this.RedirectToAction("ByName", "Forums", new {name = forumUrl});
         }
     }
 }

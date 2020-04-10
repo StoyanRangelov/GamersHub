@@ -46,6 +46,19 @@ namespace GamersHub.Services.Data.Posts
             return posts;
         }
 
+        public IEnumerable<T> GetAllByForumId<T>(int forumId, int? take = null, int skip = 0)
+        {
+            var query = this.postsRepository.All()
+                .OrderByDescending(x => x.CreatedOn)
+                .Where(x => x.ForumId == forumId).Skip(skip);
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+
+            return query.To<T>().ToList();
+        }
+
         public IEnumerable<T> GetAllByCategoryNameAndForumId<T>(string name, int id)
         {
             var posts = this.postsRepository.All()
@@ -134,6 +147,11 @@ namespace GamersHub.Services.Data.Posts
 
             this.postsRepository.Delete(post);
             await this.postsRepository.SaveChangesAsync();
+        }
+
+        public int GetCountByForumId(int forumId)
+        {
+            return this.postsRepository.All().Count(x => x.ForumId == forumId);
         }
     }
 }

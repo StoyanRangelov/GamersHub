@@ -11,6 +11,8 @@ namespace GamersHub.Services.Data.Posts
 
         IEnumerable<T> GetTopFive<T>();
 
+        IEnumerable<T> GetAllByForumId<T>(int forumId, int? take = null, int skip = 0);
+
         IEnumerable<T> GetAllByCategoryNameAndForumId<T>(string name, int id);
 
         Task<int> CreateAsync(int forumId, int categoryId, string name, string content, string userId);
@@ -18,5 +20,7 @@ namespace GamersHub.Services.Data.Posts
         Task<int> EditAsync(int id, string name, string content);
 
         Task DeleteAsync(int id);
+
+        int GetCountByForumId(int forumId);
     }
 }

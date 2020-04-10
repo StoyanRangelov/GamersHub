@@ -177,8 +177,8 @@ namespace GamersHub.Web
                     endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapControllerRoute(
                         "forum",
-                        "Forums/{name:minlength(3)}/{id}",
-                        new {controller = "Forums", action = "ById"});
+                        "Forums/{name:minlength(3)}/{id?}",
+                        new {controller = "Forums", action = "ByName"});
                     endpoints.MapControllerRoute(
                         "category",
                         "Categories/{name:minlength(3)}/{id}",

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GamersHub.Common;
 using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
 using GamersHub.Services.Data.ForumCategories;
@@ -60,6 +61,17 @@ namespace GamersHub.Services.Data.Forums
                 .To<T>().ToList();
 
             return forums;
+        }
+
+        public T GetByName<T>(string name)
+        {
+            var normalisedName = this.GetNormalisedName(name);
+
+            var forum = this.forumsRepository.All()
+                .Where(x => x.Name == normalisedName)
+                .To<T>().FirstOrDefault();
+
+            return forum;
         }
 
         public T GetById<T>(int id)
@@ -175,6 +187,15 @@ namespace GamersHub.Services.Data.Forums
         public int GetCount()
         {
             return this.forumsRepository.All().Count();
+        }
+
+        public string GetNormalisedName(string name)
+        {
+            var forums = this.forumsRepository.All().Select(x => x.Name).ToList();
+
+            var forumName = forums.FirstOrDefault(x => UrlParser.ParseToUrl(x) == name);
+
+            return forumName;
         }
 
         private bool CheckIfExistsByName(string name)

@@ -28,8 +28,6 @@ namespace GamersHub.Web.ViewModels.Posts
 
         public int Publications => this.UserPostsCount + this.UserRepliesCount;
 
-        public int ForumId { get; set; }
-
         public string ForumName { get; set; }
     }
 }

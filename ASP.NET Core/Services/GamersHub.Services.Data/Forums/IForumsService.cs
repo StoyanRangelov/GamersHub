@@ -11,6 +11,8 @@ namespace GamersHub.Services.Data.Forums
 
         IEnumerable<T> GetAllByCategoryId<T>(int id);
 
+        T GetByName<T>(string name);
+
         T GetById<T>(int id);
 
         Task<int> CreateAsync(string name);
