@@ -6,7 +6,7 @@ namespace GamersHub.Services.Data.Users
 {
     public interface IUsersService
     {
-        IEnumerable<T> GetAllPromotableUsers<T>();
+        IEnumerable<T> GetAllPromotableUsers<T>(int? take = null, int skip = 0);
 
         IEnumerable<T> GetAllBannedUsers<T>();
 
@@ -31,5 +31,7 @@ namespace GamersHub.Services.Data.Users
         Task UnbanAsync(string id);
 
         Task<bool> DeleteAsync(string id);
+
+        int GetCountOfPromotableUsers();
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using GamersHub.Common;
 using GamersHub.Data.Models;
@@ -11,6 +12,8 @@ namespace GamersHub.Web.Areas.Administration.Controllers
 {
     public class UsersController : AdministrationController
     {
+        private const int UsersPerPage = 14;
+        
         private readonly IUsersService usersService;
 
 
@@ -19,11 +22,22 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             this.usersService = usersService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int id = 1)
         {
-            var users = this.usersService.GetAllPromotableUsers<UserViewModel>();
+            var users = this.usersService
+                .GetAllPromotableUsers<UserViewModel>(UsersPerPage, (id - 1) * UsersPerPage);
 
             var viewModel = new UserIndexViewModel {Users = users};
+
+            var count = this.usersService.GetCountOfPromotableUsers();
+
+            viewModel.PagesCount = (int) Math.Ceiling((double) count / UsersPerPage);
+            if (viewModel.PagesCount == 0)
+            {
+                viewModel.PagesCount = 1;
+            }
+
+            viewModel.CurrentPage = id;
 
             return this.View(viewModel);
         }

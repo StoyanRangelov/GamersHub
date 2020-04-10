@@ -29,7 +29,7 @@ namespace GamersHub.Services.Data.Users
             this.usersRepository = usersRepository;
         }
 
-        public IEnumerable<T> GetAllPromotableUsers<T>()
+        public IEnumerable<T> GetAllPromotableUsers<T>(int? take = null, int skip = 0)
         {
             var administrator = this.roleManager.Roles
                 .First(x => x.Name == GlobalConstants.AdministratorRoleName);
@@ -38,16 +38,19 @@ namespace GamersHub.Services.Data.Users
                 .First(x => x.Name == GlobalConstants.ModeratorRoleName);
 
 
-            var users = this.userManager.Users
+            var query = this.userManager.Users
                 .Where(x => x.Roles
                     .Select(x => x.RoleId).All(x => !x.Equals(moderator.Id)))
                 .Where(x => x.Roles
                     .Select(x => x.RoleId).All(x => !x.Equals(administrator.Id)))
                 .Where(x => x.LockoutEnd == null)
-                .OrderByDescending(x => x.CreatedOn)
-                .To<T>().ToList();
+                .OrderByDescending(x => x.CreatedOn).Skip(skip);
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
 
-            return users;
+            return query.To<T>().ToList();;
         }
 
         public IEnumerable<T> GetAllBannedUsers<T>()
@@ -183,6 +186,19 @@ namespace GamersHub.Services.Data.Users
             await this.usersRepository.SaveChangesAsync();
 
             return true;
+        }
+
+        public int GetCountOfPromotableUsers()
+        {
+            var administrator = this.roleManager.Roles
+                .First(x => x.Name == GlobalConstants.AdministratorRoleName);
+
+            var moderator = this.roleManager.Roles
+                .First(x => x.Name == GlobalConstants.ModeratorRoleName);
+
+            return this.usersRepository.All().Count(x => 
+                x.Roles.Select(x => x.RoleId).All(x => !x.Equals(moderator.Id)) &&
+                x.Roles.Select(x => x.RoleId).All(x => !x.Equals(administrator.Id)));
         }
     }
 }
