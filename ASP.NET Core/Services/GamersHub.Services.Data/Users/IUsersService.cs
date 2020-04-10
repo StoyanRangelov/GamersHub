@@ -14,7 +14,9 @@ namespace GamersHub.Services.Data.Users
 
         IEnumerable<T> GetAllModerators<T>();
 
-        IEnumerable<T> GetTopFive<T>();
+        IEnumerable<T> GetTopFiveForumUsers<T>();
+
+        IEnumerable<T> GetTopFiveGameUsers<T>();
 
         IEnumerable<T> GetTopFiveBanned<T>();
 

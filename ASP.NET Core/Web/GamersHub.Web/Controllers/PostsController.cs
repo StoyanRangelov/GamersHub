@@ -20,18 +20,15 @@ namespace GamersHub.Web.Controllers
         private readonly IPostsService postsService;
         private readonly ICategoriesService categoriesService;
         private readonly IForumsService forumsService;
-        private readonly UserManager<ApplicationUser> userManager;
 
         public PostsController(
             IPostsService postsService,
             ICategoriesService categoriesService,
-            IForumsService forumsService,
-            UserManager<ApplicationUser> userManager)
+            IForumsService forumsService)
         {
             this.postsService = postsService;
             this.categoriesService = categoriesService;
             this.forumsService = forumsService;
-            this.userManager = userManager;
         }
 
         public IActionResult ById(int id)

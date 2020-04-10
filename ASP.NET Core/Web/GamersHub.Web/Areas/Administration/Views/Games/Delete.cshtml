@@ -1,0 +1,38 @@
+﻿@model GamersHub.Web.ViewModels.Administration.Games.GameDeleteViewModel
+@{
+    ViewData["Title"] = "Delete Game";
+}
+
+<div class="text-center ">
+    <h1 class="display-3">@this.ViewData["Title"]</h1>
+</div>
+<hr/>
+
+<div class="d-block">
+    <h2>You are about to delete the following Game:</h2>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="float-right">Reviews: <span class="badge badge-primary">@Model.ReviewsCount</span></h5>
+        <h5>@Model.Title </h5>
+        @if (Model.SubTitle != null)
+        {
+            <h5>@Model.SubTitle</h5>
+        }
+    </div>
+    <img class="card-img-top" src="@Model.ImgUrl" alt="@Model.Title"/>
+    <div class="card-body">
+        <p class="card-text">@Html.Raw(Model.SanitisedDescription)</p>
+    </div>
+</div>
+
+<form class="d-inline-block m-1" asp-area="Administration" asp-controller="Games" asp-action="Delete" method="post">
+    <div class="form-group">
+        <input type="submit" value="Delete" class="btn btn-danger btn-lg"/>
+    </div>
+</form>
+
+<div class="d-inline-block m-1">
+    <a asp-area="Administration" asp-controller="Games" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Cancel</a>
+</div>

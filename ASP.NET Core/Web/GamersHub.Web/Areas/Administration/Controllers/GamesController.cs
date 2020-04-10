@@ -22,7 +22,11 @@ namespace GamersHub.Web.Areas.Administration.Controllers
 
         public IActionResult Index()
         {
-            return this.View();
+            var games = this.gamesService.GetAll<GameAdministrationViewModel>();
+
+            var viewModel = new GameAdministrationIndexViewModel {Games = games};
+
+            return this.View(viewModel);
         }
 
         public IActionResult Create()
@@ -55,6 +59,27 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             await this.gamesService.CreateAsync(input.Title, input.SubTitle, input.Description, imageUrl);
 
             this.TempData["InfoMessage"] = "Game created successfully!";
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var viewModel = this.gamesService.GetById<GameDeleteViewModel>(id);
+
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(GameDeleteViewModel input)
+        {
+            await this.gamesService.DeleteAsync(input.Id);
+
+            this.TempData["InfoMessage"] = "Game deleted successfully!";
             return this.RedirectToAction(nameof(this.Index));
         }
     }

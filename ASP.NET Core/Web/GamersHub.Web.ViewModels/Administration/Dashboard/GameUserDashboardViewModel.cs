@@ -3,7 +3,7 @@ using GamersHub.Services.Mapping;
 
 namespace GamersHub.Web.ViewModels.Administration.Dashboard
 {
-    public class UserDashboardViewModel : IMapFrom<ApplicationUser>
+    public class GameUserDashboardViewModel : IMapFrom<ApplicationUser>
     {
         public string Username { get; set; }
 
@@ -12,6 +12,6 @@ namespace GamersHub.Web.ViewModels.Administration.Dashboard
                 ? this.Username?.Substring(0, 30) + "..."
                 : this.Username;
 
-        public int PostsCount { get; set; }
+        public int ReviewsCount { get; set; }
     }
 }

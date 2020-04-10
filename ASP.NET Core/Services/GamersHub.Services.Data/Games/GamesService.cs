@@ -5,16 +5,19 @@ using GamersHub.Common;
 using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
+using Microsoft.EntityFrameworkCore;
 
 namespace GamersHub.Services.Data.Games
 {
     public class GamesService : IGamesService
     {
         private readonly IDeletableEntityRepository<Game> gamesRepository;
+        private readonly IDeletableEntityRepository<Review> reviewsRepositorty;
 
-        public GamesService(IDeletableEntityRepository<Game> gamesRepository)
+        public GamesService(IDeletableEntityRepository<Game> gamesRepository, IDeletableEntityRepository<Review> reviewsRepositorty)
         {
             this.gamesRepository = gamesRepository;
+            this.reviewsRepositorty = reviewsRepositorty;
         }
 
         public string GetUrl(int id)
@@ -44,6 +47,15 @@ namespace GamersHub.Services.Data.Games
             return games;
         }
 
+        public IEnumerable<T> GetTopFive<T>()
+        {
+            var games = this.gamesRepository.All()
+                .OrderByDescending(x => x.Reviews.Count)
+                .Take(5).To<T>().ToList();
+
+            return games;
+        }
+
         public async Task<int> CreateAsync(string title, string subTitle, string description, string imageUrl)
         {
            var game = new Game
@@ -58,6 +70,28 @@ namespace GamersHub.Services.Data.Games
            await this.gamesRepository.SaveChangesAsync();
 
            return game.Id;
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var game = this.gamesRepository.All()
+                .Include(x => x.Reviews)
+                .FirstOrDefault(x => x.Id == id);
+
+            if (game == null)
+            {
+                return;
+            }
+
+            foreach (var review in game.Reviews)
+            {
+                this.reviewsRepositorty.Delete(review);
+            }
+
+            await this.reviewsRepositorty.SaveChangesAsync();
+
+            this.gamesRepository.Delete(game);
+            await this.gamesRepository.SaveChangesAsync();
         }
     }
 }

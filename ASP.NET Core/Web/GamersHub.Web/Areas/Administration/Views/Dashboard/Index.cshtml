@@ -57,12 +57,43 @@
     <div class="col mb-4">
         <div class="card">
             <div class="card-header">
+                Recently Banned Users
+                <a asp-area="Administration" asp-controller="Users" asp-action="Banned" class="card-link float-right">To Banned Users</a>
+            </div>
+            <div class="card-body">
+                @if (Model.BannedUsers.Any())
+                {
+                    <ul class="list-group list-group-flush">
+                        @foreach (var user in Model.BannedUsers)
+                        {
+                            <li class="list-group-item">
+                                @user.ShortUsername
+                                <span class="float-right">
+                                    Ban Expires on:
+                                    <span class="badge badge-primary">
+                                        <time datetime="@user.LockoutEnd"></time>
+                                    </span>
+                                </span>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p class="card-text">None</p>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col mb-4">
+        <div class="card">
+            <div class="card-header">
                 Most Active Forum Users
                 <a asp-area="Administration" asp-controller="Users" asp-action="Index" class="card-link float-right">To Users</a>
             </div>
             <div class="card-body">
                 <ul class="list-group list-group-flush">
-                    @foreach (var user in Model.Users)
+                    @foreach (var user in Model.ForumUsers)
                     {
                         <li class="list-group-item">
                             @user.ShortUsername
@@ -76,30 +107,41 @@
     <div class="col mb-4">
         <div class="card">
             <div class="card-header">
-                Recently Banned Users
-                <a asp-area="Administration" asp-controller="Users" asp-action="Banned" class="card-link float-right">To Banned Users</a>
+                Most Active Game Users
+                <a asp-area="Administration" asp-controller="Users" asp-action="Index" class="card-link float-right">To Users</a>
             </div>
             <div class="card-body">
-                @if (Model.BannedUsers.Any())
-                {
-                    <ul class="list-group list-group-flush">
-                        @foreach (var user in Model.BannedUsers)
-                        {
-                            <li class="list-group-item">
-                                @user.ShortUsername
-                                <span class="float-right">Ban Expires on: <span class="badge badge-primary"><time datetime="@user.LockoutEnd"></time></span></span>
-                            </li>
-                        }
-                    </ul>
-                }
-                else
-                {
-                    <p class="card-text">None</p>
-                }
-
+                <ul class="list-group list-group-flush">
+                    @foreach (var user in Model.GameUsers)
+                    {
+                        <li class="list-group-item">
+                            @user.ShortUsername
+                            <span class="float-right">Reviews: <span class="badge badge-primary">@user.ReviewsCount</span></span>
+                        </li>
+                    }
+                </ul>
             </div>
         </div>
     </div>
+    <div class="col mb-4">
+            <div class="card">
+                <div class="card-header">
+                    Most Reviewed Games
+                    <a asp-area="Administration" asp-controller="Games" asp-action="Index" class="card-link float-right">To Games</a>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var game in Model.Games)
+                        {
+                            <li class="list-group-item">
+                                @game.Title
+                                <span class="float-right">Reviews: <span class="badge badge-primary">@game.ReviewsCount</span></span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
     <div class="col mb-4">
         <div class="card">
             <div class="card-header">

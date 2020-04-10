@@ -11,6 +11,10 @@ namespace GamersHub.Services.Data.Games
 
         IEnumerable<T> GetAll<T>();
 
+        IEnumerable<T> GetTopFive<T>();
+
         Task<int> CreateAsync(string title, string subTitle, string description, string imageUrl);
+
+        Task DeleteAsync(int id);
     }
 }

@@ -5,13 +5,17 @@ namespace GamersHub.Web.ViewModels.Administration.Dashboard
 {
     public class IndexViewModel
     {
+        public IEnumerable<GameDashboardViewModel> Games { get; set; }
+
         public IEnumerable<ForumDashboardViewModel> Forums { get; set; }
 
         public IEnumerable<CategoryDashboardViewModel> Categories { get; set; }
 
         public IEnumerable<PostDashboardViewModel> Posts { get; set; }
 
-        public IEnumerable<UserDashboardViewModel> Users { get; set; }
+        public IEnumerable<ForumUserDashboardViewModel> ForumUsers { get; set; }
+
+        public IEnumerable<GameUserDashboardViewModel> GameUsers { get; set; }
 
         public IEnumerable<UserBannedDashboardViewModel> BannedUsers { get; set; }
 

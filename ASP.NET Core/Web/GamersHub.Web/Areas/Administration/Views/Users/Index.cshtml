@@ -17,6 +17,7 @@
     <tr>
         <th scope="col">Username</th>
         <th scope="col">Joined on</th>
+        <th scope="col">Reviews</th>
         <th scope="col">Posts</th>
         <th scope="col">Replies</th>
         <th scope="col">Promote</th>
@@ -29,6 +30,7 @@
         <tr>
             <td>@user.Username</td>
             <td><time datetime="@user.CreatedOn"></time></td>
+            <td>@user.ReviewsCount</td>
             <td>@user.PostsCount</td>
             <td>@user.RepliesCount</td>
             <td>

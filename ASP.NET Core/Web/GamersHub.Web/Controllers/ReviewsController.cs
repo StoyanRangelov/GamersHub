@@ -18,16 +18,13 @@ namespace GamersHub.Web.Controllers
     {
         private readonly IGamesService gamesService;
         private readonly IReviewsService reviewsService;
-        private readonly UserManager<ApplicationUser> userManager;
 
         public ReviewsController(
             IGamesService gamesService,
-            IReviewsService reviewsService,
-            UserManager<ApplicationUser> userManager)
+            IReviewsService reviewsService) 
         {
             this.gamesService = gamesService;
             this.reviewsService = reviewsService;
-            this.userManager = userManager;
         }
 
         public IActionResult Create()

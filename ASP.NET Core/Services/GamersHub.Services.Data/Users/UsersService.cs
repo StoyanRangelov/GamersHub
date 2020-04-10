@@ -45,9 +45,6 @@ namespace GamersHub.Services.Data.Users
                     .Select(x => x.RoleId).All(x => !x.Equals(administrator.Id)))
                 .Where(x => x.LockoutEnd == null)
                 .OrderByDescending(x => x.CreatedOn)
-                .ThenByDescending(x => x.Posts.Count)
-                .ThenByDescending(x => x.Reviews.Count)
-                .ThenByDescending(x => x.Replies.Count)
                 .To<T>().ToList();
 
             return users;
@@ -89,10 +86,19 @@ namespace GamersHub.Services.Data.Users
             return moderators;
         }
 
-        public IEnumerable<T> GetTopFive<T>()
+        public IEnumerable<T> GetTopFiveForumUsers<T>()
         {
             var users = this.userManager.Users
                 .OrderByDescending(x => x.Posts.Count)
+                .Take(5).To<T>().ToList();
+
+            return users;
+        }
+
+        public IEnumerable<T> GetTopFiveGameUsers<T>()
+        {
+            var users = this.userManager.Users
+                .OrderByDescending(x => x.Reviews.Count)
                 .Take(5).To<T>().ToList();
 
             return users;
