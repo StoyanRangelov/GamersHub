@@ -14,17 +14,20 @@ namespace GamersHub.Services.Data.Categories
     public class CategoriesService : ICategoriesService
     {
         private readonly IDeletableEntityRepository<Category> categoriesRepository;
-        private readonly IDeletableEntityRepository<Post> postsRepository;
         private readonly IRepository<ForumCategory> forumCategoriesRepository;
+        private readonly IDeletableEntityRepository<Post> postRepository;
+        private readonly IDeletableEntityRepository<Reply> repliesRepository;
 
         public CategoriesService(
             IDeletableEntityRepository<Category> categoriesRepository,
-            IDeletableEntityRepository<Post> postsRepository,
-            IRepository<ForumCategory> forumCategoriesRepository)
+            IRepository<ForumCategory> forumCategoriesRepository,
+            IDeletableEntityRepository<Post> postRepository,
+            IDeletableEntityRepository<Reply> repliesRepository)
         {
             this.categoriesRepository = categoriesRepository;
-            this.postsRepository = postsRepository;
             this.forumCategoriesRepository = forumCategoriesRepository;
+            this.postRepository = postRepository;
+            this.repliesRepository = repliesRepository;
         }
 
         public IEnumerable<T> GetAll<T>(int? count = null)
@@ -135,31 +138,34 @@ namespace GamersHub.Services.Data.Categories
 
         public async Task DeleteAsync(int id)
         {
-            var category = this.categoriesRepository.All().FirstOrDefault(x => x.Id == id);
+            var category = this.categoriesRepository.All()
+                .Include(x => x.CategoryForums)
+                .Include(x => x.Posts)
+                .ThenInclude(x => x.Replies)
+                .FirstOrDefault(x => x.Id == id);
 
             if (category == null)
             {
                 return;
             }
 
-            var posts = this.postsRepository.All()
-                .Where(x => x.CategoryId == id).ToList();
-
-            foreach (var post in posts)
+            foreach (var post in category.Posts)
             {
-                this.postsRepository.Delete(post);
+                 this.postRepository.Delete(post);
+
+                 foreach (var reply in post.Replies)
+                 {
+                     this.repliesRepository.Delete(reply);
+                 }
             }
 
-            await this.postsRepository.SaveChangesAsync();
-
-            var categoryForums = this.forumCategoriesRepository.All()
-                .Where(x => x.CategoryId == id).ToList();
-
-            foreach (var categoryForum in categoryForums)
+            foreach (var categoryForum in category.CategoryForums)
             {
                 this.forumCategoriesRepository.Delete(categoryForum);
             }
 
+            await this.postRepository.SaveChangesAsync();
+            await this.repliesRepository.SaveChangesAsync();
             await this.forumCategoriesRepository.SaveChangesAsync();
 
             this.categoriesRepository.Delete(category);

@@ -83,6 +83,11 @@ namespace GamersHub.Web.Controllers
                 inputModel.Content,
                 userId);
 
+            if (postId == 0)
+            {
+                return this.NotFound();
+            }
+
             this.TempData["InfoMessage"] = "Post created successfully!";
             return this.RedirectToAction(nameof(this.ById), new {id = postId, name = inputModel.Url});
         }

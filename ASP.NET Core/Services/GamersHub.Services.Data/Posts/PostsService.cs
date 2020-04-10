@@ -59,8 +59,13 @@ namespace GamersHub.Services.Data.Posts
         {
             var forum = this.forumsRepository
                 .All()
-                .Include(x=>x.ForumCategories)
-                .First(x => x.Id == forumId);
+                .Include(x => x.ForumCategories)
+                .FirstOrDefault(x => x.Id == forumId);
+
+            if (forum == null)
+            {
+                return 0;
+            }
 
             if (!forum.ForumCategories.Select(fc => fc.CategoryId).Contains(categoryId))
             {
@@ -112,6 +117,7 @@ namespace GamersHub.Services.Data.Posts
         public async Task DeleteAsync(int id)
         {
             var post = this.postsRepository.All()
+                .Include(x => x.Replies)
                 .FirstOrDefault(x => x.Id == id);
 
             if (post == null)
@@ -119,10 +125,7 @@ namespace GamersHub.Services.Data.Posts
                 return;
             }
 
-            var replies = this.repliesRepository.All()
-                .Where(x => x.PostId == id).ToList();
-
-            foreach (var reply in replies)
+            foreach (var reply in post.Replies)
             {
                 this.repliesRepository.Delete(reply);
             }

@@ -6,6 +6,7 @@ using GamersHub.Data.Models;
 using GamersHub.Services.Data.ForumCategories;
 using GamersHub.Services.Data.Posts;
 using GamersHub.Services.Mapping;
+using Microsoft.EntityFrameworkCore;
 
 namespace GamersHub.Services.Data.Forums
 {
@@ -13,17 +14,20 @@ namespace GamersHub.Services.Data.Forums
     {
         private readonly IDeletableEntityRepository<Forum> forumsRepository;
         private readonly IDeletableEntityRepository<Post> postsRepository;
+        private readonly IDeletableEntityRepository<Reply> repliesRepository;
         private readonly IRepository<ForumCategory> forumCategoriesRepository;
 
 
         public ForumsService(
             IDeletableEntityRepository<Forum> forumsRepository,
+            IRepository<ForumCategory> forumCategoriesRepository,
             IDeletableEntityRepository<Post> postsRepository,
-            IRepository<ForumCategory> forumCategoriesRepository)
+            IDeletableEntityRepository<Reply> repliesRepository)
         {
             this.forumsRepository = forumsRepository;
-            this.postsRepository = postsRepository;
             this.forumCategoriesRepository = forumCategoriesRepository;
+            this.postsRepository = postsRepository;
+            this.repliesRepository = repliesRepository;
         }
 
         public IEnumerable<T> GetAll<T>(int? count = null)
@@ -88,6 +92,7 @@ namespace GamersHub.Services.Data.Forums
         public async Task<int> EditAsync(int id, string name, int[] categoryIds, bool[] areSelected)
         {
             var forum = this.forumsRepository.All()
+                .Include(x => x.Posts)
                 .FirstOrDefault(x => x.Id == id);
 
             if (forum == null)
@@ -133,6 +138,9 @@ namespace GamersHub.Services.Data.Forums
         public async Task DeleteAsync(int id)
         {
             var forum = this.forumsRepository.All()
+                .Include(x => x.ForumCategories)
+                .Include(x => x.Posts)
+                .ThenInclude(x => x.Replies)
                 .FirstOrDefault(x => x.Id == id);
 
             if (forum == null)
@@ -140,26 +148,24 @@ namespace GamersHub.Services.Data.Forums
                 return;
             }
 
-            var posts = this.postsRepository.All()
-                .Where(x => x.ForumId == id).ToList();
-
-            foreach (var post in posts)
+            foreach (var post in forum.Posts)
             {
                 this.postsRepository.Delete(post);
+
+                foreach (var reply in post.Replies)
+                {
+                    this.repliesRepository.Delete(reply);
+                }
             }
 
-            await this.postsRepository.SaveChangesAsync();
-
-            var forumCategories = this.forumCategoriesRepository.All()
-                .Where(x => x.ForumId == id).ToList();
-
-            foreach (var forumCategory in forumCategories)
+            foreach (var forumCategory in forum.ForumCategories)
             {
                 this.forumCategoriesRepository.Delete(forumCategory);
             }
 
+            await this.postsRepository.SaveChangesAsync();
+            await this.repliesRepository.SaveChangesAsync();
             await this.forumCategoriesRepository.SaveChangesAsync();
-
 
             this.forumsRepository.Delete(forum);
             await this.forumsRepository.SaveChangesAsync();

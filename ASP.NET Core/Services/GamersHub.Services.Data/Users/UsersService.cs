@@ -156,18 +156,18 @@ namespace GamersHub.Services.Data.Users
                 return false;
             }
 
-            var isAdministrator = await userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
-            var isModerator = await userManager.IsInRoleAsync(user, GlobalConstants.ModeratorRoleName);
+            var isAdministrator = await this.userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
+            var isModerator = await this.userManager.IsInRoleAsync(user, GlobalConstants.ModeratorRoleName);
 
 
             if (isAdministrator)
             {
-                await userManager.RemoveFromRoleAsync(user, GlobalConstants.AdministratorRoleName);
+                await this.userManager.RemoveFromRoleAsync(user, GlobalConstants.AdministratorRoleName);
             }
 
             if (isModerator)
             {
-                await userManager.RemoveFromRoleAsync(user, GlobalConstants.ModeratorRoleName);
+                await this.userManager.RemoveFromRoleAsync(user, GlobalConstants.ModeratorRoleName);
             }
 
             user.UserName = null;
