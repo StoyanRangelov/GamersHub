@@ -8,7 +8,7 @@ namespace GamersHub.Services.Data.Users
     {
         IEnumerable<T> GetAllPromotableUsers<T>(int? take = null, int skip = 0);
 
-        IEnumerable<T> GetAllBannedUsers<T>();
+        IEnumerable<T> GetAllBannedUsers<T>(int? take = null, int skip = 0);
 
         IEnumerable<T> GetAllAdministrators<T>();
 
@@ -33,5 +33,7 @@ namespace GamersHub.Services.Data.Users
         Task<bool> DeleteAsync(string id);
 
         int GetCountOfPromotableUsers();
+
+        int GetCountOfBannedUsers();
     }
 }

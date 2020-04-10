@@ -53,14 +53,19 @@ namespace GamersHub.Services.Data.Users
             return query.To<T>().ToList();;
         }
 
-        public IEnumerable<T> GetAllBannedUsers<T>()
+        public IEnumerable<T> GetAllBannedUsers<T>(int? take = null, int skip = 0)
         {
-            var users = this.userManager.Users
+            var query = this.userManager.Users
                 .Where(x => x.LockoutEnd != null)
-                .OrderByDescending(x => x.LockoutEnd)
-                .To<T>().ToList();
+                .OrderByDescending(x => x.LockoutEnd).Skip(skip);
 
-            return users;
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+
+
+            return query.To<T>().ToList();;
         }
 
         public IEnumerable<T> GetAllAdministrators<T>()
@@ -199,6 +204,11 @@ namespace GamersHub.Services.Data.Users
             return this.usersRepository.All().Count(x => 
                 x.Roles.Select(x => x.RoleId).All(x => !x.Equals(moderator.Id)) &&
                 x.Roles.Select(x => x.RoleId).All(x => !x.Equals(administrator.Id)));
+        }
+
+        public int GetCountOfBannedUsers()
+        {
+            return this.usersRepository.All().Count(x => x.LockoutEnd != null);
         }
     }
 }

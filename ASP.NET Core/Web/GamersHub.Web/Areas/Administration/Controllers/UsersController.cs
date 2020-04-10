@@ -13,7 +13,8 @@ namespace GamersHub.Web.Areas.Administration.Controllers
     public class UsersController : AdministrationController
     {
         private const int UsersPerPage = 14;
-        
+        private const int BannedUsersPerPage = 14;
+
         private readonly IUsersService usersService;
 
 
@@ -81,11 +82,22 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             return this.RedirectToAction(nameof(this.Banned));
         }
 
-        public IActionResult Banned()
+        public IActionResult Banned(int id = 1)
         {
-            var users = this.usersService.GetAllBannedUsers<UserBannedViewModel>();
+            var users = this.usersService
+                .GetAllBannedUsers<UserBannedViewModel>(BannedUsersPerPage, (id - 1) * BannedUsersPerPage);
 
             var viewModel = new UserAdministrationBannedViewModel {BannedUsers = users};
+
+            var count = this.usersService.GetCountOfBannedUsers();
+
+            viewModel.PagesCount = (int) Math.Ceiling((double) count / BannedUsersPerPage);
+            if (viewModel.PagesCount == 0)
+            {
+                viewModel.PagesCount = 1;
+            }
+
+            viewModel.CurrentPage = id;
 
             return this.View(viewModel);
         }
