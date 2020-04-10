@@ -32,9 +32,16 @@ namespace GamersHub.Services.Data.Posts
             return post;
         }
 
-        public IEnumerable<T> GetAll<T>()
+        public IEnumerable<T> GetAll<T>(int? take = null, int skip = 0)
         {
-            return this.postsRepository.All().To<T>().ToList();
+            var query = this.postsRepository.All()
+                .OrderByDescending(x => x.CreatedOn).Skip(skip);
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+
+            return query.To<T>().ToList();
         }
 
         public IEnumerable<T> GetTopFive<T>()
@@ -152,6 +159,11 @@ namespace GamersHub.Services.Data.Posts
         public int GetCountByForumId(int forumId)
         {
             return this.postsRepository.All().Count(x => x.ForumId == forumId);
+        }
+
+        public int GetCount()
+        {
+            return this.postsRepository.All().Count();
         }
     }
 }

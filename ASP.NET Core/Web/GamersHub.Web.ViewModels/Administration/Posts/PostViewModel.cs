@@ -39,5 +39,6 @@ namespace GamersHub.Web.ViewModels.Administration.Posts
                 : this.CategoryName;
 
         public int RepliesCount { get; set; }
+
     }
 }
