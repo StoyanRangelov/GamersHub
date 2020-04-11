@@ -1,6 +1,9 @@
 ﻿@model GamersHub.Web.ViewModels.Administration.Games.GameAdministrationIndexViewModel
 @{
     ViewData["Title"] = "Administration - Games";
+    ViewData["Controller"] = "Games";
+    ViewData["Action"] = "Index";
+    ViewData["Area"] = "Administration";
 }
 
 @if (this.TempData["InfoMessage"] != null)
@@ -35,8 +38,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var game in Model.Games
-        .OrderByDescending(x => x.ReviewsCount))
+    @foreach (var game in Model.Games)
     {
         <tr>
             <td>
@@ -55,3 +57,5 @@
     }
     </tbody>
 </table>
+
+<partial name="_PaginationPartial" model="@Model.Pagination" view-data="@ViewData"/>

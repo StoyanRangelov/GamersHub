@@ -14,7 +14,8 @@ namespace GamersHub.Services.Data.Games
         private readonly IDeletableEntityRepository<Game> gamesRepository;
         private readonly IDeletableEntityRepository<Review> reviewsRepositorty;
 
-        public GamesService(IDeletableEntityRepository<Game> gamesRepository, IDeletableEntityRepository<Review> reviewsRepositorty)
+        public GamesService(IDeletableEntityRepository<Game> gamesRepository,
+            IDeletableEntityRepository<Review> reviewsRepositorty)
         {
             this.gamesRepository = gamesRepository;
             this.reviewsRepositorty = reviewsRepositorty;
@@ -39,12 +40,16 @@ namespace GamersHub.Services.Data.Games
             return game;
         }
 
-        public IEnumerable<T> GetAll<T>()
+        public IEnumerable<T> GetAll<T>(int? take = null, int skip = 0)
         {
-            var games = this.gamesRepository.All()
-                .To<T>().ToList();
+            var query = this.gamesRepository.All()
+                .OrderBy(x => x.Reviews.Count).Skip(skip);
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
 
-            return games;
+            return query.To<T>().ToList();
         }
 
         public IEnumerable<T> GetTopFive<T>()
@@ -58,18 +63,18 @@ namespace GamersHub.Services.Data.Games
 
         public async Task<int> CreateAsync(string title, string subTitle, string description, string imageUrl)
         {
-           var game = new Game
-           {
-               Title = title,
-               SubTitle = subTitle,
-               Description = description,
-               ImgUrl = imageUrl,
-           };
+            var game = new Game
+            {
+                Title = title,
+                SubTitle = subTitle,
+                Description = description,
+                ImgUrl = imageUrl,
+            };
 
-           await this.gamesRepository.AddAsync(game);
-           await this.gamesRepository.SaveChangesAsync();
+            await this.gamesRepository.AddAsync(game);
+            await this.gamesRepository.SaveChangesAsync();
 
-           return game.Id;
+            return game.Id;
         }
 
         public async Task<int> EditAsync(int id, string title, string subTitle, string description, string imageUrl)
@@ -95,7 +100,6 @@ namespace GamersHub.Services.Data.Games
             await this.gamesRepository.SaveChangesAsync();
 
             return game.Id;
-
         }
 
         public async Task DeleteAsync(int id)
@@ -118,6 +122,11 @@ namespace GamersHub.Services.Data.Games
 
             this.gamesRepository.Delete(game);
             await this.gamesRepository.SaveChangesAsync();
+        }
+
+        public int GetCount()
+        {
+            return this.gamesRepository.All().Count();
         }
     }
 }

@@ -35,7 +35,8 @@ namespace GamersHub.Services.Data.Forums
         {
             IQueryable<Forum> query =
                 this.forumsRepository.All()
-                    .OrderByDescending(x => x.Posts.Count).Skip(skip);
+                    .OrderByDescending(x => x.Posts.Count)
+                    .ThenByDescending(x=>x.ForumCategories.Count).Skip(skip);
             if (count.HasValue)
             {
                 query = query.Take(count.Value);

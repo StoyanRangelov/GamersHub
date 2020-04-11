@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using GamersHub.Services.Data.Games;
+using GamersHub.Web.ViewModels;
 using GamersHub.Web.ViewModels.Administration.Games;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,8 @@ namespace GamersHub.Web.Areas.Administration.Controllers
 {
     public class GamesController : AdministrationController
     {
+        private const int GamesPerPage = 14;
+        
         private readonly IGamesService gamesService;
         private readonly Cloudinary cloudinary;
 
@@ -20,11 +23,25 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             this.gamesService = gamesService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int id = 1)
         {
-            var games = this.gamesService.GetAll<GameAdministrationViewModel>();
+            var games = this.gamesService
+                .GetAll<GameAdministrationViewModel>(GamesPerPage, (id - 1) * GamesPerPage);
 
             var viewModel = new GameAdministrationIndexViewModel {Games = games};
+
+            var count = this.gamesService.GetCount();
+
+            var pagination = new PaginationViewModel();
+            pagination.PagesCount = (int)Math.Ceiling((double) count / GamesPerPage);
+            if (pagination.PagesCount == 0)
+            {
+                pagination.PagesCount = 1;
+            }
+
+            pagination.CurrentPage = id;
+
+            viewModel.Pagination = pagination;
 
             return this.View(viewModel);
         }

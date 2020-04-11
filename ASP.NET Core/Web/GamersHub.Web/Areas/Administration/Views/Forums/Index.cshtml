@@ -38,9 +38,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var forum in Model.Forums
-        .OrderByDescending(x => x.PostsCount)
-        .ThenByDescending(x => x.ForumCategoriesCount))
+    @foreach (var forum in Model.Forums)
     {
         <tr>
             <td>

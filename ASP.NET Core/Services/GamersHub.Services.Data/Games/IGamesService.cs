@@ -9,7 +9,7 @@ namespace GamersHub.Services.Data.Games
 
         T GetById<T>(int id);
 
-        IEnumerable<T> GetAll<T>();
+        IEnumerable<T> GetAll<T>(int? take = null, int skip = 0);
 
         IEnumerable<T> GetTopFive<T>();
 
@@ -19,5 +19,7 @@ namespace GamersHub.Services.Data.Games
 
 
         Task DeleteAsync(int id);
+
+        int GetCount();
     }
 }

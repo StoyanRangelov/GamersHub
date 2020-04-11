@@ -57,7 +57,7 @@
     </h2>
 </div>
 
-@foreach (var review in Model.Reviews.OrderByDescending(x=>x.CreatedOn))
+@foreach (var review in Model.Reviews)
 {
     <hr/>
     <partial name="_GamesByIdPartial" model="review"/>
