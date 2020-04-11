@@ -57,9 +57,9 @@ namespace GamersHub.Web.Controllers
             return this.View(viewModel);
         }
 
-        public IActionResult ByName(int id = 1)
+        public IActionResult ByName(string name, int id = 1)
         {
-            var viewModel = this.gamesService.GetById<GameByIdViewModel>(id);
+            var viewModel = this.gamesService.GetByName<GameByIdViewModel>(name);
 
             if (viewModel == null)
             {
@@ -69,7 +69,7 @@ namespace GamersHub.Web.Controllers
             viewModel.GameReviews = this.reviewsService
                 .GetAllByGameId<ReviewInGameViewModel>(viewModel.Id, ReviewsPerPage, (id - 1) * ReviewsPerPage);
 
-            var count = this.reviewsService.GetCount();
+            var count = this.reviewsService.GetCountByGameId(viewModel.Id);
 
             var pagination = new PaginationViewModel();
 

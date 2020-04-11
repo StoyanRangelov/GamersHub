@@ -40,6 +40,16 @@ namespace GamersHub.Services.Data.Games
             return game;
         }
 
+        public T GetByName<T>(string name)
+        {
+            var normalisedName = this.GetNormalisedName(name);
+
+            var game = this.gamesRepository.All()
+                .Where(x => x.Title == normalisedName).To<T>().FirstOrDefault();
+
+            return game;
+        }
+
         public IEnumerable<T> GetAll<T>(int? take = null, int skip = 0)
         {
             var query = this.gamesRepository.All()
@@ -118,6 +128,15 @@ namespace GamersHub.Services.Data.Games
         public int GetCount()
         {
             return this.gamesRepository.All().Count();
+        }
+
+        private string GetNormalisedName(string name)
+        {
+            var forums = this.gamesRepository.All().Select(x => x.Title).ToList();
+
+            var forumName = forums.FirstOrDefault(x => UrlParser.ParseToUrl(x) == name);
+
+            return forumName;
         }
     }
 }

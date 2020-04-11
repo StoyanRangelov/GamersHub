@@ -12,7 +12,7 @@ namespace GamersHub.Services.Data.Users
 
         IEnumerable<T> GetAllByRole<T>(string role);
 
-        IEnumerable<T> GetTopFive<T>(string orderType);
+        IEnumerable<T> GetTopFive<T>(string orderType = null);
 
         T GetById<T>(string id);
 

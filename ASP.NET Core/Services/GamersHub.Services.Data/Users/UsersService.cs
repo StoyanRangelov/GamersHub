@@ -83,7 +83,7 @@ namespace GamersHub.Services.Data.Users
             return usersInRole;
         }
 
-        public IEnumerable<T> GetTopFive<T>(string orderType)
+        public IEnumerable<T> GetTopFive<T>(string orderType = null)
         {
             var query = this.usersRepository.All();
 

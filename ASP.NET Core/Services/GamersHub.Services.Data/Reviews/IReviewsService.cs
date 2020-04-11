@@ -15,6 +15,6 @@ namespace GamersHub.Services.Data.Reviews
 
         Task DeleteAsync(int id);
 
-        int GetCount();
+        int GetCountByGameId(int gameId);
     }
 }

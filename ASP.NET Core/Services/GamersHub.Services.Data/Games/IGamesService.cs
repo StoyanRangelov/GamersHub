@@ -9,6 +9,8 @@ namespace GamersHub.Services.Data.Games
 
         T GetById<T>(int id);
 
+        T GetByName<T>(string name);
+
         IEnumerable<T> GetAll<T>(int? take = null, int skip = 0);
 
         Task<int> CreateAsync(string title, string subTitle, string description, string imageUrl);

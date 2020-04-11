@@ -8,8 +8,6 @@ namespace GamersHub.Web.ViewModels.Games
 {
     public class GameViewModel : IMapFrom<Game>, IHaveCustomMappings
     {
-        public int Id { get; set; }
-
         public string Title { get; set; }
 
         public string Url => UrlParser.ParseToUrl(this.Title);

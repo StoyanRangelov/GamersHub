@@ -81,9 +81,9 @@ namespace GamersHub.Services.Data.Reviews
             await this.reviewsRepository.SaveChangesAsync();
         }
 
-        public int GetCount()
+        public int GetCountByGameId(int gameId)
         {
-            return this.reviewsRepository.All().Count();
+            return this.reviewsRepository.All().Count(X=>X.GameId == gameId);
         }
     }
 }
