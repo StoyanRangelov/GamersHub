@@ -16,33 +16,33 @@ namespace GamersHub.Services.Data.Users
     public class UsersService : IUsersService
     {
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly RoleManager<ApplicationRole> roleManager;
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
+        private readonly IDeletableEntityRepository<ApplicationRole> rolesRepository;
 
         public UsersService(
             UserManager<ApplicationUser> userManager,
-            RoleManager<ApplicationRole> roleManager,
-            IDeletableEntityRepository<ApplicationUser> usersRepository)
+            IDeletableEntityRepository<ApplicationUser> usersRepository,
+            IDeletableEntityRepository<ApplicationRole> rolesRepository)
         {
             this.userManager = userManager;
-            this.roleManager = roleManager;
             this.usersRepository = usersRepository;
+            this.rolesRepository = rolesRepository;
         }
 
         public IEnumerable<T> GetAllPromotableUsers<T>(int? take = null, int skip = 0)
         {
-            var administrator = this.roleManager.Roles
-                .First(x => x.Name == GlobalConstants.AdministratorRoleName);
+            var administratorRoleId = this.rolesRepository.All()
+                .First(x => x.Name == GlobalConstants.AdministratorRoleName).Id;
 
-            var moderator = this.roleManager.Roles
-                .First(x => x.Name == GlobalConstants.ModeratorRoleName);
+            var moderatorRoleId = this.rolesRepository.All()
+                .First(x => x.Name == GlobalConstants.ModeratorRoleName).Id;
 
 
-            var query = this.userManager.Users
+            var query = this.usersRepository.All()
                 .Where(x => x.Roles
-                    .Select(x => x.RoleId).All(x => !x.Equals(moderator.Id)))
+                    .Select(x => x.RoleId).All(x => !x.Equals(moderatorRoleId)))
                 .Where(x => x.Roles
-                    .Select(x => x.RoleId).All(x => !x.Equals(administrator.Id)))
+                    .Select(x => x.RoleId).All(x => !x.Equals(administratorRoleId)))
                 .Where(x => x.LockoutEnd == null)
                 .OrderByDescending(x => x.CreatedOn).Skip(skip);
             if (take.HasValue)
@@ -50,12 +50,13 @@ namespace GamersHub.Services.Data.Users
                 query = query.Take(take.Value);
             }
 
-            return query.To<T>().ToList();;
+            return query.To<T>().ToList();
+            ;
         }
 
         public IEnumerable<T> GetAllBannedUsers<T>(int? take = null, int skip = 0)
         {
-            var query = this.userManager.Users
+            var query = this.usersRepository.All()
                 .Where(x => x.LockoutEnd != null)
                 .OrderByDescending(x => x.LockoutEnd).Skip(skip);
 
@@ -65,66 +66,51 @@ namespace GamersHub.Services.Data.Users
             }
 
 
-            return query.To<T>().ToList();;
+            return query.To<T>().ToList();
+            ;
         }
 
-        public IEnumerable<T> GetAllAdministrators<T>()
+        public IEnumerable<T> GetAllByRole<T>(string role)
         {
-            var administrator = this.roleManager.Roles
-                .First(x => x.Name == GlobalConstants.AdministratorRoleName);
+            var roleId = this.rolesRepository.All()
+                .First(x => x.Name == role).Id;
 
-            var administrators = this.userManager.Users
+            var usersInRole = this.usersRepository.All()
                 .Where(x => x.Roles
-                    .Select(x => x.RoleId).Any(x => x.Equals(administrator.Id)))
+                    .Select(x => x.RoleId).Any(x => x.Equals(roleId)))
                 .To<T>().ToList();
 
-            return administrators;
+            return usersInRole;
         }
 
-        public IEnumerable<T> GetAllModerators<T>()
+        public IEnumerable<T> GetTopFive<T>(string orderType)
         {
-            var moderator = this.roleManager.Roles
-                .First(x => x.Name == GlobalConstants.ModeratorRoleName);
+            var query = this.usersRepository.All();
 
-            var moderators = this.userManager.Users
-                .Where(x => x.Roles
-                    .Select(x => x.RoleId).Any(x => x.Equals(moderator.Id)))
-                .To<T>().ToList();
+            if (orderType == GlobalConstants.Posts)
+            {
+                query = query.OrderByDescending(x => x.Posts.Count);
+            }
+            else if (orderType == GlobalConstants.Reviews)
+            {
+                query = query.OrderByDescending(x => x.Reviews.Count);
+            }
+            else if (orderType == GlobalConstants.Banned)
+            {
+                query = query.Where(x => x.LockoutEnd != null)
+                    .OrderByDescending(x => x.LockoutEnd);
+            }
+            else
+            {
+                query = query.OrderByDescending(x => x.CreatedOn);
+            }
 
-            return moderators;
-        }
-
-        public IEnumerable<T> GetTopFiveForumUsers<T>()
-        {
-            var users = this.userManager.Users
-                .OrderByDescending(x => x.Posts.Count)
-                .Take(5).To<T>().ToList();
-
-            return users;
-        }
-
-        public IEnumerable<T> GetTopFiveGameUsers<T>()
-        {
-            var users = this.userManager.Users
-                .OrderByDescending(x => x.Reviews.Count)
-                .Take(5).To<T>().ToList();
-
-            return users;
-        }
-
-        public IEnumerable<T> GetTopFiveBanned<T>()
-        {
-            var users = this.userManager.Users
-                .Where(x => x.LockoutEnd != null)
-                .OrderByDescending(x => x.LockoutEnd)
-                .Take(5).To<T>().ToList();
-
-            return users;
+            return query.Take(5).To<T>().ToList();
         }
 
         public T GetById<T>(string id)
         {
-            var user = this.userManager.Users
+            var user = this.usersRepository.All()
                 .Where(x => x.Id == id).To<T>().FirstOrDefault();
 
             return user;
@@ -132,21 +118,21 @@ namespace GamersHub.Services.Data.Users
 
         public async Task PromoteAsync(string id, string role)
         {
-            var user = this.userManager.Users.FirstOrDefault(x => x.Id == id);
+            var user = this.usersRepository.All().FirstOrDefault(x => x.Id == id);
 
             await this.userManager.AddToRoleAsync(user, role);
         }
 
         public async Task DemoteAsync(string id)
         {
-            var user = this.userManager.Users.FirstOrDefault(x => x.Id == id);
+            var user = this.usersRepository.All().FirstOrDefault(x => x.Id == id);
 
             await this.userManager.RemoveFromRoleAsync(user, GlobalConstants.ModeratorRoleName);
         }
 
         public async Task BanAsync(string id)
         {
-            var user = this.userManager.Users.FirstOrDefault(x => x.Id == id);
+            var user = this.usersRepository.All().FirstOrDefault(x => x.Id == id);
 
             var dateTimeOffset = new DateTimeOffset(DateTime.UtcNow);
             var banLength = dateTimeOffset.AddDays(30);
@@ -156,7 +142,7 @@ namespace GamersHub.Services.Data.Users
 
         public async Task UnbanAsync(string id)
         {
-            var user = this.userManager.Users.FirstOrDefault(x => x.Id == id);
+            var user = this.usersRepository.All().FirstOrDefault(x => x.Id == id);
 
             await this.userManager.SetLockoutEndDateAsync(user, null);
         }
@@ -195,15 +181,15 @@ namespace GamersHub.Services.Data.Users
 
         public int GetCountOfPromotableUsers()
         {
-            var administrator = this.roleManager.Roles
-                .First(x => x.Name == GlobalConstants.AdministratorRoleName);
+            var administratorRoleId = this.rolesRepository.All()
+                .First(x => x.Name == GlobalConstants.AdministratorRoleName).Id;
 
-            var moderator = this.roleManager.Roles
-                .First(x => x.Name == GlobalConstants.ModeratorRoleName);
+            var moderatorRoleId = this.rolesRepository.All()
+                .First(x => x.Name == GlobalConstants.ModeratorRoleName).Id;
 
-            return this.usersRepository.All().Count(x => 
-                x.Roles.Select(x => x.RoleId).All(x => !x.Equals(moderator.Id)) &&
-                x.Roles.Select(x => x.RoleId).All(x => !x.Equals(administrator.Id)));
+            return this.usersRepository.All().Count(x =>
+                x.Roles.Select(x => x.RoleId).All(x => !x.Equals(administratorRoleId)) &&
+                x.Roles.Select(x => x.RoleId).All(x => !x.Equals(moderatorRoleId)));
         }
 
         public int GetCountOfBannedUsers()

@@ -5,9 +5,7 @@ namespace GamersHub.Services.Data.Categories
 {
     public interface ICategoriesService
     {
-        IEnumerable<T> GetAll<T>(int? count = null, int skip = 0);
-
-        IEnumerable<T> GetTopFive<T>();
+        IEnumerable<T> GetAll<T>(int? take = null, int skip = 0);
 
         IEnumerable<T> GetAllByForumId<T>(int id);
 

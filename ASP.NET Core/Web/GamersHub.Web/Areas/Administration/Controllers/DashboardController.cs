@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using GamersHub.Common;
 using GamersHub.Data.Models;
 using GamersHub.Services.Data.Categories;
 using GamersHub.Services.Data.Forums;
@@ -39,23 +40,32 @@ namespace GamersHub.Web.Areas.Administration.Controllers
 
         public IActionResult Index()
         {
-            var games = this.gamesService.GetTopFive<GameDashboardViewModel>();
+            var games = this.gamesService
+                .GetAll<GameDashboardViewModel>(5);
 
-            var forums = this.forumsService.GetTopFive<ForumDashboardViewModel>();
+            var forums = this.forumsService
+                .GetAll<ForumDashboardViewModel>(5);
 
-            var categories = this.categoriesService.GetTopFive<CategoryDashboardViewModel>();
+            var categories = this.categoriesService
+                .GetAll<CategoryDashboardViewModel>(5);
 
-            var posts = this.postsService.GetTopFive<PostDashboardViewModel>();
+            var posts = this.postsService
+                .GetTopFive<PostDashboardViewModel>();
 
-            var forumUsers = this.usersService.GetTopFiveForumUsers<ForumUserDashboardViewModel>();
+            var forumUsers = this.usersService
+                .GetTopFive<ForumUserDashboardViewModel>(GlobalConstants.Posts);
 
-            var gameUsers = this.usersService.GetTopFiveGameUsers<GameUserDashboardViewModel>();
+            var gameUsers = this.usersService
+                .GetTopFive<GameUserDashboardViewModel>(GlobalConstants.Reviews);
 
-            var bannedUsers = this.usersService.GetTopFiveBanned<UserBannedDashboardViewModel>();
+            var bannedUsers = this.usersService
+                .GetTopFive<UserBannedDashboardViewModel>(GlobalConstants.Banned);
 
-            var administrators = this.usersService.GetAllAdministrators<UserInRoleViewModel>();
+            var administrators = this.usersService
+                .GetAllByRole<UserInRoleViewModel>(GlobalConstants.AdministratorRoleName);
 
-            var moderators = this.usersService.GetAllModerators<UserInRoleViewModel>();
+            var moderators = this.usersService
+                .GetAllByRole<UserInRoleViewModel>(GlobalConstants.ModeratorRoleName);
 
             var viewModel = new IndexViewModel
             {

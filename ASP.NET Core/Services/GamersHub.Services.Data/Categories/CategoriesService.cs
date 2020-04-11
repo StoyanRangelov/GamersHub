@@ -30,27 +30,18 @@ namespace GamersHub.Services.Data.Categories
             this.repliesRepository = repliesRepository;
         }
 
-        public IEnumerable<T> GetAll<T>(int? count = null, int skip = 0)
+        public IEnumerable<T> GetAll<T>(int? take = null, int skip = 0)
         {
             IQueryable<Category> query =
                 this.categoriesRepository.All()
                     .OrderByDescending(x => x.Posts.Count)
                     .ThenByDescending(x => x.CategoryForums.Count).Skip(skip);
-            if (count.HasValue)
+            if (take.HasValue)
             {
-                query = query.Take(count.Value);
+                query = query.Take(take.Value);
             }
 
             return query.To<T>().ToList();
-        }
-
-        public IEnumerable<T> GetTopFive<T>()
-        {
-            var categories = this.categoriesRepository.All()
-                .OrderByDescending(x => x.Posts.Count)
-                .Take(5).To<T>().ToList();
-
-            return categories;
         }
 
         public IEnumerable<T> GetAllByForumId<T>(int id)

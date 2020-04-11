@@ -2,9 +2,13 @@
 {
     public static class GlobalConstants
     {
-        public const string SystemName = "GamersHub";
+        public const string Posts = "Posts";
 
-        public const string NotFound = "NotFound";
+        public const string Reviews = "Reviews";
+
+        public const string Banned = "Banned";
+        
+        public const string SystemName = "GamersHub";
 
         public const string AdministratorRoleName = "Administrator";
 

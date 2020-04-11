@@ -11,8 +11,6 @@ namespace GamersHub.Services.Data.Games
 
         IEnumerable<T> GetAll<T>(int? take = null, int skip = 0);
 
-        IEnumerable<T> GetTopFive<T>();
-
         Task<int> CreateAsync(string title, string subTitle, string description, string imageUrl);
 
         Task<int> EditAsync(int id, string title, string subTitle, string description, string imageUrl);

@@ -10,15 +10,9 @@ namespace GamersHub.Services.Data.Users
 
         IEnumerable<T> GetAllBannedUsers<T>(int? take = null, int skip = 0);
 
-        IEnumerable<T> GetAllAdministrators<T>();
+        IEnumerable<T> GetAllByRole<T>(string role);
 
-        IEnumerable<T> GetAllModerators<T>();
-
-        IEnumerable<T> GetTopFiveForumUsers<T>();
-
-        IEnumerable<T> GetTopFiveGameUsers<T>();
-
-        IEnumerable<T> GetTopFiveBanned<T>();
+        IEnumerable<T> GetTopFive<T>(string orderType);
 
         T GetById<T>(string id);
 

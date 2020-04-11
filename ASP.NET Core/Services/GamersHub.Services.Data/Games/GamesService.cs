@@ -52,15 +52,6 @@ namespace GamersHub.Services.Data.Games
             return query.To<T>().ToList();
         }
 
-        public IEnumerable<T> GetTopFive<T>()
-        {
-            var games = this.gamesRepository.All()
-                .OrderByDescending(x => x.Reviews.Count)
-                .Take(5).To<T>().ToList();
-
-            return games;
-        }
-
         public async Task<int> CreateAsync(string title, string subTitle, string description, string imageUrl)
         {
             var game = new Game

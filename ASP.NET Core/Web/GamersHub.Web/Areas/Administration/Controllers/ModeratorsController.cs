@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using GamersHub.Common;
 using GamersHub.Services.Data.Users;
 using GamersHub.Web.ViewModels.Administration.Moderators;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,8 @@ namespace GamersHub.Web.Areas.Administration.Controllers
 
         public IActionResult Index()
         {
-            var moderators = this.usersService.GetAllModerators<ModeratorViewModel>();
+            var moderators = this.usersService
+                .GetAllByRole<ModeratorViewModel>(GlobalConstants.ModeratorRoleName);
 
             var viewModel = new ModeratorIndexViewModel {Moderators = moderators};
 
