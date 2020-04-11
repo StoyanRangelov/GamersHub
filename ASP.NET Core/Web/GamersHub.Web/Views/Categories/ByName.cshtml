@@ -4,7 +4,7 @@
     ViewData["Description"] = "Video Game Forum with Categories for discussions.";
 }
 <meta name="description" content="@ViewData["Description"]"/>
-<meta name="keywords" content="Game,@Model.ForumCategory.ForumName,@Model.ForumCategory.CategoryName," />
+<meta name="keywords" content="Game,@Model.ForumCategory.ForumName,@Model.ForumCategory.CategoryName,"/>
 
 <div class="d-inline-block">
     <a asp-controller="Forums" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Back to Forums</a>
@@ -22,18 +22,78 @@
 <hr/>
 
 <table class="table table-hover">
-<thead class="thead-dark">
-<tr>
-    <th scope="col">Topic</th>
-    <th scope="col">Author</th>
-    <th scope="col">Replies</th>
-    <th scope="col">Posted On</th>
-</tr>
-</thead>
-<tbody>
- @foreach (var post in Model.CategoryPosts.OrderByDescending(x=>x.CreatedOn))
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Topic</th>
+        <th scope="col">Author</th>
+        <th scope="col">Replies</th>
+        <th scope="col">Posted On</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var post in Model.CategoryPosts.OrderByDescending(x => x.CreatedOn))
     {
         <partial name="_CategoriesByNamePartial" model="post"/>
     }
-</tbody>
+    </tbody>
 </table>
+
+
+<nav>
+    <ul class="pagination justify-content-center">
+        @if (this.Model.CurrentPage == 1)
+        {
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Previous</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item">
+                <a class="page-link"
+                   asp-area=""
+                   asp-controller="Categories"
+                   asp-action="@Model.ForumCategory.CategoryUrl"
+                   asp-route-id="@Model.ForumCategory.ForumId"
+                   asp-route-page="@(this.Model.CurrentPage - 1)">
+                    Previous
+                </a>
+            </li>
+        }
+
+        @for (int i = 1; i <= this.Model.PagesCount; i++)
+        {
+            var active = i == this.Model.CurrentPage ? "active" : string.Empty;
+            <li class="page-item @active">
+                <a class="page-link"
+                   asp-area=""
+                   asp-controller="Categories"
+                   asp-action="@Model.ForumCategory.CategoryUrl"
+                   asp-route-id="@Model.ForumCategory.ForumId"
+                   asp-route-page="@i">
+                    @i
+                </a>
+            </li>
+        }
+
+        @if (this.Model.CurrentPage == this.Model.PagesCount)
+        {
+            <li class="page-item disabled">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        }
+        else
+        {
+            <li class="page-item">
+                <a class="page-link"
+                   asp-area=""
+                   asp-controller="Categories"
+                   asp-action="@Model.ForumCategory.CategoryUrl"
+                   asp-route-id="@Model.ForumCategory.ForumId"
+                   asp-route-page="@(this.Model.CurrentPage + 1)">
+                    Next
+                </a>
+            </li>
+        }
+    </ul>
+</nav>

@@ -78,13 +78,17 @@ namespace GamersHub.Services.Data.Posts
             return query.To<T>().ToList();
         }
 
-        public IEnumerable<T> GetAllByCategoryNameAndForumId<T>(string name, int id)
+        public IEnumerable<T> GetAllByCategoryNameAndForumId<T>(string name, int id, int? take = null, int skip = 0)
         {
-            var posts = this.postsRepository.All()
-                .Where(x => x.ForumId == id && x.Category.Name == name)
-                .To<T>().ToList();
+            var query = this.postsRepository.All()
+                .OrderByDescending(x => x.CreatedOn)
+                .Where(x => x.ForumId == id && x.Category.Name == name).Skip(skip);
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
 
-            return posts;
+            return query.To<T>().ToList();
         }
 
         public async Task<int> CreateAsync(int forumId, int categoryId, string name, string content, string userId)
@@ -177,6 +181,12 @@ namespace GamersHub.Services.Data.Posts
         {
             return this.postsRepository.All().Count();
         }
+
+        public int GetCountByCategoryNameAndForumId(string name, int forumId)
+        {
+            return this.postsRepository.All().Count(x => x.Category.Name == name && x.ForumId == forumId);
+        }
+
 
         private string GetNormalisedName(string name)
         {
