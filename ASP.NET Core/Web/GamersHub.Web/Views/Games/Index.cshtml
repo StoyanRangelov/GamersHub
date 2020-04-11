@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = "All Games";
     ViewData["Description"] = "User reviews for Video Games.";
+    ViewData["Controller"] = "Games";
+    ViewData["Action"] = "Index";
 }
 
 <meta name="description" content="@ViewData["Description"]"/>
@@ -21,3 +23,5 @@
         <partial name="_GamesIndexPartial" model="game"/>
     }
 </div>
+
+<partial name="_PaginationPartial" model="@Model.Pagination" view-data="@ViewData"/>
