@@ -185,8 +185,8 @@ namespace GamersHub.Web
                         new {controller = "Categories", action = "ByName"});
                     endpoints.MapControllerRoute(
                         "post",
-                        "Posts/{name:minlength(3)}/{id}",
-                        new {controller = "Posts", action = "ById"});
+                        "Posts/{name:minlength(3)}/{id?}",
+                        new {controller = "Posts", action = "ByName"});
                     endpoints.MapControllerRoute(
                         "game",
                         "Games/{name:minlength(3)}/{id}",

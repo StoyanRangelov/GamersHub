@@ -1,8 +1,10 @@
 ﻿@using GamersHub.Common
-@model GamersHub.Web.ViewModels.Posts.PostByIdViewModel
+@model GamersHub.Web.ViewModels.Posts.PostByNameViewModel
 @{
     ViewData["Title"] = "Post";
     ViewData["Description"] = $"Posts and Replies in Video Game Forum for {Model.ForumName}";
+    ViewData["Controller"] = "Posts";
+    ViewData["Action"] = $"{Model.Url}";
 }
 
 <meta name="description" content="@ViewData["Description"]"/>
@@ -62,8 +64,11 @@
     <h2>Replies</h2>
 </div>
 
-@foreach (var reply in Model.Replies)
+@foreach (var reply in Model.PostReplies)
 {
     <hr/>
     <partial name="_PostsRepliesPartial" model="reply"/>
 }
+
+<br/>
+<partial name="_PaginationPartial" model="@Model.Pagination" view-data="@ViewData"/>

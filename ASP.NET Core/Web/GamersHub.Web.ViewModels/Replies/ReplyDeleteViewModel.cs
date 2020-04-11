@@ -18,8 +18,6 @@ namespace GamersHub.Web.ViewModels.Replies
 
         public string SanitizedContent => new HtmlSanitizer().Sanitize(this.Content);
 
-        public int PostId { get; set; }
-
         public string PostUrl { get; set; }
 
         public string UserId { get; set; }

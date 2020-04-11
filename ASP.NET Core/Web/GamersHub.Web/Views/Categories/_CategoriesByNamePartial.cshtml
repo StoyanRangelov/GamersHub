@@ -1,7 +1,7 @@
 ﻿@model GamersHub.Web.ViewModels.Categories.PostInCategoryViewModel
 <tr>
     <td>
-        <a asp-controller="Posts" asp-action="@Model.Url" asp-route-id="@Model.Id">@Model.ShortName</a>
+        <a asp-controller="Posts" asp-action="@Model.Url">@Model.ShortName</a>
     </td>
     <td><i class="fas fa-user"></i> @Model.UserUsername</td>
     <td><i class="fas fa-comments"></i> @Model.RepliesCount</td>

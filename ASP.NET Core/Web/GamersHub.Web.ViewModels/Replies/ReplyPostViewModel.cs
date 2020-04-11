@@ -12,7 +12,7 @@ namespace GamersHub.Web.ViewModels.Replies
 
         public string Name { get; set; }
 
-        public string Url => UrlParser.ParseToUrl(this.Name);
+        public string Url => UrlParser.ParseToUrl(this.Name).ToLower();
 
         public string Content { get; set; }
 

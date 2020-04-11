@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using GamersHub.Common;
 using GamersHub.Data.Models;
@@ -6,7 +7,9 @@ using GamersHub.Services.Data;
 using GamersHub.Services.Data.Categories;
 using GamersHub.Services.Data.Forums;
 using GamersHub.Services.Data.Posts;
+using GamersHub.Services.Data.Replies;
 using GamersHub.Services.Data.Users;
+using GamersHub.Web.ViewModels;
 using GamersHub.Web.ViewModels.Posts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -17,28 +20,50 @@ namespace GamersHub.Web.Controllers
     [Authorize]
     public class PostsController : BaseController
     {
+        private const int RepliesPerPage = 12;
+        
         private readonly IPostsService postsService;
         private readonly ICategoriesService categoriesService;
         private readonly IForumsService forumsService;
+        private IRepliesService repliesService;
 
         public PostsController(
             IPostsService postsService,
             ICategoriesService categoriesService,
-            IForumsService forumsService)
+            IForumsService forumsService,
+            IRepliesService repliesService)
         {
             this.postsService = postsService;
             this.categoriesService = categoriesService;
             this.forumsService = forumsService;
+            this.repliesService = repliesService;
         }
 
-        public IActionResult ById(int id)
+        public IActionResult ByName(string name, int id = 1)
         {
-            var viewModel = this.postsService.GetById<PostByIdViewModel>(id);
+            var viewModel = this.postsService.GetByName<PostByNameViewModel>(name);
 
             if (viewModel == null)
             {
                 return this.NotFound();
             }
+
+            viewModel.PostReplies = this.repliesService
+                .GetAllByPostId<ReplyInPostViewModel>(viewModel.Id, RepliesPerPage, (id - 1) * RepliesPerPage);
+
+            var count = this.repliesService.GetCountByForumId(viewModel.Id);
+
+            var pagination = new PaginationViewModel();
+
+            pagination.PagesCount = (int) Math.Ceiling((double) count / RepliesPerPage);
+            if (pagination.PagesCount == 0)
+            {
+                pagination.PagesCount = 1;
+            }
+
+            pagination.CurrentPage = id;
+
+            viewModel.Pagination = pagination;
 
             return this.View(viewModel);
         }
@@ -86,7 +111,7 @@ namespace GamersHub.Web.Controllers
             }
 
             this.TempData["InfoMessage"] = "Post created successfully!";
-            return this.RedirectToAction(nameof(this.ById), new {id = postId, name = inputModel.Url});
+            return this.RedirectToAction(nameof(this.ByName), new {name = inputModel.Url});
         }
 
         public IActionResult Edit(int id)
@@ -139,7 +164,7 @@ namespace GamersHub.Web.Controllers
             }
 
             this.TempData["InfoMessage"] = "Post edited successfully!";
-            return this.RedirectToAction(nameof(this.ById), new {id = input.Id, name = input.Url});
+            return this.RedirectToAction(nameof(this.ByName), new {name = input.Url});
         }
 
 

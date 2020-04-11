@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GamersHub.Common;
 using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
 using GamersHub.Services.Data.Forums;
@@ -23,6 +24,17 @@ namespace GamersHub.Services.Data.Posts
             this.postsRepository = postsRepository;
             this.forumsRepository = forumsRepository;
             this.repliesRepository = repliesRepository;
+        }
+
+        public T GetByName<T>(string name)
+        {
+            var normalisedName = this.GetNormalisedName(name);
+
+            var post = this.postsRepository.All()
+                .Where(x => x.Name == normalisedName)
+                .To<T>().FirstOrDefault();
+
+            return post;
         }
 
         public T GetById<T>(int id)
@@ -164,6 +176,15 @@ namespace GamersHub.Services.Data.Posts
         public int GetCount()
         {
             return this.postsRepository.All().Count();
+        }
+
+        private string GetNormalisedName(string name)
+        {
+            var posts = this.postsRepository.All().Select(x => x.Name).ToList();
+
+            var postName = posts.FirstOrDefault(x => UrlParser.ParseToUrl(x).ToLower() == name);
+
+            return postName;
         }
     }
 }

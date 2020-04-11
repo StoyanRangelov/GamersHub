@@ -12,8 +12,6 @@ namespace GamersHub.Web.ViewModels.Replies
 
         [Required] public string Content { get; set; }
 
-        public int PostId { get; set; }
-
         public string PostUrl { get; set; }
 
         public ReplyPostViewModel Post { get; set; }

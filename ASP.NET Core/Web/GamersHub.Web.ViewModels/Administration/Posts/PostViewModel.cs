@@ -10,7 +10,7 @@ namespace GamersHub.Web.ViewModels.Administration.Posts
 
         public string Name { get; set; }
 
-        public string Url => UrlParser.ParseToUrl(this.Name);
+        public string Url => UrlParser.ParseToUrl(this.Name).ToLower();
 
         public string ShortName =>
             this.Name?.Length > 30

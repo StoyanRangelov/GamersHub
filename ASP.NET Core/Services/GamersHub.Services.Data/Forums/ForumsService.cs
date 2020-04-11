@@ -189,7 +189,7 @@ namespace GamersHub.Services.Data.Forums
             return this.forumsRepository.All().Count();
         }
 
-        public string GetNormalisedName(string name)
+        private string GetNormalisedName(string name)
         {
             var forums = this.forumsRepository.All().Select(x => x.Name).ToList();
 

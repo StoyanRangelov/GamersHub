@@ -62,7 +62,7 @@ namespace GamersHub.Web.Controllers
             await this.repliesService.CreateAsync(input.PostId, userId, input.Content);
 
             this.TempData["InfoMessage"] = "Reply created successfully!";
-            return this.RedirectToAction("ById", "Posts", new {id = input.PostId, name = input.PostUrl});
+            return this.RedirectToAction("ByName", "Posts", new {name = input.PostUrl});
         }
 
         public IActionResult Edit(int id)
@@ -117,7 +117,7 @@ namespace GamersHub.Web.Controllers
             }
 
             this.TempData["InfoMessage"] = "Reply edited successfully!";
-            return this.RedirectToAction("ById", "Posts", new {id = input.PostId, name = input.PostUrl});
+            return this.RedirectToAction("ByName", "Posts", new {name = input.PostUrl});
         }
 
         public IActionResult Delete(int id)
@@ -160,7 +160,7 @@ namespace GamersHub.Web.Controllers
             await this.repliesService.DeleteAsync(input.Id);
 
             this.TempData["InfoMessage"] = "Reply deleted successfully!";
-            return this.RedirectToAction("ById", "Posts", new {id = input.PostId, name = input.PostUrl});
+            return this.RedirectToAction("ByName", "Posts", new { name = input.PostUrl});
         }
     }
 }

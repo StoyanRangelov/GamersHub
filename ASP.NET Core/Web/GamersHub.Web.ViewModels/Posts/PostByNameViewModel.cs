@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
+using GamersHub.Common;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
 using Ganss.XSS;
 
 namespace GamersHub.Web.ViewModels.Posts
 {
-    public class PostByIdViewModel : IMapFrom<Post>
+    public class PostByNameViewModel : IMapFrom<Post>
     {
         public int Id { get; set; }
+
         public string Name { get; set; }
+
+        public string Url => UrlParser.ParseToUrl(this.Name).ToLower();
 
         public string Content { get; set; }
 
@@ -33,6 +38,8 @@ namespace GamersHub.Web.ViewModels.Posts
 
         public string CategoryName { get; set; }
 
-        public IEnumerable<ReplyInPostViewModel> Replies { get; set; }
+        public IEnumerable<ReplyInPostViewModel> PostReplies { get; set; }
+
+        public PaginationViewModel Pagination { get; set; }
     }
 }
