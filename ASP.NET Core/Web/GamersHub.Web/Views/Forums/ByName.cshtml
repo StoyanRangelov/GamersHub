@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = Model.Name;
     ViewData["Description"] = $"Video Game Forum for {@Model.Name}";
+    ViewData["Controller"] = "Forums";
+    ViewData["Action"] = $"{Model.Url}";
 }
 
 <meta name="description" content="@ViewData["Description"]"/>
@@ -56,55 +58,4 @@
 </table>
 
 
-<nav>
-    <ul class="pagination justify-content-center">
-        @if (this.Model.CurrentPage == 1)
-        {
-            <li class="page-item disabled">
-                <a class="page-link" href="#">Previous</a>
-            </li>
-        }
-        else
-        {
-            <li class="page-item">
-                <a class="page-link"
-                   asp-controller="Forums"
-                   asp-action="@Model.Url"
-                  asp-route-id ="@(this.Model.CurrentPage - 1)">
-                    Previous
-                </a>
-            </li>
-        }
-
-        @for (int i = 1; i <= this.Model.PagesCount; i++)
-        {
-            var active = i == this.Model.CurrentPage ? "active" : string.Empty;
-            <li class="page-item @active">
-                <a class="page-link"
-                   asp-controller="Forums"
-                   asp-action="@Model.Url"
-                   asp-route-id="@i">
-                    @i
-                </a>
-            </li>
-        }
-
-        @if (this.Model.CurrentPage == this.Model.PagesCount)
-        {
-            <li class="page-item disabled">
-                <a class="page-link" href="#">Next</a>
-            </li>
-        }
-        else
-        {
-            <li class="page-item">
-                <a class="page-link"
-                   asp-controller="Forums"
-                   asp-action="@Model.Url"
-                   asp-route-id="@(this.Model.CurrentPage + 1)">
-                    Next
-                </a>
-            </li>
-        }
-    </ul>
-</nav>
+<partial name="_PaginationPartial" model="@Model.Pagination" view-data="@ViewData"/>

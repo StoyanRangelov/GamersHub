@@ -17,9 +17,7 @@ namespace GamersHub.Web.ViewModels.Forums
 
         public string Url => UrlParser.ParseToUrl(this.Name);
 
-        public int PagesCount { get; set; }
-
-        public int CurrentPage { get; set; }
+        public PaginationViewModel Pagination { get; set; }
 
         public IEnumerable<CategoryInForumByNameViewModel> ForumCategories { get; set; }
 

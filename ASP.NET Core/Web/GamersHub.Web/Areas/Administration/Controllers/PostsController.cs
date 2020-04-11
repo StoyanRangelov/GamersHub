@@ -1,5 +1,6 @@
 ﻿using System;
 using GamersHub.Services.Data.Posts;
+using GamersHub.Web.ViewModels;
 using GamersHub.Web.ViewModels.Administration.Posts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,13 +25,17 @@ namespace GamersHub.Web.Areas.Administration.Controllers
 
             var count = this.postsService.GetCount();
 
-            viewModel.PagesCount = (int) Math.Ceiling((double) count / PostsPerPage);
-            if (viewModel.PagesCount == 0)
+            var pagination = new PaginationViewModel();
+
+            pagination.PagesCount = (int) Math.Ceiling((double) count / PostsPerPage);
+            if (pagination.PagesCount == 0)
             {
-                viewModel.PagesCount = 1;
+                pagination.PagesCount = 1;
             }
 
-            viewModel.CurrentPage = id;
+            pagination.CurrentPage = id;
+
+            viewModel.Pagination = pagination;
 
 
             return this.View(viewModel);

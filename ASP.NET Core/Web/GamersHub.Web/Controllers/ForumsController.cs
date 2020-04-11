@@ -7,6 +7,7 @@ using GamersHub.Services.Data;
 using GamersHub.Services.Data.Categories;
 using GamersHub.Services.Data.Forums;
 using GamersHub.Services.Data.Posts;
+using GamersHub.Web.ViewModels;
 using GamersHub.Web.ViewModels.Administration.Forums;
 using GamersHub.Web.ViewModels.Forums;
 using Microsoft.AspNetCore.Authorization;
@@ -38,13 +39,17 @@ namespace GamersHub.Web.Controllers
 
             var count = this.forumsService.GetCount();
 
-            viewModel.PagesCount = (int) Math.Ceiling((double) count / ForumsPerPage);
-            if (viewModel.PagesCount == 0)
+            var pagination = new PaginationViewModel();
+
+            pagination.PagesCount = (int) Math.Ceiling((double) count / ForumsPerPage);
+            if (pagination.PagesCount == 0)
             {
-                viewModel.PagesCount = 1;
+                pagination.PagesCount = 1;
             }
 
-            viewModel.CurrentPage = id;
+            pagination.CurrentPage = id;
+
+            viewModel.Pagination = pagination;
 
             return this.View(viewModel);
         }
@@ -58,18 +63,22 @@ namespace GamersHub.Web.Controllers
                 return this.NotFound();
             }
 
-            viewModel.ForumPosts = this.postsService.
-                GetAllByForumId<PostInForumViewModel>(viewModel.Id, PostsPerPage, (id - 1) * PostsPerPage);
+            viewModel.ForumPosts =
+                this.postsService.GetAllByForumId<PostInForumViewModel>(viewModel.Id, PostsPerPage, (id - 1) * PostsPerPage);
 
             var count = this.postsService.GetCountByForumId(viewModel.Id);
 
-            viewModel.PagesCount = (int) Math.Ceiling((double) count / PostsPerPage);
-            if (viewModel.PagesCount == 0)
+            var pagination = new PaginationViewModel();
+
+            pagination.PagesCount = (int) Math.Ceiling((double) count / PostsPerPage);
+            if (pagination.PagesCount == 0)
             {
-                viewModel.PagesCount = 1;
+                pagination.PagesCount = 1;
             }
 
-            viewModel.CurrentPage = id;
+            pagination.CurrentPage = id;
+
+            viewModel.Pagination = pagination;
 
             return this.View(viewModel);
         }

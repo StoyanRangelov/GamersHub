@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using GamersHub.Common;
 using GamersHub.Data.Models;
 using GamersHub.Services.Data.Users;
+using GamersHub.Web.ViewModels;
 using GamersHub.Web.ViewModels.Administration.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -32,13 +33,17 @@ namespace GamersHub.Web.Areas.Administration.Controllers
 
             var count = this.usersService.GetCountOfPromotableUsers();
 
-            viewModel.PagesCount = (int) Math.Ceiling((double) count / UsersPerPage);
-            if (viewModel.PagesCount == 0)
+            var pagination = new PaginationViewModel();
+
+            pagination.PagesCount = (int) Math.Ceiling((double) count / UsersPerPage);
+            if (pagination.PagesCount == 0)
             {
-                viewModel.PagesCount = 1;
+                pagination.PagesCount = 1;
             }
 
-            viewModel.CurrentPage = id;
+            pagination.CurrentPage = id;
+
+            viewModel.Pagination = pagination;
 
             return this.View(viewModel);
         }
@@ -91,13 +96,17 @@ namespace GamersHub.Web.Areas.Administration.Controllers
 
             var count = this.usersService.GetCountOfBannedUsers();
 
-            viewModel.PagesCount = (int) Math.Ceiling((double) count / BannedUsersPerPage);
-            if (viewModel.PagesCount == 0)
+            var pagination = new PaginationViewModel();
+
+            pagination.PagesCount = (int) Math.Ceiling((double) count / BannedUsersPerPage);
+            if (pagination.PagesCount == 0)
             {
-                viewModel.PagesCount = 1;
+                pagination.PagesCount = 1;
             }
 
-            viewModel.CurrentPage = id;
+            pagination.CurrentPage = id;
+
+            viewModel.Pagination = pagination;
 
             return this.View(viewModel);
         }
@@ -112,11 +121,10 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         [HttpPost]
         public async Task<IActionResult> Unban(UserUnbanViewModel input)
         {
-           await this.usersService.UnbanAsync(input.Id);
+            await this.usersService.UnbanAsync(input.Id);
 
-           this.TempData["InfoMessage"] = "User unbanned successfully!";
-           return this.RedirectToAction(nameof(this.Banned));
+            this.TempData["InfoMessage"] = "User unbanned successfully!";
+            return this.RedirectToAction(nameof(this.Banned));
         }
-
     }
 }

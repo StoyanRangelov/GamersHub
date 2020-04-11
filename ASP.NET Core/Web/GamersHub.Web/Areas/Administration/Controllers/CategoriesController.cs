@@ -5,6 +5,7 @@ using GamersHub.Common;
 using GamersHub.Services.Data;
 using GamersHub.Services.Data.Categories;
 using GamersHub.Services.Data.Forums;
+using GamersHub.Web.ViewModels;
 using GamersHub.Web.ViewModels.Administration.Categories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,13 +32,18 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             var viewModel = new CategoryIndexViewModel {Categories = categories};
 
             var count = this.categoriesService.GetCount();
-            viewModel.PagesCount = (int) Math.Ceiling((double) count / CategoriesPerPage);
-            if (viewModel.PagesCount == 0)
+
+            var pagination = new PaginationViewModel();
+
+            pagination.PagesCount = (int) Math.Ceiling((double) count / CategoriesPerPage);
+            if (pagination.PagesCount == 0)
             {
-                viewModel.PagesCount = 1;
+                pagination.PagesCount = 1;
             }
 
-            viewModel.CurrentPage = id;
+            pagination.CurrentPage = id;
+
+            viewModel.Pagination = pagination;
 
             return this.View(viewModel);
         }
