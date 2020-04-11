@@ -189,8 +189,8 @@ namespace GamersHub.Web
                         new {controller = "Posts", action = "ByName"});
                     endpoints.MapControllerRoute(
                         "game",
-                        "Games/{name:minlength(3)}/{id}",
-                        new {controller = "Games", action = "ById"});
+                        "Games/{name:minlength(3)}/{id?}",
+                        new {controller = "Games", action = "ByName"});
                     endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapRazorPages();
                 });

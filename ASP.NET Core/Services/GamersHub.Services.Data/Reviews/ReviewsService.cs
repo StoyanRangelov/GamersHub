@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
@@ -13,6 +14,18 @@ namespace GamersHub.Services.Data.Reviews
         public ReviewsService(IDeletableEntityRepository<Review> reviewsRepository)
         {
             this.reviewsRepository = reviewsRepository;
+        }
+
+        public IEnumerable<T> GetAllByGameId<T>(int gameId, int? take = null, int skip = 0)
+        {
+            var query = this.reviewsRepository.All()
+                .Where(x => x.GameId == gameId).Skip(skip);
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+
+            return query.To<T>().ToList();
         }
 
         public T GetById<T>(int id)
@@ -66,6 +79,11 @@ namespace GamersHub.Services.Data.Reviews
 
             this.reviewsRepository.Delete(review);
             await this.reviewsRepository.SaveChangesAsync();
+        }
+
+        public int GetCount()
+        {
+            return this.reviewsRepository.All().Count();
         }
     }
 }

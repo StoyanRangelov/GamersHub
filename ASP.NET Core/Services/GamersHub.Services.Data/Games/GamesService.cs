@@ -43,7 +43,7 @@ namespace GamersHub.Services.Data.Games
         public IEnumerable<T> GetAll<T>(int? take = null, int skip = 0)
         {
             var query = this.gamesRepository.All()
-                .OrderBy(x => x.Reviews.Count).Skip(skip);
+                .OrderByDescending(x => x.Reviews.Count).Skip(skip);
             if (take.HasValue)
             {
                 query = query.Take(take.Value);

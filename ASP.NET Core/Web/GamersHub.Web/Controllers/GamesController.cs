@@ -7,6 +7,7 @@ using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using GamersHub.Common;
 using GamersHub.Services.Data.Games;
+using GamersHub.Services.Data.Reviews;
 using GamersHub.Web.ViewModels;
 using GamersHub.Web.ViewModels.Games;
 using GamersHub.Web.ViewModels.Posts;
@@ -19,14 +20,17 @@ namespace GamersHub.Web.Controllers
     public class GamesController : BaseController
     {
         private const int GamesPerPage = 4;
+        private const int ReviewsPerPage = 12;
 
         private readonly IGamesService gamesService;
+        private readonly IReviewsService reviewsService;
         private readonly Cloudinary cloudinary;
 
-        public GamesController(IGamesService gamesService, Cloudinary cloudinary)
+        public GamesController(IGamesService gamesService, Cloudinary cloudinary, IReviewsService reviewsService)
         {
             this.gamesService = gamesService;
             this.cloudinary = cloudinary;
+            this.reviewsService = reviewsService;
         }
 
         public IActionResult Index(int id = 1)
@@ -53,7 +57,7 @@ namespace GamersHub.Web.Controllers
             return this.View(viewModel);
         }
 
-        public IActionResult ById(int id)
+        public IActionResult ByName(int id = 1)
         {
             var viewModel = this.gamesService.GetById<GameByIdViewModel>(id);
 
@@ -61,6 +65,23 @@ namespace GamersHub.Web.Controllers
             {
                 return this.NotFound();
             }
+
+            viewModel.GameReviews = this.reviewsService
+                .GetAllByGameId<ReviewInGameViewModel>(viewModel.Id, ReviewsPerPage, (id - 1) * ReviewsPerPage);
+
+            var count = this.reviewsService.GetCount();
+
+            var pagination = new PaginationViewModel();
+
+            pagination.PagesCount = (int)Math.Ceiling((double) count / ReviewsPerPage);
+            if (pagination.PagesCount == 0)
+            {
+                pagination.PagesCount = 1;
+            }
+
+            pagination.CurrentPage = id;
+
+            viewModel.Pagination = pagination;
 
             return this.View(viewModel);
         }
@@ -119,7 +140,7 @@ namespace GamersHub.Web.Controllers
             }
 
             this.TempData["InfoMessage"] = "Game edited successfully!";
-            return this.RedirectToAction(nameof(this.ById), new {id = input.Id, name = input.Url});
+            return this.RedirectToAction(nameof(this.ByName), new { name = input.Url});
         }
     }
 }

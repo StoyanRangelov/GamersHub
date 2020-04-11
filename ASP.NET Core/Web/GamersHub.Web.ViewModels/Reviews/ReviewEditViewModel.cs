@@ -11,8 +11,6 @@ namespace GamersHub.Web.ViewModels.Reviews
 
         public string UserId { get; set; }
 
-        public int GameId { get; set; }
-
         public string GameTitle { get; set; }
 
         public string GameUrl => UrlParser.ParseToUrl(this.GameTitle);

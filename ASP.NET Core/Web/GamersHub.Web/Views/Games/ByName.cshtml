@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Game";
     ViewData["Description"] = $"Reviews for Video Game {@Model.Title}";
+    ViewData["Controller"] = "Games";
+    ViewData["Action"] = $"{Model.Url}";
 }
 
 <meta name="description" content="@ViewData["Description"]"/>
@@ -57,8 +59,11 @@
     </h2>
 </div>
 
-@foreach (var review in Model.Reviews)
+@foreach (var review in Model.GameReviews)
 {
     <hr/>
-    <partial name="_GamesByIdPartial" model="review"/>
+    <partial name="_GamesByNamePartial" model="review"/>
 }
+
+<br/>
+<partial name="_PaginationPartial" model="@Model.Pagination" view-data="@ViewData"/>

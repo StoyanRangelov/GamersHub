@@ -14,8 +14,6 @@ namespace GamersHub.Web.ViewModels.Reviews
 
         public DateTime? ModifiedOn { get; set; }
 
-        public int GameId { get; set; }
-
         public string GameTitle { get; set; }
 
         public string GameUrl => UrlParser.ParseToUrl(this.GameTitle);

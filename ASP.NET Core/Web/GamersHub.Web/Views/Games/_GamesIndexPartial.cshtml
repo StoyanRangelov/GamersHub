@@ -6,7 +6,7 @@
             Reviews: 
             <i class="fas fa-thumbs-up fa-lg text-primary"></i> @Model.PositiveReviews
             <i class="fas fa-thumbs-down fa-lg text-danger"></i> @Model.NegativeReviews
-            <a asp-controller="Games" asp-action="@Model.Url" asp-route-id="@Model.Id" class="card-link float-right">To Game</a>
+            <a asp-controller="Games" asp-action="@Model.Url"class="card-link float-right">To Game</a>
         </div>
         <img class="card-img-top" src="@Model.ImgUrl" alt="@Model.Title" style="height: 500px"/>
         <div class="card-body">
