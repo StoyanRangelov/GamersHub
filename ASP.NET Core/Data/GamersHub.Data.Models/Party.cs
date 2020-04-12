@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using GamersHub.Data.Common.Models;
@@ -7,13 +8,16 @@ namespace GamersHub.Data.Models
 {
     public class Party : BaseDeletableModel<int>
     {
-        [Required] 
+        [Required]
         public string Game { get; set; }
 
-        [Required] 
+        [Required]
         public string Activity { get; set; }
 
-        public int Capacity { get; set; }
+        [Required]
+        public string Description { get; set; }
+
+        public int Size { get; set; }
 
         public bool IsFull { get; set; }
 

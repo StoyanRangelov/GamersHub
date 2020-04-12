@@ -1,0 +1,38 @@
+﻿@model GamersHub.Web.ViewModels.Parties.PartyCreateInputModel
+@{
+    ViewData["Title"] = "Create Party";
+}
+
+<div class="text-center ">
+    <h1 class="display-3">@this.ViewData["Title"]</h1>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-md-10">
+        <form asp-controller="Parties" asp-action="Create" method="post">
+            <div class="form-group">
+                <label asp-for="Game"></label>
+                <input asp-for="Game" class="form-control"/>
+                <span asp-validation-for="Game" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Size"></label>
+                <input asp-for="Size" class="form-control"/>
+                <span asp-validation-for="Size" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Activity"></label>
+                <input asp-for="Activity" class="form-control"/>
+                <span asp-validation-for="Activity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description" class="form-control" rows="10"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-lg btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace GamersHub.Services.Data.Parties
+{
+    public interface IPartiesService
+    {
+        IEnumerable<T> GetAll<T>(int? take = null, int skip = 0);
+
+        int GetCount();
+
+        Task<int> CreateAsync(string userId, string game, string activity, string description, int size);
+    }
+}
