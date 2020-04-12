@@ -8,6 +8,8 @@ namespace GamersHub.Web.ViewModels.Parties
     {
         public int Id { get; set; }
 
+        public string CreatorId { get; set; }
+
         public string CreatorUsername { get; set; }
 
         public string Game { get; set; }

@@ -10,5 +10,7 @@ namespace GamersHub.Services.Data.Parties
         int GetCount();
 
         Task<int> CreateAsync(string userId, string game, string activity, string description, int size);
+
+        Task<int> ApplyAsync (int partyId, string userId);
     }
 }

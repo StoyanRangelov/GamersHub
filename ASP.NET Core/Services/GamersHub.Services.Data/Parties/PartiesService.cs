@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
 using GamersHub.Services.Mapping;
+using Microsoft.EntityFrameworkCore;
 
 namespace GamersHub.Services.Data.Parties
 {
@@ -20,7 +21,7 @@ namespace GamersHub.Services.Data.Parties
         {
             var query = this.partiesRepository.All()
                 .Where(x => x.IsFull == false)
-                .OrderBy(x => x.CreatedOn).Skip(skip);
+                .OrderByDescending(x => x.CreatedOn).Skip(skip);
             if (take.HasValue)
             {
                 query = query.Take(take.Value);
@@ -49,6 +50,40 @@ namespace GamersHub.Services.Data.Parties
             await this.partiesRepository.SaveChangesAsync();
 
             return party.Id;
+        }
+
+        public async Task<int> ApplyAsync(int partyId, string userId)
+        {
+            var party = this.partiesRepository.All()
+                .Include(x=>x.PartyApplicants)
+                .FirstOrDefault(x => x.Id == partyId);
+
+            if (party == null)
+            {
+                return 0;
+            }
+
+            var applicant = party.PartyApplicants
+                .FirstOrDefault(x => x.PartyId == partyId && x.ApplicantId == userId);
+
+            if (applicant != null)
+            {
+                return -1;
+            }
+
+            var partyApplicant = new PartyUser
+            {
+                PartyId = partyId,
+                ApplicantId = userId,
+            };
+
+            party.PartyApplicants.Add(partyApplicant);
+
+            this.partiesRepository.Update(party);
+            await this.partiesRepository.SaveChangesAsync();
+
+            return partyId;
+
         }
     }
 }

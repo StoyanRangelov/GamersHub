@@ -71,5 +71,34 @@ namespace GamersHub.Web.Controllers
             this.TempData["InfoMessage"] = "Party created successfully!";
             return this.RedirectToAction(nameof(this.Index));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Apply(PartyApplyInputModel input)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == input.UserId)
+            {
+                this.TempData["InfoMessage"] = "You cannot apply to a party you created.";
+                return this.RedirectToAction(nameof(this.Index));
+            }
+
+            var applyId = await this.partiesService.ApplyAsync(input.PartyId, input.UserId);
+
+            if (applyId == 0)
+            {
+                return this.NotFound();
+            }
+
+            if (applyId == -1)
+            {
+                this.TempData["InfoMessage"] = "You have already applied to this party.";
+                return this.RedirectToAction(nameof(this.Index));
+            }
+
+            this.TempData["InfoMessage"] = "Successfully applied to party.";
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
     }
 }

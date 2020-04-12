@@ -39,7 +39,17 @@
                     <p class="card-text">@party.Description</p>
                 </div>
                 <div class="card-footer">
-                    <a asp-controller="Parties" asp-action="Apply" asp-route-id="@party.Id" type="submit" class="btn btn-primary float-right">Apply</a>
+                    <form asp-controller="Parties" asp-action="Apply" asp-route-id="" method="post" class="float-right">
+                        <div class="form-group">
+                            <input type="hidden" name="PartyId" value="@party.Id"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="UserId" value="@party.CreatorId"/>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Apply" class="btn btn-primary"/>
+                        </div>
+                    </form>
                     <p class="card-text">Applicants: <span class="badge badge-primary">@party.PartyApplicantsCount</span></p>
                 </div>
             </div>
