@@ -83,7 +83,7 @@ namespace GamersHub.Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Username, Email = Input.Email, GaminExperience = Input.GamingExperience};
+                var user = new ApplicationUser { UserName = Input.Username, Email = Input.Email, GamingExperience = Input.GamingExperience};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

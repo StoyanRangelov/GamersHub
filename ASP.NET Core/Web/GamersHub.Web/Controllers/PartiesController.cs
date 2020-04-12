@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using GamersHub.Services.Data.Parties;
+using GamersHub.Services.Data.Users;
 using GamersHub.Web.ViewModels;
 using GamersHub.Web.ViewModels.Parties;
 using Microsoft.AspNetCore.Authorization;
@@ -9,17 +10,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GamersHub.Web.Controllers
 {
-
     [Authorize]
     public class PartiesController : BaseController
     {
         private const int PartiesPerPage = 6;
-        
-        private readonly IPartiesService partiesService;
 
-        public PartiesController(IPartiesService partiesService)
+        private readonly IPartiesService partiesService;
+        private readonly IUsersService usersService;
+
+        public PartiesController(IPartiesService partiesService, IUsersService usersService)
         {
             this.partiesService = partiesService;
+            this.usersService = usersService;
         }
 
         public IActionResult Index(int id = 1)
@@ -83,7 +85,7 @@ namespace GamersHub.Web.Controllers
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            var applyId = await this.partiesService.ApplyAsync(input.PartyId, input.UserId);
+            var applyId = await this.partiesService.ApplyAsync(input.PartyId, userId);
 
             if (applyId == 0)
             {
@@ -100,5 +102,45 @@ namespace GamersHub.Web.Controllers
             return this.RedirectToAction(nameof(this.Index));
         }
 
+        public IActionResult Host(string id, int page = 1)
+        {
+            var partyUserId = this.usersService.GetIdByName(id);
+            if (partyUserId == null)
+            {
+                return this.NotFound();
+            }
+
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (partyUserId != currentUserId)
+            {
+                return this.Redirect("/Identity/Account/AccessDenied");
+            }
+
+            var viewModel = this.usersService.GetByName<PartyHostViewModel>(id);
+
+
+            viewModel.UserParties = this.partiesService
+                .GetAllByUsername<PartyWithApplicantsViewModel>(id, PartiesPerPage, (page - 1) * PartiesPerPage);
+
+
+            var count = this.partiesService.GetCountByUsername(id);
+
+            viewModel.PagesCount = (int) Math.Ceiling((double) count / PartiesPerPage);
+            if (viewModel.PagesCount == 0)
+            {
+                viewModel.PagesCount = 1;
+            }
+
+            viewModel.CurrentPage = page;
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Approve(PartyApplicantInputModel input)
+        {
+            return this.RedirectToAction("Host", "Parties", new {id = input.CreatorUsername});
+        }
     }
 }

@@ -32,7 +32,7 @@ namespace GamersHub.Data.Models
 
         public DateTime? DeletedOn { get; set; }
 
-        public GamingExperienceType GaminExperience { get; set; }
+        public GamingExperienceType GamingExperience { get; set; }
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 

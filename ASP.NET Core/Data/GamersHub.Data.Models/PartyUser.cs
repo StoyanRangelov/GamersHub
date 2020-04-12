@@ -12,5 +12,7 @@ namespace GamersHub.Data.Models
         public string ApplicantId { get; set; }
 
         public virtual ApplicationUser Applicant { get; set; }
+
+        public bool IsApproved { get; set; }
     }
 }

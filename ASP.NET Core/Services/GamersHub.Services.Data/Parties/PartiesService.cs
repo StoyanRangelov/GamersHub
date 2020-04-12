@@ -20,8 +20,20 @@ namespace GamersHub.Services.Data.Parties
         public IEnumerable<T> GetAll<T>(int? take = null, int skip = 0)
         {
             var query = this.partiesRepository.All()
-                .Where(x => x.IsFull == false)
                 .OrderByDescending(x => x.CreatedOn).Skip(skip);
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+
+            return query.To<T>().ToList();
+        }
+
+        public IEnumerable<T> GetAllByUsername<T>(string username, int? take = null, int skip = 0)
+        {
+            var query = this.partiesRepository.All()
+                .Where(x => x.Creator.UserName == username)
+                .OrderByDescending(x=>x.CreatedOn).Skip(skip);
             if (take.HasValue)
             {
                 query = query.Take(take.Value);
@@ -32,7 +44,12 @@ namespace GamersHub.Services.Data.Parties
 
         public int GetCount()
         {
-            return this.partiesRepository.All().Count(x => x.IsFull == false);
+            return this.partiesRepository.All().Count();
+        }
+
+        public int GetCountByUsername(string username)
+        {
+            return this.partiesRepository.All().Count(x => x.Creator.UserName == username);
         }
 
         public async Task<int> CreateAsync(string userId, string game, string activity, string description, int size)
@@ -55,7 +72,7 @@ namespace GamersHub.Services.Data.Parties
         public async Task<int> ApplyAsync(int partyId, string userId)
         {
             var party = this.partiesRepository.All()
-                .Include(x=>x.PartyApplicants)
+                .Include(x => x.PartyApplicants)
                 .FirstOrDefault(x => x.Id == partyId);
 
             if (party == null)
@@ -83,7 +100,6 @@ namespace GamersHub.Services.Data.Parties
             await this.partiesRepository.SaveChangesAsync();
 
             return partyId;
-
         }
     }
 }

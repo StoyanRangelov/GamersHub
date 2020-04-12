@@ -16,6 +16,8 @@ namespace GamersHub.Services.Data.Users
 
         T GetById<T>(string id);
 
+        T GetByName<T>(string name);
+
         Task PromoteAsync(string id, string role);
 
         Task DemoteAsync(string id);
@@ -29,5 +31,7 @@ namespace GamersHub.Services.Data.Users
         int GetCountOfPromotableUsers();
 
         int GetCountOfBannedUsers();
+
+        string GetIdByName(string name);
     }
 }

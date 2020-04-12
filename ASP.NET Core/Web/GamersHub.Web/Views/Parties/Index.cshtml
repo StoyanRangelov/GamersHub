@@ -14,6 +14,10 @@
     </div>
 }
 <br/>
+<div class="d-inline-block">
+    <a asp-controller="Parties" asp-action="Host" asp-route-id="@this.User.Identity.Name" type="submit" class="btn btn-primary btn-lg">My Parties</a>
+</div>
+
 
 <div class="d-inline-block float-right">
     <a asp-controller="Parties" asp-action="Create" type="submit" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i>&nbsp; New Party</a>
@@ -39,7 +43,7 @@
                     <p class="card-text">@party.Description</p>
                 </div>
                 <div class="card-footer">
-                    <form asp-controller="Parties" asp-action="Apply" asp-route-id="" method="post" class="float-right">
+                    <form asp-controller="Parties" asp-action="Apply" method="post" class="float-right">
                         <div class="form-group">
                             <input type="hidden" name="PartyId" value="@party.Id"/>
                         </div>
@@ -50,7 +54,14 @@
                             <input type="submit" value="Apply" class="btn btn-primary"/>
                         </div>
                     </form>
-                    <p class="card-text">Applicants: <span class="badge badge-primary">@party.PartyApplicantsCount</span></p>
+                    @if (party.IsFull)
+                    {
+                        <p class="card-text">Party is Full.</p>
+                    }
+                    else
+                    {
+                        <p class="card-text">Applicants: <span class="badge badge-primary">@party.PartyApplicantsCount</span></p>
+                    }
                 </div>
             </div>
         </div>

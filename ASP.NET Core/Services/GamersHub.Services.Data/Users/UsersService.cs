@@ -116,6 +116,14 @@ namespace GamersHub.Services.Data.Users
             return user;
         }
 
+        public T GetByName<T>(string name)
+        {
+            var user = this.usersRepository.All()
+                .Where(x => x.UserName == name).To<T>().FirstOrDefault();
+
+            return user;
+        }
+
         public async Task PromoteAsync(string id, string role)
         {
             var user = this.usersRepository.All().FirstOrDefault(x => x.Id == id);
@@ -195,6 +203,11 @@ namespace GamersHub.Services.Data.Users
         public int GetCountOfBannedUsers()
         {
             return this.usersRepository.All().Count(x => x.LockoutEnd != null);
+        }
+
+        public string GetIdByName(string name)
+        {
+            return this.usersRepository.All().FirstOrDefault(x => x.UserName == name)?.Id;
         }
     }
 }

@@ -18,6 +18,8 @@ namespace GamersHub.Web.ViewModels.Parties
 
         public string Description { get; set; }
 
+        public bool IsFull { get; set; }
+
         public int Size { get; set; }
 
         public int PartyApplicantsCount { get; set; }
