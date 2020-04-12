@@ -18,6 +18,8 @@ namespace GamersHub.Data.Models
             this.Posts = new HashSet<Post>();
             this.Replies = new HashSet<Reply>();
             this.Reviews = new HashSet<Review>();
+            this.Parties = new HashSet<Party>();
+            this.PartyApplicants = new HashSet<PartyUser>();
         }
 
         // Audit info
@@ -30,6 +32,8 @@ namespace GamersHub.Data.Models
 
         public DateTime? DeletedOn { get; set; }
 
+        public GamingExperienceType GaminExperience { get; set; }
+
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
@@ -41,5 +45,9 @@ namespace GamersHub.Data.Models
         public virtual ICollection<Reply> Replies { get; set; }
 
         public virtual ICollection<Review> Reviews { get; set; }
+
+        public virtual ICollection<Party> Parties { get; set; }
+
+        public virtual ICollection<PartyUser> PartyApplicants { get; set; }
     }
 }

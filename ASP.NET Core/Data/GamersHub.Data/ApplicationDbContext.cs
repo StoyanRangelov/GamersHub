@@ -38,6 +38,10 @@
 
         public DbSet<Review> Reviews { get; set; }
 
+        public DbSet<Party> Parties { get; set; }
+
+        public DbSet<PartyUser> PartyApplicants { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
