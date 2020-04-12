@@ -138,8 +138,16 @@ namespace GamersHub.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Approve(PartyApplicantInputModel input)
+        public async Task<IActionResult> Approve(PartyApplicantInputModel input)
         {
+            var approveUserId = await this.partiesService.ApproveAsync(input.PartyId, input.ApplicantId);
+
+            if (approveUserId == 0)
+            {
+                return this.NotFound();
+            }
+
+            this.TempData["InfoMessage"] = "Successfully approved user to party.";
             return this.RedirectToAction("Host", "Parties", new {id = input.CreatorUsername});
         }
     }

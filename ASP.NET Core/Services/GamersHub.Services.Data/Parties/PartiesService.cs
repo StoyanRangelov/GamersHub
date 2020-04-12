@@ -11,10 +11,13 @@ namespace GamersHub.Services.Data.Parties
     public class PartiesService : IPartiesService
     {
         private readonly IDeletableEntityRepository<Party> partiesRepository;
+        private readonly IRepository<PartyUser> partyUsersRepository;
 
-        public PartiesService(IDeletableEntityRepository<Party> partiesRepository)
+        public PartiesService(IDeletableEntityRepository<Party> partiesRepository,
+            IRepository<PartyUser> partyUsersRepository)
         {
             this.partiesRepository = partiesRepository;
+            this.partyUsersRepository = partyUsersRepository;
         }
 
         public IEnumerable<T> GetAll<T>(int? take = null, int skip = 0)
@@ -33,7 +36,7 @@ namespace GamersHub.Services.Data.Parties
         {
             var query = this.partiesRepository.All()
                 .Where(x => x.Creator.UserName == username)
-                .OrderByDescending(x=>x.CreatedOn).Skip(skip);
+                .OrderByDescending(x => x.CreatedOn).Skip(skip);
             if (take.HasValue)
             {
                 query = query.Take(take.Value);
@@ -95,6 +98,35 @@ namespace GamersHub.Services.Data.Parties
             };
 
             party.PartyApplicants.Add(partyApplicant);
+
+            this.partiesRepository.Update(party);
+            await this.partiesRepository.SaveChangesAsync();
+
+            return partyId;
+        }
+
+        public async Task<int> ApproveAsync(int partyId, string applicantId)
+        {
+            var party = this.partiesRepository.All()
+                .Include(x=>x.PartyApplicants)
+                .FirstOrDefault(x => x.Id == partyId);
+
+            var partyApplication = party?.PartyApplicants
+                .FirstOrDefault(x => x.ApplicantId == applicantId);
+
+            if (partyApplication == null)
+            {
+                return 0;
+            }
+
+            partyApplication.IsApproved = true;
+
+            var approvedApplicants = party.PartyApplicants.Count(x => x.IsApproved);
+
+            if (approvedApplicants == party.Size)
+            {
+                party.IsFull = true;
+            }
 
             this.partiesRepository.Update(party);
             await this.partiesRepository.SaveChangesAsync();

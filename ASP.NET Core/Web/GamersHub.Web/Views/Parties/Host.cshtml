@@ -58,23 +58,23 @@ else
                         <p class="card-text">@party.Description</p>
                     </div>
                     <div class="card-footer">
-                        @if (party.IsFull)
+                        @if (!party.PartyApplicants.Any())
                         {
-                            <p class="card-text">Party is Full.</p>
+                            <p class="card-text">There are currently no applicants for this party.</p>
                         }
                         else
                         {
-                            @if (!party.PartyApplicants.Any())
-                            {
-                                <p class="card-text">There are currently no applicants for this party.</p>
-                            }
-                            else
-                            {
-                                <p class="card-text">Applicants:</p>
-                                <ul class="list-group list-group-flush">
-                                    @foreach (var applicant in party.PartyApplicants)
-                                    {
-                                        <li class="list-group-item">
+                            <p class="card-text">Applicants:</p>
+                            <ul class="list-group list-group-flush">
+                                @foreach (var applicant in party.PartyApplicants)
+                                {
+                                    <li class="list-group-item">
+                                        @if (applicant.IsApproved)
+                                        {
+                                            <p class="card-text text-primary float-right">Approved</p>
+                                        }
+                                        else
+                                        {
                                             <form asp-controller="Parties" asp-action="Approve" method="post" class="float-right">
                                                 <div class="form-group">
                                                     <input type="hidden" name="PartyId" value="@applicant.PartyId"/>
@@ -89,12 +89,13 @@ else
                                                     <input type="submit" value="Approve" class="btn btn-primary"/>
                                                 </div>
                                             </form>
-                                            <p class="card-text">User: @applicant.ApplicantUsername - Experience: @applicant.ApplicantGamingExperience</p>
-                                        </li>
-                                    }
-                                </ul>
-                            }
+                                        }
+                                        <p class="card-text">User: @applicant.ApplicantUsername - Experience: @applicant.ApplicantGamingExperience</p>
+                                    </li>
+                                }
+                            </ul>
                         }
+
                     </div>
                 </div>
             </div>

@@ -33,8 +33,6 @@ namespace GamersHub.Web.ViewModels.Parties
 
         public int Size { get; set; }
 
-        public bool IsFull { get; set; }
-
         public DateTime CreatedOn { get; set; }
 
         public IEnumerable<PartyApplicantViewModel> PartyApplicants { get; set; }
