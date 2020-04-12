@@ -5,10 +5,8 @@
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
-
     using GamersHub.Data.Common.Models;
     using GamersHub.Data.Models;
-
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
@@ -76,7 +74,7 @@
             foreach (var deletableEntityType in deletableEntityTypes)
             {
                 var method = SetIsDeletedQueryFilterMethod.MakeGenericMethod(deletableEntityType.ClrType);
-                method.Invoke(null, new object[] { builder });
+                method.Invoke(null, new object[] {builder});
             }
 
             // Disable cascade delete
@@ -96,7 +94,7 @@
 
         // Applies configurations
         private void ConfigureUserIdentityRelations(ModelBuilder builder)
-             => builder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
+            => builder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
 
         private void ApplyAuditInfoRules()
         {
@@ -108,7 +106,7 @@
 
             foreach (var entry in changedEntries)
             {
-                var entity = (IAuditInfo)entry.Entity;
+                var entity = (IAuditInfo) entry.Entity;
                 if (entry.State == EntityState.Added && entity.CreatedOn == default)
                 {
                     entity.CreatedOn = DateTime.UtcNow;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
@@ -13,7 +14,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
     public class GamesController : AdministrationController
     {
         private const int GamesPerPage = 14;
-        
+
         private readonly IGamesService gamesService;
         private readonly Cloudinary cloudinary;
 
@@ -33,7 +34,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             var count = this.gamesService.GetCount();
 
             var pagination = new PaginationViewModel();
-            pagination.PagesCount = (int)Math.Ceiling((double) count / GamesPerPage);
+            pagination.PagesCount = (int) Math.Ceiling((double) count / GamesPerPage);
             if (pagination.PagesCount == 0)
             {
                 pagination.PagesCount = 1;
@@ -59,19 +60,19 @@ namespace GamersHub.Web.Areas.Administration.Controllers
                 return this.View(input);
             }
 
+            var fileName = ContentDispositionHeaderValue.Parse(input.Image.ContentDisposition).FileName.Trim('"');
+
             await using var stream = input.Image.OpenReadStream();
 
             var uploadParams = new ImageUploadParams
             {
-                File = new FileDescription(input.Title, stream),
+                File = new FileDescription(fileName, stream),
                 Format = "jpg",
             };
 
             var uploadResult = await cloudinary.UploadAsync(uploadParams);
 
-            var publicId = uploadResult.PublicId + ".jpg";
-
-            var imageUrl = cloudinary.Api.UrlImgUp.BuildUrl(publicId);
+            var imageUrl = uploadResult.SecureUri.ToString();
 
             await this.gamesService.CreateAsync(input.Title, input.SubTitle, input.Description, imageUrl);
 

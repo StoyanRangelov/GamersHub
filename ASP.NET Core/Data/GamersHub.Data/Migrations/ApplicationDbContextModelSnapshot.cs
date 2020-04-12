@@ -589,7 +589,7 @@ namespace GamersHub.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("GamersHub.Data.Models.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("UserId");
                 });
 

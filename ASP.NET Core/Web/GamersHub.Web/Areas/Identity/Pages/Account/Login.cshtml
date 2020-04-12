@@ -10,42 +10,47 @@
         <div class="card card-sigin my-5">
             <div class="card-body">
                 <h5 class="card-title text-center">@ViewData["Title"]</h5>
-                <section>
-                    <form class="form-signin" id="account" method="post">
-                        <div asp-validation-summary="All" class="text-danger"></div>
-                        <div class="form-label-group">
-                            <div class="form-group">
-                                <label asp-for="Input.Username"></label>
-                                <input asp-for="Input.Username" class="form-control"/>
-                                <span asp-validation-for="Input.Username" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="Input.Password"></label>
-                                <input asp-for="Input.Password" class="form-control"/>
-                                <span asp-validation-for="Input.Password" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <div class="checkbox">
-                                    <label asp-for="Input.RememberMe">
-                                        <input asp-for="Input.RememberMe"/>
-                                        @Html.DisplayNameFor(m => m.Input.RememberMe)
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-lg btn-primary btn-block text-uppercase">Sign in</button>
-                            </div>
-                            <div class="form-group">
-                                <p>
-                                    <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                                </p>
-                                <p>
-                                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                                </p>
+                <form class="form-signin" id="account" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-label-group">
+                        <div class="form-group">
+                            <label asp-for="Input.Username"></label>
+                            <input asp-for="Input.Username" class="form-control"/>
+                            <span asp-validation-for="Input.Username" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.Password"></label>
+                            <input asp-for="Input.Password" class="form-control"/>
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label asp-for="Input.RememberMe">
+                                    <input asp-for="Input.RememberMe"/>
+                                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                </label>
                             </div>
                         </div>
-                    </form>
-                    <hr class="my-4">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-lg btn-primary btn-block text-uppercase">Sign in</button>
+                        </div>
+                        <div class="form-group">
+                            <p>
+                                <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                            </p>
+                            <p>
+                                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                            </p>
+                        </div>
+                    </div>
+                </form>
+                <hr class="my-4">
+                @if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                {
+                    <p class="card-text">There are no external logins available.</p>
+                }
+                else
+                {
                     <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
                         <div>
                             <p>
@@ -57,7 +62,7 @@
                             </p>
                         </div>
                     </form>
-                </section>
+                }
             </div>
         </div>
     </div>

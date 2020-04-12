@@ -51,5 +51,7 @@
     <_ContentIncludedByDefault Remove="Views\Posts\Components\ForumsAndCategories\Default.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\Components\CategoryNames\Default.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Shared\Components\ForumNames\Default.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Parties\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Parties\Index.cshtml" />
   </ItemGroup>
 </Project>

@@ -20,5 +20,7 @@ namespace GamersHub.Web.ViewModels.Administration.Moderators
         public int PostsCount { get; set; }
 
         public int RepliesCount { get; set; }
+
+        public int ReviewsCount { get; set; }
     }
 }

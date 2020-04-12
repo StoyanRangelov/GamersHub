@@ -113,18 +113,16 @@ namespace GamersHub.Web.Controllers
             {
                 var fileName = ContentDispositionHeaderValue.Parse(input.Image.ContentDisposition).FileName.Trim('"');
 
-                await using (var stream = input.Image.OpenReadStream())
+                await using var stream = input.Image.OpenReadStream();
+                var uploadParams = new ImageUploadParams
                 {
-                    var uploadParams = new ImageUploadParams
-                    {
-                        File = new FileDescription(fileName, stream),
-                        Format = "jpg",
-                    };
+                    File = new FileDescription(fileName, stream),
+                    Format = "jpg",
+                };
 
-                    var uploadResult = await cloudinary.UploadAsync(uploadParams);
+                var uploadResult = await cloudinary.UploadAsync(uploadParams);
 
-                    imageUrl = uploadResult.SecureUri.ToString();
-                }
+                imageUrl = uploadResult.SecureUri.ToString();
             }
 
             var gameId = await this.gamesService.EditAsync(

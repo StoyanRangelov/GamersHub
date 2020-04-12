@@ -1,11 +1,10 @@
 ﻿// ReSharper disable VirtualMemberCallInConstructor
+
 namespace GamersHub.Data.Models
 {
     using System;
     using System.Collections.Generic;
-
     using GamersHub.Data.Common.Models;
-
     using Microsoft.AspNetCore.Identity;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
