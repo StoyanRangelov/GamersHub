@@ -159,7 +159,7 @@ namespace GamersHub.Web.Controllers
                 .GetAllApplicationsByUsername<ApplicantPartiesViewModel>(id, PartiesPerPage, (page - 1) * PartiesPerPage);
 
 
-            var count = this.partiesService.GetCountByUsername(id);
+            var count = this.partiesService.GetApplicationsCountByUsername(id);
 
             viewModel.PagesCount = (int) Math.Ceiling((double) count / PartiesPerPage);
             if (viewModel.PagesCount == 0)
@@ -198,5 +198,19 @@ namespace GamersHub.Web.Controllers
             this.TempData["InfoMessage"] = "Successfully declined party applicant";
             return this.RedirectToAction("Host", "Parties", new {id = input.CreatorUsername});
         }
+
+        public async Task<IActionResult> CancelApplication(PartyApplicantInputModel input)
+        {
+           var partyId = await this.partiesService.CancelApplicationAsync(input.PartyId, input.ApplicantId);
+
+           if (partyId == 0)
+           {
+               return this.NotFound();
+           }
+
+           this.TempData["InfoMessage"] = "Successfully canceled party applicantion";
+           return this.RedirectToAction("Applications", "Parties", new {id = input.CreatorUsername});
+        }
+
     }
 }

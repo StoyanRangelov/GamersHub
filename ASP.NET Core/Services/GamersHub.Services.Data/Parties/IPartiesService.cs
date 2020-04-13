@@ -15,6 +15,8 @@ namespace GamersHub.Services.Data.Parties
 
         int GetCountByUsername(string username);
 
+        int GetApplicationsCountByUsername(string username);
+
         Task<int> CreateAsync(string userId, string game, string activity, string description, int size);
 
         Task<int> ApplyAsync(int partyId, string userId);
@@ -22,5 +24,7 @@ namespace GamersHub.Services.Data.Parties
         Task<int> ApproveAsync(int partyId, string applicantId);
 
         Task<int> DeclineAsync(int partyId, string applicantId);
+
+        Task<int> CancelApplicationAsync(int partyId, string applicantId);
     }
 }

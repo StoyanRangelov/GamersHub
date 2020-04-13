@@ -26,6 +26,6 @@ namespace GamersHub.Data.Models
 
         public ApplicationUser Creator { get; set; }
 
-        public virtual ICollection<PartyUser> PartyApplicants { get; set; }
+        public virtual ICollection<PartyApplicant> PartyApplicants { get; set; }
     }
 }

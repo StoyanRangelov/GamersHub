@@ -19,7 +19,7 @@ namespace GamersHub.Data.Models
             this.Replies = new HashSet<Reply>();
             this.Reviews = new HashSet<Review>();
             this.Parties = new HashSet<Party>();
-            this.PartyApplicants = new HashSet<PartyUser>();
+            this.PartyApplicants = new HashSet<PartyApplicant>();
         }
 
         // Audit info
@@ -48,6 +48,6 @@ namespace GamersHub.Data.Models
 
         public virtual ICollection<Party> Parties { get; set; }
 
-        public virtual ICollection<PartyUser> PartyApplicants { get; set; }
+        public virtual ICollection<PartyApplicant> PartyApplicants { get; set; }
     }
 }

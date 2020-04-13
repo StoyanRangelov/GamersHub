@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GamersHub.Data.Configurations
 {
-    public class PartyUserConfiguration : IEntityTypeConfiguration<PartyUser>
+    public class PartyApplicantConfiguration : IEntityTypeConfiguration<PartyApplicant>
     {
-        public void Configure(EntityTypeBuilder<PartyUser> builder)
+        public void Configure(EntityTypeBuilder<PartyApplicant> builder)
         {
             builder
                 .HasKey(pu => new {pu.ApplicantId, pu.PartyId});

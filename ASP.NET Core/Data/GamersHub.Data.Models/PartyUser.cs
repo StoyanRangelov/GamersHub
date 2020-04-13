@@ -2,7 +2,7 @@
 
 namespace GamersHub.Data.Models
 {
-    public class PartyUser
+    public class PartyApplicant
     {
         public int PartyId { get; set; }
 

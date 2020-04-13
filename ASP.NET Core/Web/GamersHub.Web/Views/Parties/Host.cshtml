@@ -27,7 +27,7 @@
 </div>
 <hr/>
 
-@if (!Model.UserParties.Any())
+@if (!Model.UserParties.Any() && Model.CurrentPage == 1)
 {
     <div class="text-center">
         <h2 class="display-4">You are currently not hosting any parties.</h2>
@@ -100,19 +100,21 @@ else
                                         </div>
                                     </form>
                                 }
-                                else if(applicant.IsDeclined)
+                                else if (applicant.IsDeclined)
                                 {
-                                    <p class="card-text text-danger float-right">Declined</p>
+                                    <h5 class="card-text text-danger float-right">Declined</h5>
                                 }
-                                else if(applicant.IsApproved)
+                                else if (applicant.IsApproved)
                                 {
-                                    <p class="card-text text-primary float-right">Approved</p>
+                                    <h5 class="card-text text-primary float-right">Approved</h5>
                                 }
                                 <p class="card-text">Applicant: @applicant.ApplicantUsername - Experience: @applicant.ApplicantGamingExperience</p>
                             </li>
                         }
                     </ul>
                 }
+                <a asp-controller="Parties" asp-action="Remove" type="submit" class="btn btn-warning float-right mt-2">Remove</a>
+                <a asp-controller="Parties" asp-action="Edit" type="submit" class="btn btn-danger float-right mt-2 mr-2">Edit</a>
             </div>
         </div>
         <br/>
@@ -134,7 +136,7 @@ else
                 <a class="page-link"
                    asp-controller="Parties"
                    asp-action="Host"
-                   asp-area-id="@Model.Username"
+                   asp-route-id="@Model.Username"
                    asp-route-page="@(this.Model.CurrentPage - 1)">
                     Previous
                 </a>
@@ -148,7 +150,7 @@ else
                 <a class="page-link"
                    asp-controller="Parties"
                    asp-action="Host"
-                   asp-area-id="@Model.Username"
+                   asp-route-id="@Model.Username"
                    asp-route-page="@i">
                     @i
                 </a>
@@ -167,7 +169,7 @@ else
                 <a class="page-link"
                    asp-controller="Parties"
                    asp-action="Host"
-                   asp-area-id="@Model.Username"
+                   asp-route-id="@Model.Username"
                    asp-route-page="@(this.Model.CurrentPage + 1)">
                     Next
                 </a>

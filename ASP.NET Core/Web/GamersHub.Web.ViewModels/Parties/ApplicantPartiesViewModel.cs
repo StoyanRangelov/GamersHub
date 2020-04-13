@@ -4,7 +4,7 @@ using GamersHub.Services.Mapping;
 
 namespace GamersHub.Web.ViewModels.Parties
 {
-    public class ApplicantPartiesViewModel : IMapFrom<PartyUser>
+    public class ApplicantPartiesViewModel : IMapFrom<PartyApplicant>
     {
         public int PartyId { get; set; }
 

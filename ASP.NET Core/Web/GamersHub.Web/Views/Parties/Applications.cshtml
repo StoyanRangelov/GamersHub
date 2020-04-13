@@ -27,7 +27,7 @@
 </div>
 <hr/>
 
-@if (!Model.PartyApplications.Any())
+@if (!Model.PartyApplications.Any() && Model.CurrentPage == 1)
 {
     <div class="text-center">
         <h2 class="display-4">You currently have no party applications.</h2>
@@ -78,7 +78,7 @@ else
               <p class="card-text">@application.PartyDescription</p>
             </div>
             <div class="card-footer">
-                <form asp-controller="Parties" asp-action="Remove" method="post" class=" mr-2 float-right">
+                <form asp-controller="Parties" asp-action="CancelApplication" method="post" class=" mr-2 float-right">
                     <div class="form-group">
                         <input type="hidden" name="PartyId" value="@application.PartyId"/>
                     </div>
@@ -89,7 +89,7 @@ else
                         <input type="hidden" name="CreatorUsername" value="@Model.Username"/>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Remove" class="btn btn-danger"/>
+                        <input type="submit" value="Cancel Application" class="btn btn-danger"/>
                     </div>
                 </form>
                 <h5 class="card-text">Hosted by: @application.PartyCreatorUsername</h5>
@@ -113,8 +113,8 @@ else
             <li class="page-item">
                 <a class="page-link"
                    asp-controller="Parties"
-                   asp-action="Host"
-                   asp-area-id="@Model.Username"
+                   asp-action="Applications"
+                   asp-route-id="@Model.Username"
                    asp-route-page="@(this.Model.CurrentPage - 1)">
                     Previous
                 </a>
@@ -127,8 +127,8 @@ else
             <li class="page-item @active">
                 <a class="page-link"
                    asp-controller="Parties"
-                   asp-action="Host"
-                   asp-area-id="@Model.Username"
+                   asp-action="Applications"
+                   asp-route-id="@Model.Username"
                    asp-route-page="@i">
                     @i
                 </a>
@@ -146,8 +146,8 @@ else
             <li class="page-item">
                 <a class="page-link"
                    asp-controller="Parties"
-                   asp-action="Host"
-                   asp-area-id="@Model.Username"
+                   asp-action="Applications"
+                   asp-route-id="@Model.Username"
                    asp-route-page="@(this.Model.CurrentPage + 1)">
                     Next
                 </a>

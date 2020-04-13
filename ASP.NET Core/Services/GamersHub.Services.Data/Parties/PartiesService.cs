@@ -11,13 +11,14 @@ namespace GamersHub.Services.Data.Parties
     public class PartiesService : IPartiesService
     {
         private readonly IDeletableEntityRepository<Party> partiesRepository;
-        private readonly IRepository<PartyUser> partyUsersRepository;
+        private readonly IRepository<PartyApplicant> partyApplicantsRepository;
 
-        public PartiesService(IDeletableEntityRepository<Party> partiesRepository,
-            IRepository<PartyUser> partyUsersRepository)
+        public PartiesService(
+            IDeletableEntityRepository<Party> partiesRepository,
+            IRepository<PartyApplicant> partyApplicantsRepository)
         {
             this.partiesRepository = partiesRepository;
-            this.partyUsersRepository = partyUsersRepository;
+            this.partyApplicantsRepository = partyApplicantsRepository;
         }
 
         public IEnumerable<T> GetAll<T>(int? take = null, int skip = 0)
@@ -47,7 +48,7 @@ namespace GamersHub.Services.Data.Parties
 
         public IEnumerable<T> GetAllApplicationsByUsername<T>(string username, int? take = null, int skip = 0)
         {
-            var query = this.partyUsersRepository.All()
+            var query = this.partyApplicantsRepository.All()
                 .Where(x => x.Applicant.UserName == username)
                 .OrderByDescending(x => x.Party.CreatedOn).Skip(skip);
             if (take.HasValue)
@@ -66,6 +67,11 @@ namespace GamersHub.Services.Data.Parties
         public int GetCountByUsername(string username)
         {
             return this.partiesRepository.All().Count(x => x.Creator.UserName == username);
+        }
+
+        public int GetApplicationsCountByUsername(string username)
+        {
+            return this.partyApplicantsRepository.All().Count(x => x.Applicant.UserName == username);
         }
 
         public async Task<int> CreateAsync(string userId, string game, string activity, string description, int size)
@@ -104,7 +110,7 @@ namespace GamersHub.Services.Data.Parties
                 return -1;
             }
 
-            var partyApplicant = new PartyUser
+            var partyApplicant = new PartyApplicant
             {
                 PartyId = partyId,
                 ApplicantId = userId,
@@ -121,7 +127,7 @@ namespace GamersHub.Services.Data.Parties
         public async Task<int> ApproveAsync(int partyId, string applicantId)
         {
             var party = this.partiesRepository.All()
-                .Include(x=>x.PartyApplicants)
+                .Include(x => x.PartyApplicants)
                 .FirstOrDefault(x => x.Id == partyId);
 
             var partyApplication = party?.PartyApplicants
@@ -149,8 +155,26 @@ namespace GamersHub.Services.Data.Parties
 
         public async Task<int> DeclineAsync(int partyId, string applicantId)
         {
+            var partyApplication = this.partyApplicantsRepository.All()
+                .FirstOrDefault(x => x.PartyId == partyId && x.ApplicantId == applicantId);
+
+            if (partyApplication == null)
+            {
+                return 0;
+            }
+
+            partyApplication.IsDeclined = true;
+
+            this.partyApplicantsRepository.Update(partyApplication);
+            await this.partiesRepository.SaveChangesAsync();
+
+            return partyId;
+        }
+
+        public async Task<int> CancelApplicationAsync(int partyId, string applicantId)
+        {
             var party = this.partiesRepository.All()
-                .Include(x=>x.PartyApplicants)
+                .Include(x => x.PartyApplicants)
                 .FirstOrDefault(x => x.Id == partyId);
 
             var partyApplication = party?.PartyApplicants
@@ -161,9 +185,15 @@ namespace GamersHub.Services.Data.Parties
                 return 0;
             }
 
-            partyApplication.IsDeclined = true;
+            if (party.IsFull && partyApplication.IsApproved)
+            {
+                party.IsFull = false;
+            }
 
             this.partiesRepository.Update(party);
+
+            this.partyApplicantsRepository.Delete(partyApplication);
+            await this.partyApplicantsRepository.SaveChangesAsync();
             await this.partiesRepository.SaveChangesAsync();
 
             return party.Id;
