@@ -199,4 +199,23 @@
             </div>
         </div>
     </div>
+    <div class="col mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    Most Popular Parties
+                    <a asp-area="Administration" asp-controller="Parties" asp-action="Index" class="card-link float-right">To Parties</a>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var party in Model.Parties)
+                        {
+                            <li class="list-group-item">
+                                Hosted by: @party.CreatorUsername
+                                <span class="float-right">Applications: <span class="badge badge-primary">@party.PartyApplicantsCount</span></span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
 </div>

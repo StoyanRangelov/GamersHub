@@ -4,6 +4,7 @@ using GamersHub.Data.Models;
 using GamersHub.Services.Data.Categories;
 using GamersHub.Services.Data.Forums;
 using GamersHub.Services.Data.Games;
+using GamersHub.Services.Data.Parties;
 using GamersHub.Services.Data.Posts;
 using GamersHub.Services.Data.Users;
 using GamersHub.Services.Mapping;
@@ -23,19 +24,22 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         private readonly IPostsService postsService;
         private readonly IUsersService usersService;
         private readonly IGamesService gamesService;
+        private readonly IPartiesService partiesService;
 
         public DashboardController(
             IForumsService forumsService,
             ICategoriesService categoriesService,
             IPostsService postsService,
             IUsersService usersService,
-            IGamesService gamesService)
+            IGamesService gamesService,
+            IPartiesService partiesService)
         {
             this.forumsService = forumsService;
             this.categoriesService = categoriesService;
             this.postsService = postsService;
             this.usersService = usersService;
             this.gamesService = gamesService;
+            this.partiesService = partiesService;
         }
 
         public IActionResult Index()
@@ -51,6 +55,9 @@ namespace GamersHub.Web.Areas.Administration.Controllers
 
             var posts = this.postsService
                 .GetTopFive<PostDashboardViewModel>();
+
+            var parties = this.partiesService
+                .GetTopFive<PartyDashboardViewModel>();
 
             var forumUsers = this.usersService
                 .GetTopFive<ForumUserDashboardViewModel>(GlobalConstants.Posts);
@@ -73,6 +80,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
                 Forums = forums,
                 Categories = categories,
                 Posts = posts,
+                Parties = parties,
                 ForumUsers = forumUsers,
                 GameUsers = gameUsers,
                 BannedUsers = bannedUsers,

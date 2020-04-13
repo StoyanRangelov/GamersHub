@@ -33,6 +33,15 @@ namespace GamersHub.Services.Data.Parties
             return query.To<T>().ToList();
         }
 
+        public IEnumerable<T> GetTopFive<T>()
+        {
+            var parties = this.partiesRepository.All()
+                .OrderByDescending(x => x.PartyApplicants.Count).Take(5)
+                .To<T>().ToList();
+
+            return parties;
+        }
+
         public IEnumerable<T> GetAllByUsername<T>(string username, int? take = null, int skip = 0)
         {
             var query = this.partiesRepository.All()

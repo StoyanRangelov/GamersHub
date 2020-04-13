@@ -8,6 +8,8 @@ namespace GamersHub.Web.ViewModels.Parties
 {
     public class PartyWithApplicantsViewModel : IMapFrom<Party>
     {
+        public int Id { get; set; }
+
         public string Game { get; set; }
 
         public int AvailableSlots

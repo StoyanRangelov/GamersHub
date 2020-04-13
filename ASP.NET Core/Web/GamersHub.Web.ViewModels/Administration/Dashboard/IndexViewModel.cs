@@ -13,6 +13,8 @@ namespace GamersHub.Web.ViewModels.Administration.Dashboard
 
         public IEnumerable<PostDashboardViewModel> Posts { get; set; }
 
+        public IEnumerable<PartyDashboardViewModel> Parties { get; set; }
+
         public IEnumerable<ForumUserDashboardViewModel> ForumUsers { get; set; }
 
         public IEnumerable<GameUserDashboardViewModel> GameUsers { get; set; }

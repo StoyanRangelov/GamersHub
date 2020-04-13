@@ -7,6 +7,8 @@ namespace GamersHub.Services.Data.Parties
     {
         IEnumerable<T> GetAll<T>(int? take = null, int skip = 0);
 
+        IEnumerable<T> GetTopFive<T>();
+
         IEnumerable<T> GetAllByUsername<T>(string username, int? take = null, int skip = 0);
 
         IEnumerable<T> GetAllApplicationsByUsername<T>(string username, int? take = null, int skip = 0);

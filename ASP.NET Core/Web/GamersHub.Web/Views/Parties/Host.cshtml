@@ -113,8 +113,8 @@ else
                         }
                     </ul>
                 }
-                <a asp-controller="Parties" asp-action="Remove" type="submit" class="btn btn-warning float-right mt-2">Remove</a>
-                <a asp-controller="Parties" asp-action="Edit" type="submit" class="btn btn-danger float-right mt-2 mr-2">Edit</a>
+                <a asp-controller="Parties" asp-action="Delete" asp-route-id="@party.Id" type="submit" class="btn btn-danger float-right mt-2">Delete</a>
+                <a asp-controller="Parties" asp-action="Edit" asp-route-id="@party.Id" type="submit" class="btn btn-warning float-right mt-2 mr-2">Edit</a>
             </div>
         </div>
         <br/>
