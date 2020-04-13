@@ -69,6 +69,11 @@ namespace GamersHub.Web.Areas.Identity.Pages.Account
             [Display(Name = "Gaming Experience")]
             [EnumDataType(typeof(GamingExperienceType))]
             public GamingExperienceType GamingExperience { get; set; }
+
+            [Required]
+            [StringLength(40, ErrorMessage = "The {0} must be between {2} and {1} characters long.", MinimumLength = 4)]
+            [Display(Name = "Discord Username")]
+            public string DiscordUsername { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -83,7 +88,12 @@ namespace GamersHub.Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Username, Email = Input.Email, GamingExperience = Input.GamingExperience};
+                var user = new ApplicationUser 
+                    { UserName = Input.Username,
+                        Email = Input.Email,
+                        GamingExperience = Input.GamingExperience,
+                        DiscordUsername = Input.DiscordUsername,
+                    };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

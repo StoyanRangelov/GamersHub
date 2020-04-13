@@ -26,6 +26,12 @@
                         <select asp-for="Input.GamingExperience" asp-items="@Html.GetEnumSelectList<GamingExperienceType>()" class="form-control"></select>
                     </div>
                     <div class="form-group">
+                        <label asp-for="Input.DiscordUsername"></label>
+                        <h6 class="text-muted">Used to connect you to other users in our Party service</h6>
+                        <input asp-for="Input.DiscordUsername" class="form-control"/>
+                        <span asp-validation-for="Input.DiscordUsername" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
                         <label asp-for="Input.Password"></label>
                         <input asp-for="Input.Password" class="form-control"/>
                         <span asp-validation-for="Input.Password" class="text-danger"></span>

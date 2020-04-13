@@ -1,5 +1,7 @@
 ﻿// ReSharper disable VirtualMemberCallInConstructor
 
+using System.ComponentModel.DataAnnotations;
+
 namespace GamersHub.Data.Models
 {
     using System;
@@ -33,6 +35,9 @@ namespace GamersHub.Data.Models
         public DateTime? DeletedOn { get; set; }
 
         public GamingExperienceType GamingExperience { get; set; }
+
+        [Required]
+        public string DiscordUsername { get; set; }
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 

@@ -180,6 +180,11 @@ namespace GamersHub.Services.Data.Users
 
             user.UserName = null;
             user.NormalizedUserName = null;
+            user.Email = null;
+            user.NormalizedEmail = null;
+            user.DiscordUsername = null;
+
+            this.usersRepository.Update(user);
             this.usersRepository.Delete(user);
 
             await this.usersRepository.SaveChangesAsync();
