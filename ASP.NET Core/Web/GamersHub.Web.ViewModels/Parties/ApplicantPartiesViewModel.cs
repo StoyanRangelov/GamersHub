@@ -12,6 +12,8 @@ namespace GamersHub.Web.ViewModels.Parties
 
         public string PartyCreatorUsername { get; set; }
 
+        public string PartyCreatorDiscordUsername { get; set; }
+
         public string PartyGame { get; set; }
 
         public string PartyActivity { get; set; }
