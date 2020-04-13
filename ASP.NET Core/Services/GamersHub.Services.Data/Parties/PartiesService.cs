@@ -45,6 +45,19 @@ namespace GamersHub.Services.Data.Parties
             return query.To<T>().ToList();
         }
 
+        public IEnumerable<T> GetAllApplicationsByUsername<T>(string username, int? take = null, int skip = 0)
+        {
+            var query = this.partyUsersRepository.All()
+                .Where(x => x.Applicant.UserName == username)
+                .OrderByDescending(x => x.Party.CreatedOn).Skip(skip);
+            if (take.HasValue)
+            {
+                query = query.Take(take.Value);
+            }
+
+            return query.To<T>().ToList();
+        }
+
         public int GetCount()
         {
             return this.partiesRepository.All().Count();

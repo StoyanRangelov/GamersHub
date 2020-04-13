@@ -14,10 +14,10 @@
     </div>
 }
 <br/>
-<div class="d-inline-block">
-    <a asp-controller="Parties" asp-action="Host" asp-route-id="@this.User.Identity.Name" type="submit" class="btn btn-primary btn-lg">My Parties</a>
+<div class="btn-group-vertical">
+    <a asp-controller="Parties" asp-action="Host" asp-route-id="@this.User.Identity.Name" type="submit" class="btn btn-primary btn-lg mb-2">My Parties</a>
+    <a asp-controller="Parties" asp-action="Applications" asp-route-id="@this.User.Identity.Name" type="submit" class="btn btn-primary btn-lg">My Applications</a>
 </div>
-
 
 <div class="d-inline-block float-right">
     <a asp-controller="Parties" asp-action="Create" type="submit" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i>&nbsp; New Party</a>

@@ -137,6 +137,41 @@ namespace GamersHub.Web.Controllers
             return this.View(viewModel);
         }
 
+        public IActionResult Applications(string id, int page = 1)
+        {
+            var partyUserId = this.usersService.GetIdByName(id);
+            if (partyUserId == null)
+            {
+                return this.NotFound();
+            }
+
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (partyUserId != currentUserId)
+            {
+                return this.Redirect("/Identity/Account/AccessDenied");
+            }
+
+            var viewModel = this.usersService.GetByName<ApplicantPartyViewModel>(id);
+
+
+            viewModel.PartyApplications = this.partiesService
+                .GetAllApplicationsByUsername<ApplicantPartiesViewModel>(id, PartiesPerPage, (page - 1) * PartiesPerPage);
+
+
+            var count = this.partiesService.GetCountByUsername(id);
+
+            viewModel.PagesCount = (int) Math.Ceiling((double) count / PartiesPerPage);
+            if (viewModel.PagesCount == 0)
+            {
+                viewModel.PagesCount = 1;
+            }
+
+            viewModel.CurrentPage = page;
+
+            return this.View(viewModel);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Approve(PartyApplicantInputModel input)
         {
