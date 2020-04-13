@@ -6,6 +6,7 @@ namespace GamersHub.Web.ViewModels.Parties
     public class PartyApplicantViewModel : IMapFrom<PartyUser>
     {
         public string ApplicantId { get; set; }
+
         public string ApplicantUsername { get; set; }
 
         public int PartyId { get; set; }
@@ -13,5 +14,7 @@ namespace GamersHub.Web.ViewModels.Parties
         public GamingExperienceType ApplicantGamingExperience { get; set; }
 
         public bool IsApproved { get; set; }
+
+        public bool IsDeclined { get; set; }
     }
 }

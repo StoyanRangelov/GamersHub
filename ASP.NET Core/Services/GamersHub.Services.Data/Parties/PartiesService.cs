@@ -131,7 +131,29 @@ namespace GamersHub.Services.Data.Parties
             this.partiesRepository.Update(party);
             await this.partiesRepository.SaveChangesAsync();
 
-            return partyId;
+            return party.Id;
+        }
+
+        public async Task<int> DeclineAsync(int partyId, string applicantId)
+        {
+            var party = this.partiesRepository.All()
+                .Include(x=>x.PartyApplicants)
+                .FirstOrDefault(x => x.Id == partyId);
+
+            var partyApplication = party?.PartyApplicants
+                .FirstOrDefault(x => x.ApplicantId == applicantId);
+
+            if (partyApplication == null)
+            {
+                return 0;
+            }
+
+            partyApplication.IsDeclined = true;
+
+            this.partiesRepository.Update(party);
+            await this.partiesRepository.SaveChangesAsync();
+
+            return party.Id;
         }
     }
 }

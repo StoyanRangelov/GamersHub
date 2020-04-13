@@ -35,72 +35,88 @@
 }
 else
 {
-    <div class="row row-cols-1 row-cols-md-2">
-        @foreach (var party in Model.UserParties)
-        {
-            <div class="col mb-4">
-                <div class="card h-100">
-                    <div class="card-header">
-                        @if (party.AvailableSlots == 0)
-                        {
-                            <span>Party is Full</span>
-                        }
-                        else
-                        {
-                            <p class="card-text">Available Slots: <span class="badge badge-primary">@party.AvailableSlots</span></p>
-                        }
-                        <span class="float-right"><i class="fas fa-calendar-alt"></i> Created on: <time datetime="@party.CreatedOn"></time></span>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-text">@party.Game</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">@party.Activity</h6>
-                        <p class="card-text">Size: <span class="badge badge-primary">@party.Size</span></p>
-                        <p class="card-text">@party.Description</p>
-                    </div>
-                    <div class="card-footer">
-                        @if (!party.PartyApplicants.Any())
-                        {
-                            <p class="card-text">There are currently no applicants for this party.</p>
-                        }
-                        else
-                        {
-                            <p class="card-text">Applicants:</p>
-                            <ul class="list-group list-group-flush">
-                                @foreach (var applicant in party.PartyApplicants)
-                                {
-                                    <li class="list-group-item">
-                                        @if (applicant.IsApproved)
-                                        {
-                                            <p class="card-text text-primary float-right">Approved</p>
-                                        }
-                                        else
-                                        {
-                                            <form asp-controller="Parties" asp-action="Approve" method="post" class="float-right">
-                                                <div class="form-group">
-                                                    <input type="hidden" name="PartyId" value="@applicant.PartyId"/>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="hidden" name="ApplicantId" value="@applicant.ApplicantId"/>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="hidden" name="CreatorUsername" value="@Model.Username"/>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="submit" value="Approve" class="btn btn-primary"/>
-                                                </div>
-                                            </form>
-                                        }
-                                        <p class="card-text">User: @applicant.ApplicantUsername - Experience: @applicant.ApplicantGamingExperience</p>
-                                    </li>
-                                }
-                            </ul>
-                        }
-
-                    </div>
-                </div>
+    @foreach (var party in Model.UserParties)
+    {
+        <div class="card">
+            <div class="card-header">
+                @if (party.AvailableSlots == 0)
+                {
+                    <span>Party is Full</span>
+                }
+                else
+                {
+                    <p class="card-text">Available Slots: <span class="badge badge-primary">@party.AvailableSlots</span></p>
+                }
+                <span class="float-right"><i class="fas fa-calendar-alt"></i> Created on: <time datetime="@party.CreatedOn"></time></span>
             </div>
-        }
-    </div>
+            <div class="card-body">
+                <h5 class="card-text">@party.Game</h5>
+                <h6 class="card-subtitle mb-2 text-muted">@party.Activity</h6>
+                <p class="card-text">Size: <span class="badge badge-primary">@party.Size</span></p>
+                <p class="card-text">@party.Description</p>
+            </div>
+            <div class="card-footer">
+                @if (!party.PartyApplicants.Any())
+                {
+                    <p class="card-text">There are currently no applicants for this party.</p>
+                }
+                else
+                {
+                    <p class="card-text">Applicants:</p>
+                    <ul class="list-group list-group-flush">
+                        @foreach (var applicant in party.PartyApplicants)
+                        {
+                            <li class="list-group-item">
+
+                                @if (applicant.IsApproved == false && applicant.IsDeclined == false)
+                                {
+                                    <form asp-controller="Parties" asp-action="Decline" method="post" class=" mr-2 float-right">
+                                        <div class="form-group">
+                                            <input type="hidden" name="PartyId" value="@applicant.PartyId"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="hidden" name="ApplicantId" value="@applicant.ApplicantId"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="hidden" name="CreatorUsername" value="@Model.Username"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="submit" value="Decline" class="btn btn-danger"/>
+                                        </div>
+                                    </form>
+
+                                    <form asp-controller="Parties" asp-action="Approve" method="post" class=" mr-2 float-right">
+                                        <div class="form-group">
+                                            <input type="hidden" name="PartyId" value="@applicant.PartyId"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="hidden" name="ApplicantId" value="@applicant.ApplicantId"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="hidden" name="CreatorUsername" value="@Model.Username"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="submit" value="Approve" class="btn btn-primary"/>
+                                        </div>
+                                    </form>
+                                }
+                                else if(applicant.IsDeclined)
+                                {
+                                    <p class="card-text text-danger float-right">Declined</p>
+                                }
+                                else if(applicant.IsApproved)
+                                {
+                                    <p class="card-text text-primary float-right">Approved</p>
+                                }
+                                <p class="card-text">Applicant: @applicant.ApplicantUsername - Experience: @applicant.ApplicantGamingExperience</p>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+        <br/>
+    }
 }
 
 

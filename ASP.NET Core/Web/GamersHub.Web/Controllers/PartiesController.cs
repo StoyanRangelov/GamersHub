@@ -150,5 +150,18 @@ namespace GamersHub.Web.Controllers
             this.TempData["InfoMessage"] = "Successfully approved user to party.";
             return this.RedirectToAction("Host", "Parties", new {id = input.CreatorUsername});
         }
+
+        public async Task<IActionResult> Decline(PartyApplicantInputModel input)
+        {
+            var declineUserId = await this.partiesService.DeclineAsync(input.PartyId, input.ApplicantId);
+
+            if (declineUserId == 0)
+            {
+                return this.NotFound();
+            }
+
+            this.TempData["InfoMessage"] = "Successfully declined party applicant";
+            return this.RedirectToAction("Host", "Parties", new {id = input.CreatorUsername});
+        }
     }
 }

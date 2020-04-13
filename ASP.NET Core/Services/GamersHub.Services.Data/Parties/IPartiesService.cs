@@ -18,5 +18,7 @@ namespace GamersHub.Services.Data.Parties
         Task<int> ApplyAsync(int partyId, string userId);
 
         Task<int> ApproveAsync(int partyId, string applicantId);
+
+        Task<int> DeclineAsync(int partyId, string applicantId);
     }
 }
