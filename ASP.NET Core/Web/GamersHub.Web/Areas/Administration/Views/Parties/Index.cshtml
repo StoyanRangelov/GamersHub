@@ -1,0 +1,50 @@
+﻿@using GamersHub.Common
+@model GamersHub.Web.ViewModels.Administration.Parties.PartyAdministrationIndexViewModel
+@{
+    ViewData["Title"] = "Administration - Parties";
+    ViewData["Controller"] = "Parties";
+    ViewData["Action"] = "Index";
+    ViewData["Area"] = "Administration";
+}
+
+
+<div class="d-inline-block">
+    <a asp-area="Administration" asp-controller="Dashboard" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Back to Dashboard</a>
+</div>
+<div class="text-center ">
+    <h1 class="display-4">@this.ViewData["Title"]</h1>
+</div>
+<hr/>
+<table class="table table-hover">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Created on</th>
+        <th scope="col">Hosted by</th>
+        <th scope="col">Size</th>
+        <th scope="col">Game</th>
+        <th scope="col">Applicants</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var party in Model.Parties)
+    {
+        <tr>
+            <td> <time datetime="@party.CreatedOn"></time></td>
+            <td>@party.CreatorUsername</td>
+            <td>@party.Size</td>
+            <td>@party.Game</td>
+            <td>@party.PartyApplicantsCount</td>
+            <td>
+                <a asp-area="" asp-controller="Parties" asp-action="Edit" asp-route-id="@party.Id" class="d-inline-block btn btn-warning" type="submit">Edit</a>
+            </td>
+            <td>
+                <a asp-area="" asp-controller="Parties" asp-action="Delete" asp-route-id="@party.Id" class="d-inline-block btn btn-danger" type="submit">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<partial name="_PaginationPartial" model="@Model.Pagination" view-data="@ViewData"/>
