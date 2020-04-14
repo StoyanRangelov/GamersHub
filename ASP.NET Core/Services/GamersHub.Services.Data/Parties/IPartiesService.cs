@@ -31,6 +31,8 @@ namespace GamersHub.Services.Data.Parties
 
         Task<int> CancelApplicationAsync(int partyId, string applicantId);
 
+        Task<int> EditAsync(int id, string game, string activity, string description);
+
         Task DeleteAsync(int id);
     }
 }

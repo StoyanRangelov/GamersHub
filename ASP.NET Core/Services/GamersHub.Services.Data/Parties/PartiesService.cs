@@ -217,6 +217,26 @@ namespace GamersHub.Services.Data.Parties
             return party.Id;
         }
 
+        public async Task<int> EditAsync(int id, string game, string activity, string description)
+        {
+            var party = this.partiesRepository.All()
+                .FirstOrDefault(x => x.Id == id);
+
+            if (party == null)
+            {
+                return 0;
+            }
+
+            party.Game = game;
+            party.Activity = activity;
+            party.Description = description;
+
+            this.partiesRepository.Update(party);
+            await this.partiesRepository.SaveChangesAsync();
+
+            return party.Id;
+        }
+
         public async Task DeleteAsync(int id)
         {
             var party = this.partiesRepository.All()

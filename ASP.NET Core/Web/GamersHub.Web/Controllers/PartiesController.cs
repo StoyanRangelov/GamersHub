@@ -214,6 +214,62 @@ namespace GamersHub.Web.Controllers
            return this.RedirectToAction("Applications", "Parties", new {id = input.CreatorUsername});
         }
 
+        public IActionResult Edit(int id)
+        {
+            var viewModel = this.partiesService.GetById<PartyEditViewModel>(id);
+
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                if (userId != viewModel.CreatorId)
+                {
+                    return this.BadRequest();
+                }
+            }
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(PartyEditViewModel input)
+        {
+            if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                if (userId != input.CreatorId)
+                {
+                    return this.BadRequest();
+                }
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
+            var partyId = await this.partiesService.EditAsync(input.Id, input.Game, input.Activity, input.Description);
+
+            if (partyId == 0)
+            {
+                return this.NotFound();
+            }
+
+            this.TempData["InfoMessage"] = "Party edited successfully!";
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) && this.User.Identity.Name != input.CreatorUsername)
+            {
+                return this.Redirect("/Administration/Parties/Index");
+            }
+
+            return this.RedirectToAction("Host", "Parties", new {id = input.CreatorUsername});
+        }
+
         public IActionResult Delete(int id)
         {
             var viewModel = this.partiesService.GetById<PartyDeleteViewModel>(id);
@@ -239,8 +295,7 @@ namespace GamersHub.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(PartyDeleteInputModel input)
         {
-            if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName) &&
-                !this.User.IsInRole(GlobalConstants.ModeratorRoleName))
+            if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
