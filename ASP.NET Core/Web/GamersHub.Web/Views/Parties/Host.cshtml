@@ -39,6 +39,7 @@ else
     {
         <div class="card">
             <div class="card-header">
+                <span class="float-right"><i class="fas fa-calendar-alt"></i> Created on: <time datetime="@party.CreatedOn"></time></span>
                 @if (party.AvailableSlots == 0)
                 {
                     <span>Party is Full</span>
@@ -47,7 +48,6 @@ else
                 {
                     <p class="card-text">Available Slots: <span class="badge badge-primary">@party.AvailableSlots</span></p>
                 }
-                <span class="float-right"><i class="fas fa-calendar-alt"></i> Created on: <time datetime="@party.CreatedOn"></time></span>
             </div>
             <div class="card-body">
                 <h5 class="card-text">@party.Game</h5>

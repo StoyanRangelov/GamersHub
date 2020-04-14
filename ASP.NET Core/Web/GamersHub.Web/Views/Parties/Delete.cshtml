@@ -1,0 +1,83 @@
+﻿@using GamersHub.Common
+@model GamersHub.Web.ViewModels.Parties.PartyDeleteViewModel
+@{
+    ViewData["Title"] = "Delete Party";
+}
+
+<div class="text-center ">
+    <h1 class="display-3">@this.ViewData["Title"]</h1>
+</div>
+
+<hr/>
+<div class="d-block">
+    <h2 class="display-4">You are about to delete the following Party:</h2>
+</div>
+<div class="card">
+    <div class="card-header">
+        <span class="float-right"><i class="fas fa-calendar-alt"></i> Created on: <time datetime="@Model.CreatedOn"></time></span>
+        <p class="card-text">Created by: @Model.CreatorUsername</p>
+    </div>
+    <div class="card-body">
+        <h5 class="card-text">@Model.Game</h5>
+        <h6 class="card-subtitle mb-2 text-muted">@Model.Activity</h6>
+        <p class="card-text">Size: <span class="badge badge-primary">@Model.Size</span></p>
+        <p class="card-text">@Model.Description</p>
+    </div>
+    <div class="card-footer">
+        @if (!Model.PartyApplicants.Any())
+        {
+            <p class="card-text">There are currently no applicants for this party.</p>
+        }
+        else
+        {
+            <p class="card-text">Applicants:</p>
+            <ul class="list-group list-group-flush">
+                @foreach (var applicant in Model.PartyApplicants)
+                {
+                    <li class="list-group-item">
+                        @if (applicant.IsApproved)
+                        {
+                            <h5 class="card-text text-primary float-right">Approved</h5>
+                        }
+                        else if (applicant.IsDeclined)
+                        {
+                            <h5 class="card-text text-danger float-right">Declined</h5>
+                        }
+                        else
+                        {
+                            <h5 class="card-text text-warning float-right">Pending</h5>
+                        }
+                        <p class="card-text">@applicant.ApplicantUsername</p>
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+<form class="d-inline-block m-1" asp-controller="Parties" asp-action="Delete" method="post">
+    <div class="form-group">
+        <input type="hidden" name="PartyId" value="@Model.Id"/>
+    </div>
+    <div class="form-group">
+        <input type="hidden" name="CreatorId" value="@Model.CreatorId"/>
+    </div>
+    <div class="form-group">
+            <input type="hidden" name="CreatorUsername" value="@Model.CreatorUsername"/>
+        </div>
+    <div class="form-group">
+        <input type="submit" value="Delete" class="btn btn-danger btn-lg"/>
+    </div>
+</form>
+@if (User.IsInRole(GlobalConstants.AdministratorRoleName) && User.Identity.Name != Model.CreatorUsername)
+{
+    <div class="d-inline-block m-1">
+        <a asp-area="Administration" asp-controller="Parties" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Cancel</a>
+    </div>
+}
+else
+{
+    <div class="d-inline-block m-1">
+        <a asp-area="" asp-controller="Parties" asp-action="Host" asp-route-id="@Model.CreatorUsername" type="submit" class="btn btn-primary btn-lg">Cancel</a>
+    </div>
+}

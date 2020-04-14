@@ -130,7 +130,7 @@ namespace GamersHub.Web.Controllers
 
                 if (userId != viewModel.UserId)
                 {
-                    return this.Redirect("/Identity/Account/AccessDenied");
+                    return this.BadRequest();
                 }
             }
 
@@ -147,7 +147,7 @@ namespace GamersHub.Web.Controllers
 
                 if (userId != input.UserId)
                 {
-                    return this.Redirect("/Identity/Account/AccessDenied");
+                    return this.BadRequest();
                 }
             }
 
@@ -178,14 +178,12 @@ namespace GamersHub.Web.Controllers
 
         [HttpPost]
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
-        public async Task<IActionResult> Delete(PostDeleteViewModel input)
+        public async Task<IActionResult> Delete(PostDeleteInputModel input)
         {
-            await this.postsService.DeleteAsync(input.Id);
-
-            var forumUrl = UrlParser.ParseToUrl(input.ForumName);
+            await this.postsService.DeleteAsync(input.PostId);
 
             this.TempData["InfoMessage"] = "Post deleted successfully!";
-            return this.RedirectToAction("ByName", "Forums", new {name = forumUrl});
+            return this.Redirect("/Administration/Posts/Index");
         }
     }
 }

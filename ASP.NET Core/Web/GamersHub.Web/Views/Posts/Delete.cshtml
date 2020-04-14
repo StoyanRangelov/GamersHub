@@ -35,13 +35,22 @@
 
 <form class="d-inline-block m-1" asp-controller="Posts" asp-action="Delete" method="post">
     <div class="form-group">
-        <input type="hidden" name="ForumName" value="@Model.ForumName"/>
+        <input type="hidden" name="PostId" value="@Model.Id"/>
     </div>
     <div class="form-group">
         <input type="submit" value="Delete" class="btn btn-danger btn-lg"/>
     </div>
 </form>
 
-<div class="d-inline-block m-1">
-    <a asp-controller="Posts" asp-action="@postUrl" type="submit" class="btn btn-primary btn-lg">Cancel</a>
-</div>
+@if (User.IsInRole(GlobalConstants.AdministratorRoleName) && User.Identity.Name != Model.UserUsername)
+{
+    <div class="d-inline-block m-1">
+        <a asp-area="Administration" asp-controller="Posts" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Cancel</a>
+    </div>
+}
+else
+{
+    <div class="d-inline-block m-1">
+        <a asp-controller="Posts" asp-action="@postUrl" type="submit" class="btn btn-primary btn-lg">Cancel</a>
+    </div>
+}

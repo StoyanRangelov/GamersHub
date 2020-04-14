@@ -21,6 +21,15 @@ namespace GamersHub.Services.Data.Parties
             this.partyApplicantsRepository = partyApplicantsRepository;
         }
 
+        public T GetById<T>(int id)
+        {
+            var party = this.partiesRepository.All()
+                .Where(x=>x.Id == id)
+                .To<T>().FirstOrDefault();
+
+            return party;
+        }
+
         public IEnumerable<T> GetAll<T>(int? take = null, int skip = 0)
         {
             var query = this.partiesRepository.All()
@@ -206,6 +215,28 @@ namespace GamersHub.Services.Data.Parties
             await this.partiesRepository.SaveChangesAsync();
 
             return party.Id;
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var party = this.partiesRepository.All()
+                .Include(x => x.PartyApplicants)
+                .FirstOrDefault(x => x.Id == id);
+
+            if (party == null)
+            {
+                return;
+            }
+
+            foreach (var partyApplicant in party.PartyApplicants)
+            {
+                this.partyApplicantsRepository.Delete(partyApplicant);
+            }
+
+            await this.partyApplicantsRepository.SaveChangesAsync();
+
+            this.partiesRepository.Delete(party);
+            await this.partiesRepository.SaveChangesAsync();
         }
     }
 }

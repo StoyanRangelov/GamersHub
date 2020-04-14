@@ -46,10 +46,13 @@
 
 <form class="d-inline-block m-1" asp-area="" asp-controller="Reviews" asp-action="Delete" method="post">
     <div class="form-group">
-        <input type="hidden" name="GameTitle" value="@Model.GameTitle"/>
+        <input type="hidden" name="GameUrl" value="@Model.GameUrl"/>
     </div>
     <div class="form-group">
         <input type="hidden" name="UserId" value="@Model.UserId"/>
+    </div>
+    <div class="form-group">
+        <input type="hidden" name="ReviewId" value="@Model.Id"/>
     </div>
     <div class="form-group">
         <input type="submit" value="Delete" class="btn btn-danger btn-lg"/>

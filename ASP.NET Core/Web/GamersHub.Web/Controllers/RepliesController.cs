@@ -81,7 +81,7 @@ namespace GamersHub.Web.Controllers
 
                 if (userId != viewModel.UserId)
                 {
-                    return this.Redirect("/Identity/Account/AccessDenied");
+                    return this.BadRequest();
                 }
             }
 
@@ -98,7 +98,7 @@ namespace GamersHub.Web.Controllers
 
                 if (userId != input.UserId)
                 {
-                    return this.Redirect("/Identity/Account/AccessDenied");
+                    return this.BadRequest();
                 }
             }
 
@@ -136,7 +136,7 @@ namespace GamersHub.Web.Controllers
 
                 if (userId != viewModel.UserId)
                 {
-                    return this.Redirect("/Identity/Account/AccessDenied");
+                    return this.BadRequest();
                 }
             }
 
@@ -144,7 +144,7 @@ namespace GamersHub.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(ReplyDeleteViewModel input)
+        public async Task<IActionResult> Delete(ReplyDeleteInputModel input)
         {
             if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName) &&
                 !this.User.IsInRole(GlobalConstants.ModeratorRoleName))
@@ -153,11 +153,11 @@ namespace GamersHub.Web.Controllers
 
                 if (userId != input.UserId)
                 {
-                    return this.Redirect("/Identity/Account/AccessDenied");
+                    return this.BadRequest();
                 }
             }
 
-            await this.repliesService.DeleteAsync(input.Id);
+            await this.repliesService.DeleteAsync(input.ReplyId);
 
             this.TempData["InfoMessage"] = "Reply deleted successfully!";
             return this.RedirectToAction("ByName", "Posts", new { name = input.PostUrl});

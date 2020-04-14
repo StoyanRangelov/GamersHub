@@ -1,7 +1,7 @@
 ﻿@model GamersHub.Web.ViewModels.Replies.ReplyDeleteViewModel
 @{
     ViewData["Title"] = "Delete Reply";
-    
+
 }
 
 <partial name="_RepliesPartial" model="Model.Post" view-data="ViewData"/>
@@ -32,8 +32,11 @@
         <input type="hidden" name="PostUrl" value="@Model.Post.Url"/>
     </div>
     <div class="form-group">
-            <input type="hidden" name="UserId" value="@Model.UserId"/>
-        </div>
+        <input type="hidden" name="UserId" value="@Model.UserId"/>
+    </div>
+    <div class="form-group">
+        <input type="hidden" name="ReplyId" value="@Model.Id"/>
+    </div>
     <div class="form-group">
         <input type="submit" value="Delete" class="btn btn-danger btn-lg"/>
     </div>

@@ -5,6 +5,8 @@ namespace GamersHub.Services.Data.Parties
 {
     public interface IPartiesService
     {
+        T GetById<T>(int id);
+
         IEnumerable<T> GetAll<T>(int? take = null, int skip = 0);
 
         IEnumerable<T> GetTopFive<T>();
@@ -28,5 +30,7 @@ namespace GamersHub.Services.Data.Parties
         Task<int> DeclineAsync(int partyId, string applicantId);
 
         Task<int> CancelApplicationAsync(int partyId, string applicantId);
+
+        Task DeleteAsync(int id);
     }
 }

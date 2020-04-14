@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using GamersHub.Common;
 using GamersHub.Services.Data.Parties;
 using GamersHub.Services.Data.Users;
 using GamersHub.Web.ViewModels;
 using GamersHub.Web.ViewModels.Parties;
+using GamersHub.Web.ViewModels.Replies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -114,7 +116,7 @@ namespace GamersHub.Web.Controllers
 
             if (partyUserId != currentUserId)
             {
-                return this.Redirect("/Identity/Account/AccessDenied");
+                return this.BadRequest();
             }
 
             var viewModel = this.usersService.GetByName<PartyHostViewModel>(id);
@@ -149,7 +151,7 @@ namespace GamersHub.Web.Controllers
 
             if (partyUserId != currentUserId)
             {
-                return this.Redirect("/Identity/Account/AccessDenied");
+                return this.BadRequest();
             }
 
             var viewModel = this.usersService.GetByName<ApplicantPartyViewModel>(id);
@@ -208,9 +210,54 @@ namespace GamersHub.Web.Controllers
                return this.NotFound();
            }
 
-           this.TempData["InfoMessage"] = "Successfully canceled party applicantion";
+           this.TempData["InfoMessage"] = "Successfully canceled party application";
            return this.RedirectToAction("Applications", "Parties", new {id = input.CreatorUsername});
         }
 
+        public IActionResult Delete(int id)
+        {
+            var viewModel = this.partiesService.GetById<PartyDeleteViewModel>(id);
+
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                if (userId != viewModel.CreatorId)
+                {
+                    return this.BadRequest();
+                }
+            }
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(PartyDeleteInputModel input)
+        {
+            if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName) &&
+                !this.User.IsInRole(GlobalConstants.ModeratorRoleName))
+            {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                if (userId != input.CreatorId)
+                {
+                    return this.BadRequest();
+                }
+            }
+
+            await this.partiesService.DeleteAsync(input.PartyId);
+
+            this.TempData["InfoMessage"] = "Party deleted successfully!";
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) && this.User.Identity.Name != input.CreatorUsername)
+            {
+                return this.Redirect("/Administration/Parties/Index");
+            }
+            return this.RedirectToAction("Host", "Parties", new { id = input.CreatorUsername});
+        }
     }
 }

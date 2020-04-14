@@ -77,7 +77,7 @@ namespace GamersHub.Web.Controllers
 
                 if (userId != viewModel.UserId)
                 {
-                    return this.Redirect("/Identity/Account/AccessDenied");
+                    return this.BadRequest();
                 }
             }
 
@@ -95,7 +95,7 @@ namespace GamersHub.Web.Controllers
 
                 if (userId != input.UserId)
                 {
-                    return this.Redirect("/Identity/Account/AccessDenied");
+                    return this.BadRequest();
                 }
             }
 
@@ -131,7 +131,7 @@ namespace GamersHub.Web.Controllers
 
                 if (userId != viewModel.UserId)
                 {
-                    return this.Redirect("/Identity/Account/AccessDenied");
+                    return this.BadRequest();
                 }
             }
 
@@ -139,7 +139,7 @@ namespace GamersHub.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(ReviewDeleteViewModel input)
+        public async Task<IActionResult> Delete(ReviewDeleteInputModel input)
         {
             if (!this.User.IsInRole(GlobalConstants.AdministratorRoleName) &&
                 !this.User.IsInRole(GlobalConstants.ModeratorRoleName))
@@ -148,11 +148,11 @@ namespace GamersHub.Web.Controllers
 
                 if (userId != input.UserId)
                 {
-                    return this.Redirect("/Identity/Account/AccessDenied");
+                    return this.BadRequest();
                 }
             }
 
-            await this.reviewsService.DeleteAsync(input.Id);
+            await this.reviewsService.DeleteAsync(input.ReviewId);
 
             this.TempData["InfoMessage"] = "Review deleted successfully!";
             return this.RedirectToAction("ByName", "Games", new { name = input.GameUrl});
