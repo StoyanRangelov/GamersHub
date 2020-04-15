@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using GamersHub.Data;
 using GamersHub.Data.Models;
@@ -17,26 +18,27 @@ namespace GamersHub.Services.Data.Tests
         private ReviewsService reviewsService;
 
         [SetUp]
-        public async Task SetUp()
+        public void SetUp()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString());
             this.repository = new EfDeletableEntityRepository<Review>(new ApplicationDbContext(options.Options));
-            await this.repository.AddAsync(new Review {Content = "test Content 1"});
-            await this.repository.AddAsync(new Review {Content = "test Content 2"});
-            await this.repository.AddAsync(new Review {Content = "test Content 3"});
-            await this.repository.AddAsync(new Review {Content = "test Content 4"});
-            await this.repository.SaveChangesAsync();
             this.reviewsService = new ReviewsService(this.repository);
             AutoMapperConfig.RegisterMappings(typeof(TestReview).Assembly);
         }
 
         [Test]
-        public void TestGetByIdReturnsCorrectEntity()
+        public async Task TestGetByIdReturnsCorrectEntity()
         {
+            await this.repository.AddAsync(new Review {Content = "test Content"});
+            await this.repository.SaveChangesAsync();
+
             var review = this.reviewsService.GetById<TestReview>(1);
 
-            Assert.AreEqual("test Content 1", review.Content);
+            var expected = "test Content";
+            var actual = review.Content;
+
+            Assert.AreEqual(expected, actual);
         }
 
         [Test]
@@ -47,8 +49,131 @@ namespace GamersHub.Services.Data.Tests
             Assert.Null(review);
         }
 
+        [Test]
+        public async Task TestCreateAsync()
+        {
+            var reviewId = await this.reviewsService.CreateAsync(1, true, "test Content", "userId");
+            var review = this.repository.All().First();
+
+            Assert.AreEqual(reviewId, review.Id);
+            Assert.AreEqual(1, review.GameId);
+            Assert.AreEqual(true, review.IsPositive);
+            Assert.AreEqual("test Content", review.Content);
+            Assert.AreEqual("userId", review.UserId);
+        }
+
+        [Test]
+        public async Task TestGetAllByGameIdReturnsAllReviewsWithGameId1()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                await this.repository.AddAsync(new Review {GameId = 1, Content = "test Content"});
+            }
+
+            await this.repository.AddAsync(new Review {GameId = 2, Content = "test Content fail"});
+            await this.repository.SaveChangesAsync();
+
+            var reviews = this.reviewsService.GetAllByGameId<TestReview>(1);
+
+            var expectedGameId = 1;
+            var expectedContent = "test Content";
+
+            foreach (var testReview in reviews)
+            {
+                Assert.AreEqual(expectedGameId, testReview.GameId);
+                Assert.AreEqual(expectedContent, testReview.Content);
+            }
+        }
+
+        [Test]
+        public async Task TestGetAllByGameIdReturnsReviewsCorrectlyWithSkipAndTakeValues()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                await this.repository.AddAsync(new Review {GameId = 1, Content = "test Content skip"});
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                await this.repository.AddAsync(new Review {GameId = 1, Content = "test Content"});
+            }
+
+            await this.repository.AddAsync(new Review {GameId = 1, Content = "test Content fail"});
+
+            await this.repository.SaveChangesAsync();
+
+            var reviews = this.reviewsService.GetAllByGameId<TestReview>(1, 5, 3);
+
+            var expectedGameId = 1;
+            var expectedContent = "test Content";
+
+            foreach (var testReview in reviews)
+            {
+                Assert.AreEqual(expectedGameId, testReview.GameId);
+                Assert.AreEqual(expectedContent, testReview.Content);
+            }
+        }
+
+        [Test]
+        public async Task TestEditAsyncWorksCorrectly()
+        {
+            await this.repository.AddAsync(new Review {Content = "test Content", IsPositive = true});
+            await this.repository.SaveChangesAsync();
+
+            var reviewId = await this.reviewsService.EditAsync(1, "test Content edited", false);
+
+            var actualReview = this.repository.All().First();
+
+            Assert.AreEqual("test Content edited", actualReview.Content);
+            Assert.IsFalse(actualReview.IsPositive);
+        }
+
+
+        [Test]
+        public async Task TestEditAsyncReturns0WithInvalidId()
+        {
+            var reviewId = await this.reviewsService.EditAsync(2, "test Content", true);
+
+            Assert.AreEqual(0, reviewId);
+        }
+
+
+        [Test]
+        public async Task TestDeleteAsyncWorksCorrectly()
+        {
+            await this.repository.AddAsync(new Review { Content = "test Content"});
+            await this.repository.SaveChangesAsync();
+
+            await this.reviewsService.DeleteAsync(1);
+
+            var review = this.repository.AllWithDeleted().First();
+
+            Assert.IsTrue(review.IsDeleted);
+        }
+
+        [Test]
+        public async Task TestGetCountByGameId()
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                await this.repository.AddAsync(new Review { GameId = 1, Content = "test Content"});
+            }
+
+            await this.repository.SaveChangesAsync();
+
+            var actualCount = this.reviewsService.GetCountByGameId(1);
+
+            var expectedCount = 6;
+
+            Assert.AreEqual(expectedCount, actualCount);
+        }
+
         public class TestReview : IMapFrom<Review>
         {
+            public int GameId { get; set; }
+
+            public bool IsPositive { get; set; }
+
             public string Content { get; set; }
         }
     }
