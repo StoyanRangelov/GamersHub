@@ -53,11 +53,11 @@ namespace GamersHub.Services.Data.Replies
         Task DeleteAsync(int id);
 
         /// <summary>
-        /// Returns the count of all replies with the given forum id from the database
+        /// Returns the count of all replies with the given post id from the database
         /// </summary>
         /// <param name="postId"></param>
         /// <returns></returns>
 
-        int GetCountByForumId(int postId);
+        int GetCountByPostId(int postId);
     }
 }

@@ -99,6 +99,7 @@ namespace GamersHub.Services.Data.Tests
             }
 
             await this.repository.AddAsync(new Review {GameId = 1, Content = "test Content fail"});
+            await this.repository.AddAsync(new Review {GameId = 2, Content = "test Content fail"});
 
             await this.repository.SaveChangesAsync();
 
@@ -141,7 +142,7 @@ namespace GamersHub.Services.Data.Tests
         [Test]
         public async Task TestDeleteAsyncWorksCorrectly()
         {
-            await this.repository.AddAsync(new Review { Content = "test Content"});
+            await this.repository.AddAsync(new Review {Content = "test Content"});
             await this.repository.SaveChangesAsync();
 
             await this.reviewsService.DeleteAsync(1);
@@ -156,7 +157,12 @@ namespace GamersHub.Services.Data.Tests
         {
             for (int i = 0; i < 6; i++)
             {
-                await this.repository.AddAsync(new Review { GameId = 1, Content = "test Content"});
+                await this.repository.AddAsync(new Review {GameId = 1, Content = "test Content"});
+            }
+
+            for (int i = 2; i < 5; i++)
+            {
+                await this.repository.AddAsync(new Review {GameId = i, Content = "test Content"});
             }
 
             await this.repository.SaveChangesAsync();
@@ -167,14 +173,14 @@ namespace GamersHub.Services.Data.Tests
 
             Assert.AreEqual(expectedCount, actualCount);
         }
+    }
 
-        public class TestReview : IMapFrom<Review>
-        {
-            public int GameId { get; set; }
+    public class TestReview : IMapFrom<Review>
+    {
+        public int GameId { get; set; }
 
-            public bool IsPositive { get; set; }
+        public bool IsPositive { get; set; }
 
-            public string Content { get; set; }
-        }
+        public string Content { get; set; }
     }
 }

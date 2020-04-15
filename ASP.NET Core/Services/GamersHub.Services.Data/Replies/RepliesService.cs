@@ -16,7 +16,7 @@ namespace GamersHub.Services.Data.Replies
             this.repliesRepository = repliesRepository;
         }
 
-        public IEnumerable<T> GetAllByPostId<T>(int postId, int? take, int skip = 0)
+        public IEnumerable<T> GetAllByPostId<T>(int postId, int? take = null, int skip = 0)
         {
             var query = this.repliesRepository.All()
                 .Where(x => x.PostId == postId).Skip(skip);
@@ -79,7 +79,7 @@ namespace GamersHub.Services.Data.Replies
             await this.repliesRepository.SaveChangesAsync();
         }
 
-        public int GetCountByForumId(int postId)
+        public int GetCountByPostId(int postId)
         {
             return this.repliesRepository.All().Count(x => x.PostId == postId);
         }
