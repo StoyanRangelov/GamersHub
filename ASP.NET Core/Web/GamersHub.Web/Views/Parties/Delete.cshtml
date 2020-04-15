@@ -1,4 +1,5 @@
 ﻿@using GamersHub.Common
+@using GamersHub.Data.Models
 @model GamersHub.Web.ViewModels.Parties.PartyDeleteViewModel
 @{
     ViewData["Title"] = "Delete Party";
@@ -35,17 +36,17 @@
                 @foreach (var applicant in Model.PartyApplicants)
                 {
                     <li class="list-group-item">
-                        @if (applicant.IsApproved)
+                        @if (applicant.ApplicationStatus == ApplicationStatusType.Approved)
                         {
-                            <h5 class="card-text text-primary float-right">Approved</h5>
+                            <h5 class="card-text text-primary float-right">@applicant.ApplicationStatus.ToString()</h5>
                         }
-                        else if (applicant.IsDeclined)
+                        else if (applicant.ApplicationStatus == ApplicationStatusType.Declined)
                         {
-                            <h5 class="card-text text-danger float-right">Declined</h5>
+                            <h5 class="card-text text-danger float-right">@applicant.ApplicationStatus.ToString()</h5>
                         }
                         else
                         {
-                            <h5 class="card-text text-warning float-right">Pending</h5>
+                            <h5 class="card-text text-warning float-right">@applicant.ApplicationStatus.ToString()</h5>
                         }
                         <p class="card-text">@applicant.ApplicantUsername</p>
                     </li>

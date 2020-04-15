@@ -13,8 +13,6 @@ namespace GamersHub.Data.Models
 
         public virtual ApplicationUser Applicant { get; set; }
 
-        public bool IsApproved { get; set; }
-
-        public bool IsDeclined { get; set; }
+        public ApplicationStatusType ApplicationStatus { get; set; }
     }
 }

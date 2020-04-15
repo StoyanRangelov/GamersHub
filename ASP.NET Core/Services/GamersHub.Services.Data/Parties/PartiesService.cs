@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GamersHub.Data.Common.Repositories;
@@ -24,7 +25,7 @@ namespace GamersHub.Services.Data.Parties
         public T GetById<T>(int id)
         {
             var party = this.partiesRepository.All()
-                .Where(x=>x.Id == id)
+                .Where(x => x.Id == id)
                 .To<T>().FirstOrDefault();
 
             return party;
@@ -144,36 +145,36 @@ namespace GamersHub.Services.Data.Parties
 
         public async Task<int> ApproveAsync(int partyId, string applicantId)
         {
-            var party = this.partiesRepository.All()
-                .Include(x => x.PartyApplicants)
-                .FirstOrDefault(x => x.Id == partyId);
-
-            var partyApplication = party?.PartyApplicants
-                .FirstOrDefault(x => x.ApplicantId == applicantId);
+            var partyApplication = this.partyApplicantsRepository.All()
+                .Include(x => x.Party)
+                .FirstOrDefault(x => x.Party.Id == partyId && x.ApplicantId == applicantId);
 
             if (partyApplication == null)
             {
                 return 0;
             }
 
-            partyApplication.IsApproved = true;
+            partyApplication.ApplicationStatus = ApplicationStatusType.Approved;
 
-            var approvedApplicants = party.PartyApplicants.Count(x => x.IsApproved);
+            var approvedApplicants =
+                partyApplication.Party.PartyApplicants.Count(x =>
+                    x.ApplicationStatus == ApplicationStatusType.Approved);
 
-            if (approvedApplicants == party.Size)
+            if (approvedApplicants == partyApplication.Party.Size)
             {
-                party.IsFull = true;
+                partyApplication.Party.IsFull = true;
             }
 
-            this.partiesRepository.Update(party);
+            this.partyApplicantsRepository.Update(partyApplication);
             await this.partiesRepository.SaveChangesAsync();
 
-            return party.Id;
+            return partyApplication.PartyId;
         }
 
         public async Task<int> DeclineAsync(int partyId, string applicantId)
         {
             var partyApplication = this.partyApplicantsRepository.All()
+                .Include(x => x.Party)
                 .FirstOrDefault(x => x.PartyId == partyId && x.ApplicantId == applicantId);
 
             if (partyApplication == null)
@@ -181,7 +182,7 @@ namespace GamersHub.Services.Data.Parties
                 return 0;
             }
 
-            partyApplication.IsDeclined = true;
+            partyApplication.ApplicationStatus = ApplicationStatusType.Declined;
 
             this.partyApplicantsRepository.Update(partyApplication);
             await this.partiesRepository.SaveChangesAsync();
@@ -191,30 +192,25 @@ namespace GamersHub.Services.Data.Parties
 
         public async Task<int> CancelApplicationAsync(int partyId, string applicantId)
         {
-            var party = this.partiesRepository.All()
-                .Include(x => x.PartyApplicants)
-                .FirstOrDefault(x => x.Id == partyId);
-
-            var partyApplication = party?.PartyApplicants
-                .FirstOrDefault(x => x.ApplicantId == applicantId);
+            var partyApplication = this.partyApplicantsRepository.All()
+                .Include(x => x.Party)
+                .FirstOrDefault(x => x.PartyId == partyId && x.ApplicantId == applicantId);
 
             if (partyApplication == null)
             {
                 return 0;
             }
 
-            if (party.IsFull && partyApplication.IsApproved)
+            if (partyApplication.Party.IsFull && partyApplication.ApplicationStatus == ApplicationStatusType.Approved)
             {
-                party.IsFull = false;
+                partyApplication.Party.IsFull = false;
             }
-
-            this.partiesRepository.Update(party);
 
             this.partyApplicantsRepository.Delete(partyApplication);
             await this.partyApplicantsRepository.SaveChangesAsync();
             await this.partiesRepository.SaveChangesAsync();
 
-            return party.Id;
+            return partyApplication.PartyId;
         }
 
         public async Task<int> EditAsync(int id, string game, string activity, string description)

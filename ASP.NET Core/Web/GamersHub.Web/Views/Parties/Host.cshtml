@@ -1,5 +1,6 @@
 ﻿@using GamersHub.Common
 @using System.Linq
+@using GamersHub.Data.Models
 @using Microsoft.EntityFrameworkCore.Internal
 @model GamersHub.Web.ViewModels.Parties.PartyHostViewModel
 @{
@@ -68,7 +69,7 @@ else
                         {
                             <li class="list-group-item">
 
-                                @if (applicant.IsApproved == false && applicant.IsDeclined == false)
+                                @if (applicant.ApplicationStatus == ApplicationStatusType.Pending)
                                 {
                                     <form asp-controller="Parties" asp-action="Decline" method="post" class=" mr-2 float-right">
                                         <div class="form-group">
@@ -94,13 +95,13 @@ else
                                         </div>
                                     </form>
                                 }
-                                else if (applicant.IsDeclined)
+                                else if (applicant.ApplicationStatus == ApplicationStatusType.Declined)
                                 {
-                                    <h5 class="card-text text-danger float-right">Declined</h5>
+                                    <h5 class="card-text text-danger float-right">@applicant.ApplicationStatus.ToString()</h5>
                                 }
-                                else if (applicant.IsApproved)
+                                else if (applicant.ApplicationStatus == ApplicationStatusType.Approved)
                                 {
-                                    <h5 class="card-text text-primary float-right">Approved</h5>
+                                    <h5 class="card-text text-primary float-right">@applicant.ApplicationStatus.ToString()</h5>
                                 }
                                 <p class="card-text">Applicant: @applicant.ApplicantUsername - Experience: @applicant.ApplicantGamingExperience</p>
                             </li>

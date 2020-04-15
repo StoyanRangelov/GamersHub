@@ -13,8 +13,6 @@ namespace GamersHub.Web.ViewModels.Parties
 
         public GamingExperienceType ApplicantGamingExperience { get; set; }
 
-        public bool IsApproved { get; set; }
-
-        public bool IsDeclined { get; set; }
+        public ApplicationStatusType ApplicationStatus { get; set; }
     }
 }

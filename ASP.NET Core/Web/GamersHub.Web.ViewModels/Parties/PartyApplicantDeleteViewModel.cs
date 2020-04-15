@@ -7,8 +7,6 @@ namespace GamersHub.Web.ViewModels.Parties
     {
         public string ApplicantUsername { get; set; }
 
-        public bool IsApproved { get; set; }
-
-        public bool IsDeclined { get; set; }
+        public ApplicationStatusType ApplicationStatus { get; set; }
     }
 }

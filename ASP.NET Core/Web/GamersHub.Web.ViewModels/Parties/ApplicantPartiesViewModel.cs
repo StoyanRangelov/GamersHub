@@ -24,8 +24,6 @@ namespace GamersHub.Web.ViewModels.Parties
 
         public bool PartyIsFull { get; set; }
 
-        public bool IsApproved { get; set; }
-
-        public bool IsDeclined { get; set; }
+        public ApplicationStatusType ApplicationStatus { get; set; }
     }
 }

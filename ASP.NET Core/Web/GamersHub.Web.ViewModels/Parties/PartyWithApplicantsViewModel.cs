@@ -17,7 +17,7 @@ namespace GamersHub.Web.ViewModels.Parties
             get
             {
                 var approvedApplicants = this.PartyApplicants
-                    .Count(x => x.IsApproved);
+                    .Count(x => x.ApplicationStatus == ApplicationStatusType.Approved);
                 var result = this.Size - approvedApplicants;
 
                 if (result < 0)
@@ -28,6 +28,8 @@ namespace GamersHub.Web.ViewModels.Parties
                 return result;
             }
         }
+
+        public bool IsFull { get; set; }
 
         public string Activity { get; set; }
 
