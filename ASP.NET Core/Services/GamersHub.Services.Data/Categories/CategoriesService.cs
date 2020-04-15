@@ -179,6 +179,12 @@ namespace GamersHub.Services.Data.Categories
             return this.categoriesRepository.All().Count();
         }
 
+
+        /// <summary>
+        /// Returns true if a category with the given name already exists in the database, otherwise returns false
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private bool CheckIfExistsByName(string name)
         {
             bool alreadyExists = false;

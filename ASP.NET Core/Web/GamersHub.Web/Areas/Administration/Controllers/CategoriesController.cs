@@ -14,7 +14,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
     public class CategoriesController : AdministrationController
     {
         private const int CategoriesPerPage = 14;
-        
+
         private readonly ICategoriesService categoriesService;
         private readonly IForumsService forumsService;
 

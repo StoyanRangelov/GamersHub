@@ -130,6 +130,12 @@ namespace GamersHub.Services.Data.Games
             return this.gamesRepository.All().Count();
         }
 
+        /// <summary>
+        /// Returns the normalised version of the provided game name after comparing it to all other game names through the UrlParser
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+
         private string GetNormalisedName(string name)
         {
             var forums = this.gamesRepository.All().Select(x => x.Title).ToList();

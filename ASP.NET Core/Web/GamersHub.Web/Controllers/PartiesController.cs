@@ -185,7 +185,7 @@ namespace GamersHub.Web.Controllers
             }
 
             this.TempData["InfoMessage"] = "Successfully approved user to party.";
-            return this.RedirectToAction("Host", "Parties", new {id = input.CreatorUsername});
+            return this.RedirectToAction("Host", "Parties", new {id = this.User.Identity.Name});
         }
 
         public async Task<IActionResult> Decline(PartyApplicantInputModel input)
@@ -198,7 +198,7 @@ namespace GamersHub.Web.Controllers
             }
 
             this.TempData["InfoMessage"] = "Successfully declined party applicant";
-            return this.RedirectToAction("Host", "Parties", new {id = input.CreatorUsername});
+            return this.RedirectToAction("Host", "Parties", new {id = this.User.Identity.Name});
         }
 
         public async Task<IActionResult> CancelApplication(PartyApplicantInputModel input)
@@ -211,7 +211,7 @@ namespace GamersHub.Web.Controllers
            }
 
            this.TempData["InfoMessage"] = "Successfully canceled party application";
-           return this.RedirectToAction("Applications", "Parties", new {id = input.CreatorUsername});
+           return this.RedirectToAction("Applications", "Parties", new {id = this.User.Identity.Name});
         }
 
         public IActionResult Edit(int id)
@@ -267,7 +267,7 @@ namespace GamersHub.Web.Controllers
                 return this.Redirect("/Administration/Parties/Index");
             }
 
-            return this.RedirectToAction("Host", "Parties", new {id = input.CreatorUsername});
+            return this.RedirectToAction("Host", "Parties", new {id = this.User.Identity.Name});
         }
 
         public IActionResult Delete(int id)

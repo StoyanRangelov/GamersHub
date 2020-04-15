@@ -36,7 +36,7 @@ namespace GamersHub.Services.Data.Forums
             IQueryable<Forum> query =
                 this.forumsRepository.All()
                     .OrderByDescending(x => x.Posts.Count)
-                    .ThenByDescending(x=>x.ForumCategories.Count).Skip(skip);
+                    .ThenByDescending(x => x.ForumCategories.Count).Skip(skip);
             if (take.HasValue)
             {
                 query = query.Take(take.Value);
@@ -181,6 +181,11 @@ namespace GamersHub.Services.Data.Forums
             return this.forumsRepository.All().Count();
         }
 
+        /// <summary>
+        /// Returns the normalised version of the provided forum name after comparing it to all other forum names through the UrlParser
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private string GetNormalisedName(string name)
         {
             var forums = this.forumsRepository.All().Select(x => x.Name).ToList();
@@ -190,6 +195,11 @@ namespace GamersHub.Services.Data.Forums
             return forumName;
         }
 
+        /// <summary>
+        /// Returns true if a forum with the given name already exists in the database, otherwise returns false
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         private bool CheckIfExistsByName(string name)
         {
             bool alreadyExists = false;
