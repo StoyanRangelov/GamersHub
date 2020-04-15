@@ -26,7 +26,7 @@ namespace GamersHub.Services.Data.Posts
             this.repliesRepository = repliesRepository;
         }
 
-        public T GetByName<T>(string name)
+        public T GetByNameUrl<T>(string name)
         {
             var normalisedName = this.GetNormalisedName(name);
 

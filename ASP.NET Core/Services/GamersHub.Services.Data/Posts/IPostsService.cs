@@ -11,7 +11,7 @@ namespace GamersHub.Services.Data.Posts
         /// <param name="name"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        T GetByName<T>(string name);
+        T GetByNameUrl<T>(string name);
 
         /// <summary>
         /// Returns a post with the given id, returns null if such a post does not exist in the database

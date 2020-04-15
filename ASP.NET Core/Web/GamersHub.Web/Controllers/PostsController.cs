@@ -41,7 +41,7 @@ namespace GamersHub.Web.Controllers
 
         public IActionResult ByName(string name, int id = 1)
         {
-            var viewModel = this.postsService.GetByName<PostByNameViewModel>(name);
+            var viewModel = this.postsService.GetByNameUrl<PostByNameViewModel>(name);
 
             if (viewModel == null)
             {
@@ -51,7 +51,7 @@ namespace GamersHub.Web.Controllers
             viewModel.PostReplies = this.repliesService
                 .GetAllByPostId<ReplyInPostViewModel>(viewModel.Id, RepliesPerPage, (id - 1) * RepliesPerPage);
 
-            var count = this.repliesService.GetCountByForumId(viewModel.Id);
+            var count = this.repliesService.GetCountByPostId(viewModel.Id);
 
             var pagination = new PaginationViewModel();
 
