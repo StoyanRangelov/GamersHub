@@ -6,6 +6,7 @@ using GamersHub.Services.Data.ForumCategories;
 using GamersHub.Services.Data.Forums;
 using GamersHub.Services.Data.Games;
 using GamersHub.Services.Data.Parties;
+using GamersHub.Services.Data.PartyApplicants;
 using GamersHub.Services.Data.Posts;
 using GamersHub.Services.Data.Replies;
 using GamersHub.Services.Data.Reviews;
@@ -130,6 +131,7 @@ namespace GamersHub.Web
             services.AddTransient<IGamesService, GamesService>();
             services.AddTransient<IReviewsService, ReviewsService>();
             services.AddTransient<IPartiesService, PartiesService>();
+            services.AddTransient<IPartyApplicantsService, PartyApplicantsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

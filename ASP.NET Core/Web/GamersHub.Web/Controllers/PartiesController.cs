@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using GamersHub.Common;
 using GamersHub.Services.Data.Parties;
+using GamersHub.Services.Data.PartyApplicants;
 using GamersHub.Services.Data.Users;
 using GamersHub.Web.ViewModels;
 using GamersHub.Web.ViewModels.Parties;
@@ -18,12 +19,14 @@ namespace GamersHub.Web.Controllers
         private const int PartiesPerPage = 6;
 
         private readonly IPartiesService partiesService;
+        private readonly IPartyApplicantsService partyApplicantsService;
         private readonly IUsersService usersService;
 
-        public PartiesController(IPartiesService partiesService, IUsersService usersService)
+        public PartiesController(IPartiesService partiesService, IUsersService usersService, IPartyApplicantsService partyApplicantsService)
         {
             this.partiesService = partiesService;
             this.usersService = usersService;
+            this.partyApplicantsService = partyApplicantsService;
         }
 
         public IActionResult Index(int id = 1)
@@ -157,11 +160,11 @@ namespace GamersHub.Web.Controllers
             var viewModel = this.usersService.GetByName<ApplicantPartyViewModel>(id);
 
 
-            viewModel.PartyApplications = this.partiesService
+            viewModel.PartyApplications = this.partyApplicantsService
                 .GetAllApplicationsByUsername<ApplicantPartiesViewModel>(id, PartiesPerPage, (page - 1) * PartiesPerPage);
 
 
-            var count = this.partiesService.GetApplicationsCountByUsername(id);
+            var count = this.partyApplicantsService.GetApplicationsCountByUsername(id);
 
             viewModel.PagesCount = (int) Math.Ceiling((double) count / PartiesPerPage);
             if (viewModel.PagesCount == 0)
@@ -177,7 +180,7 @@ namespace GamersHub.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Approve(PartyApplicantInputModel input)
         {
-            var approveUserId = await this.partiesService.ApproveAsync(input.PartyId, input.ApplicantId);
+            var approveUserId = await this.partyApplicantsService.ApproveAsync(input.PartyId, input.ApplicantId);
 
             if (approveUserId == 0)
             {
@@ -190,7 +193,7 @@ namespace GamersHub.Web.Controllers
 
         public async Task<IActionResult> Decline(PartyApplicantInputModel input)
         {
-            var declineUserId = await this.partiesService.DeclineAsync(input.PartyId, input.ApplicantId);
+            var declineUserId = await this.partyApplicantsService.DeclineAsync(input.PartyId, input.ApplicantId);
 
             if (declineUserId == 0)
             {
@@ -203,7 +206,7 @@ namespace GamersHub.Web.Controllers
 
         public async Task<IActionResult> CancelApplication(PartyApplicantInputModel input)
         {
-           var partyId = await this.partiesService.CancelApplicationAsync(input.PartyId, input.ApplicantId);
+           var partyId = await this.partyApplicantsService.CancelApplicationAsync(input.PartyId, input.ApplicantId);
 
            if (partyId == 0)
            {

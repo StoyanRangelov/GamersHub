@@ -41,7 +41,7 @@ else
         <div class="card">
             <div class="card-header">
                 <span class="float-right"><i class="fas fa-calendar-alt"></i> Created on: <time datetime="@party.CreatedOn"></time></span>
-                @if (party.AvailableSlots == 0)
+                @if (party.IsFull)
                 {
                     <span>Party is Full</span>
                 }

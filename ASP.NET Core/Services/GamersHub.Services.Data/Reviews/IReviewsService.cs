@@ -15,7 +15,7 @@ namespace GamersHub.Services.Data.Reviews
         /// <returns></returns>
         IEnumerable<T> GetAllByGameId<T>(int gameId, int? take = null, int skip = 0);
 
-        
+
         /// <summary>
         /// Returns a review by the given id, returns null if such a review does not exist
         /// </summary>
@@ -23,7 +23,7 @@ namespace GamersHub.Services.Data.Reviews
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         T GetById<T>(int id);
-        
+
         /// <summary>
         /// Creates a review with the given game id, is positive value, content and user id and adds it to the database
         /// </summary>
@@ -34,7 +34,7 @@ namespace GamersHub.Services.Data.Reviews
         /// <returns></returns>
 
         Task<int> CreateAsync(int gameId, bool isPositive, string content, string userId);
-        
+
         /// <summary>
         /// Edits a review with the given id and updates it with the given content and is positive value, returns 0 if such a review does not exist, otherwise returns the review id
         /// </summary>

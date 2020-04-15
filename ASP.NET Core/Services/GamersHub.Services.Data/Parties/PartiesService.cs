@@ -65,19 +65,6 @@ namespace GamersHub.Services.Data.Parties
             return query.To<T>().ToList();
         }
 
-        public IEnumerable<T> GetAllApplicationsByUsername<T>(string username, int? take = null, int skip = 0)
-        {
-            var query = this.partyApplicantsRepository.All()
-                .Where(x => x.Applicant.UserName == username)
-                .OrderByDescending(x => x.Party.CreatedOn).Skip(skip);
-            if (take.HasValue)
-            {
-                query = query.Take(take.Value);
-            }
-
-            return query.To<T>().ToList();
-        }
-
         public int GetCount()
         {
             return this.partiesRepository.All().Count();
@@ -86,11 +73,6 @@ namespace GamersHub.Services.Data.Parties
         public int GetCountByUsername(string username)
         {
             return this.partiesRepository.All().Count(x => x.Creator.UserName == username);
-        }
-
-        public int GetApplicationsCountByUsername(string username)
-        {
-            return this.partyApplicantsRepository.All().Count(x => x.Applicant.UserName == username);
         }
 
         public async Task<int> CreateAsync(string userId, string game, string activity, string description, int size)
@@ -141,76 +123,6 @@ namespace GamersHub.Services.Data.Parties
             await this.partiesRepository.SaveChangesAsync();
 
             return partyId;
-        }
-
-        public async Task<int> ApproveAsync(int partyId, string applicantId)
-        {
-            var partyApplication = this.partyApplicantsRepository.All()
-                .Include(x => x.Party)
-                .FirstOrDefault(x => x.Party.Id == partyId && x.ApplicantId == applicantId);
-
-            if (partyApplication == null)
-            {
-                return 0;
-            }
-
-            partyApplication.ApplicationStatus = ApplicationStatusType.Approved;
-
-            var approvedApplicants =
-                partyApplication.Party.PartyApplicants.Count(x =>
-                    x.ApplicationStatus == ApplicationStatusType.Approved);
-
-            if (approvedApplicants == partyApplication.Party.Size)
-            {
-                partyApplication.Party.IsFull = true;
-            }
-
-            this.partyApplicantsRepository.Update(partyApplication);
-            await this.partiesRepository.SaveChangesAsync();
-
-            return partyApplication.PartyId;
-        }
-
-        public async Task<int> DeclineAsync(int partyId, string applicantId)
-        {
-            var partyApplication = this.partyApplicantsRepository.All()
-                .Include(x => x.Party)
-                .FirstOrDefault(x => x.PartyId == partyId && x.ApplicantId == applicantId);
-
-            if (partyApplication == null)
-            {
-                return 0;
-            }
-
-            partyApplication.ApplicationStatus = ApplicationStatusType.Declined;
-
-            this.partyApplicantsRepository.Update(partyApplication);
-            await this.partiesRepository.SaveChangesAsync();
-
-            return partyId;
-        }
-
-        public async Task<int> CancelApplicationAsync(int partyId, string applicantId)
-        {
-            var partyApplication = this.partyApplicantsRepository.All()
-                .Include(x => x.Party)
-                .FirstOrDefault(x => x.PartyId == partyId && x.ApplicantId == applicantId);
-
-            if (partyApplication == null)
-            {
-                return 0;
-            }
-
-            if (partyApplication.Party.IsFull && partyApplication.ApplicationStatus == ApplicationStatusType.Approved)
-            {
-                partyApplication.Party.IsFull = false;
-            }
-
-            this.partyApplicantsRepository.Delete(partyApplication);
-            await this.partyApplicantsRepository.SaveChangesAsync();
-            await this.partiesRepository.SaveChangesAsync();
-
-            return partyApplication.PartyId;
         }
 
         public async Task<int> EditAsync(int id, string game, string activity, string description)
