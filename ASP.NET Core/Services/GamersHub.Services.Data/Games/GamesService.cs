@@ -21,7 +21,7 @@ namespace GamersHub.Services.Data.Games
             this.reviewsRepositorty = reviewsRepositorty;
         }
 
-        public string GetUrl(int id)
+        public string GetUrlById(int id)
         {
             var gameName = this.gamesRepository.All()
                 .First(x => x.Id == id).Title;
@@ -40,7 +40,7 @@ namespace GamersHub.Services.Data.Games
             return game;
         }
 
-        public T GetByName<T>(string name)
+        public T GetByNameUrl<T>(string name)
         {
             var normalisedName = this.GetNormalisedName(name);
 

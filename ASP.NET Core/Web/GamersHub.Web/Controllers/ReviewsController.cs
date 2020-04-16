@@ -55,7 +55,7 @@ namespace GamersHub.Web.Controllers
 
             await this.reviewsService.CreateAsync(input.GameId, input.IsPositive, input.Content, userId);
 
-            var gameUrl = this.gamesService.GetUrl(input.GameId);
+            var gameUrl = this.gamesService.GetUrlById(input.GameId);
 
             this.TempData["InfoMessage"] = "Review created successfully!";
             return this.RedirectToAction("ByName", "Games", new { name = gameUrl});

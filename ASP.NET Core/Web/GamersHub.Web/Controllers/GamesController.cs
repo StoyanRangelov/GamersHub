@@ -59,7 +59,7 @@ namespace GamersHub.Web.Controllers
 
         public IActionResult ByName(string name, int id = 1)
         {
-            var viewModel = this.gamesService.GetByName<GameByIdViewModel>(name);
+            var viewModel = this.gamesService.GetByNameUrl<GameByIdViewModel>(name);
 
             if (viewModel == null)
             {
