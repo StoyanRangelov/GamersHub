@@ -73,7 +73,7 @@ namespace GamersHub.Services.Data.Tests
             await this.repository.AddAsync(new Review {GameId = 2, Content = "test Content fail"});
             await this.repository.SaveChangesAsync();
 
-            var reviews = this.reviewsService.GetAllByGameId<TestReview>(1);
+            var reviews = this.reviewsService.GetAllByGameId<TestReview>(1).ToList();
 
             var expectedGameId = 1;
             var expectedContent = "test Content";
@@ -83,6 +83,8 @@ namespace GamersHub.Services.Data.Tests
                 Assert.AreEqual(expectedGameId, testReview.GameId);
                 Assert.AreEqual(expectedContent, testReview.Content);
             }
+
+            Assert.AreEqual(10, reviews.Count);
         }
 
         [Test]
@@ -103,7 +105,7 @@ namespace GamersHub.Services.Data.Tests
 
             await this.repository.SaveChangesAsync();
 
-            var reviews = this.reviewsService.GetAllByGameId<TestReview>(1, 5, 3);
+            var reviews = this.reviewsService.GetAllByGameId<TestReview>(1, 5, 3).ToList();
 
             var expectedGameId = 1;
             var expectedContent = "test Content";
@@ -113,6 +115,8 @@ namespace GamersHub.Services.Data.Tests
                 Assert.AreEqual(expectedGameId, testReview.GameId);
                 Assert.AreEqual(expectedContent, testReview.Content);
             }
+
+            Assert.AreEqual(5, reviews.Count);
         }
 
         [Test]

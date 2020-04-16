@@ -39,7 +39,7 @@ namespace GamersHub.Services.Data.Tests
             await this.repository.AddAsync(new Reply {PostId = 2, Content = "test Content fail"});
             await this.repository.SaveChangesAsync();
 
-            var replies = this.repliesService.GetAllByPostId<TestReply>(1);
+            var replies = this.repliesService.GetAllByPostId<TestReply>(1).ToList();
 
             var expectedPostId = 1;
             var expectedContent = "test Content";
@@ -49,6 +49,8 @@ namespace GamersHub.Services.Data.Tests
                 Assert.AreEqual(expectedPostId, testReply.PostId);
                 Assert.AreEqual(expectedContent, testReply.Content);
             }
+
+            Assert.AreEqual(5, replies.Count);
         }
 
         [Test]
@@ -68,7 +70,7 @@ namespace GamersHub.Services.Data.Tests
             await this.repository.AddAsync(new Reply {PostId = 2, Content = "test Content fail"});
             await this.repository.SaveChangesAsync();
 
-            var replies = this.repliesService.GetAllByPostId<TestReply>(1, 5, 3);
+            var replies = this.repliesService.GetAllByPostId<TestReply>(1, 5, 3).ToList();
 
             var expectedPostId = 1;
             var expectedContent = "test Content";
@@ -78,6 +80,8 @@ namespace GamersHub.Services.Data.Tests
                 Assert.AreEqual(expectedPostId, testReply.PostId);
                 Assert.AreEqual(expectedContent, testReply.Content);
             }
+
+            Assert.AreEqual(5, replies.Count);
         }
 
         [Test]
@@ -146,7 +150,7 @@ namespace GamersHub.Services.Data.Tests
         {
             for (int i = 0; i < 4; i++)
             {
-                await this.repository.AddAsync( new Reply { PostId = 1, Content = "test Content"});
+                await this.repository.AddAsync(new Reply {PostId = 1, Content = "test Content"});
             }
 
             for (int i = 2; i < 5; i++)
@@ -161,7 +165,6 @@ namespace GamersHub.Services.Data.Tests
 
             Assert.AreEqual(expectedCount, actualCount);
         }
-
     }
 
     public class TestReply : IMapFrom<Reply>

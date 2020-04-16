@@ -68,8 +68,9 @@ namespace GamersHub.Services.Data.Posts
         public IEnumerable<T> GetAllByForumId<T>(int forumId, int? take = null, int skip = 0)
         {
             var query = this.postsRepository.All()
-                .OrderByDescending(x => x.CreatedOn)
-                .Where(x => x.ForumId == forumId).Skip(skip);
+                .Where(x => x.ForumId == forumId)
+                .OrderByDescending(x => x.CreatedOn).Skip(skip);
+
             if (take.HasValue)
             {
                 query = query.Take(take.Value);
@@ -81,8 +82,8 @@ namespace GamersHub.Services.Data.Posts
         public IEnumerable<T> GetAllByCategoryNameAndForumId<T>(string name, int id, int? take = null, int skip = 0)
         {
             var query = this.postsRepository.All()
-                .OrderByDescending(x => x.CreatedOn)
-                .Where(x => x.ForumId == id && x.Category.Name == name).Skip(skip);
+                .Where(x => x.ForumId == id && x.Category.Name == name)
+                .OrderByDescending(x => x.CreatedOn).Skip(skip);
             if (take.HasValue)
             {
                 query = query.Take(take.Value);
