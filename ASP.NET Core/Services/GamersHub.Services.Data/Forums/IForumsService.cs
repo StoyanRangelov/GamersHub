@@ -15,6 +15,14 @@ namespace GamersHub.Services.Data.Forums
         IEnumerable<T> GetAll<T>(int? take = null, int skip = 0);
 
         /// <summary>
+        /// Returns all forums that does not have the given category id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        IEnumerable<T> GetAllMissingByCategoryId<T>(int id);
+
+        /// <summary>
         /// Returns a forum from the database by the specified forum url, otherwise returns null if such a forum does not exist
         /// </summary>
         /// <param name="name"></param>
@@ -23,20 +31,20 @@ namespace GamersHub.Services.Data.Forums
         T GetByNameUrl<T>(string name);
 
 
-       /// <summary>
-       /// Returns a forum from the database by the specified forum id, otherwise returns null if such a forum does not exist
-       /// </summary>
-       /// <param name="id"></param>
-       /// <typeparam name="T"></typeparam>
-       /// <returns></returns>
+        /// <summary>
+        /// Returns a forum from the database by the specified forum id, otherwise returns null if such a forum does not exist
+        /// </summary>
+        /// <param name="id"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         T GetById<T>(int id);
 
 
-       /// <summary>
-       /// Creates a new forum with the given name and adds it to the database, returns 0 if the forum name is already taken, otherwise returns the forum id
-       /// </summary>
-       /// <param name="name"></param>
-       /// <returns></returns>
+        /// <summary>
+        /// Creates a new forum with the given name and adds it to the database, returns 0 if the forum name is already taken, otherwise returns the forum id
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         Task<int> CreateAsync(string name);
 
         /// <summary>

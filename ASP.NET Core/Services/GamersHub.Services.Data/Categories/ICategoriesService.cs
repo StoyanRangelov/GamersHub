@@ -15,12 +15,12 @@ namespace GamersHub.Services.Data.Categories
         IEnumerable<T> GetAll<T>(int? take = null, int skip = 0);
 
         /// <summary>
-        /// Returns all categories from the database by the given forum id
+        /// Returns all forum categories that does not have the given forum id
         /// </summary>
         /// <param name="id"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        IEnumerable<T> GetAllByForumId<T>(int id);
+        IEnumerable<T> GetAllMissingByForumId<T>(int id);
 
         /// <summary>
         /// Returns a category by the specified id, otherwise returns null if such a category does not exist

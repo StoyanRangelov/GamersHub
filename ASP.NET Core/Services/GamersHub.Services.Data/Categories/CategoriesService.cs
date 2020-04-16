@@ -44,7 +44,7 @@ namespace GamersHub.Services.Data.Categories
             return query.To<T>().ToList();
         }
 
-        public IEnumerable<T> GetAllByForumId<T>(int id)
+        public IEnumerable<T> GetAllMissingByForumId<T>(int id)
         {
             var categories = this.categoriesRepository.All()
                 .Where(x => x.CategoryForums.Select(x => x.ForumId).All(x => !x.Equals(id)))

@@ -36,7 +36,8 @@ namespace GamersHub.Services.Data.Tests
             this.postsRepository = new EfDeletableEntityRepository<Post>(new ApplicationDbContext(options.Options));
             this.repliesRepository = new EfDeletableEntityRepository<Reply>(new ApplicationDbContext(options.Options));
             this.forumCategoriesRepository = new EfRepository<ForumCategory>(new ApplicationDbContext(options.Options));
-            this.forumsService = new ForumsService(this.forumsRepository, this.forumCategoriesRepository, this.postsRepository, this.repliesRepository);
+            this.forumsService = new ForumsService(this.forumsRepository, this.forumCategoriesRepository,
+                this.postsRepository, this.repliesRepository);
             AutoMapperConfig.RegisterMappings(typeof(TestForum).Assembly);
         }
 
@@ -65,6 +66,46 @@ namespace GamersHub.Services.Data.Tests
             }
 
             Assert.AreEqual(5, forums.Count);
+        }
+
+        [Test]
+        public async Task TestGetAllMissingByCategoryId()
+        {
+            await this.forumsRepository.AddAsync(new Forum
+            {
+                Name = "wrong",
+                ForumCategories = new List<ForumCategory> { new ForumCategory { CategoryId = 1 }, new ForumCategory { CategoryId = 2 } },
+            });
+            await this.forumsRepository.AddAsync(new Forum
+            {
+                Name = "wrong",
+                ForumCategories = new List<ForumCategory> { new ForumCategory { CategoryId = 1 }, new ForumCategory { CategoryId = 2 }, new ForumCategory { CategoryId = 3 }, new ForumCategory { CategoryId = 4 },  },
+            });
+            await this.forumsRepository.AddAsync(new Forum
+            {
+                Name = "wrong",
+                ForumCategories = new List<ForumCategory> { new ForumCategory { CategoryId = 1 }, new ForumCategory { CategoryId = 4 } },
+            });
+            await this.forumsRepository.AddAsync(new Forum
+            {
+                Name = "forum",
+                ForumCategories = new List<ForumCategory> { new ForumCategory { CategoryId = 2 }, new ForumCategory { CategoryId = 3 } },
+            });
+            await this.forumsRepository.AddAsync(new Forum
+            {
+                Name = "forum",
+                ForumCategories = new List<ForumCategory> { new ForumCategory { CategoryId = 2 }, new ForumCategory { CategoryId = 3 } },
+            });
+            await this.forumsRepository.SaveChangesAsync();
+
+            var forums = this.forumsService.GetAllMissingByCategoryId<TestForum>(1).ToList();
+
+            Assert.AreEqual(2, forums.Count);
+
+            foreach (var forum in forums)
+            {
+                Assert.AreEqual("forum", forum.Name);
+            }
         }
 
         [Test]
@@ -171,31 +212,31 @@ namespace GamersHub.Services.Data.Tests
         [Test]
         public async Task TestDeleteAsyncWorksCorrectly()
         {
-          await this.forumsRepository.AddAsync(new Forum
+            await this.forumsRepository.AddAsync(new Forum
             {
                 Name = "forum",
-                ForumCategories = new List<ForumCategory> { new ForumCategory() },
-                Posts = new List<Post> { new Post { Replies = new List<Reply> { new Reply(), new Reply() } } },
+                ForumCategories = new List<ForumCategory> {new ForumCategory()},
+                Posts = new List<Post> {new Post {Replies = new List<Reply> {new Reply(), new Reply()}}},
             });
 
-          await this.forumsRepository.SaveChangesAsync();
+            await this.forumsRepository.SaveChangesAsync();
 
-          await this.forumsService.DeleteAsync(1);
+            await this.forumsService.DeleteAsync(1);
 
-          var forum = this.forumsRepository.AllWithDeleted().First();
+            var forum = this.forumsRepository.AllWithDeleted().First();
 
-          Assert.IsTrue(forum.IsDeleted);
-          Assert.IsEmpty(forum.ForumCategories);
+            Assert.IsTrue(forum.IsDeleted);
+            Assert.IsEmpty(forum.ForumCategories);
 
-          foreach (var forumPost in forum.Posts)
-          {
-              foreach (var reply in forumPost.Replies)
-              {
-                  Assert.IsTrue(reply.IsDeleted);
-              }
+            foreach (var forumPost in forum.Posts)
+            {
+                foreach (var reply in forumPost.Replies)
+                {
+                    Assert.IsTrue(reply.IsDeleted);
+                }
 
-              Assert.IsTrue(forumPost.IsDeleted);
-          }
+                Assert.IsTrue(forumPost.IsDeleted);
+            }
         }
 
         [Test]

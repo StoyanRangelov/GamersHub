@@ -39,7 +39,7 @@ namespace GamersHub.Web.Controllers
             var normalisedName = this.categoriesService.GetNormalisedName(name);
 
             var forumCategory =
-                this.forumCategoriesService.GetByNameAndForumId<ForumCategoryByNameViewModel>(normalisedName, id);
+                this.forumCategoriesService.GetByCategoryNameAndForumId<ForumCategoryByNameViewModel>(normalisedName, id);
 
             if (forumCategory == null)
             {

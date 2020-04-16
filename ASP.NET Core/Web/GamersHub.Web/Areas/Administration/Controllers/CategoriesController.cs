@@ -18,13 +18,11 @@ namespace GamersHub.Web.Areas.Administration.Controllers
 
         private readonly ICategoriesService categoriesService;
         private readonly IForumsService forumsService;
-        private readonly IForumCategoriesService forumCategoriesService;
 
-        public CategoriesController(ICategoriesService categoriesService, IForumsService forumsService, IForumCategoriesService forumCategoriesService)
+        public CategoriesController(ICategoriesService categoriesService, IForumsService forumsService)
         {
             this.categoriesService = categoriesService;
             this.forumsService = forumsService;
-            this.forumCategoriesService = forumCategoriesService;
         }
 
         public IActionResult Index(int id = 1)
@@ -91,7 +89,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
                 return this.NotFound();
             }
 
-            var forums = this.forumCategoriesService.GetAllMissingByCategoryId<ForumEditViewModel>(id).ToArray();
+            var forums = this.forumsService.GetAllMissingByCategoryId<ForumEditViewModel>(id).ToArray();
 
             var viewModel = new CategoryAdministrationEditInputModel
             {
@@ -108,7 +106,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             if (!this.ModelState.IsValid)
             {
                 var category = this.categoriesService.GetById<CategoryEditInputModel>(input.Id);
-                var forums = this.forumCategoriesService.GetAllMissingByCategoryId<ForumEditViewModel>(input.Id).ToArray();
+                var forums = this.forumsService.GetAllMissingByCategoryId<ForumEditViewModel>(input.Id).ToArray();
 
                 input.Category = category;
                 input.Forums = forums;
@@ -133,7 +131,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             if (!this.ModelState.IsValid)
             {
                 var category = this.categoriesService.GetById<CategoryEditInputModel>(input.Id);
-                var forums = this.forumCategoriesService.GetAllMissingByCategoryId<ForumEditViewModel>(input.Id).ToArray();
+                var forums = this.forumsService.GetAllMissingByCategoryId<ForumEditViewModel>(input.Id).ToArray();
 
                 input.Category = category;
                 input.Forums = forums;

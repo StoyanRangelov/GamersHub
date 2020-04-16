@@ -42,34 +42,10 @@ namespace GamersHub.Services.Data.Tests
 
             await this.repository.SaveChangesAsync();
 
-            var forumCategory = this.forumCategoriesService.GetByNameAndForumId<TestForumCategory>("category", 1);
+            var forumCategory = this.forumCategoriesService.GetByCategoryNameAndForumId<TestForumCategory>("category", 1);
 
             Assert.AreEqual(1, forumCategory.ForumId);
             Assert.AreEqual("category", forumCategory.CategoryName);
-        }
-
-        [Test]
-        public async Task TestGetAllMissingByCategoryId()
-        {
-            await this.repository.AddAsync(new ForumCategory
-                {CategoryId = 1, Category = new Category {Name = "fail"}});
-
-            for (int i = 2; i < 6; i++)
-            {
-                await this.repository.AddAsync(new ForumCategory
-                    {CategoryId = i, Category = new Category {Name = "category"}});
-            }
-
-            await this.repository.SaveChangesAsync();
-
-            var forumCategories = this.forumCategoriesService.GetAllMissingByCategoryId<TestForumCategory>(1).ToList();
-
-            Assert.AreEqual(4, forumCategories.Count);
-
-            foreach (var testForumCategory in forumCategories)
-            {
-                Assert.AreEqual("category", testForumCategory.CategoryName);
-            }
         }
     }
 

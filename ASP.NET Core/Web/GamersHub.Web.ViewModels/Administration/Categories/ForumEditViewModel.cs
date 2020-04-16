@@ -3,10 +3,10 @@ using GamersHub.Services.Mapping;
 
 namespace GamersHub.Web.ViewModels.Administration.Categories
 {
-    public class ForumEditViewModel : IMapFrom<ForumCategory>
+    public class ForumEditViewModel : IMapFrom<Forum>
     {
-        public int ForumId { get; set; }
+        public int Id { get; set; }
 
-        public string ForumName { get; set; }
+        public string Name { get; set; }
     }
 }

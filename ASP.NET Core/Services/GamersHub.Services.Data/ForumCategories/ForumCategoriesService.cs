@@ -17,22 +17,13 @@ namespace GamersHub.Services.Data.ForumCategories
         }
 
 
-        public T GetByNameAndForumId<T>(string name, int id)
+        public T GetByCategoryNameAndForumId<T>(string categoryName, int forumId)
         {
             var forumCategory = this.forumCategoriesRepository.All()
-                .Where(x => x.Category.Name == name && x.ForumId == id)
+                .Where(x => x.Category.Name == categoryName && x.ForumId == forumId)
                 .To<T>().FirstOrDefault();
 
             return forumCategory;
-        }
-
-        public IEnumerable<T> GetAllMissingByCategoryId<T>(int id)
-        {
-            var forums = this.forumCategoriesRepository.All()
-                .Where(x => x.CategoryId != id)
-                .To<T>().ToList();
-
-            return forums;
         }
     }
 }
