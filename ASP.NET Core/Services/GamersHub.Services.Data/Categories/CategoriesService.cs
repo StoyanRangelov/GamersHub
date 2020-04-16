@@ -144,25 +144,26 @@ namespace GamersHub.Services.Data.Categories
 
             foreach (var post in category.Posts)
             {
-                 this.postRepository.Delete(post);
+                foreach (var reply in post.Replies)
+                {
+                    this.repliesRepository.Delete(reply);
+                }
 
-                 foreach (var reply in post.Replies)
-                 {
-                     this.repliesRepository.Delete(reply);
-                 }
+                this.postRepository.Delete(post);
             }
+
+            await this.repliesRepository.SaveChangesAsync();
+            await this.postRepository.SaveChangesAsync();
+
+            this.categoriesRepository.Delete(category);
+            await this.categoriesRepository.SaveChangesAsync();
 
             foreach (var categoryForum in category.CategoryForums)
             {
                 this.forumCategoriesRepository.Delete(categoryForum);
             }
 
-            await this.postRepository.SaveChangesAsync();
-            await this.repliesRepository.SaveChangesAsync();
             await this.forumCategoriesRepository.SaveChangesAsync();
-
-            this.categoriesRepository.Delete(category);
-            await this.categoriesRepository.SaveChangesAsync();
         }
 
         public string GetNormalisedName(string name)

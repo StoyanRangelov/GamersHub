@@ -64,7 +64,7 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
-        public async Task TestGetAllMissingByCategoryId()
+        public async Task TestGetAllMissingByForumId()
         {
             await this.categoriesRepository.AddAsync(new Category
             {
@@ -102,6 +102,130 @@ namespace GamersHub.Services.Data.Tests
                 Assert.AreEqual("category", category.Name);
             }
         }
+
+        [Test]
+        public async Task TestGetById()
+        {
+            await this.categoriesRepository.AddAsync(new Category { Name = "wrong" });
+            await this.categoriesRepository.AddAsync(new Category { Name = "wrong" });
+            await this.categoriesRepository.AddAsync(new Category { Name = "category" });
+            await this.categoriesRepository.AddAsync(new Category { Name = "wrong" });
+            await this.categoriesRepository.SaveChangesAsync();
+
+            var category = this.categoriesService.GetById<TestCategory>(3);
+
+            Assert.AreEqual("category", category.Name);
+        }
+
+        [Test]
+        public async Task TestCreateAsyncReturnsZeroWhenCategoryNameAlreadyExists()
+        {
+            await this.categoriesRepository.AddAsync(new Category { Name = "category" });
+            await this.categoriesRepository.SaveChangesAsync();
+
+            var categoryId = await this.categoriesService.CreateAsync("category", "description");
+
+            Assert.AreEqual(0, categoryId);
+        }
+
+        [Test]
+        public async Task TestCreateAsyncWorksCorrectly()
+        {
+            var categoryId = await this.categoriesService.CreateAsync("category", "description");
+
+            var category = await this.categoriesRepository.All().FirstAsync();
+
+            Assert.AreEqual(1, categoryId);
+            Assert.AreEqual("category", category.Name);
+            Assert.AreEqual("description", category.Description);
+        }
+
+        [Test]
+        public async Task TestEditAsyncReturnsMinusOneIfCategoryDoesNotExist()
+        {
+            var categoryId = await this.categoriesService.EditAsync(1, "name", "description", null, null);
+
+            Assert.AreEqual(-1, categoryId);
+        }
+
+        [Test]
+        public async Task TestEditAsyncReturnsZeroIfCategoryNameIsAlreadyTaken()
+        {
+            await this.categoriesRepository.AddAsync(new Category { Name = "category" });
+            await this.categoriesRepository.AddAsync(new Category {Name = "name" });
+            await this.categoriesRepository.SaveChangesAsync();
+
+            var categoryId = await this.categoriesService.EditAsync(2, "category", "description", null, null);
+
+            Assert.AreEqual(0, categoryId);
+        }
+
+        [Test]
+        public async Task TestEditAsyncWorksCorrectlyAndAlsoAddsForumsToTheCategory()
+        {
+            await this.categoriesRepository.AddAsync(new Category { Name = "name", Description = "description" });
+            await this.categoriesRepository.SaveChangesAsync();
+
+            var categoryId =
+               await this.categoriesService.EditAsync(1, "category", "test", new[] { 1, 2, 3 }, new[] { true, true, false });
+
+            var category = await this.categoriesRepository.All().FirstAsync();
+
+            Assert.AreEqual(1, categoryId);
+            Assert.AreEqual("category", category.Name);
+            Assert.AreEqual("test", category.Description);
+
+            var categoryForums = category.CategoryForums.ToArray();
+
+            Assert.AreEqual(2, categoryForums.Length);
+
+            Assert.AreEqual(1, categoryForums[0].ForumId);
+            Assert.AreEqual(2, categoryForums[1].ForumId);
+        }
+
+        [Test]
+        public async Task TestDeleteAsyncWorksCorrectly()
+        {
+            await this.categoriesRepository.AddAsync(new Category
+            {
+                Name = "category",
+                CategoryForums = new List<ForumCategory> {new ForumCategory()},
+                Posts = new List<Post> {new Post {Replies = new List<Reply> {new Reply(), new Reply()}}},
+            });
+
+            await this.categoriesRepository.SaveChangesAsync();
+
+            await this.categoriesService.DeleteAsync(1);
+
+            var category = this.categoriesRepository.AllWithDeleted().First();
+
+            Assert.IsTrue(category.IsDeleted);
+            Assert.IsEmpty(category.CategoryForums);
+
+            foreach (var categoryPost in category.Posts)
+            {
+                foreach (var reply in categoryPost.Replies)
+                {
+                    Assert.IsTrue(reply.IsDeleted);
+                }
+
+                Assert.IsTrue(category.IsDeleted);
+            }
+        }
+
+        [Test]
+        public async Task TestGetNormalisedNameWorksCorrectly()
+        {
+            await this.categoriesRepository.AddAsync(new Category { Name = "General Discussion"});
+            await this.categoriesRepository.SaveChangesAsync();
+
+            var categoryNameUrl = "General-Discussion";
+
+            var normalisedName = this.categoriesService.GetNormalisedName(categoryNameUrl);
+
+            Assert.AreEqual("General Discussion", normalisedName);
+        }
+
     }
 
     public class TestCategory : IMapFrom<Category>
