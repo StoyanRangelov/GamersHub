@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using GamersHub.Common;
 using GamersHub.Services.Data;
 using GamersHub.Services.Data.Categories;
+using GamersHub.Services.Data.ForumCategories;
 using GamersHub.Services.Data.Forums;
 using GamersHub.Web.ViewModels;
 using GamersHub.Web.ViewModels.Administration.Categories;
@@ -17,11 +18,13 @@ namespace GamersHub.Web.Areas.Administration.Controllers
 
         private readonly ICategoriesService categoriesService;
         private readonly IForumsService forumsService;
+        private readonly IForumCategoriesService forumCategoriesService;
 
-        public CategoriesController(ICategoriesService categoriesService, IForumsService forumsService)
+        public CategoriesController(ICategoriesService categoriesService, IForumsService forumsService, IForumCategoriesService forumCategoriesService)
         {
             this.categoriesService = categoriesService;
             this.forumsService = forumsService;
+            this.forumCategoriesService = forumCategoriesService;
         }
 
         public IActionResult Index(int id = 1)
@@ -88,7 +91,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
                 return this.NotFound();
             }
 
-            var forums = this.forumsService.GetAllByCategoryId<ForumEditViewModel>(id).ToArray();
+            var forums = this.forumCategoriesService.GetAllMissingByCategoryId<ForumEditViewModel>(id).ToArray();
 
             var viewModel = new CategoryAdministrationEditInputModel
             {
@@ -105,7 +108,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             if (!this.ModelState.IsValid)
             {
                 var category = this.categoriesService.GetById<CategoryEditInputModel>(input.Id);
-                var forums = this.forumsService.GetAllByCategoryId<ForumEditViewModel>(input.Id).ToArray();
+                var forums = this.forumCategoriesService.GetAllMissingByCategoryId<ForumEditViewModel>(input.Id).ToArray();
 
                 input.Category = category;
                 input.Forums = forums;
@@ -130,7 +133,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             if (!this.ModelState.IsValid)
             {
                 var category = this.categoriesService.GetById<CategoryEditInputModel>(input.Id);
-                var forums = this.forumsService.GetAllByCategoryId<ForumEditViewModel>(input.Id).ToArray();
+                var forums = this.forumCategoriesService.GetAllMissingByCategoryId<ForumEditViewModel>(input.Id).ToArray();
 
                 input.Category = category;
                 input.Forums = forums;

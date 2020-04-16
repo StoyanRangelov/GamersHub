@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using GamersHub.Data;
 using GamersHub.Data.Models;
@@ -33,10 +35,38 @@ namespace GamersHub.Services.Data.Tests
                 this.postsRepository, this.repliesRepository);
             AutoMapperConfig.RegisterMappings(typeof(TestForum).Assembly);
         }
+
+        [Test]
+        public async Task TestGetAll()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                await this.forumsRepository.AddAsync(new Forum {Name = "skip"});
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                await this.forumsRepository.AddAsync(new Forum {Name = "forum"});
+            }
+
+            await this.forumsRepository.AddAsync(new Forum {Name = "fail"});
+            await this.forumsRepository.AddAsync(new Forum {Name = "fail"});
+            await this.forumsRepository.SaveChangesAsync();
+
+            var forums = this.forumsService.GetAll<TestForum>(5,3).ToList();
+
+            foreach (var testForum in forums)
+            {
+                Assert.AreEqual("forum", testForum.Name);
+            }
+
+            Assert.AreEqual(5, forums.Count);
+        }
+
     }
 
     public class TestForum : IMapFrom<Forum>
     {
-        
+        public string Name { get; set; }
     }
 }

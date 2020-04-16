@@ -15,15 +15,6 @@ namespace GamersHub.Services.Data.Forums
         IEnumerable<T> GetAll<T>(int? take = null, int skip = 0);
 
         /// <summary>
-        /// Returns all forums by the given forum id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        IEnumerable<T> GetAllByCategoryId<T>(int id);
-
-
-        /// <summary>
         /// Returns a forum from the database by the specified forum name, otherwise returns null if such a forum does not exist
         /// </summary>
         /// <param name="name"></param>

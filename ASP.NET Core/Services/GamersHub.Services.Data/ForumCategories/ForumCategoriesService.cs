@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using GamersHub.Data.Common.Repositories;
 using GamersHub.Data.Models;
@@ -23,6 +24,15 @@ namespace GamersHub.Services.Data.ForumCategories
                 .To<T>().FirstOrDefault();
 
             return forumCategory;
+        }
+
+        public IEnumerable<T> GetAllMissingByCategoryId<T>(int id)
+        {
+            var forums = this.forumCategoriesRepository.All()
+                .Where(x => x.CategoryId != id)
+                .To<T>().ToList();
+
+            return forums;
         }
     }
 }
