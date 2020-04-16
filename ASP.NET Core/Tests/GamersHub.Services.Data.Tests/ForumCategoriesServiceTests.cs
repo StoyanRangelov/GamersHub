@@ -11,7 +11,7 @@ using NUnit.Framework;
 namespace GamersHub.Services.Data.Tests
 {
     [TestFixture]
-    public class ForumCategoriesTests
+    public class ForumCategoriesServiceTests
     {
         private EfRepository<ForumCategory> repository;
         private ForumCategoriesService forumCategoriesService;
