@@ -45,7 +45,7 @@ namespace GamersHub.Services.Data.Forums
             return query.To<T>().ToList();
         }
 
-        public T GetByName<T>(string name)
+        public T GetByNameUrl<T>(string name)
         {
             var normalisedName = this.GetNormalisedName(name);
 
@@ -145,25 +145,27 @@ namespace GamersHub.Services.Data.Forums
 
             foreach (var post in forum.Posts)
             {
-                this.postsRepository.Delete(post);
-
                 foreach (var reply in post.Replies)
                 {
                     this.repliesRepository.Delete(reply);
                 }
+
+                this.postsRepository.Delete(post);
             }
+
+            await this.postsRepository.SaveChangesAsync();
+            await this.repliesRepository.SaveChangesAsync();
+
+            this.forumsRepository.Delete(forum);
+            await this.forumsRepository.SaveChangesAsync();
 
             foreach (var forumCategory in forum.ForumCategories)
             {
                 this.forumCategoriesRepository.Delete(forumCategory);
             }
 
-            await this.postsRepository.SaveChangesAsync();
-            await this.repliesRepository.SaveChangesAsync();
-            await this.forumCategoriesRepository.SaveChangesAsync();
 
-            this.forumsRepository.Delete(forum);
-            await this.forumsRepository.SaveChangesAsync();
+            await this.forumCategoriesRepository.SaveChangesAsync();
         }
 
         public int GetCount()

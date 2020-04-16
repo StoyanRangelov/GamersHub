@@ -15,12 +15,12 @@ namespace GamersHub.Services.Data.Forums
         IEnumerable<T> GetAll<T>(int? take = null, int skip = 0);
 
         /// <summary>
-        /// Returns a forum from the database by the specified forum name, otherwise returns null if such a forum does not exist
+        /// Returns a forum from the database by the specified forum url, otherwise returns null if such a forum does not exist
         /// </summary>
         /// <param name="name"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        T GetByName<T>(string name);
+        T GetByNameUrl<T>(string name);
 
 
        /// <summary>

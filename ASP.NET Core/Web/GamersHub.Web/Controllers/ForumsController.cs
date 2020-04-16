@@ -56,7 +56,7 @@ namespace GamersHub.Web.Controllers
 
         public IActionResult ByName(string name, int id = 1)
         {
-            var viewModel = this.forumsService.GetByName<ForumByNameViewModel>(name);
+            var viewModel = this.forumsService.GetByNameUrl<ForumByNameViewModel>(name);
 
             if (viewModel == null)
             {

@@ -6,7 +6,7 @@ namespace GamersHub.Services.Data.Posts
     public interface IPostsService
     {
         /// <summary>
-        /// Returns a post with the given name, returns null if such a post does not exist in the database
+        /// Returns a post by the given name Url, returns null if such a post does not exist in the database
         /// </summary>
         /// <param name="name"></param>
         /// <typeparam name="T"></typeparam>
