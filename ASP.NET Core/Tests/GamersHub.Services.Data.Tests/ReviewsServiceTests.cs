@@ -139,7 +139,7 @@ namespace GamersHub.Services.Data.Tests
         {
             var reviewId = await this.reviewsService.EditAsync(2, "test Content", true);
 
-            Assert.AreEqual(0, reviewId);
+            Assert.Zero(reviewId);
         }
 
 

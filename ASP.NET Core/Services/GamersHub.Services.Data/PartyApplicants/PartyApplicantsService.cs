@@ -84,12 +84,13 @@ namespace GamersHub.Services.Data.PartyApplicants
             if (party.IsFull && partyApplication.ApplicationStatus == ApplicationStatusType.Approved)
             {
                 party.IsFull = false;
-                this.partiesRepository.Update(party);
-                await this.partiesRepository.SaveChangesAsync();
             }
 
             this.partyApplicantsRepository.Delete(partyApplication);
             await this.partyApplicantsRepository.SaveChangesAsync();
+
+            this.partiesRepository.Update(party);
+            await this.partiesRepository.SaveChangesAsync();
 
             return partyApplication.PartyId;
         }

@@ -125,7 +125,7 @@ namespace GamersHub.Services.Data.Tests
 
             var categoryId = await this.categoriesService.CreateAsync("category", "description");
 
-            Assert.AreEqual(0, categoryId);
+            Assert.Zero(categoryId);
         }
 
         [Test]
@@ -157,7 +157,7 @@ namespace GamersHub.Services.Data.Tests
 
             var categoryId = await this.categoriesService.EditAsync(2, "category", "description", null, null);
 
-            Assert.AreEqual(0, categoryId);
+            Assert.Zero(categoryId);
         }
 
         [Test]

@@ -142,7 +142,7 @@ namespace GamersHub.Services.Data.Tests
 
             var forumId = await this.forumsService.CreateAsync("forum");
 
-            Assert.AreEqual(0, forumId);
+            Assert.Zero(forumId);
         }
 
         [Test]
@@ -172,7 +172,7 @@ namespace GamersHub.Services.Data.Tests
 
             var forumId = await this.forumsService.EditAsync(1, "test forum", null, null);
 
-            Assert.AreEqual(0, forumId);
+            Assert.Zero(forumId);
         }
 
         [Test]

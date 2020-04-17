@@ -327,7 +327,7 @@ namespace GamersHub.Services.Data.Tests
         {
             var postId = await this.postsService.CreateAsync(1, 1, "post", "content", "userId");
 
-            Assert.AreEqual(0, postId);
+            Assert.Zero(postId);
         }
 
         [Test]
@@ -380,7 +380,7 @@ namespace GamersHub.Services.Data.Tests
         {
             var postId = await this.postsService.EditAsync(1, "name", "content");
 
-            Assert.AreEqual(0, postId);
+            Assert.Zero(postId);
         }
 
         [Test]

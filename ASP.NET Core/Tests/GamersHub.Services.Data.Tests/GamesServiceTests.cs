@@ -114,7 +114,7 @@ namespace GamersHub.Services.Data.Tests
         {
             var gameId = await this.gamesService.EditAsync(1, "test", "test", "test", "test");
 
-            Assert.AreEqual(0, gameId);
+            Assert.Zero(gameId);
         }
 
         [Test]
