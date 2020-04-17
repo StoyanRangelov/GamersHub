@@ -193,11 +193,10 @@ namespace GamersHub.Services.Data.Tests
             var user = await this.usersRepository.AllWithDeleted().FirstAsync();
 
             Assert.IsTrue(user.IsDeleted);
-            Assert.Null(user.UserName);
             Assert.Null(user.NormalizedUserName);
             Assert.Null(user.Email);
             Assert.Null(user.NormalizedEmail);
-            Assert.Null(user.DiscordUsername);
+            Assert.IsEmpty(user.DiscordUsername);
         }
 
         [Test]

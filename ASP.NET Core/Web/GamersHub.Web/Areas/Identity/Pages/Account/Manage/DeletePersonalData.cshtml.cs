@@ -89,6 +89,12 @@ namespace GamersHub.Web.Areas.Identity.Pages.Account.Manage
                 await _userManager.RemoveFromRoleAsync(user, GlobalConstants.ModeratorRoleName);
             }
 
+            var userlogins = await _userManager.GetLoginsAsync(user);
+            foreach (var userlogin in userlogins)
+            {
+               await _userManager.RemoveLoginAsync(user, userlogin.LoginProvider, userlogin.ProviderKey);
+            }
+
             await this._usersService.DeleteAsync(user.Id);
 
             await _signInManager.SignOutAsync();

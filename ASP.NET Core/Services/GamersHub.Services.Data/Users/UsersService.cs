@@ -125,11 +125,10 @@ namespace GamersHub.Services.Data.Users
         {
             var user = this.usersRepository.All().First(x => x.Id == id);
 
-            user.UserName = null;
             user.NormalizedUserName = null;
             user.Email = null;
             user.NormalizedEmail = null;
-            user.DiscordUsername = null;
+            user.DiscordUsername = string.Empty;
 
             this.usersRepository.Update(user);
             this.usersRepository.Delete(user);
