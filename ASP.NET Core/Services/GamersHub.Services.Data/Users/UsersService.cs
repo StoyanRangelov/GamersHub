@@ -121,6 +121,23 @@ namespace GamersHub.Services.Data.Users
             return user;
         }
 
+        public async Task<string> EditProfileAsync(string id, string discordUsername, GamingExperienceType gamingExperience)
+        {
+            var user = this.usersRepository.All().FirstOrDefault(x => x.Id == id);
+            if (user == null)
+            {
+                return GlobalConstants.NotFound;
+            }
+
+            user.DiscordUsername = discordUsername;
+            user.GamingExperience = gamingExperience;
+
+            this.usersRepository.Update(user);
+            await this.usersRepository.SaveChangesAsync();
+
+            return user.Id;
+        }
+
         public async Task DeleteAsync(string id)
         {
             var user = this.usersRepository.All().First(x => x.Id == id);

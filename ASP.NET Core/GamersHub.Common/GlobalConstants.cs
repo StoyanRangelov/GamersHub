@@ -7,6 +7,8 @@
         public const string Reviews = "Reviews";
 
         public const string Banned = "Banned";
+
+        public const string NotFound = "Not Found";
         
         public const string SystemName = "GamersHub";
 

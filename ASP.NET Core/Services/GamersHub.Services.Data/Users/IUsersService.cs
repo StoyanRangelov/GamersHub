@@ -22,7 +22,6 @@ namespace GamersHub.Services.Data.Users
         /// <param name="skip"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-
         IEnumerable<T> GetAllBannedUsers<T>(int? take = null, int skip = 0);
 
         /// <summary>
@@ -31,7 +30,6 @@ namespace GamersHub.Services.Data.Users
         /// <param name="role"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-
         IEnumerable<T> GetAllByRole<T>(string role);
 
         /// <summary>
@@ -40,7 +38,6 @@ namespace GamersHub.Services.Data.Users
         /// <param name="orderType"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-
         IEnumerable<T> GetTopFive<T>(string orderType = null);
 
         /// <summary>
@@ -57,29 +54,34 @@ namespace GamersHub.Services.Data.Users
         /// <param name="name"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-
         T GetByName<T>(string name);
+
+        /// <summary>
+        /// edits the user profile with the provided id with the given discord Username and Gaming Experience type, returns Not Fount if the user does not exist
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="discordUsername"></param>
+        /// <param name="gamingExperience"></param>
+        /// <returns></returns>
+        Task<string> EditProfileAsync(string id, string discordUsername, GamingExperienceType gamingExperience);
 
         /// <summary>
         /// Deletes the user with the given id, removes him from all roles and sets his username, email address and discord username to null, returns false if the user does not exists in the database
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-
         Task DeleteAsync(string id);
 
         /// <summary>
         /// Returns the count of all users from the database who are not in the Administrator and Moderator roles
         /// </summary>
         /// <returns></returns>
-
         int GetCountOfPromotableUsers();
 
         /// <summary>
         /// Returns the count of all users from the database whose Lockout end is not null
         /// </summary>
         /// <returns></returns>
-
         int GetCountOfBannedUsers();
 
         /// <summary>
@@ -87,7 +89,6 @@ namespace GamersHub.Services.Data.Users
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-
         string GetIdByName(string name);
     }
 }
