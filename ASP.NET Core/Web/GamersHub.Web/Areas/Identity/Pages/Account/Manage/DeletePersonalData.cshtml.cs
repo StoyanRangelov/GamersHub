@@ -89,12 +89,7 @@ namespace GamersHub.Web.Areas.Identity.Pages.Account.Manage
                 await _userManager.RemoveFromRoleAsync(user, GlobalConstants.ModeratorRoleName);
             }
 
-            var result = await this._usersService.DeleteAsync(user.Id);
-
-            if (!result)
-            {
-                throw new InvalidOperationException($"Unexpected error occurred deleting user with ID '{user.Id}'.");
-            }
+            await this._usersService.DeleteAsync(user.Id);
 
             await _signInManager.SignOutAsync();
 

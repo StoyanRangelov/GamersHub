@@ -66,7 +66,7 @@ namespace GamersHub.Services.Data.Users
         /// <param name="id"></param>
         /// <returns></returns>
 
-        Task<bool> DeleteAsync(string id);
+        Task DeleteAsync(string id);
 
         /// <summary>
         /// Returns the count of all users from the database who are not in the Administrator and Moderator roles

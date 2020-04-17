@@ -121,7 +121,7 @@ namespace GamersHub.Services.Data.Users
             return user;
         }
 
-        public async Task<bool> DeleteAsync(string id)
+        public async Task DeleteAsync(string id)
         {
             var user = this.usersRepository.All().First(x => x.Id == id);
 
@@ -135,8 +135,6 @@ namespace GamersHub.Services.Data.Users
             this.usersRepository.Delete(user);
 
             await this.usersRepository.SaveChangesAsync();
-
-            return true;
         }
 
         public int GetCountOfPromotableUsers()
