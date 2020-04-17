@@ -50,7 +50,7 @@ namespace GamersHub.Services.Data.Users
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         T GetById<T>(string id);
-        
+
         /// <summary>
         /// Retursn the user with the given name, returns null if the user does not exist in the database
         /// </summary>
@@ -59,39 +59,6 @@ namespace GamersHub.Services.Data.Users
         /// <returns></returns>
 
         T GetByName<T>(string name);
-
-        /// <summary>
-        /// Promotes the user with the given id to the given role
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="role"></param>
-        /// <returns></returns>
-
-        Task PromoteAsync(string id, string role);
-
-        /// <summary>
-        /// Removes the user with the given id from the Moderator role
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-
-        Task DemoteAsync(string id);
-
-        /// <summary>
-        /// Sets the Lockout end of the user with the given id to 30 days
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-
-        Task BanAsync(string id);
-
-        /// <summary>
-        /// Sets the Lockout end of the user with the given id to null
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-
-        Task UnbanAsync(string id);
 
         /// <summary>
         /// Deletes the user with the given id, removes him from all roles and sets his username, email address and discord username to null, returns false if the user does not exists in the database

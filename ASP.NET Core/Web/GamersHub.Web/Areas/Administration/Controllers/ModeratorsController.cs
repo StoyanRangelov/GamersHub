@@ -1,7 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using GamersHub.Common;
+using GamersHub.Data.Models;
 using GamersHub.Services.Data.Users;
 using GamersHub.Web.ViewModels.Administration.Moderators;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GamersHub.Web.Areas.Administration.Controllers
@@ -9,10 +12,12 @@ namespace GamersHub.Web.Areas.Administration.Controllers
     public class ModeratorsController : AdministrationController
     {
         private readonly IUsersService usersService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public ModeratorsController(IUsersService usersService)
+        public ModeratorsController(IUsersService usersService, UserManager<ApplicationUser> userManager)
         {
             this.usersService = usersService;
+            this.userManager = userManager;
         }
 
         public IActionResult Index()
@@ -36,7 +41,13 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         [HttpPost]
         public async Task<IActionResult> Demote(ModeratorDemoteViewModel input)
         {
-            await this.usersService.DemoteAsync(input.Id);
+            var user = await this.userManager.FindByIdAsync(input.Id);
+            if (user == null)
+            {
+                return this.NotFound();
+            }
+
+            await this.userManager.RemoveFromRoleAsync(user, GlobalConstants.ModeratorRoleName);
 
             this.TempData["InfoMessage"] = "Moderator demoted successfully!";
             return this.RedirectToAction("Index", "Dashboard");

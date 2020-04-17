@@ -15,16 +15,13 @@ namespace GamersHub.Services.Data.Users
 {
     public class UsersService : IUsersService
     {
-        private readonly UserManager<ApplicationUser> userManager;
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
         private readonly IDeletableEntityRepository<ApplicationRole> rolesRepository;
 
         public UsersService(
-            UserManager<ApplicationUser> userManager,
             IDeletableEntityRepository<ApplicationUser> usersRepository,
             IDeletableEntityRepository<ApplicationRole> rolesRepository)
         {
-            this.userManager = userManager;
             this.usersRepository = usersRepository;
             this.rolesRepository = rolesRepository;
         }
@@ -124,59 +121,9 @@ namespace GamersHub.Services.Data.Users
             return user;
         }
 
-        public async Task PromoteAsync(string id, string role)
-        {
-            var user = this.usersRepository.All().FirstOrDefault(x => x.Id == id);
-
-            await this.userManager.AddToRoleAsync(user, role);
-        }
-
-        public async Task DemoteAsync(string id)
-        {
-            var user = this.usersRepository.All().FirstOrDefault(x => x.Id == id);
-
-            await this.userManager.RemoveFromRoleAsync(user, GlobalConstants.ModeratorRoleName);
-        }
-
-        public async Task BanAsync(string id)
-        {
-            var user = this.usersRepository.All().FirstOrDefault(x => x.Id == id);
-
-            var dateTimeOffset = new DateTimeOffset(DateTime.UtcNow);
-            var banLength = dateTimeOffset.AddDays(30);
-
-            await this.userManager.SetLockoutEndDateAsync(user, banLength);
-        }
-
-        public async Task UnbanAsync(string id)
-        {
-            var user = this.usersRepository.All().FirstOrDefault(x => x.Id == id);
-
-            await this.userManager.SetLockoutEndDateAsync(user, null);
-        }
-
         public async Task<bool> DeleteAsync(string id)
         {
-            var user = this.usersRepository.All().FirstOrDefault(x => x.Id == id);
-
-            if (user == null)
-            {
-                return false;
-            }
-
-            var isAdministrator = await this.userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
-            var isModerator = await this.userManager.IsInRoleAsync(user, GlobalConstants.ModeratorRoleName);
-
-
-            if (isAdministrator)
-            {
-                await this.userManager.RemoveFromRoleAsync(user, GlobalConstants.AdministratorRoleName);
-            }
-
-            if (isModerator)
-            {
-                await this.userManager.RemoveFromRoleAsync(user, GlobalConstants.ModeratorRoleName);
-            }
+            var user = this.usersRepository.All().First(x => x.Id == id);
 
             user.UserName = null;
             user.NormalizedUserName = null;

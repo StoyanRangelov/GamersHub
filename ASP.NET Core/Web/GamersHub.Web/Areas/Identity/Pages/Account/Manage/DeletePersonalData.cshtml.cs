@@ -77,18 +77,28 @@ namespace GamersHub.Web.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var isAdministrator = await _userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
+            if (isAdministrator)
+            {
+                await _userManager.RemoveFromRoleAsync(user, GlobalConstants.AdministratorRoleName);
+            }
 
-            var result = await this._usersService.DeleteAsync(userId);
+            var isModerator = await _userManager.IsInRoleAsync(user, GlobalConstants.ModeratorRoleName);
+            if (isModerator)
+            {
+                await _userManager.RemoveFromRoleAsync(user, GlobalConstants.ModeratorRoleName);
+            }
+
+            var result = await this._usersService.DeleteAsync(user.Id);
 
             if (!result)
             {
-                throw new InvalidOperationException($"Unexpected error occurred deleting user with ID '{userId}'.");
+                throw new InvalidOperationException($"Unexpected error occurred deleting user with ID '{user.Id}'.");
             }
 
             await _signInManager.SignOutAsync();
 
-            _logger.LogInformation("User with ID '{UserId}' deleted themselves.", userId);
+            _logger.LogInformation("User with ID '{UserId}' deleted themselves.", user.Id);
 
             this.TempData["InfoMessage"] = "You have successfully deleted your account.";
             return Redirect("~/");

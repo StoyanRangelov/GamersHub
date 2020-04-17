@@ -17,6 +17,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         private const int BannedUsersPerPage = 14;
 
         private readonly IUsersService usersService;
+        private readonly UserManager<ApplicationUser> userManager;
 
 
         public UsersController(IUsersService usersService)
@@ -65,7 +66,18 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         [HttpPost]
         public async Task<IActionResult> Promote(UserAdministrationPromoteInputModel input)
         {
-            await this.usersService.PromoteAsync(input.UserId, input.RoleName);
+            var user = await this.userManager.FindByIdAsync(input.UserId);
+            if (user == null)
+            {
+                return this.NotFound();
+            }
+
+            if (input.RoleName != GlobalConstants.AdministratorRoleName && input.RoleName != GlobalConstants.ModeratorRoleName)
+            {
+                return this.NotFound();
+            }
+
+            await this.userManager.AddToRoleAsync(user, input.RoleName);
 
             this.TempData["InfoMessage"] = "User promoted successfully!";
             return this.RedirectToAction("Index", "Dashboard");
@@ -81,7 +93,15 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         [HttpPost]
         public async Task<IActionResult> Ban(UserBanViewModel input)
         {
-            await this.usersService.BanAsync(input.Id);
+            var user = await this.userManager.FindByIdAsync(input.Id);
+            if (user == null)
+            {
+                return this.NotFound();
+            }
+
+            var dateTimeOffset = new DateTimeOffset(DateTime.UtcNow);
+            var banLength = dateTimeOffset.AddDays(30);
+            await this.userManager.SetLockoutEndDateAsync(user, banLength);
 
             this.TempData["InfoMessage"] = "User banned successfully!";
             return this.RedirectToAction(nameof(this.Banned));
@@ -121,7 +141,13 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         [HttpPost]
         public async Task<IActionResult> Unban(UserUnbanViewModel input)
         {
-            await this.usersService.UnbanAsync(input.Id);
+            var user = await this.userManager.FindByIdAsync(input.Id);
+            if (user == null)
+            {
+                return this.NotFound();
+            }
+
+            await this.userManager.SetLockoutEndDateAsync(user, null);
 
             this.TempData["InfoMessage"] = "User unbanned successfully!";
             return this.RedirectToAction(nameof(this.Banned));
