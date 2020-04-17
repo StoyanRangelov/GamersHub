@@ -156,15 +156,15 @@ namespace GamersHub.Services.Data.Parties
                 return;
             }
 
+            this.partiesRepository.Delete(party);
+            await this.partiesRepository.SaveChangesAsync();
+
             foreach (var partyApplicant in party.PartyApplicants)
             {
                 this.partyApplicantsRepository.Delete(partyApplicant);
             }
 
             await this.partyApplicantsRepository.SaveChangesAsync();
-
-            this.partiesRepository.Delete(party);
-            await this.partiesRepository.SaveChangesAsync();
         }
     }
 }
