@@ -1,6 +1,24 @@
-﻿@{
+﻿@using GamersHub.Common
+@model GamersHub.Web.ViewModels.Pages.PrivacyPageViewModel
+@{
     this.ViewData["Title"] = "Privacy Policy";
 }
-<h1>@this.ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+@if (this.TempData["InfoMessage"] != null)
+{
+    <div class="alert alert-success">
+        @this.TempData["InfoMessage"]
+    </div>
+}
+
+@if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) || this.User.IsInRole(GlobalConstants.ModeratorRoleName))
+{
+    <div class="d-inline-block float-right">
+        <a asp-controller="Home" asp-action="EditPrivacy" type="submit" class="btn btn-warning btn-lg"> Edit</a>
+    </div>
+}
+<h2 style="text-align: center;"><b>@this.ViewData["Title"]</b></h2>
+@Html.Raw(Model.SanitizedContent);
+
+
+
