@@ -17,8 +17,12 @@
             <div class="card-body">
                 <h5 class="card-title">@Model.Username</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Previous activity</h6>
-                <p class="card-text">Posts: <span class="badge badge-primary">@Model.PostsCount</span></p>
-                <p class="card-text">Posts: <span class="badge badge-primary">@Model.RepliesCount</span></p>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Posts: <span class="badge badge-primary">@Model.PostsCount</span></li>
+                    <li class="list-group-item">Replies: <span class="badge badge-primary">@Model.RepliesCount</span></li>
+                    <li class="list-group-item">Reviews: <span class="badge badge-primary">@Model.ReviewsCount</span></li>
+                    <li class="list-group-item">Parties: <span class="badge badge-primary">@Model.PartiesCount</span></li>
+                </ul>
             </div>
         </div>
     </div>

@@ -20,9 +20,10 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         private readonly UserManager<ApplicationUser> userManager;
 
 
-        public UsersController(IUsersService usersService)
+        public UsersController(IUsersService usersService, UserManager<ApplicationUser> userManager)
         {
             this.usersService = usersService;
+            this.userManager = userManager;
         }
 
         public IActionResult Index(int id = 1)

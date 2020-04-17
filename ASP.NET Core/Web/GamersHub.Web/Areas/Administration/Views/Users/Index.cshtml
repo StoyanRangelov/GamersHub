@@ -23,6 +23,7 @@
         <th scope="col">Reviews</th>
         <th scope="col">Posts</th>
         <th scope="col">Replies</th>
+        <th scope="col">Parties</th>
         <th scope="col">Promote</th>
         <th scope="col">Ban</th>
     </tr>
@@ -38,6 +39,7 @@
             <td>@user.ReviewsCount</td>
             <td>@user.PostsCount</td>
             <td>@user.RepliesCount</td>
+            <td>@user.PartiesCount</td>
             <td>
                 <a asp-area="Administration" asp-controller="Users" asp-action="Promote" asp-route-id="@user.Id" class="d-inline-block btn btn-primary" type="submit">Promote</a>
             </td>

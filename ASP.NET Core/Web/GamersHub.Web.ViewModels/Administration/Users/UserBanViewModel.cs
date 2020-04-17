@@ -15,5 +15,9 @@ namespace GamersHub.Web.ViewModels.Administration.Users
         public int PostsCount { get; set; }
 
         public int RepliesCount { get; set; }
+
+        public int ReviewsCount { get; set; }
+
+        public int PartiesCount { get; set; }
     }
 }
