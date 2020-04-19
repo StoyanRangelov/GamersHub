@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
@@ -24,12 +23,15 @@
             var logger = serviceProvider.GetService<ILoggerFactory>().CreateLogger(typeof(ApplicationDbContextSeeder));
 
             var seeders = new List<ISeeder>
-                          {
-                              new RolesSeeder(),
-                              new CategoriesSeeder(),
-                              new ForumsSeeder(),
-                              new UserRolesSeeder(),
-                          };
+            {
+                new RolesSeeder(),
+                new UsersSeeder(),
+                new UserRolesSeeder(),
+                new CategoriesSeeder(),
+                new ForumsSeeder(),
+                new GamesSeeder(),
+                new PagesSeeder(),
+            };
 
             foreach (var seeder in seeders)
             {
