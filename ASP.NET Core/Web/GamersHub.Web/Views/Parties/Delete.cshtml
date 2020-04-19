@@ -5,16 +5,16 @@
     ViewData["Title"] = "Delete Party";
 }
 
-<div class="text-center ">
+<div class="text-center text-white">
     <h1 class="display-3">@this.ViewData["Title"]</h1>
 </div>
 
 <hr/>
-<div class="d-block">
-    <h2 class="display-4">You are about to delete the following Party:</h2>
+<div class="d-block text-white">
+    <h2 class="display-4">You are about to delete the following Party</h2>
 </div>
 <div class="card">
-    <div class="card-header">
+    <div class="card-header alert alert-success">
         <span class="float-right"><i class="fas fa-calendar-alt"></i> Created on: <time datetime="@Model.CreatedOn"></time></span>
         <p class="card-text">Created by: @Model.CreatorUsername</p>
     </div>

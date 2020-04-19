@@ -3,11 +3,11 @@
     ViewData["Title"] = "Create Party";
 }
 
-<div class="text-center ">
+<div class="text-center text-white">
     <h1 class="display-3">@this.ViewData["Title"]</h1>
 </div>
 <hr/>
-<div class="row">
+<div class="row text-white">
     <div class="col-md-10">
         <form asp-controller="Parties" asp-action="Create" method="post">
             <div class="form-group">
@@ -17,7 +17,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Size"></label>
-                <h6 class="text-muted">Party Size cannot be changed later so please choose carefully</h6>
+                <h6>Party Size cannot be changed later so please choose carefully</h6>
                 <input asp-for="Size" class="form-control"/>
                 <span asp-validation-for="Size" class="text-danger"></span>
             </div>

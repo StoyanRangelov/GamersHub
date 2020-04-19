@@ -26,14 +26,14 @@
     <a asp-controller="Replies" asp-action="Create" asp-route-id="@Model.Id" type="submit" class="btn btn-primary btn-lg float-right">Post a Reply</a>
 </div>
 
-<div class="d-block">
+<div class="d-block text-white">
     <h2 class="display-3">@Model.ForumName</h2>
     <h2>@Model.CategoryName</h2>
 </div>
 
 <hr/>
 <div class="card">
-    <div class="card-header">
+    <div class="card-header alert alert-success">
         <h5 class="d-inline">@Model.UserUsername</h5>
         <h5 class="float-right">User Publications: @Model.Publications</h5>
     </div>
@@ -60,7 +60,7 @@
     </div>
 </div>
 
-<div class="d-block">
+<div class="d-block text-white mt-4">
     <h2>Replies</h2>
 </div>
 

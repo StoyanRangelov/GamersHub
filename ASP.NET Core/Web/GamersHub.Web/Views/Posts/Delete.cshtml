@@ -6,13 +6,13 @@
     var postUrl = UrlParser.ParseToUrl(Model.Name);
 }
 
-<div class="text-center ">
+<div class="text-center text-white">
     <h1 class="display-3">@this.ViewData["Title"]</h1>
 </div>
 
 <hr/>
 <div class="card">
-    <div class="card-header">
+    <div class="card-header alert alert-success">
         <h5 class="d-inline">@Model.UserUsername</h5>
         <h5 class="float-right">User Publications: @Model.Publications</h5>
     </div>
@@ -29,7 +29,7 @@
     </div>
 </div>
 
-<div class="d-block">
+<div class="d-block text-white">
     <h2>Are you sure you want to Delete this post ?</h2>
 </div>
 

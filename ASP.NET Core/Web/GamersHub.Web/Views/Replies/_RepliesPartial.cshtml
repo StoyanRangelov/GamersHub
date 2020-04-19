@@ -1,18 +1,18 @@
 ﻿@model GamersHub.Web.ViewModels.Replies.ReplyPostViewModel
 
-<div class="d-block">
+<div class="d-block text-white">
     <h2 class="display-3">@Model.ForumName</h2>
     <h2>@Model.CategoryName</h2>
 </div>
 
 <hr/>
 
-<div class="d-block">
+<div class="d-block text-white">
     <h2>Post</h2>
 </div>
 
 <div class="card">
-    <div class="card-header">
+    <div class="card-header alert alert-success">
         <h5 class="d-inline">@Model.UserUsername</h5>
         <h5 class="float-right">User Publications: @Model.Publications</h5>
     </div>
@@ -31,6 +31,6 @@
 
 <hr/>
 
-<div class="d-block">
+<div class="d-block text-white">
     <h2>@ViewData["Title"]</h2>
 </div>

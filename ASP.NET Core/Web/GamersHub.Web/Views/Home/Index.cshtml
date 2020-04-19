@@ -10,7 +10,9 @@
         @this.TempData["InfoMessage"]
     </div>
 }
-<div class="text-center">
+
+
+<div class="text-center text-white">
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
 </div>
 <hr/>
@@ -98,6 +100,7 @@
             <tbody>
             @foreach (var game in Model.Games)
             {
+                
                 <tr>
                     <td>
                         <a asp-area="" asp-controller="Games" asp-action="@game.Url" asp-route-subTitle="@game.SubTitle" class="card-link">@game.Title @game.SubTitle</a>
@@ -105,6 +108,39 @@
                     <td>@game.ReviewsCount</td>
                     <td>@game.PositiveReviews</td>
                     <td>@game.NegativeReviews</td>
+                </tr>
+            }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+<div class="card mt-5">
+    <div class="card-header alert alert-success text-center text-dark">Most Popular Parties</div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+            <th scope="col">Host</th>
+            <th scope="col">Hosted on</th>
+            <th scope="col">Game</th>
+            <th scope="col">Activity</th>
+            <th scope="col">Size</th>
+            <th scope="col">Full</th>
+            <th scope="col">Applicants</th>
+            </thead>
+            <tbody>
+            @foreach (var party in Model.Parties)
+            {
+                var full = party.IsFull ? "Yes" : "No";
+                <tr>
+                    <td>@party.CreatorUsername</td>
+                    <td><time datetime="@party.CreatedOn"></time></td>
+                    <td>@party.Game</td>
+                    <td>@party.Activity</td>
+                    <td>@party.Size</td>
+                    <td>@full</td>
+                    <td>@party.PartyApplicantsCount</td>
                 </tr>
             }
             </tbody>

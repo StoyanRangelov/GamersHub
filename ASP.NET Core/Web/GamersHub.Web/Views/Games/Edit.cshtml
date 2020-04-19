@@ -4,11 +4,11 @@
 }
 
 
-<div class="text-center ">
+<div class="text-center text-white">
     <h1 class="display-3">@this.ViewData["Title"]</h1>
 </div>
 <hr/>
-<div class="row">
+<div class="row text-white">
     <div class="col-md-10">
         <form asp-area="" asp-controller="Games" asp-action="Edit" enctype="multipart/form-data" method="post">
             <div class="form-group">
@@ -28,7 +28,7 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="card">
-                <div class="card-header">Image</div>
+                <div class="card-header text-dark">Image</div>
                 <img class="card-img-top" src="@Model.ImgUrl" alt="@Model.Title"/>
             </div>
             <br/>

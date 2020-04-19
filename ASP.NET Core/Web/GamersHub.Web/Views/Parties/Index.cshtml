@@ -2,7 +2,7 @@
 @using System.Linq
 @model GamersHub.Web.ViewModels.Parties.PartyIndexViewModel
 @{
-    ViewData["Title"] = "All Parties";
+    ViewData["Title"] = "Parties";
     ViewData["Controller"] = "Parties";
     ViewData["Action"] = "Index";
 }
@@ -23,7 +23,7 @@
     <a asp-controller="Parties" asp-action="Create" type="submit" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i>&nbsp; New Party</a>
 </div>
 
-<div class="text-center">
+<div class="text-center text-white">
     <h1 class="display-3">@this.ViewData["Title"]</h1>
 </div>
 <hr/>
@@ -32,7 +32,7 @@
     {
         <div class="col mb-4">
             <div class="card h-100">
-                <div class="card-header">
+                <div class="card-header alert alert-success">
                     Hosted by: @party.CreatorUsername
                     <span class="float-right"><i class="fas fa-calendar-alt"></i> Created on: <time datetime="@party.CreatedOn"></time></span>
                 </div>

@@ -25,7 +25,7 @@
     <a asp-controller="Reviews" asp-action="Create" type="submit" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i>&nbsp; New Review</a>
 </div>
 
-<div class="d-block">
+<div class="d-block text-white">
     <h2 class="display-3">@Model.Title</h2>
     @if (Model.SubTitle != null)
     {
@@ -50,7 +50,7 @@
     </div>
 </div>
 
-<div class="d-block">
+<div class="d-block text-white">
     <h2>Reviews</h2>
     <h2 class="card-tex">
         <i class="fas fa-thumbs-up fa-lg text-primary"></i> @Model.PositiveReviews

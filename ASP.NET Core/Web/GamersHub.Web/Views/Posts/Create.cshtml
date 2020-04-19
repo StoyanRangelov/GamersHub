@@ -5,11 +5,11 @@
     var categories = Model.Categories.Select(x => new SelectListItem(x.Name, x.Id.ToString()));
 }
 
-<div class="text-center ">
+<div class="text-center text-white">
     <h1 class="display-3">@this.ViewData["Title"]</h1>
 </div>
 <hr/>
-<div class="row">
+<div class="row text-white">
     <div class="col-md-10">
         <form asp-controller="Posts" asp-action="Create" method="post">
             <div class="form-group">

@@ -26,7 +26,7 @@ namespace GamersHub.Data.Seeding
                 UserName = "administrator",
                 GamingExperience = GamingExperienceType.Advanced,
                 DiscordUsername = "Admin#1234",
-            }, "asdasd");
+            }, "9j7hgdyw");
 
             await userManager.CreateAsync(
                 new ApplicationUser
@@ -35,7 +35,7 @@ namespace GamersHub.Data.Seeding
                     UserName = "moderator",
                     GamingExperience = GamingExperienceType.Advanced,
                     DiscordUsername = "Mod#1234",
-                }, "asdasd");
+                }, "9j7hgdyw");
 
             await userManager.CreateAsync(
                 new ApplicationUser
@@ -44,7 +44,7 @@ namespace GamersHub.Data.Seeding
                     UserName = "testUser1",
                     GamingExperience = GamingExperienceType.Advanced,
                     DiscordUsername = "Test1#1234",
-                }, "asdasd");
+                }, "9j7hgdyw");
 
             await userManager.CreateAsync(
                 new ApplicationUser
@@ -53,7 +53,7 @@ namespace GamersHub.Data.Seeding
                     UserName = "testUser2",
                     GamingExperience = GamingExperienceType.Advanced,
                     DiscordUsername = "Test2#1234",
-                }, "asdasd");
+                }, "9j7hgdyw");
         }
     }
 }

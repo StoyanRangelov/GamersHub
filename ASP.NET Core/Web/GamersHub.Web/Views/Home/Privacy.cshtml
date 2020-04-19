@@ -17,8 +17,9 @@
         <a asp-controller="Home" asp-action="EditPrivacy" type="submit" class="btn btn-warning btn-lg"> Edit</a>
     </div>
 }
-<h2 style="text-align: center;"><b>@this.ViewData["Title"]</b></h2>
-@Html.Raw(Model.SanitizedContent);
-
-
-
+<h2 class="text-white text-center">
+    <b>@this.ViewData["Title"]</b>
+</h2>
+<div class="container text-white">
+    @Html.Raw(Model.SanitizedContent)
+</div>

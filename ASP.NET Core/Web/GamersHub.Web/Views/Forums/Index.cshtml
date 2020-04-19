@@ -2,7 +2,7 @@
 @using System.Linq
 @model GamersHub.Web.ViewModels.Forums.ForumIndexViewModel
 @{
-    ViewData["Title"] = "All Forums";
+    ViewData["Title"] = "Forums";
     ViewData["Description"] = "Video Game Forums for discussions.";
     ViewData["Controller"] = "Forums";
     ViewData["Action"] = "Index";
@@ -15,7 +15,7 @@
     <a asp-controller="Posts" asp-action="Create" type="submit" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i>&nbsp; New Post</a>
 </div>
 
-<div class="text-center">
+<div class="text-center text-white">
     <h1 class="display-3">@this.ViewData["Title"]</h1>
 </div>
 <hr/>

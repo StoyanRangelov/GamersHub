@@ -11,7 +11,7 @@
 <div class="d-inline-block">
     <a asp-area="Administration" asp-controller="Dashboard" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Back to Dashboard</a>
 </div>
-<div class="text-center ">
+<div class="text-center text-white">
     <h1 class="display-4">@this.ViewData["Title"]</h1>
 </div>
 <hr/>
@@ -31,7 +31,7 @@
     @foreach (var post in Model.Posts
         .OrderByDescending(x => x.RepliesCount))
     {
-        <tr>
+        <tr class="text-white">
             <td>
                 <a asp-area="" asp-controller="Posts" asp-action="@post.Url" class="card-link">@post.ShortName</a>
             </td>

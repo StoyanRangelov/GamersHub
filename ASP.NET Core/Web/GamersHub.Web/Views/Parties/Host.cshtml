@@ -23,14 +23,14 @@
     <a asp-controller="Parties" asp-action="Create" type="submit" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i>&nbsp; New Party</a>
 </div>
 
-<div class="text-center">
+<div class="text-center text-white">
     <h1 class="display-3">@this.ViewData["Title"]</h1>
 </div>
 <hr/>
 
 @if (!Model.UserParties.Any() && Model.CurrentPage == 1)
 {
-    <div class="text-center">
+    <div class="text-center text-white">
         <h2 class="display-4">You are currently not hosting any parties.</h2>
     </div>
 }
@@ -39,7 +39,7 @@ else
     @foreach (var party in Model.UserParties)
     {
         <div class="card">
-            <div class="card-header">
+            <div class="card-header alert alert-success">
                 <span class="float-right"><i class="fas fa-calendar-alt"></i> Created on: <time datetime="@party.CreatedOn"></time></span>
                 @if (party.IsFull)
                 {

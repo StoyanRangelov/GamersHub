@@ -13,14 +13,14 @@
 }
 <br/>
 
-<div class="text-center">
+<div class="text-center text-white">
     <h1 class="display-4">@this.ViewData["Title"]</h1>
 </div>
 <hr/>
 <div class="row row-cols-1 row-cols-md-2">
     <div class="col mb-4">
         <div class="card h-100">
-            <div class="card-header">Administrators</div>
+            <div class="card-header alert alert-success">Administrators</div>
             <div class="card-body">
                 <ul class="list-group list-group-flush">
                     @foreach (var administrator in Model.Administrators)
@@ -33,7 +33,7 @@
     </div>
     <div class="col mb-4">
         <div class="card h-100">
-            <div class="card-header">
+            <div class="card-header alert alert-success">
                 Moderators
                 <a asp-area="Administration" asp-controller="Moderators" asp-action="Index" class="card-link float-right">To Moderators</a>
             </div>
@@ -56,7 +56,7 @@
     </div>
     <div class="col mb-4">
         <div class="card h-100">
-            <div class="card-header">
+            <div class="card-header alert alert-success">
                 Recently Banned Users
                 <a asp-area="Administration" asp-controller="Users" asp-action="Banned" class="card-link float-right">To Banned Users</a>
             </div>
@@ -87,7 +87,7 @@
     </div>
     <div class="col mb-4">
         <div class="card h-100">
-            <div class="card-header">
+            <div class="card-header alert alert-success">
                 Most Active Forum Users
                 <a asp-area="Administration" asp-controller="Users" asp-action="Index" class="card-link float-right">To Users</a>
             </div>
@@ -106,7 +106,7 @@
     </div>
     <div class="col mb-4">
         <div class="card h-100">
-            <div class="card-header">
+            <div class="card-header alert alert-success">
                 Most Active Game Users
                 <a asp-area="Administration" asp-controller="Users" asp-action="Index" class="card-link float-right">To Users</a>
             </div>
@@ -125,7 +125,7 @@
     </div>
     <div class="col mb-4">
             <div class="card h-100">
-                <div class="card-header">
+                <div class="card-header alert alert-success">
                     Most Reviewed Games
                     <a asp-area="Administration" asp-controller="Games" asp-action="Index" class="card-link float-right">To Games</a>
                 </div>
@@ -144,7 +144,7 @@
         </div>
     <div class="col mb-4">
         <div class="card h-100">
-            <div class="card-header">
+            <div class="card-header alert alert-success">
                 Most Popular Forums
                 <a asp-area="Administration" asp-controller="Forums" asp-action="Index" class="card-link float-right">To Forums</a>
             </div>
@@ -163,7 +163,7 @@
     </div>
     <div class="col mb-4">
         <div class="card h-100">
-            <div class="card-header">
+            <div class="card-header alert alert-success">
                 Most Popular Categories
                 <a asp-area="Administration" asp-controller="Categories" asp-action="Index" class="card-link float-right">To Categories</a>
             </div>
@@ -182,7 +182,7 @@
     </div>
     <div class="col mb-4">
         <div class="card h-100">
-            <div class="card-header">
+            <div class="card-header alert alert-success">
                 Most Discussed Posts
                 <a asp-area="Administration" asp-controller="Posts" asp-action="Index" class="card-link float-right">To Posts</a>
             </div>
@@ -201,7 +201,7 @@
     </div>
     <div class="col mb-4">
             <div class="card h-100">
-                <div class="card-header">
+                <div class="card-header alert alert-success">
                     Most Popular Parties
                     <a asp-area="Administration" asp-controller="Parties" asp-action="Index" class="card-link float-right">To Parties</a>
                 </div>

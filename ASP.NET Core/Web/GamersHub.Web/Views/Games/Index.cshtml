@@ -1,6 +1,6 @@
 ﻿@model GamersHub.Web.ViewModels.Games.GameIndexViewModel
 @{
-    ViewData["Title"] = "All Games";
+    ViewData["Title"] = "Games";
     ViewData["Description"] = "User reviews for Video Games.";
     ViewData["Controller"] = "Games";
     ViewData["Action"] = "Index";
@@ -13,7 +13,7 @@
     <a asp-controller="Reviews" asp-action="Create" type="submit" class="btn btn-primary btn-lg"><i class="fa fa-plus"></i>&nbsp; New Review</a>
 </div>
 
-<div class="text-center">
+<div class="text-center text-white">
     <h1 class="display-3">@this.ViewData["Title"]</h1>
 </div>
 <hr/>
