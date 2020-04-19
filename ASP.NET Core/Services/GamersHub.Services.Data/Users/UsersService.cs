@@ -99,7 +99,11 @@ namespace GamersHub.Services.Data.Users
             }
             else
             {
-                query = query.OrderByDescending(x => x.CreatedOn);
+                query = query.OrderByDescending(x => x.Posts.Count)
+                    .ThenByDescending(x => x.Replies.Count)
+                    .ThenByDescending(x => x.Reviews.Count)
+                    .ThenByDescending(x => x.Parties.Count)
+                    .ThenByDescending(x => x.CreatedOn);
             }
 
             return query.Take(5).To<T>().ToList();
@@ -121,7 +125,8 @@ namespace GamersHub.Services.Data.Users
             return user;
         }
 
-        public async Task<string> EditProfileAsync(string id, string discordUsername, GamingExperienceType gamingExperience)
+        public async Task<string> EditProfileAsync(string id, string discordUsername,
+            GamingExperienceType gamingExperience)
         {
             var user = this.usersRepository.All().FirstOrDefault(x => x.Id == id);
             if (user == null)

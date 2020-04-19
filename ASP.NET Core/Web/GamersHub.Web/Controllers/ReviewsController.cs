@@ -57,8 +57,10 @@ namespace GamersHub.Web.Controllers
 
             var gameUrl = this.gamesService.GetUrlById(input.GameId);
 
+            var gameSubTitle = this.gamesService.GetSubTitleById(input.GameId);
+
             this.TempData["InfoMessage"] = "Review created successfully!";
-            return this.RedirectToAction("ByName", "Games", new {name = gameUrl});
+            return this.RedirectToAction("ByName", "Games", new {name = gameUrl, subTitle = gameSubTitle});
         }
 
         public ActionResult Edit(int id)
@@ -112,7 +114,7 @@ namespace GamersHub.Web.Controllers
             }
 
             this.TempData["InfoMessage"] = "Review edited successfully!";
-            return this.RedirectToAction("ByName", "Games", new {name = input.GameUrl});
+            return this.RedirectToAction("ByName", "Games", new {name = input.GameUrl, subTitle = input.GameSubTitle});
         }
 
         public IActionResult Delete(int id)
@@ -159,7 +161,7 @@ namespace GamersHub.Web.Controllers
             }
 
             this.TempData["InfoMessage"] = "Review deleted successfully!";
-            return this.RedirectToAction("ByName", "Games", new {name = input.GameUrl});
+            return this.RedirectToAction("ByName", "Games", new {name = input.GameUrl, subTitle = input.GameSubTitle});
         }
     }
 }

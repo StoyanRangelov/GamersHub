@@ -12,6 +12,8 @@ namespace GamersHub.Services.Data.Games
         /// <returns></returns>
         string GetUrlById(int id);
 
+        string GetSubTitleById(int id);
+
         /// <summary>
         /// Returns a game from the database by the specified game id, otherwise returns null if such a game does not exist
         /// </summary>
@@ -26,7 +28,7 @@ namespace GamersHub.Services.Data.Games
         /// <param name="name"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        T GetByNameUrl<T>(string name);
+        T GetByNameUrl<T>(string name, string subTitle);
 
         /// <summary>
         ///  Returns a number of games from the database, based on the provided take and skip values

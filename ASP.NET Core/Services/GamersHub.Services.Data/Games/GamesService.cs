@@ -31,6 +31,13 @@ namespace GamersHub.Services.Data.Games
             return url;
         }
 
+        public string GetSubTitleById(int id)
+        {
+            var gameSubtitle = this.gamesRepository.All().First(x => x.Id == id).SubTitle;
+
+            return gameSubtitle;
+        }
+
         public T GetById<T>(int id)
         {
             var game = this.gamesRepository.All()
@@ -40,12 +47,11 @@ namespace GamersHub.Services.Data.Games
             return game;
         }
 
-        public T GetByNameUrl<T>(string name)
+        public T GetByNameUrl<T>(string name, string subTitle)
         {
             var normalisedName = this.GetNormalisedName(name);
-
             var game = this.gamesRepository.All()
-                .Where(x => x.Title == normalisedName).To<T>().FirstOrDefault();
+                .Where(x => x.Title == normalisedName && x.SubTitle == subTitle).To<T>().FirstOrDefault();
 
             return game;
         }

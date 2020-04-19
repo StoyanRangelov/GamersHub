@@ -1,6 +1,12 @@
 ﻿using System.Threading.Tasks;
 using GamersHub.Common;
+using GamersHub.Services.Data.Forums;
+using GamersHub.Services.Data.Games;
 using GamersHub.Services.Data.Pages;
+using GamersHub.Services.Data.Parties;
+using GamersHub.Services.Data.Posts;
+using GamersHub.Services.Data.Users;
+using GamersHub.Web.ViewModels.Home;
 using GamersHub.Web.ViewModels.Pages;
 using Microsoft.AspNetCore.Authorization;
 
@@ -13,15 +19,41 @@ namespace GamersHub.Web.Controllers
     public class HomeController : BaseController
     {
         private readonly IPagesService pagesService;
+        private readonly IGamesService gamesService;
+        private readonly IPostsService postsService;
+        private readonly IPartiesService partiesService;
+        private readonly IUsersService usersService;
 
-        public HomeController(IPagesService pagesService)
+        public HomeController(
+            IPagesService pagesService,
+            IGamesService gamesService,
+            IPostsService postsService,
+            IPartiesService partiesService,
+            IUsersService usersService)
         {
             this.pagesService = pagesService;
+            this.gamesService = gamesService;
+            this.postsService = postsService;
+            this.partiesService = partiesService;
+            this.usersService = usersService;
         }
 
         public IActionResult Index()
         {
-            return this.View();
+            var games = this.gamesService.GetAll<GameHomeIndexViewModel>(5);
+            var posts = this.postsService.GetTopFive<PostHomeIndexViewModel>();
+            var parties = this.partiesService.GetTopFive<PartyHomeIndexViewModel>();
+            var users = this.usersService.GetTopFive<UserHomeIndexViewModel>();
+
+            var viewModel = new HomeIndexViewModel
+            {
+                Games = games,
+                Posts = posts,
+                Parties = parties,
+                TopUsers = users,
+            };
+
+            return this.View(viewModel);
         }
 
         public IActionResult Privacy()

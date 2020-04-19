@@ -1,4 +1,5 @@
 ﻿@using GamersHub.Common
+@model GamersHub.Web.ViewModels.Home.HomeIndexViewModel
 @{
     this.ViewData["Title"] = "Home Page";
 }
@@ -11,5 +12,103 @@
 }
 <div class="text-center">
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<hr/>
+
+<div class="card">
+    <div class="card-header alert alert-success text-center text-dark">Top Users</div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+            <th scope="col">User</th>
+            <th scope="col">Joined on</th>
+            <th scope="col">Posts</th>
+            <th scope="col">Replies</th>
+            <th scope="col">Reviews</th>
+            <th scope="col">Parties</th>
+            </thead>
+            <tbody>
+            @foreach (var user in Model.TopUsers)
+            {
+                <tr>
+                    <td>@user.Username</td>
+                    <td>
+                        <time datetime="@user.CreatedOn"></time>
+                    </td>
+                    <td>@user.PostsCount</td>
+                    <td>@user.RepliesCount</td>
+                    <td>
+                        <i class="fas fa-thumbs-up fa-lg text-primary"></i> @user.PositiveReviews
+                        <i class="fas fa-thumbs-down fa-lg text-danger"></i> @user.NegativeReviews
+                    </td>
+                    <td>@user.PartiesCount</td>
+                </tr>
+            }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+<div class="card mt-5">
+    <div class="card-header alert alert-success text-center text-dark">Most Discussed Posts</div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+            <th scope="col">Name</th>
+            <th scope="col">Author</th>
+            <th scope="col">Posted on</th>
+            <th scope="col">Forum</th>
+            <th scope="col">Category</th>
+            <th scope="col">Replies</th>
+            </thead>
+            <tbody>
+            @foreach (var post in Model.Posts)
+            {
+                <tr>
+
+                    <td>
+                        <a asp-area="" asp-controller="Posts" asp-action="@post.Url" class="card-link">@post.ShortName</a>
+                    </td>
+                    <td>@post.UserUsername</td>
+                    <td>
+                        <time datetime="@post.CreatedOn"></time>
+                    </td>
+                    <td>@post.ForumName</td>
+                    <td>@post.CategoryName</td>
+                    <td>@post.RepliesCount</td>
+                </tr>
+            }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+<div class="card mt-5">
+    <div class="card-header alert alert-success text-center text-dark">Most Reviewed Games</div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+            <th scope="col">Title</th>
+            <th scope="col">Reviews</th>
+            <th scope="col"><i class="fas fa-thumbs-up fa-lg text-primary"></i></th>
+            <th scope="col"><i class="fas fa-thumbs-down fa-lg text-danger"></i></th>
+            </thead>
+            <tbody>
+            @foreach (var game in Model.Games)
+            {
+                <tr>
+                    <td>
+                        <a asp-area="" asp-controller="Games" asp-action="@game.Url" asp-route-subTitle="@game.SubTitle" class="card-link">@game.Title @game.SubTitle</a>
+                    </td>
+                    <td>@game.ReviewsCount</td>
+                    <td>@game.PositiveReviews</td>
+                    <td>@game.NegativeReviews</td>
+                </tr>
+            }
+            </tbody>
+
+        </table>
+    </div>
 </div>

@@ -33,7 +33,7 @@ namespace GamersHub.Services.Data.Tests
         [Test]
         public async Task TestGetUrlWorksCorrectly()
         {
-            await this.gameRepository.AddAsync(new Game { Title = "Dota 2"});
+            await this.gameRepository.AddAsync(new Game {Title = "Dota 2"});
             await this.gameRepository.SaveChangesAsync();
 
             var gameUrl = this.gamesService.GetUrlById(1);
@@ -44,9 +44,9 @@ namespace GamersHub.Services.Data.Tests
         [Test]
         public async Task TestGetByIdWorksCorrectly()
         {
-            await this.gameRepository.AddAsync(new Game { Title = "test" });
-            await this.gameRepository.AddAsync(new Game { Title = "Dota 2" });
-            await this.gameRepository.AddAsync(new Game { Title = "test" });
+            await this.gameRepository.AddAsync(new Game {Title = "test"});
+            await this.gameRepository.AddAsync(new Game {Title = "Dota 2"});
+            await this.gameRepository.AddAsync(new Game {Title = "test"});
             await this.gameRepository.SaveChangesAsync();
 
             var game = this.gamesService.GetById<TestGame>(2);
@@ -57,14 +57,16 @@ namespace GamersHub.Services.Data.Tests
         [Test]
         public async Task TestGetByNameUrlWorksCorrectly()
         {
-            await this.gameRepository.AddAsync(new Game { Title = "World of Warcraft: The Burning Crusade"});
+            await this.gameRepository.AddAsync(new Game
+                {Title = "World of Warcraft", SubTitle = "The Burning Crusade"});
             await this.gameRepository.SaveChangesAsync();
 
-            var titleUrl = "World-of-Warcraft-The-Burning-Crusade";
+            var titleUrl = "World-of-Warcraft";
 
-            var game = this.gamesService.GetByNameUrl<TestGame>(titleUrl);
+            var game = this.gamesService.GetByNameUrl<TestGame>(titleUrl, "The Burning Crusade");
 
-            Assert.AreEqual("World of Warcraft: The Burning Crusade", game.Title);
+            Assert.AreEqual("World of Warcraft", game.Title);
+            Assert.AreEqual("The Burning Crusade", game.SubTitle);
         }
 
         [Test]
@@ -72,7 +74,7 @@ namespace GamersHub.Services.Data.Tests
         {
             for (int i = 0; i < 3; i++)
             {
-                await this.gameRepository.AddAsync(new Game { Title = "skip" });
+                await this.gameRepository.AddAsync(new Game {Title = "skip"});
             }
 
             for (int i = 0; i < 5; i++)
@@ -84,7 +86,7 @@ namespace GamersHub.Services.Data.Tests
             await this.gameRepository.AddAsync(new Game {Title = "fail"});
             await this.gameRepository.SaveChangesAsync();
 
-            var games = this.gamesService.GetAll<TestGame>(5,3).ToList();
+            var games = this.gamesService.GetAll<TestGame>(5, 3).ToList();
 
             Assert.AreEqual(5, games.Count);
 
@@ -139,7 +141,7 @@ namespace GamersHub.Services.Data.Tests
             Assert.AreEqual("test", game.Description);
             Assert.AreEqual("test", game.ImgUrl);
         }
-        
+
         [Test]
         public async Task TestDeleteAsyncReturnsNullWithInvalidId()
         {
@@ -177,6 +179,7 @@ namespace GamersHub.Services.Data.Tests
             {
                 await this.gameRepository.AddAsync(new Game());
             }
+
             await this.gameRepository.SaveChangesAsync();
 
             var count = this.gamesService.GetCount();
@@ -188,5 +191,7 @@ namespace GamersHub.Services.Data.Tests
     public class TestGame : IMapFrom<Game>
     {
         public string Title { get; set; }
+
+        public string SubTitle { get; set; }
     }
 }

@@ -57,9 +57,9 @@ namespace GamersHub.Web.Controllers
             return this.View(viewModel);
         }
 
-        public IActionResult ByName(string name, int id = 1)
+        public IActionResult ByName(string name, string subtitle, int id = 1)
         {
-            var viewModel = this.gamesService.GetByNameUrl<GameByIdViewModel>(name);
+            var viewModel = this.gamesService.GetByNameUrl<GameByIdViewModel>(name, subtitle);
 
             if (viewModel == null)
             {
@@ -71,17 +71,13 @@ namespace GamersHub.Web.Controllers
 
             var count = this.reviewsService.GetCountByGameId(viewModel.Id);
 
-            var pagination = new PaginationViewModel();
-
-            pagination.PagesCount = (int)Math.Ceiling((double) count / ReviewsPerPage);
-            if (pagination.PagesCount == 0)
+            viewModel.PagesCount = (int)Math.Ceiling((double) count / ReviewsPerPage);
+            if (viewModel.PagesCount == 0)
             {
-                pagination.PagesCount = 1;
+                viewModel.PagesCount = 1;
             }
 
-            pagination.CurrentPage = id;
-
-            viewModel.Pagination = pagination;
+            viewModel.CurrentPage = id;
 
             return this.View(viewModel);
         }
@@ -138,7 +134,7 @@ namespace GamersHub.Web.Controllers
             }
 
             this.TempData["InfoMessage"] = "Game edited successfully!";
-            return this.RedirectToAction(nameof(this.ByName), new { name = input.Url});
+            return this.RedirectToAction(nameof(this.ByName), new { name = input.Url, subTitle = input.SubTitle});
         }
     }
 }
