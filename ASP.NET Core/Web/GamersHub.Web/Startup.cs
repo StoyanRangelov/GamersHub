@@ -122,7 +122,6 @@ namespace GamersHub.Web
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IForumCategoriesService, ForumCategoriesService>();
             services.AddTransient<IPostsService, PostsService>();
             services.AddTransient<IForumsService, ForumsService>();

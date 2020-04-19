@@ -1,4 +1,7 @@
-﻿namespace Sandbox
+﻿using GamersHub.Services.Data.Categories;
+using GamersHub.Services.Data.Pages;
+
+namespace Sandbox
 {
     using System;
     using System.Diagnostics;
@@ -52,8 +55,8 @@
         {
             var sw = Stopwatch.StartNew();
 
-            var settingsService = serviceProvider.GetService<ISettingsService>();
-            Console.WriteLine($"Count of settings: {settingsService.GetCount()}");
+            var categoriesService = serviceProvider.GetService<ICategoriesService>();
+            Console.WriteLine($"Count of categories: {categoriesService.GetCount()}");
 
             Console.WriteLine(sw.Elapsed);
             return await Task.FromResult(0);
@@ -81,7 +84,7 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
+            services.AddTransient<ICategoriesService, CategoriesService>();
         }
     }
 }
