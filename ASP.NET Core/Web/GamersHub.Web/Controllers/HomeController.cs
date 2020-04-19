@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using GamersHub.Common;
 using GamersHub.Services.Data.Forums;
 using GamersHub.Services.Data.Games;
@@ -9,6 +10,8 @@ using GamersHub.Services.Data.Users;
 using GamersHub.Web.ViewModels.Home;
 using GamersHub.Web.ViewModels.Pages;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 
 namespace GamersHub.Web.Controllers
 {
@@ -23,35 +26,48 @@ namespace GamersHub.Web.Controllers
         private readonly IPostsService postsService;
         private readonly IPartiesService partiesService;
         private readonly IUsersService usersService;
+        private readonly IDistributedCache distributedCache;
 
         public HomeController(
             IPagesService pagesService,
             IGamesService gamesService,
             IPostsService postsService,
             IPartiesService partiesService,
-            IUsersService usersService)
+            IUsersService usersService,
+            IDistributedCache distributedCache)
         {
             this.pagesService = pagesService;
             this.gamesService = gamesService;
             this.postsService = postsService;
             this.partiesService = partiesService;
             this.usersService = usersService;
+            this.distributedCache = distributedCache;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var games = this.gamesService.GetAll<GameHomeIndexViewModel>(5);
-            var posts = this.postsService.GetTopFive<PostHomeIndexViewModel>();
-            var parties = this.partiesService.GetTopFive<PartyHomeIndexViewModel>();
-            var users = this.usersService.GetTopFive<UserHomeIndexViewModel>();
-
-            var viewModel = new HomeIndexViewModel
+            var data = await this.distributedCache.GetStringAsync("HomeIndexViewModel");
+            if (data == null)
             {
-                Games = games,
-                Posts = posts,
-                Parties = parties,
-                TopUsers = users,
-            };
+                var games = this.gamesService.GetAll<GameHomeIndexViewModel>(5);
+                var posts = this.postsService.GetTopFive<PostHomeIndexViewModel>();
+                var parties = this.partiesService.GetTopFive<PartyHomeIndexViewModel>();
+                var users = this.usersService.GetTopFive<UserHomeIndexViewModel>();
+                var homeIndexViewModel = new HomeIndexViewModel
+                {
+                    Games = games,
+                    Posts = posts,
+                    Parties = parties,
+                    TopUsers = users,
+                };
+                data = JsonConvert.SerializeObject(homeIndexViewModel);
+                await this.distributedCache.SetStringAsync("HomeIndexViewModel", data, new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5),
+                });
+            }
+
+            var viewModel = JsonConvert.DeserializeObject<HomeIndexViewModel>(data);
 
             return this.View(viewModel);
         }
@@ -95,7 +111,8 @@ namespace GamersHub.Web.Controllers
 
         public IActionResult HttpError(int statusCode)
         {
-            return this.View(new HttpErrorViewModel { StatusCode = statusCode, Message = GlobalConstants.HttpErrorMessage});
+            return this.View(new HttpErrorViewModel
+                {StatusCode = statusCode, Message = GlobalConstants.HttpErrorMessage});
         }
 
 

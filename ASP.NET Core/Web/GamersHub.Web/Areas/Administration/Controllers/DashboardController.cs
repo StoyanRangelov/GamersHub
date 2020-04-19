@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using GamersHub.Common;
 using GamersHub.Data.Models;
 using GamersHub.Services.Data.Categories;
@@ -10,6 +12,8 @@ using GamersHub.Services.Data.Users;
 using GamersHub.Services.Mapping;
 using GamersHub.Web.ViewModels.Administration.Users;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 
 namespace GamersHub.Web.Areas.Administration.Controllers
 {
@@ -25,6 +29,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         private readonly IUsersService usersService;
         private readonly IGamesService gamesService;
         private readonly IPartiesService partiesService;
+        private readonly IDistributedCache distributedCache;
 
         public DashboardController(
             IForumsService forumsService,
@@ -32,7 +37,8 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             IPostsService postsService,
             IUsersService usersService,
             IGamesService gamesService,
-            IPartiesService partiesService)
+            IPartiesService partiesService,
+            IDistributedCache distributedCache)
         {
             this.forumsService = forumsService;
             this.categoriesService = categoriesService;
@@ -40,53 +46,69 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             this.usersService = usersService;
             this.gamesService = gamesService;
             this.partiesService = partiesService;
+            this.distributedCache = distributedCache;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var games = this.gamesService
-                .GetAll<GameDashboardViewModel>(5);
-
-            var forums = this.forumsService
-                .GetAll<ForumDashboardViewModel>(5);
-
-            var categories = this.categoriesService
-                .GetAll<CategoryDashboardViewModel>(5);
-
-            var posts = this.postsService
-                .GetTopFive<PostDashboardViewModel>();
-
-            var parties = this.partiesService
-                .GetTopFive<PartyDashboardViewModel>();
-
-            var forumUsers = this.usersService
-                .GetTopFive<ForumUserDashboardViewModel>(GlobalConstants.Posts);
-
-            var gameUsers = this.usersService
-                .GetTopFive<GameUserDashboardViewModel>(GlobalConstants.Reviews);
-
-            var bannedUsers = this.usersService
-                .GetTopFive<UserBannedDashboardViewModel>(GlobalConstants.Banned);
-
-            var administrators = this.usersService
-                .GetAllByRole<UserInRoleViewModel>(GlobalConstants.AdministratorRoleName);
-
-            var moderators = this.usersService
-                .GetAllByRole<UserInRoleViewModel>(GlobalConstants.ModeratorRoleName);
-
-            var viewModel = new IndexViewModel
+            var data = await this.distributedCache.GetStringAsync("AdministrationDashboardViewModel");
+            if (data == null)
             {
-                Games = games,
-                Forums = forums,
-                Categories = categories,
-                Posts = posts,
-                Parties = parties,
-                ForumUsers = forumUsers,
-                GameUsers = gameUsers,
-                BannedUsers = bannedUsers,
-                Administrators = administrators,
-                Moderators = moderators,
-            };
+                var games = this.gamesService
+                    .GetAll<GameDashboardViewModel>(5);
+
+                var forums = this.forumsService
+                    .GetAll<ForumDashboardViewModel>(5);
+
+                var categories = this.categoriesService
+                    .GetAll<CategoryDashboardViewModel>(5);
+
+                var posts = this.postsService
+                    .GetTopFive<PostDashboardViewModel>();
+
+                var parties = this.partiesService
+                    .GetTopFive<PartyDashboardViewModel>();
+
+                var forumUsers = this.usersService
+                    .GetTopFive<ForumUserDashboardViewModel>(GlobalConstants.Posts);
+
+                var gameUsers = this.usersService
+                    .GetTopFive<GameUserDashboardViewModel>(GlobalConstants.Reviews);
+
+                var bannedUsers = this.usersService
+                    .GetTopFive<UserBannedDashboardViewModel>(GlobalConstants.Banned);
+
+                var administrators = this.usersService
+                    .GetAllByRole<UserInRoleViewModel>(GlobalConstants.AdministratorRoleName);
+
+                var moderators = this.usersService
+                    .GetAllByRole<UserInRoleViewModel>(GlobalConstants.ModeratorRoleName);
+
+                var administrationDashboardViewModel = new IndexViewModel
+                {
+                    Games = games,
+                    Forums = forums,
+                    Categories = categories,
+                    Posts = posts,
+                    Parties = parties,
+                    ForumUsers = forumUsers,
+                    GameUsers = gameUsers,
+                    BannedUsers = bannedUsers,
+                    Administrators = administrators,
+                    Moderators = moderators,
+                };
+                data = JsonConvert.SerializeObject(administrationDashboardViewModel);
+                await this.distributedCache.SetStringAsync(
+                    "AdministrationDashboardViewModel",
+                    data,
+                    new DistributedCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(3),
+                    });
+            }
+
+            var viewModel = JsonConvert.DeserializeObject<IndexViewModel>(data);
+
 
             return this.View(viewModel);
         }
