@@ -83,14 +83,14 @@ namespace GamersHub.Services.Data.Categories
             return category.Id;
         }
 
-        public async Task<int> EditAsync(int id, string name, string description, int[] forumIds, bool[] areSelected)
+        public async Task<int?> EditAsync(int id, string name, string description, int[] forumIds, bool[] areSelected)
         {
             var category = this.categoriesRepository.All()
                 .FirstOrDefault(x => x.Id == id);
 
             if (category == null)
             {
-                return -1;
+                return null;
             }
 
             if (category.Name != name)
@@ -129,7 +129,7 @@ namespace GamersHub.Services.Data.Categories
             return category.Id;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<int?> DeleteAsync(int id)
         {
             var category = this.categoriesRepository.All()
                 .Include(x => x.CategoryForums)
@@ -139,7 +139,7 @@ namespace GamersHub.Services.Data.Categories
 
             if (category == null)
             {
-                return;
+                return null;
             }
 
             foreach (var post in category.Posts)
@@ -164,6 +164,8 @@ namespace GamersHub.Services.Data.Categories
             }
 
             await this.forumCategoriesRepository.SaveChangesAsync();
+
+            return category.Id;
         }
 
         public string GetNormalisedName(string name)

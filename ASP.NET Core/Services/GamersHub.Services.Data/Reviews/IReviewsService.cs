@@ -36,22 +36,22 @@ namespace GamersHub.Services.Data.Reviews
         Task<int> CreateAsync(int gameId, bool isPositive, string content, string userId);
 
         /// <summary>
-        /// Edits a review with the given id and updates it with the given content and is positive value, returns 0 if such a review does not exist, otherwise returns the review id
+        /// Edits a review with the given id and updates it with the given content and is positive value, returns null if such a review does not exist, otherwise returns the review id
         /// </summary>
         /// <param name="id"></param>
         /// <param name="content"></param>
         /// <param name="isPositive"></param>
         /// <returns></returns>
 
-        Task<int> EditAsync(int id, string content, bool isPositive);
+        Task<int?> EditAsync(int id, string content, bool isPositive);
         
         /// <summary>
-        /// Deletes the review with the given id
+        /// Deletes the review with the given id, returns null if such a review does not exist, otherwise returns the review id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
 
-        Task DeleteAsync(int id);
+        Task<int?> DeleteAsync(int id);
         
         /// <summary>
         /// returns the count of all reviews with the given game id from the database

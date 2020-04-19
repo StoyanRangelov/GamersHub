@@ -486,6 +486,34 @@ namespace GamersHub.Services.Data.Tests
                 Assert.AreEqual("test", userTest.Username);
             }
         }
+
+        [Test]
+        public async Task TestEditProfileAsyncReturnsNullWithInvalidId()
+        {
+            var userId = await this.usersService.EditProfileAsync("id", "test", GamingExperienceType.Advanced);
+
+            Assert.Null(userId);
+        }
+
+        [Test]
+        public async Task TestEdiProfileAssyncWorksCorrectly()
+        {
+            await this.usersRepository.AddAsync(new ApplicationUser
+            {
+                Id = "id",
+                DiscordUsername = "discord",
+                GamingExperience = GamingExperienceType.Beginner,
+            });
+            await this.usersRepository.SaveChangesAsync();
+
+            var userId = await this.usersService.EditProfileAsync("id", "test", GamingExperienceType.Master);
+
+            var user = await this.usersRepository.All().FirstAsync();
+
+            Assert.AreEqual("id", userId);
+            Assert.AreEqual("test", user.DiscordUsername);
+            Assert.AreEqual(GamingExperienceType.Master, user.GamingExperience);
+        }
     }
 
     public class UserTest : IMapFrom<ApplicationUser>

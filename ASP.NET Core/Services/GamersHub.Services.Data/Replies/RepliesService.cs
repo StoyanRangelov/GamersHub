@@ -52,14 +52,14 @@ namespace GamersHub.Services.Data.Replies
             return reply.Id;
         }
 
-        public async Task<int> EditAsync(int id, string content)
+        public async Task<int?> EditAsync(int id, string content)
         {
             var reply = this.repliesRepository.All()
                 .FirstOrDefault(x => x.Id == id);
 
             if (reply == null)
             {
-                return 0;
+                return null;
             }
 
             reply.Content = content;
@@ -70,13 +70,19 @@ namespace GamersHub.Services.Data.Replies
             return reply.Id;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<int?> DeleteAsync(int id)
         {
             var reply = this.repliesRepository.All()
                 .FirstOrDefault(x => x.Id == id);
+            if (reply == null)
+            {
+                return null;
+            }
 
             this.repliesRepository.Delete(reply);
             await this.repliesRepository.SaveChangesAsync();
+
+            return reply.Id;
         }
 
         public int GetCountByPostId(int postId)

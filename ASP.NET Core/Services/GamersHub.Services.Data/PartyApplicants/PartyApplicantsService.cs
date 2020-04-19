@@ -21,7 +21,7 @@ namespace GamersHub.Services.Data.PartyApplicants
             this.partiesRepository = partiesRepository;
         }
 
-        public async Task<int> ApproveAsync(int partyId, string applicantId)
+        public async Task<int?> ApproveAsync(int partyId, string applicantId)
         {
             var party = this.partiesRepository.All()
                 .Include(x => x.PartyApplicants)
@@ -31,7 +31,7 @@ namespace GamersHub.Services.Data.PartyApplicants
 
             if (partyApplication == null)
             {
-                return 0;
+                return null;
             }
 
             partyApplication.ApplicationStatus = ApplicationStatusType.Approved;
@@ -50,14 +50,14 @@ namespace GamersHub.Services.Data.PartyApplicants
             return party.Id;
         }
 
-        public async Task<int> DeclineAsync(int partyId, string applicantId)
+        public async Task<int?> DeclineAsync(int partyId, string applicantId)
         {
             var partyApplication = this.partyApplicantsRepository.All()
                 .FirstOrDefault(x => x.PartyId == partyId && x.ApplicantId == applicantId);
 
             if (partyApplication == null)
             {
-                return 0;
+                return null;
             }
 
             partyApplication.ApplicationStatus = ApplicationStatusType.Declined;
@@ -68,14 +68,14 @@ namespace GamersHub.Services.Data.PartyApplicants
             return partyId;
         }
 
-        public async Task<int> CancelApplicationAsync(int partyId, string applicantId)
+        public async Task<int?> CancelApplicationAsync(int partyId, string applicantId)
         {
             var partyApplication = this.partyApplicantsRepository.All()
                 .FirstOrDefault(x => x.PartyId == partyId && x.ApplicantId == applicantId);
 
             if (partyApplication == null)
             {
-                return 0;
+                return null;
             }
 
             var party = this.partiesRepository.All()

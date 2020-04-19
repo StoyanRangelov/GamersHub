@@ -28,7 +28,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         public IActionResult Index(int id = 1)
         {
             var categories = this.categoriesService
-                .GetAll<CategoryViewModel>( CategoriesPerPage, (id - 1) * CategoriesPerPage);
+                .GetAll<CategoryViewModel>(CategoriesPerPage, (id - 1) * CategoriesPerPage);
 
             var viewModel = new CategoryIndexViewModel {Categories = categories};
 
@@ -114,9 +114,14 @@ namespace GamersHub.Web.Areas.Administration.Controllers
                 return this.View(input);
             }
 
-            var categoryId = await this.categoriesService.EditAsync(input.Id, input.Category.Name, input.Category.Description, input.ForumIds, input.AreSelected);
+            var categoryId = await this.categoriesService.EditAsync(
+                input.Id,
+                input.Category.Name,
+                input.Category.Description,
+                input.ForumIds,
+                input.AreSelected);
 
-            if (categoryId == -1)
+            if (categoryId == null)
             {
                 return this.NotFound();
             }
@@ -159,7 +164,11 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(CategoryDeleteViewModel input)
         {
-            await this.categoriesService.DeleteAsync(input.Id);
+            var categoryId = await this.categoriesService.DeleteAsync(input.Id);
+            if (categoryId == null)
+            {
+                return this.NotFound();
+            }
 
             this.TempData["InfoMessage"] = "Category deleted successfully!";
             return this.RedirectToAction(nameof(this.Index));

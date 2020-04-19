@@ -97,7 +97,7 @@ namespace GamersHub.Web.Areas.Identity.Pages.Account.Manage
             }
 
             var id = await _usersService.EditProfileAsync(user.Id, Input.DiscordUsername, Input.GamingExperience);
-            if (id == GlobalConstants.NotFound)
+            if (id == null)
             {
                 return this.NotFound();
             }

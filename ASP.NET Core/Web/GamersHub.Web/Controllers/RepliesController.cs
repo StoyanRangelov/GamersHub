@@ -111,7 +111,7 @@ namespace GamersHub.Web.Controllers
 
             var replyId = await this.repliesService.EditAsync(input.Id, input.Content);
 
-            if (replyId == 0)
+            if (replyId == null)
             {
                 return this.NotFound();
             }
@@ -157,10 +157,14 @@ namespace GamersHub.Web.Controllers
                 }
             }
 
-            await this.repliesService.DeleteAsync(input.ReplyId);
+            var replyId = await this.repliesService.DeleteAsync(input.ReplyId);
+            if (replyId == null)
+            {
+                return this.NotFound();
+            }
 
             this.TempData["InfoMessage"] = "Reply deleted successfully!";
-            return this.RedirectToAction("ByName", "Posts", new { name = input.PostUrl});
+            return this.RedirectToAction("ByName", "Posts", new {name = input.PostUrl});
         }
     }
 }

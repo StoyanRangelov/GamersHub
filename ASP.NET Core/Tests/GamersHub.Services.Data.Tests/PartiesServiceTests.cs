@@ -229,15 +229,15 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
-        public async Task TestApplyAsyncReturnsZeroIfPartyDoesntExist()
+        public async Task TestApplyAsyncReturnsNullIfPartyDoesntExist()
         {
             var partyId = await this.partiesService.ApplyAsync(1, "userId");
 
-            Assert.Zero(partyId);
+            Assert.Null(partyId);
         }
 
         [Test]
-        public async Task TestApplyAsyncReturnsMinusOneIfApplicationAlreadyExists()
+        public async Task TestApplyAsyncReturnsZeroIfApplicationAlreadyExists()
         {
             await this.partiesRepository.AddAsync(new Party
             {
@@ -247,7 +247,7 @@ namespace GamersHub.Services.Data.Tests
 
             var partyId = await this.partiesService.ApplyAsync(1, "userId");
 
-            Assert.AreEqual(-1, partyId);
+            Assert.Zero((int)partyId);
         }
 
         [Test]
@@ -273,11 +273,11 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
-        public async Task TestEditAsyncReturnsZeroIfPartyDoesNotExist()
+        public async Task TestEditAsyncReturnsNullIfPartyDoesNotExist()
         {
             var partyId = await this.partiesService.EditAsync(1, "test", "test", "test");
 
-            Assert.Zero(partyId);
+            Assert.Null(partyId);
         }
 
         [Test]
@@ -302,6 +302,14 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
+        public async Task TestDeleteAsyncReturnsNullWithInvalidId()
+        {
+            var partyId = await this.partiesService.DeleteAsync(1);
+
+            Assert.Null(partyId);
+        }
+
+        [Test]
         public async Task TestDeleteAsyncWorksCorrectly()
         {
             await this.partiesRepository.AddAsync(new Party
@@ -315,10 +323,11 @@ namespace GamersHub.Services.Data.Tests
             });
             await this.partiesRepository.SaveChangesAsync();
 
-            await this.partiesService.DeleteAsync(1);
+            var partyId = await this.partiesService.DeleteAsync(1);
 
             var party = await this.partiesRepository.AllWithDeleted().FirstAsync();
 
+            Assert.AreEqual(1, partyId);
             Assert.IsTrue(party.IsDeleted);
             Assert.IsEmpty(party.PartyApplicants);
         }

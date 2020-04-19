@@ -23,7 +23,7 @@ namespace GamersHub.Services.Data.Categories
         IEnumerable<T> GetAllMissingByForumId<T>(int id);
 
         /// <summary>
-        /// Returns a category by the specified id, otherwise returns null if such a category does not exist
+        /// Returns a category by the specified id, returns null if such a category does not exist
         /// </summary>
         /// <param name="id"></param>
         /// <typeparam name="T"></typeparam>
@@ -39,7 +39,7 @@ namespace GamersHub.Services.Data.Categories
         Task<int> CreateAsync(string name, string description);
 
         /// <summary>
-        /// Edits a category by the given id and updates it with the given name, description and forums to include in it, returns -1 if the category does not exist, returns 0 if the category name is already taken, otherwise if successful returns the category id
+        /// Edits a category by the given id and updates it with the given name, description and forums to include in it, returns null if the category does not exist, returns 0 if the category name is already taken, otherwise if successful returns the category id
         /// </summary>
         /// <param name="id"></param>
         /// <param name="name"></param>
@@ -48,15 +48,15 @@ namespace GamersHub.Services.Data.Categories
         /// <param name="areSelected"></param>
         /// <returns></returns>
 
-        Task<int> EditAsync(int id, string name, string description, int[] forumIds, bool[] areSelected);
+        Task<int?> EditAsync(int id, string name, string description, int[] forumIds, bool[] areSelected);
 
         /// <summary>
-        /// Deletes the category with the given id and all of its relations
+        /// Deletes the category with the given id and all of its relations, returns null if the category does not exist, returns category id if successful
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
 
-        Task DeleteAsync(int id);
+        Task<int?> DeleteAsync(int id);
 
         /// <summary>
         /// Returns the normalised version of the provided category name after comparing it to all other category names through the UrlParser

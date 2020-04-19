@@ -53,14 +53,14 @@ namespace GamersHub.Services.Data.Reviews
             return review.Id;
         }
 
-        public async Task<int> EditAsync(int id, string content, bool isPositive)
+        public async Task<int?> EditAsync(int id, string content, bool isPositive)
         {
             var review = this.reviewsRepository.All()
                 .FirstOrDefault(x => x.Id == id);
 
             if (review == null)
             {
-                return 0;
+                return null;
             }
 
             review.Content = content;
@@ -72,13 +72,19 @@ namespace GamersHub.Services.Data.Reviews
             return review.Id;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<int?> DeleteAsync(int id)
         {
             var review = this.reviewsRepository.All()
                 .FirstOrDefault(x => x.Id == id);
+            if (review == null)
+            {
+                return null;
+            }
 
             this.reviewsRepository.Delete(review);
             await this.reviewsRepository.SaveChangesAsync();
+
+            return review.Id;
         }
 
         public int GetCountByGameId(int gameId)

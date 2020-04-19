@@ -31,11 +31,11 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
-        public async Task TestApproveAsyncReturnsZeroIfPartyOrApplicantDoesNotExist()
+        public async Task TestApproveAsyncReturnsNullIfPartyOrApplicantDoesNotExist()
         {
             var partyId = await this.partyApplicantsService.ApproveAsync(1, "id");
 
-            Assert.AreEqual(0, partyId);
+            Assert.Null(partyId);
         }
 
         [Test]
@@ -92,11 +92,11 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
-        public async Task TestDeclineAsyncReturnsZeroWhenPartyOrApplicantDoesNotExist()
+        public async Task TestDeclineAsyncReturnsNullWhenPartyOrApplicantDoesNotExist()
         {
             var partyId = await this.partyApplicantsService.DeclineAsync(1, "id");
 
-            Assert.Zero(partyId);
+            Assert.Null(partyId);
         }
 
         [Test]
@@ -118,11 +118,11 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
-        public async Task TestCancelApplicationAsyncReturnsZeroIfApplicationDoesNotExist()
+        public async Task TestCancelApplicationAsyncReturnsNullIfApplicationDoesNotExist()
         {
             var partyId = await this.partyApplicantsService.CancelApplicationAsync(1, "id");
 
-            Assert.Zero(partyId);
+            Assert.Null(partyId);
         }
 
         [Test]

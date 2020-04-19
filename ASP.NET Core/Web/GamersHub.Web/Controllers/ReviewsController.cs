@@ -21,7 +21,7 @@ namespace GamersHub.Web.Controllers
 
         public ReviewsController(
             IGamesService gamesService,
-            IReviewsService reviewsService) 
+            IReviewsService reviewsService)
         {
             this.gamesService = gamesService;
             this.reviewsService = reviewsService;
@@ -58,7 +58,7 @@ namespace GamersHub.Web.Controllers
             var gameUrl = this.gamesService.GetUrlById(input.GameId);
 
             this.TempData["InfoMessage"] = "Review created successfully!";
-            return this.RedirectToAction("ByName", "Games", new { name = gameUrl});
+            return this.RedirectToAction("ByName", "Games", new {name = gameUrl});
         }
 
         public ActionResult Edit(int id)
@@ -106,13 +106,13 @@ namespace GamersHub.Web.Controllers
 
             var reviewId = await this.reviewsService.EditAsync(input.Id, input.Content, input.IsPositive);
 
-            if (reviewId == 0)
+            if (reviewId == null)
             {
                 return this.NotFound();
             }
 
             this.TempData["InfoMessage"] = "Review edited successfully!";
-            return this.RedirectToAction("ByName", "Games", new { name = input.GameUrl});
+            return this.RedirectToAction("ByName", "Games", new {name = input.GameUrl});
         }
 
         public IActionResult Delete(int id)
@@ -152,10 +152,14 @@ namespace GamersHub.Web.Controllers
                 }
             }
 
-            await this.reviewsService.DeleteAsync(input.ReviewId);
+            var reviewId = await this.reviewsService.DeleteAsync(input.ReviewId);
+            if (reviewId == null)
+            {
+                return this.NotFound();
+            }
 
             this.TempData["InfoMessage"] = "Review deleted successfully!";
-            return this.RedirectToAction("ByName", "Games", new { name = input.GameUrl});
+            return this.RedirectToAction("ByName", "Games", new {name = input.GameUrl});
         }
     }
 }

@@ -92,7 +92,7 @@ namespace GamersHub.Services.Data.Parties
             return party.Id;
         }
 
-        public async Task<int> ApplyAsync(int partyId, string userId)
+        public async Task<int?> ApplyAsync(int partyId, string userId)
         {
             var party = this.partiesRepository.All()
                 .Include(x => x.PartyApplicants)
@@ -100,7 +100,7 @@ namespace GamersHub.Services.Data.Parties
 
             if (party == null)
             {
-                return 0;
+                return null;
             }
 
             var applicant = party.PartyApplicants
@@ -108,7 +108,7 @@ namespace GamersHub.Services.Data.Parties
 
             if (applicant != null)
             {
-                return -1;
+                return 0;
             }
 
             var partyApplicant = new PartyApplicant
@@ -125,14 +125,14 @@ namespace GamersHub.Services.Data.Parties
             return partyId;
         }
 
-        public async Task<int> EditAsync(int id, string game, string activity, string description)
+        public async Task<int?> EditAsync(int id, string game, string activity, string description)
         {
             var party = this.partiesRepository.All()
                 .FirstOrDefault(x => x.Id == id);
 
             if (party == null)
             {
-                return 0;
+                return null;
             }
 
             party.Game = game;
@@ -145,7 +145,7 @@ namespace GamersHub.Services.Data.Parties
             return party.Id;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<int?> DeleteAsync(int id)
         {
             var party = this.partiesRepository.All()
                 .Include(x => x.PartyApplicants)
@@ -153,7 +153,7 @@ namespace GamersHub.Services.Data.Parties
 
             if (party == null)
             {
-                return;
+                return null;
             }
 
             this.partiesRepository.Delete(party);
@@ -165,6 +165,8 @@ namespace GamersHub.Services.Data.Parties
             }
 
             await this.partyApplicantsRepository.SaveChangesAsync();
+
+            return party.Id;
         }
     }
 }

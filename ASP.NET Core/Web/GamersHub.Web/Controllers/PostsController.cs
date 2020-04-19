@@ -105,7 +105,7 @@ namespace GamersHub.Web.Controllers
                 inputModel.Content,
                 userId);
 
-            if (postId == 0)
+            if (postId == null)
             {
                 return this.NotFound();
             }
@@ -158,7 +158,7 @@ namespace GamersHub.Web.Controllers
 
             var postId = await this.postsService.EditAsync(input.Id, input.Name, input.Content);
 
-            if (postId == 0)
+            if (postId == null)
             {
                 return this.NotFound();
             }
@@ -180,7 +180,11 @@ namespace GamersHub.Web.Controllers
         [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
         public async Task<IActionResult> Delete(PostDeleteInputModel input)
         {
-            await this.postsService.DeleteAsync(input.PostId);
+           var postId = await this.postsService.DeleteAsync(input.PostId);
+           if (postId == null)
+           {
+               return this.NotFound();
+           }
 
             this.TempData["InfoMessage"] = "Post deleted successfully!";
             return this.Redirect("/Administration/Posts/Index");

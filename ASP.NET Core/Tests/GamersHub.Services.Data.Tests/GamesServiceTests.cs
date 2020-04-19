@@ -110,11 +110,11 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
-        public async Task TestEditAsyncReturnsZeroWhenInvalidGameIdIsGiven()
+        public async Task TestEditAsyncReturnsNullWhenInvalidGameIdIsGiven()
         {
             var gameId = await this.gamesService.EditAsync(1, "test", "test", "test", "test");
 
-            Assert.Zero(gameId);
+            Assert.Null(gameId);
         }
 
         [Test]
@@ -139,6 +139,14 @@ namespace GamersHub.Services.Data.Tests
             Assert.AreEqual("test", game.Description);
             Assert.AreEqual("test", game.ImgUrl);
         }
+        
+        [Test]
+        public async Task TestDeleteAsyncReturnsNullWithInvalidId()
+        {
+            var gameId = await this.gamesService.DeleteAsync(1);
+
+            Assert.Null(gameId);
+        }
 
         [Test]
         public async Task TestDeleteAsyncWorksCorrectly()
@@ -149,10 +157,11 @@ namespace GamersHub.Services.Data.Tests
             });
             await this.gameRepository.SaveChangesAsync();
 
-            await this.gamesService.DeleteAsync(1);
+            var gameId = await this.gamesService.DeleteAsync(1);
 
             var game = await this.gameRepository.AllWithDeleted().FirstAsync();
 
+            Assert.AreEqual(1, gameId);
             Assert.IsTrue(game.IsDeleted);
 
             foreach (var gameReview in game.Reviews)

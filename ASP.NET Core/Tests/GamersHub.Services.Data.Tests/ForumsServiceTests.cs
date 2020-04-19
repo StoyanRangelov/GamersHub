@@ -156,15 +156,15 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
-        public async Task TestEditAsyncReturnsMinusOneIfForumDoesNotExist()
+        public async Task TestEditAsyncReturnsNullIfForumDoesNotExist()
         {
             var forumId = await this.forumsService.EditAsync(1, "forum", null, null);
 
-            Assert.AreEqual(-1, forumId);
+            Assert.Null(forumId);
         }
 
         [Test]
-        public async Task TestEditAsyncReturns0IfForumWithTheGivenNameAlreadyExists()
+        public async Task TestEditAsyncReturnsZeroIfForumWithTheGivenNameAlreadyExists()
         {
             await this.forumsRepository.AddAsync(new Forum {Name = "forum"});
             await this.forumsRepository.AddAsync(new Forum {Name = "test forum"});
@@ -172,7 +172,7 @@ namespace GamersHub.Services.Data.Tests
 
             var forumId = await this.forumsService.EditAsync(1, "test forum", null, null);
 
-            Assert.Zero(forumId);
+            Assert.Zero((int)forumId);
         }
 
         [Test]
@@ -208,6 +208,14 @@ namespace GamersHub.Services.Data.Tests
                 Assert.AreEqual(1, forumCategory.CategoryId);
             }
         }
+        
+        [Test]
+        public async Task TestDeleteAsyncReturnsNullWithInvalidId()
+        {
+            var forumId = await this.forumsService.DeleteAsync(1);
+
+            Assert.Null(forumId);
+        }
 
         [Test]
         public async Task TestDeleteAsyncWorksCorrectly()
@@ -221,10 +229,11 @@ namespace GamersHub.Services.Data.Tests
 
             await this.forumsRepository.SaveChangesAsync();
 
-            await this.forumsService.DeleteAsync(1);
+           var forumId = await this.forumsService.DeleteAsync(1);
 
             var forum = this.forumsRepository.AllWithDeleted().First();
 
+            Assert.AreEqual(1, forumId);
             Assert.IsTrue(forum.IsDeleted);
             Assert.IsEmpty(forum.ForumCategories);
 

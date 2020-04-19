@@ -24,12 +24,12 @@ namespace GamersHub.Services.Data.Pages
             return page;
         }
 
-        public async Task<int> EditAsync(string name, string content)
+        public async Task<int?> EditAsync(string name, string content)
         {
             var page = this.pagesRepository.All().FirstOrDefault(x => x.Name == name);
             if (page == null)
             {
-                return 0;
+                return null;
             }
 
             page.Content = content;

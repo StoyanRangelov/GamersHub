@@ -52,7 +52,7 @@ namespace GamersHub.Web.Controllers
         public async Task<IActionResult> EditPrivacy(PrivacyPageEditInputModel inputModel)
         {
             var pageId = await this.pagesService.EditAsync(nameof(this.Privacy), inputModel.Content);
-            if (pageId == 0)
+            if (pageId == null)
             {
                 return this.NotFound();
             }

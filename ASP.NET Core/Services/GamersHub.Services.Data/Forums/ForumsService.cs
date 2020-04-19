@@ -94,7 +94,7 @@ namespace GamersHub.Services.Data.Forums
             return forum.Id;
         }
 
-        public async Task<int> EditAsync(int id, string name, int[] categoryIds, bool[] areSelected)
+        public async Task<int?> EditAsync(int id, string name, int[] categoryIds, bool[] areSelected)
         {
             var forum = this.forumsRepository.All()
                 .Include(x => x.Posts)
@@ -102,7 +102,7 @@ namespace GamersHub.Services.Data.Forums
 
             if (forum == null)
             {
-                return -1;
+                return null;
             }
 
             if (forum.Name != name)
@@ -140,7 +140,7 @@ namespace GamersHub.Services.Data.Forums
             return forum.Id;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<int?> DeleteAsync(int id)
         {
             var forum = this.forumsRepository.All()
                 .Include(x => x.ForumCategories)
@@ -150,7 +150,7 @@ namespace GamersHub.Services.Data.Forums
 
             if (forum == null)
             {
-                return;
+                return null;
             }
 
             foreach (var post in forum.Posts)
@@ -173,9 +173,9 @@ namespace GamersHub.Services.Data.Forums
             {
                 this.forumCategoriesRepository.Delete(forumCategory);
             }
-
-
             await this.forumCategoriesRepository.SaveChangesAsync();
+
+            return forum.Id;
         }
 
         public int GetCount()

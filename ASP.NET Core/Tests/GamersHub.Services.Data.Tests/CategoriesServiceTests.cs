@@ -32,7 +32,8 @@ namespace GamersHub.Services.Data.Tests
             this.forumCategoriesRepository = new EfRepository<ForumCategory>(new ApplicationDbContext(options.Options));
             this.postRepository = new EfDeletableEntityRepository<Post>(new ApplicationDbContext(options.Options));
             this.repliesRepository = new EfDeletableEntityRepository<Reply>(new ApplicationDbContext(options.Options));
-            this.categoriesService = new CategoriesService(this.categoriesRepository, this.forumCategoriesRepository, this.postRepository, this.repliesRepository);
+            this.categoriesService = new CategoriesService(this.categoriesRepository, this.forumCategoriesRepository,
+                this.postRepository, this.repliesRepository);
             AutoMapperConfig.RegisterMappings(typeof(TestCategory).Assembly);
         }
 
@@ -69,27 +70,35 @@ namespace GamersHub.Services.Data.Tests
             await this.categoriesRepository.AddAsync(new Category
             {
                 Name = "wrong",
-                CategoryForums = new List<ForumCategory> { new ForumCategory { ForumId = 1 }, new ForumCategory { ForumId = 2 } },
+                CategoryForums = new List<ForumCategory>
+                    {new ForumCategory {ForumId = 1}, new ForumCategory {ForumId = 2}},
             });
             await this.categoriesRepository.AddAsync(new Category
             {
                 Name = "wrong",
-                CategoryForums = new List<ForumCategory> { new ForumCategory { ForumId = 1 }, new ForumCategory { ForumId = 2 }, new ForumCategory { ForumId = 3 }, new ForumCategory { ForumId = 4 },  },
+                CategoryForums = new List<ForumCategory>
+                {
+                    new ForumCategory {ForumId = 1}, new ForumCategory {ForumId = 2}, new ForumCategory {ForumId = 3},
+                    new ForumCategory {ForumId = 4},
+                },
             });
             await this.categoriesRepository.AddAsync(new Category
             {
                 Name = "wrong",
-                CategoryForums = new List<ForumCategory> { new ForumCategory { ForumId = 1 }, new ForumCategory { ForumId = 4 } },
+                CategoryForums = new List<ForumCategory>
+                    {new ForumCategory {ForumId = 1}, new ForumCategory {ForumId = 4}},
             });
             await this.categoriesRepository.AddAsync(new Category
             {
                 Name = "category",
-                CategoryForums = new List<ForumCategory> { new ForumCategory { ForumId = 2 }, new ForumCategory { ForumId = 3 } },
+                CategoryForums = new List<ForumCategory>
+                    {new ForumCategory {ForumId = 2}, new ForumCategory {ForumId = 3}},
             });
             await this.categoriesRepository.AddAsync(new Category
             {
                 Name = "category",
-                CategoryForums = new List<ForumCategory> { new ForumCategory { ForumId = 2 }, new ForumCategory { ForumId = 3 } },
+                CategoryForums = new List<ForumCategory>
+                    {new ForumCategory {ForumId = 2}, new ForumCategory {ForumId = 3}},
             });
             await this.categoriesRepository.SaveChangesAsync();
 
@@ -106,10 +115,10 @@ namespace GamersHub.Services.Data.Tests
         [Test]
         public async Task TestGetById()
         {
-            await this.categoriesRepository.AddAsync(new Category { Name = "wrong" });
-            await this.categoriesRepository.AddAsync(new Category { Name = "wrong" });
-            await this.categoriesRepository.AddAsync(new Category { Name = "category" });
-            await this.categoriesRepository.AddAsync(new Category { Name = "wrong" });
+            await this.categoriesRepository.AddAsync(new Category {Name = "wrong"});
+            await this.categoriesRepository.AddAsync(new Category {Name = "wrong"});
+            await this.categoriesRepository.AddAsync(new Category {Name = "category"});
+            await this.categoriesRepository.AddAsync(new Category {Name = "wrong"});
             await this.categoriesRepository.SaveChangesAsync();
 
             var category = this.categoriesService.GetById<TestCategory>(3);
@@ -120,7 +129,7 @@ namespace GamersHub.Services.Data.Tests
         [Test]
         public async Task TestCreateAsyncReturnsZeroWhenCategoryNameAlreadyExists()
         {
-            await this.categoriesRepository.AddAsync(new Category { Name = "category" });
+            await this.categoriesRepository.AddAsync(new Category {Name = "category"});
             await this.categoriesRepository.SaveChangesAsync();
 
             var categoryId = await this.categoriesService.CreateAsync("category", "description");
@@ -141,33 +150,34 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
-        public async Task TestEditAsyncReturnsMinusOneIfCategoryDoesNotExist()
+        public async Task TestEditAsyncReturnsNullIfCategoryDoesNotExist()
         {
             var categoryId = await this.categoriesService.EditAsync(1, "name", "description", null, null);
 
-            Assert.AreEqual(-1, categoryId);
+            Assert.Null(categoryId);
         }
 
         [Test]
-        public async Task TestEditAsyncReturnsZeroIfCategoryNameIsAlreadyTaken()
+        public async Task TestEditAsyncReturnsNullIfCategoryNameIsAlreadyTaken()
         {
-            await this.categoriesRepository.AddAsync(new Category { Name = "category" });
-            await this.categoriesRepository.AddAsync(new Category {Name = "name" });
+            await this.categoriesRepository.AddAsync(new Category {Name = "category"});
+            await this.categoriesRepository.AddAsync(new Category {Name = "name"});
             await this.categoriesRepository.SaveChangesAsync();
 
             var categoryId = await this.categoriesService.EditAsync(2, "category", "description", null, null);
 
-            Assert.Zero(categoryId);
+            Assert.Zero((int) categoryId);
         }
 
         [Test]
         public async Task TestEditAsyncWorksCorrectlyAndAlsoAddsForumsToTheCategory()
         {
-            await this.categoriesRepository.AddAsync(new Category { Name = "name", Description = "description" });
+            await this.categoriesRepository.AddAsync(new Category {Name = "name", Description = "description"});
             await this.categoriesRepository.SaveChangesAsync();
 
             var categoryId =
-               await this.categoriesService.EditAsync(1, "category", "test", new[] { 1, 2, 3 }, new[] { true, true, false });
+                await this.categoriesService.EditAsync(1, "category", "test", new[] {1, 2, 3},
+                    new[] {true, true, false});
 
             var category = await this.categoriesRepository.All().FirstAsync();
 
@@ -184,6 +194,14 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
+        public async Task TestDeleteAsyncReturnsNullWithInvalidId()
+        {
+            var categoryId = await this.categoriesService.DeleteAsync(1);
+
+            Assert.Null(categoryId);
+        }
+
+        [Test]
         public async Task TestDeleteAsyncWorksCorrectly()
         {
             await this.categoriesRepository.AddAsync(new Category
@@ -195,10 +213,11 @@ namespace GamersHub.Services.Data.Tests
 
             await this.categoriesRepository.SaveChangesAsync();
 
-            await this.categoriesService.DeleteAsync(1);
+            var categoryId = await this.categoriesService.DeleteAsync(1);
 
             var category = this.categoriesRepository.AllWithDeleted().First();
 
+            Assert.AreEqual(1, categoryId);
             Assert.IsTrue(category.IsDeleted);
             Assert.IsEmpty(category.CategoryForums);
 
@@ -216,7 +235,7 @@ namespace GamersHub.Services.Data.Tests
         [Test]
         public async Task TestGetNormalisedNameWorksCorrectly()
         {
-            await this.categoriesRepository.AddAsync(new Category { Name = "General Discussion"});
+            await this.categoriesRepository.AddAsync(new Category {Name = "General Discussion"});
             await this.categoriesRepository.SaveChangesAsync();
 
             var categoryNameUrl = "General-Discussion";
@@ -225,7 +244,6 @@ namespace GamersHub.Services.Data.Tests
 
             Assert.AreEqual("General Discussion", normalisedName);
         }
-
     }
 
     public class TestCategory : IMapFrom<Category>

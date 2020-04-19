@@ -38,15 +38,17 @@ namespace GamersHub.Services.Data.Games
         IEnumerable<T> GetAll<T>(int? take = null, int skip = 0);
 
         /// <summary>
-        /// Creates a new game with the given name and adds it to the database, returns 0 if the forum name is already taken, otherwise returns the forum id
+        /// Creates a new game with the given name and adds it to the database, returns 0 if the game title is already taken, otherwise returns the game id
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="title"></param>
+        /// <param name="subTitle"></param>
         /// <param name="description"></param>
+        /// <param name="imageUrl"></param>
         /// <returns></returns>
         Task<int> CreateAsync(string title, string subTitle, string description, string imageUrl);
 
         /// <summary>
-        /// Edits a game by the given id and updates it with the given title, sub title, description and image url, returns 0 if the game does not exist, otherwise returns the game id
+        /// Edits a game by the given id and updates it with the given title, sub title, description and image url, returns null if the game does not exist, otherwise returns the game id
         /// </summary>
         /// <param name="id"></param>
         /// <param name="title"></param>
@@ -54,15 +56,15 @@ namespace GamersHub.Services.Data.Games
         /// <param name="description"></param>
         /// <param name="imageUrl"></param>
         /// <returns></returns>
-        Task<int> EditAsync(int id, string title, string subTitle, string description, string imageUrl);
+        Task<int?> EditAsync(int id, string title, string subTitle, string description, string imageUrl);
 
         /// <summary>
-        /// Deletes the game with the given id and all of its relations
+        /// Deletes the game with the given id and all of its relations, returns null if the game does not exist, returns game id if successful
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
 
-        Task DeleteAsync(int id);
+        Task<int?> DeleteAsync(int id);
 
         /// <summary>
         /// Returns the count of all the games in the database

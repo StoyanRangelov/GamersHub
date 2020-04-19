@@ -49,7 +49,7 @@ namespace GamersHub.Services.Data.Users
         T GetById<T>(string id);
 
         /// <summary>
-        /// Retursn the user with the given name, returns null if the user does not exist in the database
+        /// Returns the user with the given name, returns null if the user does not exist in the database
         /// </summary>
         /// <param name="name"></param>
         /// <typeparam name="T"></typeparam>
@@ -57,7 +57,7 @@ namespace GamersHub.Services.Data.Users
         T GetByName<T>(string name);
 
         /// <summary>
-        /// edits the user profile with the provided id with the given discord Username and Gaming Experience type, returns Not Fount if the user does not exist
+        /// edits the user profile with the provided id with the given discord Username and Gaming Experience type, returns null if the user does not exist
         /// </summary>
         /// <param name="id"></param>
         /// <param name="discordUsername"></param>

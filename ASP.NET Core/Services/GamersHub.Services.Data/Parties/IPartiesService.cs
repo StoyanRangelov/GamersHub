@@ -64,29 +64,29 @@ namespace GamersHub.Services.Data.Parties
         Task<int> CreateAsync(string userId, string game, string activity, string description, int size);
 
         /// <summary>
-        /// Creates a party application by the given party id and user id, returns 0 if the party does not exists, returns -1 if the party application already exists, otherwise returns the party id
+        /// Creates a party application by the given party id and user id, returns null if the party does not exists, returns 0 if the party application already exists, otherwise returns the party id
         /// </summary>
         /// <param name="partyId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<int> ApplyAsync(int partyId, string userId);
+        Task<int?> ApplyAsync(int partyId, string userId);
 
 
         /// <summary>
-        /// Edits a party by the given id and updates it with the given game, activity and description, returns 0 if the party does not exist, otherwise returns the party id
+        /// Edits a party by the given id and updates it with the given game, activity and description, returns null if the party does not exist, otherwise returns the party id
         /// </summary>
         /// <param name="id"></param>
         /// <param name="game"></param>
         /// <param name="activity"></param>
         /// <param name="description"></param>
         /// <returns></returns>
-        Task<int> EditAsync(int id, string game, string activity, string description);
+        Task<int?> EditAsync(int id, string game, string activity, string description);
 
         /// <summary>
-        /// Deletes a party by the given id and all of its relations
+        /// Deletes a party by the given id and all of its relations, returns null if the party does not exist, otherwise returns the party id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task DeleteAsync(int id);
+        Task<int?> DeleteAsync(int id);
     }
 }

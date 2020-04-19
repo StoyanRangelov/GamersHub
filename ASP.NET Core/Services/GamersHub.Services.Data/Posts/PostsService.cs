@@ -92,7 +92,7 @@ namespace GamersHub.Services.Data.Posts
             return query.To<T>().ToList();
         }
 
-        public async Task<int> CreateAsync(int forumId, int categoryId, string name, string content, string userId)
+        public async Task<int?> CreateAsync(int forumId, int categoryId, string name, string content, string userId)
         {
             var forum = this.forumsRepository
                 .All()
@@ -101,7 +101,7 @@ namespace GamersHub.Services.Data.Posts
 
             if (forum == null)
             {
-                return 0;
+                return null;
             }
 
             if (!forum.ForumCategories.Select(fc => fc.CategoryId).Contains(categoryId))
@@ -133,13 +133,13 @@ namespace GamersHub.Services.Data.Posts
             return post.Id;
         }
 
-        public async Task<int> EditAsync(int id, string name, string content)
+        public async Task<int?> EditAsync(int id, string name, string content)
         {
             var post = this.postsRepository.All().FirstOrDefault(x => x.Id == id);
 
             if (post == null)
             {
-                return 0;
+                return null;
             }
 
             post.Name = name;
@@ -151,7 +151,7 @@ namespace GamersHub.Services.Data.Posts
             return post.Id;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<int?> DeleteAsync(int id)
         {
             var post = this.postsRepository.All()
                 .Include(x => x.Replies)
@@ -159,7 +159,7 @@ namespace GamersHub.Services.Data.Posts
 
             if (post == null)
             {
-                return;
+                return null;
             }
 
             foreach (var reply in post.Replies)
@@ -171,6 +171,8 @@ namespace GamersHub.Services.Data.Posts
 
             this.postsRepository.Delete(post);
             await this.postsRepository.SaveChangesAsync();
+
+            return post.Id;;
         }
 
         public int GetCountByForumId(int forumId)

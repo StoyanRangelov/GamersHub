@@ -323,11 +323,11 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
-        public async Task TestCreateAsyncReturns0WithWrongForumId()
+        public async Task TestCreateAsyncReturnsNullWithWrongForumId()
         {
             var postId = await this.postsService.CreateAsync(1, 1, "post", "content", "userId");
 
-            Assert.Zero(postId);
+            Assert.Null(postId);
         }
 
         [Test]
@@ -376,11 +376,11 @@ namespace GamersHub.Services.Data.Tests
 
 
         [Test]
-        public async Task TestEditAsyncReturns0WithWrongPostId()
+        public async Task TestEditAsyncReturnsNullWithWrongPostId()
         {
             var postId = await this.postsService.EditAsync(1, "name", "content");
 
-            Assert.Zero(postId);
+            Assert.Null(postId);
         }
 
         [Test]
@@ -399,6 +399,14 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
+        public async Task TestDeleteAsyncReturnsNullWithInvalidId()
+        {
+            var postId = await this.postsService.DeleteAsync(1);
+
+            Assert.Null(postId);
+        }
+
+        [Test]
         public async Task TestDeleteAsync()
         {
             await this.postsRepository.AddAsync(new Post
@@ -410,10 +418,11 @@ namespace GamersHub.Services.Data.Tests
             });
             await this.postsRepository.SaveChangesAsync();
 
-            await this.postsService.DeleteAsync(5);
+            var postId = await this.postsService.DeleteAsync(5);
 
             var post = await this.postsRepository.AllWithDeleted().FirstAsync();
 
+            Assert.AreEqual(5, postId);
             Assert.IsTrue(post.IsDeleted);
 
             foreach (var reply in post.Replies)

@@ -36,21 +36,21 @@ namespace GamersHub.Services.Data.Replies
         Task<int> CreateAsync(int postId, string userId, string content);
 
         /// <summary>
-        /// Edits a reply with the given id and updates it with the given content, returns 0 if the reply does not exist, otherwise returns the reply id
+        /// Edits a reply with the given id and updates it with the given content, returns null if the reply does not exist, otherwise returns the reply id
         /// </summary>
         /// <param name="id"></param>
         /// <param name="content"></param>
         /// <returns></returns>
 
-        Task<int> EditAsync(int id, string content);
+        Task<int?> EditAsync(int id, string content);
 
         /// <summary>
-        /// Deletes the reply with the given id
+        /// Deletes the reply with the given id, returns null if the reply does not exist, otherwise returns the reply id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
 
-        Task DeleteAsync(int id);
+        Task<int?> DeleteAsync(int id);
 
         /// <summary>
         /// Returns the count of all replies with the given post id from the database

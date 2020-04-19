@@ -132,7 +132,7 @@ namespace GamersHub.Web.Controllers
                 input.Description,
                 imageUrl);
 
-            if (gameId == 0)
+            if (gameId == null)
             {
                 return this.NotFound();
             }

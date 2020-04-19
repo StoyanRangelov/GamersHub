@@ -135,13 +135,21 @@ namespace GamersHub.Services.Data.Tests
 
 
         [Test]
-        public async Task TestEditAsyncReturns0WithInvalidId()
+        public async Task TestEditAsyncReturnsNullWithInvalidId()
         {
             var reviewId = await this.reviewsService.EditAsync(2, "test Content", true);
 
-            Assert.Zero(reviewId);
+            Assert.Null(reviewId);
         }
 
+
+        [Test]
+        public async Task TestDeleteAsyncReturnsNullWithInvalidId()
+        {
+            var reviewId = await this.reviewsService.DeleteAsync(1);
+
+            Assert.Null(reviewId);
+        }
 
         [Test]
         public async Task TestDeleteAsyncWorksCorrectly()
@@ -149,10 +157,11 @@ namespace GamersHub.Services.Data.Tests
             await this.repository.AddAsync(new Review {Content = "test Content"});
             await this.repository.SaveChangesAsync();
 
-            await this.reviewsService.DeleteAsync(1);
+            var reviewId =await this.reviewsService.DeleteAsync(1);
 
             var review = this.repository.AllWithDeleted().First();
 
+            Assert.AreEqual(1, reviewId);
             Assert.IsTrue(review.IsDeleted);
         }
 

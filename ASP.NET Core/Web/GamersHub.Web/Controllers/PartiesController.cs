@@ -22,7 +22,8 @@ namespace GamersHub.Web.Controllers
         private readonly IPartyApplicantsService partyApplicantsService;
         private readonly IUsersService usersService;
 
-        public PartiesController(IPartiesService partiesService, IUsersService usersService, IPartyApplicantsService partyApplicantsService)
+        public PartiesController(IPartiesService partiesService, IUsersService usersService,
+            IPartyApplicantsService partyApplicantsService)
         {
             this.partiesService = partiesService;
             this.usersService = usersService;
@@ -90,14 +91,14 @@ namespace GamersHub.Web.Controllers
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            var applyId = await this.partiesService.ApplyAsync(input.PartyId, userId);
+            var partyId = await this.partiesService.ApplyAsync(input.PartyId, userId);
 
-            if (applyId == 0)
+            if (partyId == null)
             {
                 return this.NotFound();
             }
 
-            if (applyId == -1)
+            if (partyId == 0)
             {
                 this.TempData["InfoMessage"] = "You have already applied to this party.";
                 return this.RedirectToAction(nameof(this.Index));
@@ -161,7 +162,8 @@ namespace GamersHub.Web.Controllers
 
 
             viewModel.PartyApplications = this.partyApplicantsService
-                .GetAllApplicationsByUsername<ApplicantPartiesViewModel>(id, PartiesPerPage, (page - 1) * PartiesPerPage);
+                .GetAllApplicationsByUsername<ApplicantPartiesViewModel>(id, PartiesPerPage,
+                    (page - 1) * PartiesPerPage);
 
 
             var count = this.partyApplicantsService.GetApplicationsCountByUsername(id);
@@ -182,7 +184,7 @@ namespace GamersHub.Web.Controllers
         {
             var approveUserId = await this.partyApplicantsService.ApproveAsync(input.PartyId, input.ApplicantId);
 
-            if (approveUserId == 0)
+            if (approveUserId == null)
             {
                 return this.NotFound();
             }
@@ -195,7 +197,7 @@ namespace GamersHub.Web.Controllers
         {
             var declineUserId = await this.partyApplicantsService.DeclineAsync(input.PartyId, input.ApplicantId);
 
-            if (declineUserId == 0)
+            if (declineUserId == null)
             {
                 return this.NotFound();
             }
@@ -206,15 +208,15 @@ namespace GamersHub.Web.Controllers
 
         public async Task<IActionResult> CancelApplication(PartyApplicantInputModel input)
         {
-           var partyId = await this.partyApplicantsService.CancelApplicationAsync(input.PartyId, input.ApplicantId);
+            var partyId = await this.partyApplicantsService.CancelApplicationAsync(input.PartyId, input.ApplicantId);
 
-           if (partyId == 0)
-           {
-               return this.NotFound();
-           }
+            if (partyId == null)
+            {
+                return this.NotFound();
+            }
 
-           this.TempData["InfoMessage"] = "Successfully canceled party application";
-           return this.RedirectToAction("Applications", "Parties", new {id = this.User.Identity.Name});
+            this.TempData["InfoMessage"] = "Successfully canceled party application";
+            return this.RedirectToAction("Applications", "Parties", new {id = this.User.Identity.Name});
         }
 
         public IActionResult Edit(int id)
@@ -259,13 +261,14 @@ namespace GamersHub.Web.Controllers
 
             var partyId = await this.partiesService.EditAsync(input.Id, input.Game, input.Activity, input.Description);
 
-            if (partyId == 0)
+            if (partyId == null)
             {
                 return this.NotFound();
             }
 
             this.TempData["InfoMessage"] = "Party edited successfully!";
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) && this.User.Identity.Name != input.CreatorUsername)
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) &&
+                this.User.Identity.Name != input.CreatorUsername)
             {
                 return this.Redirect("/Administration/Parties/Index");
             }
@@ -308,14 +311,20 @@ namespace GamersHub.Web.Controllers
                 }
             }
 
-            await this.partiesService.DeleteAsync(input.PartyId);
+            var partyId = await this.partiesService.DeleteAsync(input.PartyId);
+            if (partyId == null)
+            {
+                return this.NotFound();
+            }
 
             this.TempData["InfoMessage"] = "Party deleted successfully!";
-            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) && this.User.Identity.Name != input.CreatorUsername)
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName) &&
+                this.User.Identity.Name != input.CreatorUsername)
             {
                 return this.Redirect("/Administration/Parties/Index");
             }
-            return this.RedirectToAction("Host", "Parties", new { id = input.CreatorUsername});
+
+            return this.RedirectToAction("Host", "Parties", new {id = input.CreatorUsername});
         }
     }
 }

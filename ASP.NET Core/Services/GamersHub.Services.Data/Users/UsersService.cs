@@ -126,7 +126,7 @@ namespace GamersHub.Services.Data.Users
             var user = this.usersRepository.All().FirstOrDefault(x => x.Id == id);
             if (user == null)
             {
-                return GlobalConstants.NotFound;
+                return null;
             }
 
             user.DiscordUsername = discordUsername;

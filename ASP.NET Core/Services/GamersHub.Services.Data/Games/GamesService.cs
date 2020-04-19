@@ -78,14 +78,14 @@ namespace GamersHub.Services.Data.Games
             return game.Id;
         }
 
-        public async Task<int> EditAsync(int id, string title, string subTitle, string description, string imageUrl)
+        public async Task<int?> EditAsync(int id, string title, string subTitle, string description, string imageUrl)
         {
             var game = this.gamesRepository.All()
                 .FirstOrDefault(x => x.Id == id);
 
             if (game == null)
             {
-                return 0;
+                return null;
             }
 
             game.Title = title;
@@ -103,7 +103,7 @@ namespace GamersHub.Services.Data.Games
             return game.Id;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<int?> DeleteAsync(int id)
         {
             var game = this.gamesRepository.All()
                 .Include(x => x.Reviews)
@@ -111,7 +111,7 @@ namespace GamersHub.Services.Data.Games
 
             if (game == null)
             {
-                return;
+                return null;
             }
 
             foreach (var review in game.Reviews)
@@ -123,6 +123,8 @@ namespace GamersHub.Services.Data.Games
 
             this.gamesRepository.Delete(game);
             await this.gamesRepository.SaveChangesAsync();
+
+            return game.Id;
         }
 
         public int GetCount()

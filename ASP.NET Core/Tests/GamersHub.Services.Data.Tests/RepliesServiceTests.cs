@@ -125,11 +125,19 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
-        public async Task TestEditAsyncReturns0WithInvalidId()
+        public async Task TestEditAsyncReturnsNullWithInvalidId()
         {
             var replyId = await this.repliesService.EditAsync(2, "test Content");
 
-            Assert.Zero(replyId);
+            Assert.Null(replyId);
+        }
+
+        [Test]
+        public async Task TestDeleteAsyncReturnsNullWithInvalidId()
+        {
+            var replyId = await this.repliesService.DeleteAsync(1);
+
+            Assert.Null(replyId);
         }
 
         [Test]
@@ -138,10 +146,11 @@ namespace GamersHub.Services.Data.Tests
             await this.repository.AddAsync(new Reply {Content = "test Content"});
             await this.repository.SaveChangesAsync();
 
-            await this.repliesService.DeleteAsync(1);
+            var replyId = await this.repliesService.DeleteAsync(1);
 
             var reply = await this.repository.AllWithDeleted().FirstAsync();
 
+            Assert.AreEqual(1, replyId);
             Assert.IsTrue(reply.IsDeleted);
         }
 
