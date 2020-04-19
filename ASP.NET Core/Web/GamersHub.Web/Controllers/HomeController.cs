@@ -61,6 +61,11 @@ namespace GamersHub.Web.Controllers
             return this.RedirectToAction(nameof(this.Privacy));
         }
 
+        public IActionResult HttpError(int statusCode)
+        {
+            return this.View(new HttpErrorViewModel { StatusCode = statusCode, Message = GlobalConstants.HttpErrorMessage});
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

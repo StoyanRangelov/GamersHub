@@ -8,6 +8,8 @@
 
         public const string Banned = "Banned";
 
+        public const string HttpErrorMessage = "The page you are looking for could not be found.";
+
         public const string SystemName = "GamersHub";
 
         public const string AdministratorRoleName = "Administrator";

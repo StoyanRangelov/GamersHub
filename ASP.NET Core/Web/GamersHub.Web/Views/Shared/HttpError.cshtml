@@ -1,0 +1,36 @@
+﻿@model GamersHub.Web.ViewModels.HttpErrorViewModel
+@{
+    this.ViewData["Title"] = "Http Error";
+}
+
+<body style="background-image: url('https://res.cloudinary.com/dhagvwgd6/image/upload/v1587277057/bg_fyibx6.jpg')">
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <h1 class="display-5" style="color: white">Oops, something went wrong.</h1>
+            <h1 class="display-1 text-uppercase" style="color: white">Error - @Model.StatusCode</h1>
+            <h1 class="display-5" style="color: white">@Model.Message</h1>
+            <a asp-controller="Home" asp-action="Index" type="submit" class="btn btn-primary btn-lg mt-2">Back to Homepage</a>
+            <div class="d-block btn-toolbar mt-4">
+                <div class="btn-group mr-2">
+                    <a asp-controller="Forums" asp-action="Index" type="submit" class="btn btn-primary btn-lg">To Forums</a>
+                </div>
+                <div class="btn-group mr-2">
+                    <a asp-controller="Games" asp-action="Index" type="submit" class="btn btn-primary btn-lg">To Reviews</a>
+                </div>
+                <div class="btn-group mr-2">
+                    <a asp-controller="Parties" asp-action="Index" type="submit" class="btn btn-primary btn-lg">To Parties</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>

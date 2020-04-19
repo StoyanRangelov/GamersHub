@@ -166,6 +166,8 @@ namespace GamersHub.Web
                 app.UseHsts();
             }
 
+            app.UseStatusCodePagesWithRedirects("/Home/HttpError?statusCode={0}");
+
             app.UseResponseCompression();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
