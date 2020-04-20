@@ -44,11 +44,29 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-    background-image: url('https://res.cloudinary.com/dhagvwgd6/image/upload/v1587299916/117166_iivowu.jpg');
+    background-image: url(https://res.cloudinary.com/dhagvwgd6/image/upload/v1587299916/117166_iivowu.jpg);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;    
 }
+
+thead th {
+    background-repeat: no-repeat;
+    background-position: right center;
+}
+thead th.up {
+    padding-right: 20px;
+    background-image: url(../lib/tablesorter/dist/css/images/white-asc.gif);
+}
+thead th.down {
+    padding-right: 20px;
+    background-image: url(../lib/tablesorter/dist/css/images/white-desc.gif);
+}
+thead th.none {
+    padding-right: 20px;
+    background-image: url(../lib/tablesorter/dist/css/images/white-unsorted.gif);
+}
+
 .footer {
     position: absolute;
     bottom: 0;

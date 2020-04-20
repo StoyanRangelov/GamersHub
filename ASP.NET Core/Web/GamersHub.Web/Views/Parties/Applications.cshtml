@@ -45,7 +45,7 @@ else
                 {
                     if (application.ApplicationStatus == ApplicationStatusType.Approved)
                     {
-                        <h5 class="card-text"><span class="text-primary">@application.ApplicationStatus.ToString():</span> Party Host Discord - @application.PartyCreatorDiscordUsername</h5>
+                        <h5 class="card-text"><span class="text-primary">@application.ApplicationStatus.ToString()</span> Party Host Discord - @application.PartyCreatorDiscordUsername</h5>
                     }
                     else if (application.ApplicationStatus == ApplicationStatusType.Declined)
                     {
@@ -61,7 +61,7 @@ else
                 {
                     if (application.ApplicationStatus == ApplicationStatusType.Approved)
                     {
-                        <h5 class="card-text"><span class="text-primary">@application.ApplicationStatus.ToString():</span> Party Host Discord - @application.PartyCreatorDiscordUsername</h5>
+                        <h5 class="card-text"><span class="text-primary">@application.ApplicationStatus.ToString()</span> Party Host Discord - @application.PartyCreatorDiscordUsername</h5>
                     }
                     else if (application.ApplicationStatus == ApplicationStatusType.Declined)
                     {
@@ -153,3 +153,4 @@ else
         }
     </ul>
 </nav>
+

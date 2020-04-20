@@ -82,6 +82,18 @@
       "files": [
         "min/moment-with-locales.min.js"
       ]
+    },
+    {
+      "library": "tablesorter@2.31.3",
+      "destination": "wwwroot/lib/tablesorter/",
+      "files": [
+        "dist/js/jquery.tablesorter.min.js",
+        "dist/css/images/white-asc.gif",
+        "dist/css/images/white-desc.gif",
+        "dist/css/images/white-unsorted.gif"   
+      
+        
+      ]
     }
   ]
 }

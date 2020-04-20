@@ -68,8 +68,7 @@ namespace GamersHub.Services.Data.Posts
         public IEnumerable<T> GetAllByForumId<T>(int forumId, int? take = null, int skip = 0)
         {
             var query = this.postsRepository.All()
-                .Where(x => x.ForumId == forumId)
-                .OrderByDescending(x => x.CreatedOn).Skip(skip);
+                .Where(x => x.ForumId == forumId).Skip(skip);
 
             if (take.HasValue)
             {

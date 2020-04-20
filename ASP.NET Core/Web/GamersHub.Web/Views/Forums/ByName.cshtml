@@ -39,7 +39,7 @@
         }
 </div>
 
-<table class="table">
+<table id="PostsList" class="table">
     <thead class="thead-dark">
     <tr>
         <th scope="col">Topic</th>
@@ -59,3 +59,20 @@
 
 
 <partial name="_PaginationPartial" model="@Model.Pagination" view-data="@ViewData"/>
+
+@section Scripts
+{
+   <script type="text/javascript">         
+              $(document).ready(function () {             
+   
+                  $("#PostsList").tablesorter({                  
+                 cssAsc: 'up',
+                 cssDesc: 'down',      
+                 cssNone: "none",
+                 sortList: [[4,1]]         
+                  }                  
+                  );  
+              });
+   
+       </script>
+}
