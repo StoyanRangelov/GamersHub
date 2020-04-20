@@ -11,7 +11,7 @@
     <h1 class="display-4">@this.ViewData["Title"]</h1>
 </div>
 <hr/>
-<table class="table table-hover">
+<table id="ModeratorsList" class="table table-hover">
     <thead class="thead-dark">
     <tr>
         <th scope="col">Username</th>
@@ -44,3 +44,20 @@
     }
     </tbody>
 </table>
+
+@section Scripts
+{
+    <script type="text/javascript">         
+              $(document).ready(function () {             
+   
+                  $("#ModeratorsList").tablesorter({                  
+                 cssAsc: 'up',
+                 cssDesc: 'down',      
+                 cssNone: "none",
+                 sortList: [[1,1]]         
+                  }                  
+                  );  
+              });
+   
+       </script>
+}

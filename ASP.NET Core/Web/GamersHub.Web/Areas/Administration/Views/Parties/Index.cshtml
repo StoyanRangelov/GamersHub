@@ -15,7 +15,7 @@
     <h1 class="display-4">@this.ViewData["Title"]</h1>
 </div>
 <hr/>
-<table class="table table-hover">
+<table id="PartiesList" class="table table-hover">
     <thead class="thead-dark">
     <tr>
         <th scope="col">Created on</th>
@@ -48,3 +48,20 @@
 </table>
 
 <partial name="_PaginationPartial" model="@Model.Pagination" view-data="@ViewData"/>
+
+@section Scripts
+{
+   <script type="text/javascript">         
+              $(document).ready(function () {             
+   
+                  $("#PartiesList").tablesorter({                  
+                 cssAsc: 'up',
+                 cssDesc: 'down',      
+                 cssNone: "none",
+                 sortList: [[0,1]]         
+                  }                  
+                  );  
+              });
+   
+       </script>
+}

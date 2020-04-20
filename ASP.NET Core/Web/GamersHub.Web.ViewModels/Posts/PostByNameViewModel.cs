@@ -36,6 +36,8 @@ namespace GamersHub.Web.ViewModels.Posts
 
         public string ForumName { get; set; }
 
+        public string ForumUrl => UrlParser.ParseToUrl(this.ForumName);
+
         public string CategoryName { get; set; }
 
         public IEnumerable<ReplyInPostViewModel> PostReplies { get; set; }

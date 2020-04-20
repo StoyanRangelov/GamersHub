@@ -21,7 +21,7 @@
 
 <hr/>
 
-<table class="table">
+<table id="PostsList" class="table">
     <thead class="thead-dark">
     <tr>
         <th scope="col">Topic</th>
@@ -97,3 +97,20 @@
         }
     </ul>
 </nav>
+
+@section Scripts
+{
+    <script type="text/javascript">         
+              $(document).ready(function () {             
+   
+                  $("#PostsList").tablesorter({                  
+                 cssAsc: 'up',
+                 cssDesc: 'down',      
+                 cssNone: "none",
+                 sortList: [[3,1]]         
+                  }                  
+                  );  
+              });
+   
+       </script>
+}
