@@ -57,13 +57,14 @@ namespace GamersHub.Services.Data.Users
         T GetByName<T>(string name);
 
         /// <summary>
-        /// edits the user profile with the provided id with the given discord Username and Gaming Experience type, returns null if the user does not exist
+        /// edits the user profile with the provided id with the given discord Username, Gaming Experience type and Image Url, returns null if the user does not exist
         /// </summary>
         /// <param name="id"></param>
         /// <param name="discordUsername"></param>
         /// <param name="gamingExperience"></param>
+        /// <param name="imageUrl"></param>
         /// <returns></returns>
-        Task<string> EditProfileAsync(string id, string discordUsername, GamingExperienceType gamingExperience);
+        Task<string> EditProfileAsync(string id, string discordUsername, GamingExperienceType gamingExperience, string imageUrl);
 
         /// <summary>
         /// Deletes the user with the given id, removes him from all roles and sets his username, email address and discord username to null, returns false if the user does not exists in the database

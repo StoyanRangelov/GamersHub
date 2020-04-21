@@ -125,8 +125,7 @@ namespace GamersHub.Services.Data.Users
             return user;
         }
 
-        public async Task<string> EditProfileAsync(string id, string discordUsername,
-            GamingExperienceType gamingExperience)
+        public async Task<string> EditProfileAsync(string id, string discordUsername, GamingExperienceType gamingExperience, string imageUrl)
         {
             var user = this.usersRepository.All().FirstOrDefault(x => x.Id == id);
             if (user == null)
@@ -136,6 +135,10 @@ namespace GamersHub.Services.Data.Users
 
             user.DiscordUsername = discordUsername;
             user.GamingExperience = gamingExperience;
+            if (imageUrl != string.Empty)
+            {
+                user.ImgUrl = imageUrl;
+            }
 
             this.usersRepository.Update(user);
             await this.usersRepository.SaveChangesAsync();

@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Net.Http.Headers;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 using GamersHub.Common;
 using GamersHub.Data.Models;
 using GamersHub.Services.Data.Users;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -17,15 +21,18 @@ namespace GamersHub.Web.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IUsersService _usersService;
+        private readonly Cloudinary cloudinary;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IUsersService usersService)
+            IUsersService usersService,
+            Cloudinary cloudinary)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _usersService = usersService;
+            this.cloudinary = cloudinary;
         }
 
         public string Username { get; set; }
@@ -54,6 +61,8 @@ namespace GamersHub.Web.Areas.Identity.Pages.Account.Manage
             [StringLength(40, ErrorMessage = "The {0} must be between {2} and {1} characters long.", MinimumLength = 4)]
             [Display(Name = "Discord Username")]
             public string DiscordUsername { get; set; }
+
+            public IFormFile Image { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -99,7 +108,24 @@ namespace GamersHub.Web.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            var id = await _usersService.EditProfileAsync(user.Id, Input.DiscordUsername, Input.GamingExperience);
+            var imageUrl = string.Empty;
+            if (Input.Image != null)
+            {
+                var fileName = ContentDispositionHeaderValue.Parse(Input.Image.ContentDisposition).FileName.Trim('"');
+
+                await using var stream = Input.Image.OpenReadStream();
+                var uploadParams = new ImageUploadParams
+                {
+                    File = new FileDescription(fileName, stream),
+                    Format = "jpg",
+                };
+
+                var uploadResult = await cloudinary.UploadAsync(uploadParams);
+
+                imageUrl = uploadResult.SecureUri.ToString();
+            }
+
+            var id = await _usersService.EditProfileAsync(user.Id, Input.DiscordUsername, Input.GamingExperience, imageUrl);
             if (id == null)
             {
                 return this.NotFound();
