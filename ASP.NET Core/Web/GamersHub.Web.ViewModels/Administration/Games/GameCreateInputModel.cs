@@ -22,7 +22,6 @@ namespace GamersHub.Web.ViewModels.Administration.Games
         public string Description { get; set; }
 
         [Required]
-        [Display(Name = "Upload an Image:")]
         public IFormFile Image { get; set; }
     }
 }

@@ -25,7 +25,6 @@ namespace GamersHub.Web.ViewModels.Games
 
         public string ImgUrl { get; set; }
 
-        [Display(Name = "Change Image:")]
         public IFormFile Image { get; set; }
     }
 }
