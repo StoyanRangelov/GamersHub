@@ -29,11 +29,11 @@
             </div>
             <div class="card">
                 <div class="card-header text-dark">Image</div>
-                <img class="card-img-top" src="@Model.ImgUrl" alt="@Model.Title"/>
+                <img id="CurrentImage" class="card-img-top" src="@Model.ImgUrl" alt="@Model.Title"/>
             </div>
             <br/>
             <div class="form-group">
-                <input asp-for="Image" type="file" class="file" accept=".png, .jpg, .jpeg">
+                <input asp-for="Image" type="file" id="ImageUpload" class="file" accept=".png, .jpg, .jpeg">
                 <div class="input-group col-xs-12">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-image"></i></span>
@@ -64,6 +64,22 @@
 @section Scripts
 {
     <script type="text/javascript">
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#CurrentImage').attr('src', e.target.result);
+                $('#CurrentImage').hide();
+                $('#CurrentImage').fadeIn(650);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $("#ImageUpload").change(function() {
+        readURL(this);
+    });
+    
+    
     $(document).on('click', '.browse', function(){
       var file = $(this).parent().parent().parent().find('.file');
       file.trigger('click');

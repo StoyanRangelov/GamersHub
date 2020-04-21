@@ -25,7 +25,7 @@ namespace GamersHub.Data.Seeding
                                     It was released on January 16, 2007 at local midnight in Europe and North America, selling nearly 2.4 million copies on release day alone and making it, at the time,
                                     the fastest-selling PC game released at that point.[2] Approximately 3.53 million copies were sold in the first month of release, including 1.9 million in North America,
                                      over 100,000 copies in Australasia, and nearly 1.6 million in Europe.[3]</p>",
-                    ImgUrl = "https://res.cloudinary.com/dhagvwgd6/image/upload/v1586684052/sdsbntneszvko6jyaqcr.jpg",
+                    ImgUrl = "https://res.cloudinary.com/dhagvwgd6/image/upload/v1587466948/hzeuhrc32rxdvxfyuffe.jpg",
                 },
                 new Game
                 {
