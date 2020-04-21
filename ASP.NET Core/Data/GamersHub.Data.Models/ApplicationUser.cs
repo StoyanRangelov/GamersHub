@@ -39,6 +39,9 @@ namespace GamersHub.Data.Models
         [Required]
         public string DiscordUsername { get; set; }
 
+        [Required]
+        public string ImgUrl { get; set; }
+
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }

@@ -151,6 +151,7 @@ namespace GamersHub.Services.Data.Users
             user.Email = null;
             user.NormalizedEmail = null;
             user.DiscordUsername = string.Empty;
+            user.ImgUrl = string.Empty;
 
             this.usersRepository.Update(user);
             this.usersRepository.Delete(user);

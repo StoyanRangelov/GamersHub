@@ -233,6 +233,22 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
+        public async Task TestGetCountWorksCorrectly()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                await this.categoriesRepository.AddAsync(new Category());
+            }
+
+            await this.categoriesRepository.SaveChangesAsync();
+
+            var count = this.categoriesService.GetCount();
+
+            Assert.AreEqual(5, count);
+
+        }
+
+        [Test]
         public async Task TestGetNormalisedNameWorksCorrectly()
         {
             await this.categoriesRepository.AddAsync(new Category {Name = "General Discussion"});

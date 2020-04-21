@@ -6,13 +6,11 @@ namespace GamersHub.Services.Data.Games
     public interface IGamesService
     {
         /// <summary>
-        /// Finds the game title of a by the provided game id and returns its name after running it through the UrlParser
+        /// Returns the game title and subTitle by the provided id, runs the title through the UrlParser to generate valid UrL
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        string GetUrlById(int id);
-
-        string GetSubTitleById(int id);
+        string[] GetTitleUrlAndSubTitleById(int id);
 
         /// <summary>
         /// Returns a game from the database by the specified game id, otherwise returns null if such a game does not exist

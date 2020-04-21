@@ -21,21 +21,17 @@ namespace GamersHub.Services.Data.Games
             this.reviewsRepositorty = reviewsRepositorty;
         }
 
-        public string GetUrlById(int id)
+        public string[] GetTitleUrlAndSubTitleById(int id)
         {
-            var gameName = this.gamesRepository.All()
-                .First(x => x.Id == id).Title;
+            var game = this.gamesRepository.All()
+                .First(x => x.Id == id);
 
-            var url = UrlParser.ParseToUrl(gameName);
+            var titleUrl = UrlParser.ParseToUrl(game.Title);
+            var subTitle = game.SubTitle;
 
-            return url;
-        }
+            var routeParams = new[] { titleUrl, subTitle };
 
-        public string GetSubTitleById(int id)
-        {
-            var gameSubtitle = this.gamesRepository.All().First(x => x.Id == id).SubTitle;
-
-            return gameSubtitle;
+            return routeParams;
         }
 
         public T GetById<T>(int id)

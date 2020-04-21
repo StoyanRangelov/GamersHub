@@ -50,12 +50,6 @@ body {
     background-size: cover;    
 }
 
-.file {
-    visibility: hidden;
-    position: absolute;
-}
-
-
 thead th {
     background-repeat: no-repeat;
     background-position: right center;
@@ -71,6 +65,24 @@ thead th.down {
 thead th.none {
     padding-right: 20px;
     background-image: url(../lib/tablesorter/dist/css/images/white-unsorted.gif);
+}
+
+.file {
+    visibility: hidden;
+    position: absolute;
+}
+
+.avatar {
+    vertical-align: middle;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;   
 }
 
 .footer {

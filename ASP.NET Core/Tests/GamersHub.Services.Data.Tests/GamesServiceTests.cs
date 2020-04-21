@@ -31,14 +31,17 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
-        public async Task TestGetUrlWorksCorrectly()
+        public async Task TestGetTitleUrlAndSubTitleByIdWorksCorrectly()
         {
-            await this.gameRepository.AddAsync(new Game {Title = "Dota 2"});
+            await this.gameRepository.AddAsync(new Game {Title = "World of Warcraft", SubTitle = "The Burning Crusade"});
             await this.gameRepository.SaveChangesAsync();
 
-            var gameUrl = this.gamesService.GetUrlById(1);
+            var routeParams = this.gamesService.GetTitleUrlAndSubTitleById(1);
+            var gameUrl = routeParams[0];
+            var subTitlte = routeParams[1];
 
-            Assert.AreEqual("Dota-2", gameUrl);
+            Assert.AreEqual("World-of-Warcraft", gameUrl);
+            Assert.AreEqual("The Burning Crusade", subTitlte);
         }
 
         [Test]

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using GamersHub.Common;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using GamersHub.Data.Models;
@@ -93,6 +94,7 @@ namespace GamersHub.Web.Areas.Identity.Pages.Account
                         Email = Input.Email,
                         GamingExperience = Input.GamingExperience,
                         DiscordUsername = Input.DiscordUsername,
+                        ImgUrl = GlobalConstants.DefaultUserImageUrl,
                     };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)

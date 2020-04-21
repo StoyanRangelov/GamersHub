@@ -30,6 +30,8 @@ namespace GamersHub.Web.Areas.Identity.Pages.Account.Manage
 
         public string Username { get; set; }
 
+        public string ImgUrl { get; set; }
+
         [Display(Name = "Current Gaming Experience")]
         [EnumDataType(typeof(GamingExperienceType))]
         public GamingExperienceType CurrentGamingExperience { get; set; }
@@ -61,6 +63,7 @@ namespace GamersHub.Web.Areas.Identity.Pages.Account.Manage
 
             Username = userName;
             CurrentGamingExperience = user.GamingExperience;
+            ImgUrl = user.ImgUrl;
 
             Input = new InputModel
             {
