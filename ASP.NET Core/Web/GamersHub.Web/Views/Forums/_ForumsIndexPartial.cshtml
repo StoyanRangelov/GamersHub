@@ -3,8 +3,11 @@
 <div class="col mb-4">
     <div class="card h-100">
         <div class="card-header alert alert-success">
-            @Model.Name
-            <a asp-controller="Forums" asp-action="@Model.Url" class="card-link float-right">To Forum</a>
+           <h5 class="d-inline"> @Model.Name</h5>
+            <h5 class="d-inline">
+                <a asp-controller="Forums" asp-action="@Model.Url" class="card-link float-right">To Forum</a>
+            </h5>
+            
         </div>
         <div class="card-body">
             <p class="card-text">Total Posts: <span class="badge badge-primary">@Model.PostsCount</span></p>

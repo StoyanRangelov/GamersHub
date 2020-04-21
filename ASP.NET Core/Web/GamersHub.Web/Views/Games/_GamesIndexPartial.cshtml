@@ -3,10 +3,14 @@
 <div class="col mb-4">
     <div class="card h-100">
         <div class="card-header alert alert-success">
-            Reviews: 
-            <i class="fas fa-thumbs-up fa-lg text-primary"></i> @Model.PositiveReviews
-            <i class="fas fa-thumbs-down fa-lg text-danger"></i> @Model.NegativeReviews
-            <a asp-controller="Games" asp-action="@Model.Url" asp-route-subTitle="@Model.SubTitle" class="card-link float-right">To Reviews</a>
+            <h5 class="d-inline">
+                Reviews
+                <i class="fas fa-thumbs-up fa-lg text-primary"></i> @Model.PositiveReviews
+                <i class="fas fa-thumbs-down fa-lg text-danger"></i> @Model.NegativeReviews
+            </h5>
+            <h5 class="d-inline float-right">
+                <a asp-controller="Games" asp-action="@Model.Url" asp-route-subTitle="@Model.SubTitle" class="card-link">To Reviews</a>
+            </h5>
         </div>
         <img class="card-img-top" src="@Model.ImgUrl" alt="@Model.Title" style="width: 100%; height: 700px"/>
         <div class="card-body">

@@ -12,6 +12,8 @@ namespace GamersHub.Web.ViewModels.Parties
 
         public string CreatorUsername { get; set; }
 
+        public string CreatorImgUrl { get; set; }
+
         public string Game { get; set; }
 
         public string Activity { get; set; }

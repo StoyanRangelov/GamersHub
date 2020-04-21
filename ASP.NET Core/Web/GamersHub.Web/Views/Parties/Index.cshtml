@@ -33,8 +33,9 @@
         <div class="col mb-4">
             <div class="card h-100">
                 <div class="card-header alert alert-success">
-                    Hosted by: @party.CreatorUsername
-                    <span class="float-right"><i class="fas fa-calendar-alt"></i> Created on: <time datetime="@party.CreatedOn"></time></span>
+                    <img src="@party.CreatorImgUrl" alt="Profile Picture" class="profilePicture card-img-top mr-2">
+                    <h5 class="float-right"><i class="fas fa-calendar-alt"></i> <time datetime="@party.CreatedOn"></time></h5>
+                     <h5 class="d-inline">@party.CreatorUsername</h5>
                 </div>
                 <div class="card-body">
                     <h5 class="card-text">@party.Game</h5>

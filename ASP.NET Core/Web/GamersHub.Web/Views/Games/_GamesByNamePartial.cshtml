@@ -3,16 +3,18 @@
 
 <div class="card">
     <div class="card-header alert alert-success">
-        <h5 class="d-inline">@Model.UserUsername 
-        @if (Model.IsPositive)
-        {
-            <i class="fas fa-thumbs-up fa-lg text-primary"></i>
-        }
-        else
-        {
-            <i class="fas fa-thumbs-down fa-lg text-danger"></i>
-        }
-            </h5>
+        <img src="@Model.UserImgUrl" alt="Profile Picture" class="profilePicture card-img-top mr-2">
+        <h5 class="d-inline">
+            @Model.UserUsername
+            @if (Model.IsPositive)
+            {
+                <i class="fas fa-thumbs-up fa-lg text-primary"></i>
+            }
+            else
+            {
+                <i class="fas fa-thumbs-down fa-lg text-danger"></i>
+            }
+        </h5>
         <h5 class="float-right">User Reviews: @Model.UserReviewsCount</h5>
     </div>
     <div class="card-body">

@@ -15,6 +15,8 @@ namespace GamersHub.Web.ViewModels.Posts
 
         public string UserUsername { get; set; }
 
+        public string UserImgUrl { get; set; }
+
         public DateTime CreatedOn { get; set; }
 
         public DateTime? ModifiedOn { get; set; }

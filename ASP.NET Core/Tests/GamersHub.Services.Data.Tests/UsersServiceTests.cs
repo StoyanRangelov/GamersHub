@@ -490,7 +490,7 @@ namespace GamersHub.Services.Data.Tests
         [Test]
         public async Task TestEditProfileAsyncReturnsNullWithInvalidId()
         {
-            var userId = await this.usersService.EditProfileAsync("id", "test", GamingExperienceType.Advanced);
+            var userId = await this.usersService.EditProfileAsync("id", "test", GamingExperienceType.Advanced, "test");
 
             Assert.Null(userId);
         }
@@ -503,16 +503,18 @@ namespace GamersHub.Services.Data.Tests
                 Id = "id",
                 DiscordUsername = "discord",
                 GamingExperience = GamingExperienceType.Beginner,
+                ImgUrl = "image",
             });
             await this.usersRepository.SaveChangesAsync();
 
-            var userId = await this.usersService.EditProfileAsync("id", "test", GamingExperienceType.Master);
+            var userId = await this.usersService.EditProfileAsync("id", "test", GamingExperienceType.Master, "test");
 
             var user = await this.usersRepository.All().FirstAsync();
 
             Assert.AreEqual("id", userId);
             Assert.AreEqual("test", user.DiscordUsername);
             Assert.AreEqual(GamingExperienceType.Master, user.GamingExperience);
+            Assert.AreEqual("test", user.ImgUrl);
         }
     }
 

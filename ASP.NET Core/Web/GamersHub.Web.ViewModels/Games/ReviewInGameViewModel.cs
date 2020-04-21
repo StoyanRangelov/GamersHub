@@ -19,6 +19,8 @@ namespace GamersHub.Web.ViewModels.Games
 
         public string UserUsername { get; set; }
 
+        public string UserImgUrl { get; set; }
+
         public string UserReviewsCount { get; set; }
 
         public bool IsPositive { get; set; }

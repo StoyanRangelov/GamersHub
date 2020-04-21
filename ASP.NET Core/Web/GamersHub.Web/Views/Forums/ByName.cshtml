@@ -32,11 +32,13 @@
 <hr/>
 <div class="row row-cols-1 row-cols-md-3 list-group list-group-horizontal">
     @foreach (var category in Model.ForumCategories)
-        {
-            <div class="col mb-4">
+    {
+        <div class="col mb-4">
+            <h5 class="d-inline">
                 <a asp-controller="Categories" asp-action="@category.Url" asp-route-id="@Model.Id" class="list-group-item list-group-item-action">@category.CategoryName</a>
-            </div>
-        }
+            </h5>
+        </div>
+    }
 </div>
 
 <table id="PostsList" class="table">
@@ -62,7 +64,7 @@
 
 @section Scripts
 {
-   <script type="text/javascript">         
+    <script type="text/javascript">         
               $(document).ready(function () {             
    
                   $("#PostsList").tablesorter({                  
