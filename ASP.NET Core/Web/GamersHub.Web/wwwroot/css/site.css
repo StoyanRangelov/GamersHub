@@ -50,6 +50,12 @@ body {
     background-size: cover;    
 }
 
+.file {
+    visibility: hidden;
+    position: absolute;
+}
+
+
 thead th {
     background-repeat: no-repeat;
     background-position: right center;

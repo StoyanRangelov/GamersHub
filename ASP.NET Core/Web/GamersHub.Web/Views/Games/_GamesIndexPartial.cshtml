@@ -8,7 +8,7 @@
             <i class="fas fa-thumbs-down fa-lg text-danger"></i> @Model.NegativeReviews
             <a asp-controller="Games" asp-action="@Model.Url" asp-route-subTitle="@Model.SubTitle" class="card-link float-right">To Reviews</a>
         </div>
-        <img class="card-img-top" src="@Model.ImgUrl" alt="@Model.Title" style="height: 700px"/>
+        <img class="card-img-top" src="@Model.ImgUrl" alt="@Model.Title" style="width: 100%; height: 700px"/>
         <div class="card-body">
             <h5 class="card-title">@Model.Title</h5>
             @if (Model.SubTitle != null)
