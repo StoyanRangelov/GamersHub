@@ -54,7 +54,7 @@ namespace GamersHub.Web.Controllers
             return this.View(viewModel);
         }
 
-        public IActionResult ByName(string name, int id = 1)
+        public IActionResult ByName(string name, string searchString, string currentFilter, int id = 1)
         {
             var viewModel = this.forumsService.GetByNameUrl<ForumByNameViewModel>(name);
 
@@ -63,22 +63,29 @@ namespace GamersHub.Web.Controllers
                 return this.NotFound();
             }
 
-            viewModel.ForumPosts =
-                this.postsService.GetAllByForumId<PostInForumViewModel>(viewModel.Id, PostsPerPage, (id - 1) * PostsPerPage);
+            viewModel.CurrentPage = id;
 
-            var count = this.postsService.GetCountByForumId(viewModel.Id);
-
-            var pagination = new PaginationViewModel();
-
-            pagination.PagesCount = (int) Math.Ceiling((double) count / PostsPerPage);
-            if (pagination.PagesCount == 0)
+            if (searchString != null)
             {
-                pagination.PagesCount = 1;
+                viewModel.CurrentPage = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
             }
 
-            pagination.CurrentPage = id;
+            ViewData["CurrentFilter"] = searchString;
 
-            viewModel.Pagination = pagination;
+            viewModel.ForumPosts =
+                this.postsService.GetAllByForumId<PostInForumViewModel>(viewModel.Id, searchString, PostsPerPage, (id - 1) * PostsPerPage);
+
+            var count = this.postsService.GetCountByForumId(viewModel.Id, searchString);
+
+            viewModel.PagesCount = (int) Math.Ceiling((double) count / PostsPerPage);
+            if (viewModel.PagesCount == 0)
+            {
+                viewModel.PagesCount = 1;
+            }
 
             return this.View(viewModel);
         }

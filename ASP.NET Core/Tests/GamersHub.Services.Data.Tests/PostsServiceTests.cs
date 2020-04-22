@@ -221,7 +221,7 @@ namespace GamersHub.Services.Data.Tests
 
 
             var allPosts = this.postsRepository.All().ToList();
-            var posts = this.postsService.GetAllByForumId<TestPost>(1, 5, 3).ToList();
+            var posts = this.postsService.GetAllByForumId<TestPost>(1, null, 5, 3).ToList();
 
             foreach (var testPost in posts)
             {

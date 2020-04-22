@@ -65,11 +65,17 @@ namespace GamersHub.Services.Data.Posts
             return posts;
         }
 
-        public IEnumerable<T> GetAllByForumId<T>(int forumId, int? take = null, int skip = 0)
+        public IEnumerable<T> GetAllByForumId<T>(int forumId, string searchString = null, int? take = null, int skip = 0)
         {
             var query = this.postsRepository.All()
-                .Where(x => x.ForumId == forumId)
-                .OrderByDescending(x => x.CreatedOn).Skip(skip);
+                .Where(x => x.ForumId == forumId);
+
+            if (searchString != null)
+            {
+                query = query.Where(x => x.Name.ToLower().Contains(searchString.ToLower()));
+            }
+
+            query = query.OrderByDescending(x => x.CreatedOn).Skip(skip);
 
             if (take.HasValue)
             {
@@ -175,8 +181,13 @@ namespace GamersHub.Services.Data.Posts
             return post.Id;;
         }
 
-        public int GetCountByForumId(int forumId)
+        public int GetCountByForumId(int forumId, string searchString = null)
         {
+            if (searchString != null)
+            {
+                return this.postsRepository.All().Count(x => x.Name.ToLower().Contains(searchString.ToLower()));
+            }
+
             return this.postsRepository.All().Count(x => x.ForumId == forumId);
         }
 

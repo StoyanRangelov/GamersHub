@@ -38,18 +38,19 @@ namespace GamersHub.Services.Data.Posts
         /// <returns></returns>
 
         IEnumerable<T> GetTopFive<T>();
-        
+
         /// <summary>
         /// Returns a number of posts with the given forum id, based on the given take and skip values
         /// </summary>
         /// <param name="forumId"></param>
+        /// <param name="searchString"></param>
         /// <param name="take"></param>
         /// <param name="skip"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
 
-        IEnumerable<T> GetAllByForumId<T>(int forumId, int? take = null, int skip = 0);
-        
+        IEnumerable<T> GetAllByForumId<T>(int forumId, string searchString = null, int? take = null, int skip = 0);
+
         /// <summary>
         /// Returns a number of posts with the given category name and forum id, based on the given take and skip values
         /// </summary>
@@ -98,7 +99,7 @@ namespace GamersHub.Services.Data.Posts
         /// <param name="forumId"></param>
         /// <returns></returns>
 
-        int GetCountByForumId(int forumId);
+        int GetCountByForumId(int forumId, string searchString = null);
         
         /// <summary>
         /// Returns the count of all posts in the database
