@@ -27,7 +27,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         public IActionResult Index(int id = 1)
         {
             var games = this.gamesService
-                .GetAll<GameAdministrationViewModel>(GamesPerPage, null,(id - 1) * GamesPerPage);
+                .GetAll<GameAdministrationViewModel>(GamesPerPage,(id - 1) * GamesPerPage);
 
             var viewModel = new GameAdministrationIndexViewModel {Games = games};
 

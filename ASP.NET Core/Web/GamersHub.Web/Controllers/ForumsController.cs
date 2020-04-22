@@ -77,7 +77,7 @@ namespace GamersHub.Web.Controllers
             ViewData["CurrentFilter"] = searchString;
 
             viewModel.ForumPosts =
-                this.postsService.GetAllByForumId<PostInForumViewModel>(viewModel.Id, searchString, PostsPerPage, (id - 1) * PostsPerPage);
+                this.postsService.GetAllByForumId<PostInForumViewModel>(viewModel.Id, PostsPerPage, (id - 1) * PostsPerPage, searchString);
 
             var count = this.postsService.GetCountByForumId(viewModel.Id, searchString);
 

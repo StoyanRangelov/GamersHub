@@ -49,7 +49,7 @@ namespace GamersHub.Services.Data.Posts
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
 
-        IEnumerable<T> GetAllByForumId<T>(int forumId, string searchString = null, int? take = null, int skip = 0);
+        IEnumerable<T> GetAllByForumId<T>(int forumId, int? take = null, int skip = 0, string searchString = null);
 
         /// <summary>
         /// Returns a number of posts with the given category name and forum id, based on the given take and skip values
@@ -62,7 +62,7 @@ namespace GamersHub.Services.Data.Posts
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
 
-        IEnumerable<T> GetAllByCategoryNameAndForumId<T>(string name, int id, string searchString = null, int? take = null, int skip = 0);
+        IEnumerable<T> GetAllByCategoryNameAndForumId<T>(string name, int id, int? take = null, int skip = 0, string searchString = null);
         
         /// <summary>
         /// Creates a new post with the given forum id, category id, name, content and user id, returns null if the given forum does not exist, otherwise returns the post id

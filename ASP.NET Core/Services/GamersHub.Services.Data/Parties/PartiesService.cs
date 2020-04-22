@@ -31,10 +31,17 @@ namespace GamersHub.Services.Data.Parties
             return party;
         }
 
-        public IEnumerable<T> GetAll<T>(int? take = null, int skip = 0)
+        public IEnumerable<T> GetAll<T>(int? take = null, int skip = 0, string searchString = null)
         {
-            var query = this.partiesRepository.All()
-                .OrderByDescending(x => x.CreatedOn).Skip(skip);
+            var query = this.partiesRepository.All();
+
+            if (searchString != null)
+            {
+                query = query.Where(x => x.Game.ToLower().Contains(searchString.ToLower()) ||
+                                               x.Creator.UserName.ToLower().Contains(searchString.ToLower()));
+            }
+
+            query = query.OrderByDescending(x => x.CreatedOn).Skip(skip);
             if (take.HasValue)
             {
                 query = query.Take(take.Value);
@@ -65,8 +72,14 @@ namespace GamersHub.Services.Data.Parties
             return query.To<T>().ToList();
         }
 
-        public int GetCount()
+        public int GetCount(string searchString = null)
         {
+            if (searchString != null )
+            {
+                return this.partiesRepository.All().Count(x => x.Game.ToLower().Contains(searchString.ToLower()) ||
+                                                               x.Creator.UserName.ToLower().Contains(searchString.ToLower()));
+            }
+
             return this.partiesRepository.All().Count();
         }
 

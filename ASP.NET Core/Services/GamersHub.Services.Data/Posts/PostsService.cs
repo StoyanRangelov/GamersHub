@@ -65,7 +65,7 @@ namespace GamersHub.Services.Data.Posts
             return posts;
         }
 
-        public IEnumerable<T> GetAllByForumId<T>(int forumId, string searchString = null, int? take = null, int skip = 0)
+        public IEnumerable<T> GetAllByForumId<T>(int forumId, int? take = null, int skip = 0, string searchString = null)
         {
             var query = this.postsRepository.All()
                 .Where(x => x.ForumId == forumId);
@@ -84,7 +84,7 @@ namespace GamersHub.Services.Data.Posts
             return query.To<T>().ToList();
         }
 
-        public IEnumerable<T> GetAllByCategoryNameAndForumId<T>(string name, int id, string searchString = null, int? take = null, int skip = 0)
+        public IEnumerable<T> GetAllByCategoryNameAndForumId<T>(string name, int id, int? take = null, int skip = 0, string searchString = null)
         {
             var query = this.postsRepository.All()
                 .Where(x => x.ForumId == id && x.Category.Name == name);

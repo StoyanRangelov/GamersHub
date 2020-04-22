@@ -63,8 +63,8 @@ namespace GamersHub.Web.Controllers
             ViewData["CurrentFilter"] = searchString;
 
             viewModel.CategoryPosts = this.postsService
-                .GetAllByCategoryNameAndForumId<PostInCategoryViewModel>(normalisedName, id, searchString, PostPerPage,
-                    (page - 1) * PostPerPage);
+                .GetAllByCategoryNameAndForumId<PostInCategoryViewModel>(normalisedName, id, PostPerPage,
+                    (page - 1) * PostPerPage, searchString);
 
 
             var count = this.postsService.GetCountByCategoryNameAndForumId(normalisedName, id, searchString);

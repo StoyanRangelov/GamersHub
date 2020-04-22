@@ -52,7 +52,7 @@ namespace GamersHub.Services.Data.Games
             return game;
         }
 
-        public IEnumerable<T> GetAll<T>(int? take = null, string searchString = null, int skip = 0)
+        public IEnumerable<T> GetAll<T>(int? take = null, int skip = 0, string searchString = null)
         {
             var query = this.gamesRepository.All();
 

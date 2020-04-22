@@ -19,7 +19,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
 
         public IActionResult Index(int id = 1)
         {
-            var parties = this.partiesService.GetAll<PartyAdministrationViewModel>(PartiesPerPage, (id - 1) * PartiesPerPage);
+            var parties = this.partiesService.GetAll<PartyAdministrationViewModel>( PartiesPerPage, (id - 1) * PartiesPerPage);
 
             var viewModel = new PartyAdministrationIndexViewModel { Parties = parties};
 

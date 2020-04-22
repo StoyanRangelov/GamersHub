@@ -30,26 +30,33 @@ namespace GamersHub.Web.Controllers
             this.partyApplicantsService = partyApplicantsService;
         }
 
-        public IActionResult Index(int id = 1)
+        public IActionResult Index(string searchString, string currentFilter, int id = 1)
         {
             var parties = this.partiesService
-                .GetAll<PartyViewModel>(PartiesPerPage, (id - 1) * PartiesPerPage);
+                .GetAll<PartyViewModel>(PartiesPerPage, (id - 1) * PartiesPerPage, searchString);
 
             var viewModel = new PartyIndexViewModel {Parties = parties};
 
-            var count = this.partiesService.GetCount();
+            viewModel.CurrentPage = id;
 
-            var pagination = new PaginationViewModel();
-
-            pagination.PagesCount = (int) Math.Ceiling((double) count / PartiesPerPage);
-            if (pagination.PagesCount == 0)
+            if (searchString != null)
             {
-                pagination.PagesCount = 1;
+                viewModel.CurrentPage = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
             }
 
-            pagination.CurrentPage = id;
+            ViewData["CurrentFilter"] = searchString;
 
-            viewModel.Pagination = pagination;
+
+            var count = this.partiesService.GetCount(searchString);
+            viewModel.PagesCount = (int) Math.Ceiling((double) count / PartiesPerPage);
+            if (viewModel.PagesCount == 0)
+            {
+                viewModel.PagesCount = 1;
+            }
 
             return this.View(viewModel);
         }

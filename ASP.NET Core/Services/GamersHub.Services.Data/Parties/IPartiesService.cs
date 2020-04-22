@@ -17,11 +17,12 @@ namespace GamersHub.Services.Data.Parties
         /// <summary>
         /// Returns a number of parties, based on the provided take and skip values
         /// </summary>
+        /// <param name="searchString"></param>
         /// <param name="take"></param>
         /// <param name="skip"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        IEnumerable<T> GetAll<T>(int? take = null, int skip = 0);
+        IEnumerable<T> GetAll<T>(int? take = null, int skip = 0, string searchString = null);
 
         /// <summary>
         /// Returns the top five parties based on their party applications count
@@ -43,8 +44,9 @@ namespace GamersHub.Services.Data.Parties
         /// <summary>
         /// Returns the count of all parties
         /// </summary>
+        /// <param name="searchString"></param>
         /// <returns></returns>
-        int GetCount();
+        int GetCount(string searchString = null);
 
         /// <summary>
         /// Returns the count of all parties with the given username

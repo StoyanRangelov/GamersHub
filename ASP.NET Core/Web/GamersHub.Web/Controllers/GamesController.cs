@@ -36,7 +36,7 @@ namespace GamersHub.Web.Controllers
         public IActionResult Index(string searchString, string currentFilter, int id = 1)
         {
             var games = this.gamesService
-                .GetAll<GameViewModel>(GamesPerPage, searchString, (id - 1) * GamesPerPage);
+                .GetAll<GameViewModel>(GamesPerPage, (id - 1) * GamesPerPage, searchString);
 
             var viewModel = new GameIndexViewModel {Games = games};
 
