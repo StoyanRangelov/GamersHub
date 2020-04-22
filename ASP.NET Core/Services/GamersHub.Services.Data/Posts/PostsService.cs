@@ -202,7 +202,7 @@ namespace GamersHub.Services.Data.Posts
             return this.postsRepository.All().Count();
         }
 
-        public int GetCountByCategoryNameAndForumId(string name, int forumId, string searchString)
+        public int GetCountByCategoryNameAndForumId(string name, int forumId, string searchString = null)
         {
             if (searchString != null)
             {

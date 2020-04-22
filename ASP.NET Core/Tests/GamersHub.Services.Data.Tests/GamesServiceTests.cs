@@ -72,8 +72,29 @@ namespace GamersHub.Services.Data.Tests
             Assert.AreEqual("The Burning Crusade", game.SubTitle);
         }
 
+
         [Test]
-        public async Task TestGetAllWorksCorrectly()
+        public async Task TestGetAllWorksCorrectly([Values("test", null)]string value)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                await this.gameRepository.AddAsync(new Game {Title = "test"});
+            }
+
+            await this.gameRepository.SaveChangesAsync();
+
+            var games = this.gamesService.GetAll<TestGame>(null, 0, value).ToList();
+
+            Assert.AreEqual(5, games.Count);
+
+            foreach (var testGame in games)
+            {
+                Assert.AreEqual("test", testGame.Title);
+            }
+        }
+
+        [Test]
+        public async Task TestGetAllWithSkipAndTakeValues()
         {
             for (int i = 0; i < 3; i++)
             {
@@ -176,16 +197,16 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
-        public async Task TestGetCount()
+        public async Task TestGetCount([Values("test", null)]string value)
         {
             for (int i = 0; i < 5; i++)
             {
-                await this.gameRepository.AddAsync(new Game());
+                await this.gameRepository.AddAsync(new Game { Title = "test", SubTitle = "title"});
             }
 
             await this.gameRepository.SaveChangesAsync();
 
-            var count = this.gamesService.GetCount();
+            var count = this.gamesService.GetCount(value);
 
             Assert.AreEqual(5, count);
         }

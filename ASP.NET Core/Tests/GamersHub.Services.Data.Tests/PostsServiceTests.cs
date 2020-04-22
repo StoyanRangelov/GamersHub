@@ -159,7 +159,7 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
-        public async Task TestGetAllByForumId()
+        public async Task TestGetAllByForumId([Values("name", null)]string value)
         {
             for (int i = 0; i < 5; i++)
             {
@@ -175,7 +175,7 @@ namespace GamersHub.Services.Data.Tests
 
             await this.postsRepository.SaveChangesAsync();
 
-            var posts = this.postsService.GetAllByForumId<TestPost>(1).ToList();
+            var posts = this.postsService.GetAllByForumId<TestPost>(1, null, 0, value).ToList();
 
             foreach (var testPost in posts)
             {
@@ -185,6 +185,8 @@ namespace GamersHub.Services.Data.Tests
 
             Assert.AreEqual(5, posts.Count);
         }
+
+
 
         [Test]
         public async Task TestGetAllByForumIdWithTakeAndSkipValues()
@@ -233,7 +235,7 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
-        public async Task TestGetAllByCategoryNameAndForumId()
+        public async Task TestGetAllByCategoryNameAndForumId([Values("name", null)]string value)
         {
             for (int i = 0; i < 10; i++)
             {
@@ -256,7 +258,7 @@ namespace GamersHub.Services.Data.Tests
             await this.postsRepository.SaveChangesAsync();
 
 
-            var posts = this.postsService.GetAllByCategoryNameAndForumId<TestPost>("category", 1).ToList();
+            var posts = this.postsService.GetAllByCategoryNameAndForumId<TestPost>("category", 1, null, 0, value).ToList();
 
             foreach (var testPost in posts)
             {
@@ -447,32 +449,32 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
-        public async Task TestGetCountByForumId()
+        public async Task TestGetCountByForumId([Values("test", null)]string value)
         {
             for (int i = 0; i < 5; i++)
             {
-                await this.postsRepository.AddAsync(new Post {ForumId = 1});
+                await this.postsRepository.AddAsync(new Post {ForumId = 1, Name = "test"});
             }
 
             for (int i = 2; i < 5; i++)
             {
-                await this.postsRepository.AddAsync(new Post {ForumId = i});
+                await this.postsRepository.AddAsync(new Post {ForumId = i, Name = "test"});
             }
 
             await this.postsRepository.SaveChangesAsync();
 
-            var count = this.postsService.GetCountByForumId(1);
+            var count = this.postsService.GetCountByForumId(1, value);
 
             Assert.AreEqual(5, count);
         }
 
         [Test]
-        public async Task TesGetCountByCategoryNameAndForumId()
+        public async Task TesGetCountByCategoryNameAndForumId([Values("test", null)]string value)
         {
             for (int i = 0; i < 5; i++)
             {
                 await this.postsRepository.AddAsync(new Post
-                    {ForumId = 1, Category = new Category {Name = "category"}});
+                    {ForumId = 1, Name = "test", Category = new Category {Name = "category"}});
             }
 
             for (int i = 2; i < 5; i++)
@@ -485,7 +487,7 @@ namespace GamersHub.Services.Data.Tests
                 {ForumId = 1, Category = new Category {Name = "wrong category"}});
             await this.postsRepository.SaveChangesAsync();
 
-            var count = this.postsService.GetCountByCategoryNameAndForumId("category", 1, null);
+            var count = this.postsService.GetCountByCategoryNameAndForumId("category", 1, value);
 
             Assert.AreEqual(5, count);
         }

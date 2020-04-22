@@ -54,7 +54,32 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
-        public async Task TestGetAll()
+        public async Task TestGetAll([Values("test", null)]string value)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                await this.partiesRepository.AddAsync(new Party
+                {
+                    Game = "test",
+                    Creator = new ApplicationUser { UserName = "test" },
+                });
+            }
+
+            await this.partiesRepository.SaveChangesAsync();
+
+            var parties = this.partiesService.GetAll<PartyTest>(null, 0, value).ToList();
+
+            Assert.AreEqual(5, parties.Count);
+
+            foreach (var partyTest in parties)
+            {
+                Assert.AreEqual("test", partyTest.CreatorUsername);
+                Assert.AreEqual("test", partyTest.Game);
+            }
+        }
+
+        [Test]
+        public async Task TestGetAllWithSkipAndTakeValues()
         {
             for (int i = 0; i < 3; i++)
             {
@@ -173,16 +198,16 @@ namespace GamersHub.Services.Data.Tests
         }
 
         [Test]
-        public async Task TestGetCount()
+        public async Task TestGetCount([Values("test", null)]string value)
         {
             for (int i = 0; i < 5; i++)
             {
-                await this.partiesRepository.AddAsync(new Party());
+                await this.partiesRepository.AddAsync(new Party { Game = "test", Creator = new ApplicationUser { UserName = "name"}});
             }
 
             await this.partiesRepository.SaveChangesAsync();
 
-            var count = this.partiesService.GetCount();
+            var count = this.partiesService.GetCount(value);
 
             Assert.AreEqual(5, count);
         }
