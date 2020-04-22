@@ -11,8 +11,7 @@ namespace GamersHub.Data.Models
         [Required]
         public string Game { get; set; }
 
-        [Required]
-        public string Activity { get; set; }
+        public ActivityType Activity { get; set; }
 
         [Required]
         public string Description { get; set; }

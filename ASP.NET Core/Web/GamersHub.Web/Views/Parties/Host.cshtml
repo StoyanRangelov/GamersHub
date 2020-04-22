@@ -41,7 +41,7 @@ else
         <div class="card">
             <div class="card-header alert alert-success">
                 <h5 class="d-inline float-right">
-                    <i class="fas fa-calendar-alt"></i> Created on: <time datetime="@party.CreatedOn"></time>
+                    <i class="fas fa-calendar-alt"> </i><time datetime="@party.CreatedOn"></time>
                 </h5>
                 @if (party.IsFull)
                 {
@@ -61,7 +61,7 @@ else
             <div class="card-footer">
                 @if (!party.PartyApplicants.Any())
                 {
-                    <p class="card-text">There are currently no applicants for this party.</p>
+                    <h5 class="card-text">There are currently no applicants for this party.</h5>
                 }
                 else
                 {

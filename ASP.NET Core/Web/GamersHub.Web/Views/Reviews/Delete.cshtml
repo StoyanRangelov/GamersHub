@@ -19,6 +19,7 @@
 
 <div class="card">
     <div class="card-header alert alert-success">
+        <img src="@Model.UserImgUrl" alt="Profile Picture" class="profilePicture card-img-top mr-2">
         <h5 class="d-inline">
             @Model.UserUsername
             @if (Model.IsPositive)
@@ -55,8 +56,8 @@
         <input type="hidden" name="ReviewId" value="@Model.Id"/>
     </div>
     <div class="form-group">
-            <input type="hidden" name="GameSubTitle" value="@Model.GameSubTitle"/>
-        </div>
+        <input type="hidden" name="GameSubTitle" value="@Model.GameSubTitle"/>
+    </div>
     <div class="form-group">
         <input type="submit" value="Delete" class="btn btn-danger btn-lg"/>
     </div>

@@ -216,14 +216,14 @@ namespace GamersHub.Services.Data.Tests
         public async Task TestCreateAsync()
         {
             var partyId = await this.partiesService.CreateAsync(
-                "userId", "game", "activity", "description", 1);
+                "userId", "game", ActivityType.Dungeon, "description", 1);
 
             var party = await this.partiesRepository.All().FirstAsync();
 
             Assert.AreEqual(1, partyId);
             Assert.AreEqual("userId", party.CreatorId);
             Assert.AreEqual("game", party.Game);
-            Assert.AreEqual("activity", party.Activity);
+            Assert.AreEqual(ActivityType.Dungeon, party.Activity);
             Assert.AreEqual("description", party.Description);
             Assert.AreEqual(1, party.Size);
         }
@@ -275,7 +275,7 @@ namespace GamersHub.Services.Data.Tests
         [Test]
         public async Task TestEditAsyncReturnsNullIfPartyDoesNotExist()
         {
-            var partyId = await this.partiesService.EditAsync(1, "test", "test", "test");
+            var partyId = await this.partiesService.EditAsync(1, "test", ActivityType.Other, "test");
 
             Assert.Null(partyId);
         }
@@ -286,18 +286,18 @@ namespace GamersHub.Services.Data.Tests
             await this.partiesRepository.AddAsync(new Party
             {
                 Game = "game",
-                Activity = "activity",
+                Activity = ActivityType.Dungeon,
                 Description = "description",
             });
             await this.partiesRepository.SaveChangesAsync();
 
-            var partyId = await this.partiesService.EditAsync(1, "test", "test", "test");
+            var partyId = await this.partiesService.EditAsync(1, "test", ActivityType.Exploration, "test");
 
             var party = await this.partiesRepository.All().FirstAsync();
 
             Assert.AreEqual(1, partyId);
             Assert.AreEqual("test", party.Game);
-            Assert.AreEqual("test", party.Activity);
+            Assert.AreEqual(ActivityType.Exploration, party.Activity);
             Assert.AreEqual("test", party.Description);
         }
 

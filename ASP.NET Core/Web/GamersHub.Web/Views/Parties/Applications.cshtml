@@ -40,7 +40,7 @@ else
     {
         <div class="card">
             <div class="card-header alert alert-success">
-                <p class="card-text float-right"><i class="fas fa-calendar-alt"></i>Party created on: <time datetime="@application.PartyCreatedOn"></time></p>
+                <h5 class="card-text float-right"><i class="fas fa-calendar-alt"></i> Party created on: <time datetime="@application.PartyCreatedOn"></time></h5>
                 @if (application.PartyIsFull == false)
                 {
                     if (application.ApplicationStatus == ApplicationStatusType.Approved)
@@ -74,8 +74,8 @@ else
                 }               
             </div>
             <div class="card-body">
-                <h5 class="card-text">Game: @application.PartyGame</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Activity: @application.PartyActivity</h6>
+                <h5 class="card-text mb-2">@application.PartyGame</h5>
+                <h6 class="card-subtitle mb-2 text-muted">@application.PartyActivity</h6>
               <p class="card-text">@application.PartyDescription</p>
             </div>
             <div class="card-footer">

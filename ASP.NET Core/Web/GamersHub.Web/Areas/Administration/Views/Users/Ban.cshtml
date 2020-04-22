@@ -14,7 +14,8 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header alert alert-success">
-                <span class="float-right">Joined on: <time datetime="@Model.CreatedOn"></time></span>
+                <img src="@Model.ImgUrl" alt="Profile Picture" class="profilePicture card-img-top mr-2">
+                <h5 class="float-right">Joined on: <time datetime="@Model.CreatedOn"></time></h5>
             </div>
             <div class="card-body">
                 <h5 class="card-title">@Model.Username</h5>

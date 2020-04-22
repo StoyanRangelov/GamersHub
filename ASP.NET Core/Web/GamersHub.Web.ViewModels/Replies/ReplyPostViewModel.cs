@@ -24,6 +24,8 @@ namespace GamersHub.Web.ViewModels.Replies
 
         public string UserUsername { get; set; }
 
+        public string UserImgUrl { get; set; }
+
         public int UserPostsCount { get; set; }
 
         public int UserRepliesCount { get; set; }

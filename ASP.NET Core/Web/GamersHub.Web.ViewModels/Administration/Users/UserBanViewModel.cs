@@ -12,6 +12,8 @@ namespace GamersHub.Web.ViewModels.Administration.Users
 
         public string Username { get; set; }
 
+        public string ImgUrl { get; set; }
+
         public int PostsCount { get; set; }
 
         public int RepliesCount { get; set; }

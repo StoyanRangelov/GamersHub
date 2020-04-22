@@ -259,7 +259,7 @@ namespace GamersHub.Web.Controllers
                 return this.View(input);
             }
 
-            var partyId = await this.partiesService.EditAsync(input.Id, input.Game, input.Activity, input.Description);
+            var partyId = await this.partiesService.EditAsync(input.Id, input.Game, input.ChangeActivity, input.Description);
 
             if (partyId == null)
             {

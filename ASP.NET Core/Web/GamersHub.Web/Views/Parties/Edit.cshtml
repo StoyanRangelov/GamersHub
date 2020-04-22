@@ -1,6 +1,10 @@
-﻿@model GamersHub.Web.ViewModels.Parties.PartyEditViewModel
+﻿@using GamersHub.Data.Models
+@model GamersHub.Web.ViewModels.Parties.PartyEditViewModel
 @{
     ViewData["Title"] = "Edit Party";
+
+    var enumList = Html.GetEnumSelectList<ActivityType>().Where(x => x.Text != Model.Activity);
+
 }
 
 <div class="text-center text-white">
@@ -17,8 +21,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="Activity"></label>
-                <input asp-for="Activity" class="form-control"/>
-                <span asp-validation-for="Activity" class="text-danger"></span>
+                <input asp-for="Activity" class="form-control" disabled/>
+            </div>
+            <div class="form-group">
+                <label asp-for="ChangeActivity"></label>
+                <select asp-for="ChangeActivity" asp-items="@enumList" class="form-control"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Description"></label>

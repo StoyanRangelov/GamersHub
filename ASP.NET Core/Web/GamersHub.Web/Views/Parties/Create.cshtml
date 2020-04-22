@@ -1,6 +1,9 @@
-﻿@model GamersHub.Web.ViewModels.Parties.PartyCreateInputModel
+﻿@using GamersHub.Data.Models
+@model GamersHub.Web.ViewModels.Parties.PartyCreateInputModel
 @{
     ViewData["Title"] = "Create Party";
+
+    var enumList = Html.GetEnumSelectList<ActivityType>();
 }
 
 <div class="text-center text-white">
@@ -16,15 +19,14 @@
                 <span asp-validation-for="Game" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Activity"></label>
+                <select asp-for="Activity" asp-items="@enumList" class="form-control"></select>
+            </div>
+            <div class="form-group">
                 <label asp-for="Size"></label>
                 <h6>Party Size cannot be changed later so please choose carefully</h6>
                 <input asp-for="Size" class="form-control"/>
                 <span asp-validation-for="Size" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Activity"></label>
-                <input asp-for="Activity" class="form-control"/>
-                <span asp-validation-for="Activity" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description"></label>

@@ -17,9 +17,11 @@ namespace GamersHub.Web.ViewModels.Parties
         [StringLength(100, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 3)]
         public string Game { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 3)]
-        public string Activity { get; set; }
+        [Display(Name = "Current Activity")] public string Activity { get; set; }
+
+        [Display(Name = "Change Activity")]
+        [EnumDataType(typeof(ActivityType))]
+        public ActivityType ChangeActivity { get; set; }
 
         [Required]
         [StringLength(400, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 3)]

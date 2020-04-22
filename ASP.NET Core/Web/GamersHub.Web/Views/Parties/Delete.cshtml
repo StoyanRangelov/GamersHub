@@ -15,8 +15,9 @@
 </div>
 <div class="card">
     <div class="card-header alert alert-success">
-        <span class="float-right"><i class="fas fa-calendar-alt"></i> Created on: <time datetime="@Model.CreatedOn"></time></span>
-        <p class="card-text">Created by: @Model.CreatorUsername</p>
+        <img src="@Model.CreatorImgUrl" alt="Profile Picture" class="profilePicture card-img-top mr-2">
+        <h5 class="d-inline"> @Model.CreatorUsername</h5>
+        <h5 class="float-right"><i class="fas fa-calendar-alt"></i> Created on: <time datetime="@Model.CreatedOn"></time></h5>
     </div>
     <div class="card-body">
         <h5 class="card-text">@Model.Game</h5>
@@ -27,7 +28,7 @@
     <div class="card-footer">
         @if (!Model.PartyApplicants.Any())
         {
-            <p class="card-text">There are currently no applicants for this party.</p>
+            <h5 class="card-text">There are currently no applicants for this party.</h5>
         }
         else
         {
@@ -64,8 +65,8 @@
         <input type="hidden" name="CreatorId" value="@Model.CreatorId"/>
     </div>
     <div class="form-group">
-            <input type="hidden" name="CreatorUsername" value="@Model.CreatorUsername"/>
-        </div>
+        <input type="hidden" name="CreatorUsername" value="@Model.CreatorUsername"/>
+    </div>
     <div class="form-group">
         <input type="submit" value="Delete" class="btn btn-danger btn-lg"/>
     </div>

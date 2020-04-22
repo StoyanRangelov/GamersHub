@@ -13,7 +13,10 @@
 <div class="row">
     <div class="col-md-6">
         <div class="card">
-            <div class="card-header alert alert-success">Ban Expires: @Model.LockoutEnd.ToString("MM/dd/yyyy hh:mm tt")</div>
+            <div class="card-header alert alert-success">
+                <img src="@Model.ImgUrl" alt="Profile Picture" class="profilePicture card-img-top mr-2" >
+                <h5 class="float-right">Ban Expires: <time datetime="@Model.LockoutEnd"></time></h5>
+            </div>
             <div class="card-body">
                 <h5 class="card-title">@Model.Username</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Previous activity</h6>

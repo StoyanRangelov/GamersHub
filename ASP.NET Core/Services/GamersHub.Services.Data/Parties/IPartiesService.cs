@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using GamersHub.Data.Models;
 
 namespace GamersHub.Services.Data.Parties
 {
@@ -61,7 +62,7 @@ namespace GamersHub.Services.Data.Parties
         /// <param name="description"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        Task<int> CreateAsync(string userId, string game, string activity, string description, int size);
+        Task<int> CreateAsync(string userId, string game, ActivityType activity, string description, int size);
 
         /// <summary>
         /// Creates a party application by the given party id and user id, returns null if the party does not exists, returns 0 if the party application already exists, otherwise returns the party id
@@ -80,7 +81,7 @@ namespace GamersHub.Services.Data.Parties
         /// <param name="activity"></param>
         /// <param name="description"></param>
         /// <returns></returns>
-        Task<int?> EditAsync(int id, string game, string activity, string description);
+        Task<int?> EditAsync(int id, string game, ActivityType activity, string description);
 
         /// <summary>
         /// Deletes a party by the given id and all of its relations, returns null if the party does not exist, otherwise returns the party id

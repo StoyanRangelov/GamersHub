@@ -21,6 +21,8 @@ namespace GamersHub.Web.ViewModels.Parties
 
         public string CreatorUsername { get; set; }
 
+        public string CreatorImgUrl { get; set; }
+
         public DateTime CreatedOn { get; set; }
 
         public IEnumerable<PartyApplicantDeleteViewModel> PartyApplicants { get; set; }

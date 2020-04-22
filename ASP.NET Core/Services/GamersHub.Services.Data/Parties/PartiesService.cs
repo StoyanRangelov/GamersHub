@@ -75,7 +75,7 @@ namespace GamersHub.Services.Data.Parties
             return this.partiesRepository.All().Count(x => x.Creator.UserName == username);
         }
 
-        public async Task<int> CreateAsync(string userId, string game, string activity, string description, int size)
+        public async Task<int> CreateAsync(string userId, string game, ActivityType activity, string description, int size)
         {
             var party = new Party
             {
@@ -125,7 +125,7 @@ namespace GamersHub.Services.Data.Parties
             return partyId;
         }
 
-        public async Task<int?> EditAsync(int id, string game, string activity, string description)
+        public async Task<int?> EditAsync(int id, string game, ActivityType activity, string description)
         {
             var party = this.partiesRepository.All()
                 .FirstOrDefault(x => x.Id == id);

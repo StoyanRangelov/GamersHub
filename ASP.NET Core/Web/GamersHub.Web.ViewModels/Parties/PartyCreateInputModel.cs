@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using GamersHub.Common;
+using GamersHub.Data.Models;
 
 namespace GamersHub.Web.ViewModels.Parties
 {
@@ -9,9 +10,6 @@ namespace GamersHub.Web.ViewModels.Parties
         [StringLength(100, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 3)]
         public string Game { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 3)]
-        public string Activity { get; set; }
 
         [Required]
         [StringLength(400, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 3)]
@@ -20,5 +18,7 @@ namespace GamersHub.Web.ViewModels.Parties
         [Required]
         [Range(1, 40)]
         public int Size { get; set; }
+
+        public ActivityType Activity { get; set; }
     }
 }
