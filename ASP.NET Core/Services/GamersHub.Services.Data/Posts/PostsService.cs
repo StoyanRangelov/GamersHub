@@ -76,7 +76,6 @@ namespace GamersHub.Services.Data.Posts
             }
 
             query = query.OrderByDescending(x => x.CreatedOn).Skip(skip);
-
             if (take.HasValue)
             {
                 query = query.Take(take.Value);
@@ -85,11 +84,17 @@ namespace GamersHub.Services.Data.Posts
             return query.To<T>().ToList();
         }
 
-        public IEnumerable<T> GetAllByCategoryNameAndForumId<T>(string name, int id, int? take = null, int skip = 0)
+        public IEnumerable<T> GetAllByCategoryNameAndForumId<T>(string name, int id, string searchString = null, int? take = null, int skip = 0)
         {
             var query = this.postsRepository.All()
-                .Where(x => x.ForumId == id && x.Category.Name == name)
-                .OrderByDescending(x => x.CreatedOn).Skip(skip);
+                .Where(x => x.ForumId == id && x.Category.Name == name);
+
+            if (searchString != null)
+            {
+                query = query.Where(x => x.Name.ToLower().Contains(searchString.ToLower()));
+            }
+
+            query = query.OrderByDescending(x => x.CreatedOn).Skip(skip);
             if (take.HasValue)
             {
                 query = query.Take(take.Value);
@@ -185,7 +190,8 @@ namespace GamersHub.Services.Data.Posts
         {
             if (searchString != null)
             {
-                return this.postsRepository.All().Count(x => x.Name.ToLower().Contains(searchString.ToLower()));
+                return this.postsRepository.All().Count(x => x.ForumId == forumId &&
+                                                             x.Name.ToLower().Contains(searchString.ToLower()));
             }
 
             return this.postsRepository.All().Count(x => x.ForumId == forumId);
@@ -196,8 +202,15 @@ namespace GamersHub.Services.Data.Posts
             return this.postsRepository.All().Count();
         }
 
-        public int GetCountByCategoryNameAndForumId(string name, int forumId)
+        public int GetCountByCategoryNameAndForumId(string name, int forumId, string searchString)
         {
+            if (searchString != null)
+            {
+                return this.postsRepository.All().Count(x => x.Category.Name == name &&
+                                                           x.ForumId == forumId &&
+                                                           x.Name.ToLower().Contains(searchString.ToLower()));
+            }
+
             return this.postsRepository.All().Count(x => x.Category.Name == name && x.ForumId == forumId);
         }
 

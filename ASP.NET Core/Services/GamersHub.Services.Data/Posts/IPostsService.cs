@@ -56,12 +56,13 @@ namespace GamersHub.Services.Data.Posts
         /// </summary>
         /// <param name="name"></param>
         /// <param name="id"></param>
+        /// <param name="searchString"></param>
         /// <param name="take"></param>
         /// <param name="skip"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
 
-        IEnumerable<T> GetAllByCategoryNameAndForumId<T>(string name, int id, int? take = null, int skip = 0);
+        IEnumerable<T> GetAllByCategoryNameAndForumId<T>(string name, int id, string searchString = null, int? take = null, int skip = 0);
         
         /// <summary>
         /// Creates a new post with the given forum id, category id, name, content and user id, returns null if the given forum does not exist, otherwise returns the post id
@@ -97,6 +98,7 @@ namespace GamersHub.Services.Data.Posts
         /// Returns the count of all posts with the given forum id
         /// </summary>
         /// <param name="forumId"></param>
+        /// <param name="searchString"></param>
         /// <returns></returns>
 
         int GetCountByForumId(int forumId, string searchString = null);
@@ -113,8 +115,9 @@ namespace GamersHub.Services.Data.Posts
         /// </summary>
         /// <param name="name"></param>
         /// <param name="forumId"></param>
+        /// <param name="searchString"></param>
         /// <returns></returns>
 
-        int GetCountByCategoryNameAndForumId(string name, int forumId);
+        int GetCountByCategoryNameAndForumId(string name, int forumId, string searchString = null);
     }
 }

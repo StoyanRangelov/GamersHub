@@ -34,7 +34,7 @@ namespace GamersHub.Web.Controllers
             this.categoriesService = categoriesService;
         }
 
-        public IActionResult ByName(string name, int id, int page = 1)
+        public IActionResult ByName(string name, int id, string searchString, string currentFilter, int page = 1)
         {
             var normalisedName = this.categoriesService.GetNormalisedName(name);
 
@@ -46,26 +46,34 @@ namespace GamersHub.Web.Controllers
                 return this.NotFound();
             }
 
-            var categoryPosts = this.postsService
-                .GetAllByCategoryNameAndForumId<PostInCategoryViewModel>(normalisedName, id, PostPerPage,
+            var viewModel = new ForumCategoryViewModel();
+            viewModel.ForumCategory = forumCategory;
+
+            viewModel.CurrentPage = page;
+
+            if (searchString != null)
+            {
+                viewModel.CurrentPage = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            viewModel.CategoryPosts = this.postsService
+                .GetAllByCategoryNameAndForumId<PostInCategoryViewModel>(normalisedName, id, searchString, PostPerPage,
                     (page - 1) * PostPerPage);
 
 
-            var viewModel = new ForumCategoryViewModel
-            {
-                ForumCategory = forumCategory,
-                CategoryPosts = categoryPosts,
-            };
-
-            var count = this.postsService.GetCountByCategoryNameAndForumId(normalisedName, id);
+            var count = this.postsService.GetCountByCategoryNameAndForumId(normalisedName, id, searchString);
 
             viewModel.PagesCount = (int) Math.Ceiling((double) count / PostPerPage);
             if (viewModel.PagesCount == 0)
             {
                 viewModel.PagesCount = 1;
             }
-
-            viewModel.CurrentPage = page;
 
             // ReSharper disable once Mvc.ViewNotResolved
             // ForumCategoriesController responds to Views/Categories due ControllerName Change

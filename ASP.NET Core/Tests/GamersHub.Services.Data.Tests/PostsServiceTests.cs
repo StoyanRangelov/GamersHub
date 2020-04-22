@@ -311,7 +311,7 @@ namespace GamersHub.Services.Data.Tests
             await this.postsRepository.SaveChangesAsync();
 
 
-            var posts = this.postsService.GetAllByCategoryNameAndForumId<TestPost>("category", 1, 5, 3).ToList();
+            var posts = this.postsService.GetAllByCategoryNameAndForumId<TestPost>("category", 1, null, 5, 3).ToList();
 
             foreach (var testPost in posts)
             {
@@ -485,7 +485,7 @@ namespace GamersHub.Services.Data.Tests
                 {ForumId = 1, Category = new Category {Name = "wrong category"}});
             await this.postsRepository.SaveChangesAsync();
 
-            var count = this.postsService.GetCountByCategoryNameAndForumId("category", 1);
+            var count = this.postsService.GetCountByCategoryNameAndForumId("category", 1, null);
 
             Assert.AreEqual(5, count);
         }
