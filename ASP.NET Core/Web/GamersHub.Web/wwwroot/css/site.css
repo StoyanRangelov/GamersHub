@@ -20,7 +20,8 @@ html {
 
 form.example input[type=text] {
     padding: 10px;
-    font-size: 17px;    
+    font-size: 17px;
+    border: 1px solid grey;
     float: left;
     width: 75%;    
 }

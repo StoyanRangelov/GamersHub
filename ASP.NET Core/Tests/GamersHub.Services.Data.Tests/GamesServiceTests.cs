@@ -89,7 +89,7 @@ namespace GamersHub.Services.Data.Tests
             await this.gameRepository.AddAsync(new Game {Title = "fail"});
             await this.gameRepository.SaveChangesAsync();
 
-            var games = this.gamesService.GetAll<TestGame>(5, 3).ToList();
+            var games = this.gamesService.GetAll<TestGame>(5, null, 3).ToList();
 
             Assert.AreEqual(5, games.Count);
 

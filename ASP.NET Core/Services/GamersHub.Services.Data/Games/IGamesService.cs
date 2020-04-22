@@ -32,10 +32,11 @@ namespace GamersHub.Services.Data.Games
         ///  Returns a number of games from the database, based on the provided take and skip values
         /// </summary>
         /// <param name="take"></param>
+        /// <param name="searchString"></param>
         /// <param name="skip"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        IEnumerable<T> GetAll<T>(int? take = null, int skip = 0);
+        IEnumerable<T> GetAll<T>(int? take = null, string searchString = null, int skip = 0);
 
         /// <summary>
         /// Creates a new game with the given name and adds it to the database, returns 0 if the game title is already taken, otherwise returns the game id
@@ -69,7 +70,8 @@ namespace GamersHub.Services.Data.Games
         /// <summary>
         /// Returns the count of all the games in the database
         /// </summary>
+        /// <param name="searchString"></param>
         /// <returns></returns>
-        int GetCount();
+        int GetCount(string searchString = null);
     }
 }

@@ -52,10 +52,17 @@ namespace GamersHub.Services.Data.Games
             return game;
         }
 
-        public IEnumerable<T> GetAll<T>(int? take = null, int skip = 0)
+        public IEnumerable<T> GetAll<T>(int? take = null, string searchString = null, int skip = 0)
         {
-            var query = this.gamesRepository.All()
-                .OrderByDescending(x => x.Reviews.Count).Skip(skip);
+            var query = this.gamesRepository.All();
+
+            if (searchString != null)
+            {
+                query = query.Where(x => x.Title.ToLower().Contains(searchString.ToLower()) ||
+                                         x.SubTitle.ToLower().Contains(searchString.ToLower()));
+            }
+
+            query = query.OrderByDescending(x => x.Reviews.Count).Skip(skip);
             if (take.HasValue)
             {
                 query = query.Take(take.Value);
@@ -129,8 +136,15 @@ namespace GamersHub.Services.Data.Games
             return game.Id;
         }
 
-        public int GetCount()
+        public int GetCount(string searchString = null)
         {
+            if (searchString != null)
+            {
+                return this.gamesRepository.All()
+                    .Count(x => x.Title.ToLower().Contains(searchString.ToLower()) ||
+                                x.SubTitle.ToLower().Contains(searchString.ToLower()));
+            }
+
             return this.gamesRepository.All().Count();
         }
 

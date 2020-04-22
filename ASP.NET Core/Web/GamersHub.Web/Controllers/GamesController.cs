@@ -33,26 +33,33 @@ namespace GamersHub.Web.Controllers
             this.reviewsService = reviewsService;
         }
 
-        public IActionResult Index(int id = 1)
+        public IActionResult Index(string searchString, string currentFilter, int id = 1)
         {
             var games = this.gamesService
-                .GetAll<GameViewModel>(GamesPerPage, (id - 1) * GamesPerPage);
+                .GetAll<GameViewModel>(GamesPerPage, searchString, (id - 1) * GamesPerPage);
 
             var viewModel = new GameIndexViewModel {Games = games};
 
-            var count = this.gamesService.GetCount();
+            viewModel.CurrentPage = id;
 
-            var pagination = new PaginationViewModel();
-
-            pagination.PagesCount = (int) Math.Ceiling((double) count / GamesPerPage);
-            if (pagination.PagesCount == 0)
+            if (searchString != null)
             {
-                pagination.PagesCount = 1;
+                viewModel.CurrentPage = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
             }
 
-            pagination.CurrentPage = id;
+            ViewData["CurrentFilter"] = searchString;
 
-            viewModel.Pagination = pagination;
+            var count = this.gamesService.GetCount(searchString);
+
+            viewModel.PagesCount = (int) Math.Ceiling((double) count / GamesPerPage);
+            if (viewModel.PagesCount == 0)
+            {
+                viewModel.PagesCount = 1;
+            }
 
             return this.View(viewModel);
         }

@@ -41,7 +41,7 @@
 
 <form class="example mb-2" asp-controller="Forums" asp-action="@Model.Url">
     <div class="form-group">
-        <input type="text" placeholder="Search.." name="SearchString" value="@ViewData["SearchString"]">
+        <input type="text" placeholder="Search.." name="SearchString" value="@ViewData["CurrentFilter"]">
         <button type="submit">
             <i class="fa fa-search"></i>
         </button>
