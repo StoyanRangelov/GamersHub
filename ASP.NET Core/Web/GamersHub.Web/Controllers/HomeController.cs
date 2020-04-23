@@ -72,6 +72,12 @@ namespace GamersHub.Web.Controllers
             return this.View(viewModel);
         }
 
+        public IActionResult Chat(string id)
+        {
+            this.ViewData["ChatId"] = id;
+            return this.View();
+        }
+
         public IActionResult Privacy()
         {
             var viewModel = this.pagesService.GetByName<PrivacyPageViewModel>(nameof(this.Privacy));

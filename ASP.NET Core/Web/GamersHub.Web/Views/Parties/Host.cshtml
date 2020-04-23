@@ -53,6 +53,14 @@ else
                 }
             </div>
             <div class="card-body">
+                @if (party.IsFull)
+                {
+                    <a class="mb-2 btn btn-primary" type="submit" asp-controller="Home" asp-action="Chat" asp-route-id="@party.CreatorId">Start Chat</a>
+                }
+                else
+                {
+                    <h6 class="card-text mb-2 text-muted">When party becomes full a chat button will appear here.</h6>
+                }
                 <h5 class="card-text">@party.Game</h5>
                 <h6 class="card-subtitle mb-2 text-muted">@party.Activity</h6>
                 <p class="card-text">Size: <span class="badge badge-primary">@party.Size</span></p>

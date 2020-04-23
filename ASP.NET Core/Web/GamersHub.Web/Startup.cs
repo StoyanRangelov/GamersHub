@@ -12,6 +12,7 @@ using GamersHub.Services.Data.Posts;
 using GamersHub.Services.Data.Replies;
 using GamersHub.Services.Data.Reviews;
 using GamersHub.Services.Data.Users;
+using GamersHub.Web.Hubs;
 using GamersHub.Web.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
@@ -85,7 +86,6 @@ namespace GamersHub.Web
 
             services.AddResponseCompression(options => { options.EnableForHttps = true; });
 
-
             services.AddControllersWithViews(
                 options =>
                 {
@@ -109,6 +109,8 @@ namespace GamersHub.Web
                 facebookOptions.AppId = this.configuration["Facebook:AppId"];
                 facebookOptions.AppSecret = this.configuration["Facebook:AppSecret"];
             });
+            
+            services.AddSignalR();
 
 
             services.AddSingleton(this.configuration);
@@ -181,6 +183,7 @@ namespace GamersHub.Web
             app.UseEndpoints(
                 endpoints =>
                 {
+                    endpoints.MapHub<ChatHub>("/chat/{id}");
                     endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapControllerRoute(
                         "forum",

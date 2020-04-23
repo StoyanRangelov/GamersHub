@@ -40,20 +40,20 @@ else
     {
         <div class="card">
             <div class="card-header alert alert-success">
-                <h5 class="card-text float-right"><i class="fas fa-calendar-alt"></i> Party created on: <time datetime="@application.PartyCreatedOn"></time></h5>
+                <h6 class="card-text float-right"><i class="fas fa-calendar-alt"></i> Party created on: <time datetime="@application.PartyCreatedOn"></time></h6>
                 @if (application.PartyIsFull == false)
                 {
                     if (application.ApplicationStatus == ApplicationStatusType.Approved)
                     {
-                        <h5 class="card-text"><span class="text-primary">@application.ApplicationStatus.ToString()</span> Party Host Discord - @application.PartyCreatorDiscordUsername</h5>
+                        <h6 class="card-text"><span class="text-primary">@application.ApplicationStatus.ToString()</span> Party Host Discord - @application.PartyCreatorDiscordUsername</h6>
                     }
                     else if (application.ApplicationStatus == ApplicationStatusType.Declined)
                     {
-                        <h5 class="card-text text-danger">@application.ApplicationStatus.ToString()</h5>
+                        <h6 class="card-text text-danger">@application.ApplicationStatus.ToString()</h6>
                     }
                     else
                     {
-                        <h5 class="card-text"><span class="text-warning">@application.ApplicationStatus.ToString()</span> If Approved Party Host's Discord Username will appear Here.</h5>
+                        <h6 class="card-text"><span class="text-warning">@application.ApplicationStatus.ToString()</span> If Approved Party Host's Discord Username will appear Here.</h6>
                     }
                    
                 }
@@ -61,22 +61,30 @@ else
                 {
                     if (application.ApplicationStatus == ApplicationStatusType.Approved)
                     {
-                        <h5 class="card-text"><span class="text-primary">@application.ApplicationStatus.ToString()</span> Party Host Discord - @application.PartyCreatorDiscordUsername</h5>
+                        <h6 class="d-inline card-text"><span class="text-primary">@application.ApplicationStatus.ToString()</span> Party Host Discord - @application.PartyCreatorDiscordUsername</h6>
                     }
                     else if (application.ApplicationStatus == ApplicationStatusType.Declined)
                     {
-                        <h5 class="card-text text-danger">@application.ApplicationStatus.ToString()</h5>
+                        <h6 class="card-text text-danger">@application.ApplicationStatus.ToString()</h6>
                     }
                     else
                     {
-                        <h5 class="card-text text">Party is full.</h5>
+                        <h6 class="card-text text">Party is full.</h6>
                     }
                 }               
             </div>
             <div class="card-body">
+                @if (application.PartyIsFull && application.ApplicationStatus == ApplicationStatusType.Approved)
+                {
+                    <a class="mb-2 btn btn-primary" type="submit" asp-controller="Home" asp-action="Chat" asp-route-id="@application.PartyCreatorId">Start Chat</a>                                                                                                                                                              
+                }
+                else
+                {
+                    <h6 class="card-text mb-2 text-muted">When party becomes full and you are approved, a chat button will appear here.</h6>
+                }
                 <h5 class="card-text mb-2">@application.PartyGame</h5>
                 <h6 class="card-subtitle mb-2 text-muted">@application.PartyActivity</h6>
-              <p class="card-text">@application.PartyDescription</p>
+                <p class="card-text">@application.PartyDescription</p>
             </div>
             <div class="card-footer">
                 <form asp-controller="Parties" asp-action="CancelApplication" method="post" class=" mr-2 float-right">
