@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Security.Claims;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using GamersHub.Common;
+using GamersHub.Data.Models;
 using GamersHub.Services.Data.Parties;
 using GamersHub.Services.Data.PartyApplicants;
 using GamersHub.Services.Data.Users;
+using GamersHub.Services.Messaging;
 using GamersHub.Web.ViewModels;
 using GamersHub.Web.ViewModels.Parties;
 using GamersHub.Web.ViewModels.Replies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GamersHub.Web.Controllers
@@ -21,13 +25,21 @@ namespace GamersHub.Web.Controllers
         private readonly IPartiesService partiesService;
         private readonly IPartyApplicantsService partyApplicantsService;
         private readonly IUsersService usersService;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IEmailSender emailSender;
 
-        public PartiesController(IPartiesService partiesService, IUsersService usersService,
-            IPartyApplicantsService partyApplicantsService)
+        public PartiesController(
+            IPartiesService partiesService,
+            IUsersService usersService,
+            IPartyApplicantsService partyApplicantsService,
+            IEmailSender emailSender,
+            UserManager<ApplicationUser> userManager)
         {
             this.partiesService = partiesService;
             this.usersService = usersService;
             this.partyApplicantsService = partyApplicantsService;
+            this.emailSender = emailSender;
+            this.userManager = userManager;
         }
 
         public IActionResult Index(string searchString, string currentFilter, int id = 1)
@@ -196,7 +208,26 @@ namespace GamersHub.Web.Controllers
                 return this.NotFound();
             }
 
-            this.TempData["InfoMessage"] = "Successfully approved user to party.";
+            var user = await this.userManager.FindByIdAsync(input.ApplicantId);
+            var username = await this.userManager.GetUserNameAsync(user);
+            var email = await this.userManager.GetEmailAsync(user);
+
+            var callbackUrl = Url.Action(
+                "Applications",
+                "Parties",
+                values: new { id = username },
+                protocol: Request.Scheme);
+
+            var currentUsername = this.User.Identity.Name;
+
+            await emailSender.SendEmailAsync(
+                GlobalConstants.EmailSenderFrom,
+                GlobalConstants.SystemName,
+                email,
+                "Party application approved",
+                $"You application to {currentUsername}'s party has been approved. You can view your applications by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+            this.TempData["InfoMessage"] = "Successfully approved user to party. A notification email has been send to him/her.";
             return this.RedirectToAction("Host", "Parties", new {id = this.User.Identity.Name});
         }
 
@@ -266,7 +297,8 @@ namespace GamersHub.Web.Controllers
                 return this.View(input);
             }
 
-            var partyId = await this.partiesService.EditAsync(input.Id, input.Game, input.ChangeActivity, input.Description);
+            var partyId =
+                await this.partiesService.EditAsync(input.Id, input.Game, input.ChangeActivity, input.Description);
 
             if (partyId == null)
             {
