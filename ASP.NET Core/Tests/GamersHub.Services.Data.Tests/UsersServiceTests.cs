@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Common;
-using GamersHub.Data;
-using GamersHub.Data.Models;
-using GamersHub.Data.Repositories;
-using GamersHub.Services.Data.Users;
-using GamersHub.Services.Mapping;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
-using Microsoft.Extensions.Options;
-using NUnit.Framework;
-
-namespace GamersHub.Services.Data.Tests
+﻿namespace GamersHub.Services.Data.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using GamersHub.Common;
+    using GamersHub.Data;
+    using GamersHub.Data.Models;
+    using GamersHub.Data.Repositories;
+    using GamersHub.Services.Data.Tests.TestModels;
+    using GamersHub.Services.Data.Users;
+    using GamersHub.Services.Mapping;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
+    using NUnit.Framework;
+
     [TestFixture]
     public class UsersServiceTests
     {
@@ -36,7 +33,7 @@ namespace GamersHub.Services.Data.Tests
             this.rolesRepository =
                 new EfDeletableEntityRepository<ApplicationRole>(new ApplicationDbContext(options.Options));
             this.usersService = new UsersService(this.usersRepository, this.rolesRepository);
-            AutoMapperConfig.RegisterMappings(typeof(UserTest).Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(TestUser).Assembly);
         }
 
         [Test]
@@ -65,7 +62,7 @@ namespace GamersHub.Services.Data.Tests
 
             await this.usersRepository.SaveChangesAsync();
 
-            var users = this.usersService.GetAllBannedUsers<UserTest>().ToList();
+            var users = this.usersService.GetAllBannedUsers<TestUser>().ToList();
 
             Assert.AreEqual(5, users.Count);
 
@@ -107,7 +104,7 @@ namespace GamersHub.Services.Data.Tests
 
             await this.usersRepository.SaveChangesAsync();
 
-            var users = this.usersService.GetAllBannedUsers<UserTest>(5, 3).ToList();
+            var users = this.usersService.GetAllBannedUsers<TestUser>(5, 3).ToList();
 
             Assert.AreEqual(5, users.Count);
 
@@ -164,7 +161,7 @@ namespace GamersHub.Services.Data.Tests
 
             await this.usersRepository.SaveChangesAsync();
 
-            var users = this.usersService.GetAllByRole<UserTest>("test").ToList();
+            var users = this.usersService.GetAllByRole<TestUser>("test").ToList();
 
             Assert.AreEqual(3, users.Count);
 
@@ -313,7 +310,7 @@ namespace GamersHub.Services.Data.Tests
             });
             await this.usersRepository.SaveChangesAsync();
 
-            var user = this.usersService.GetByName<UserTest>("test");
+            var user = this.usersService.GetByName<TestUser>("test");
 
             Assert.AreEqual("test", user.Username);
         }
@@ -328,7 +325,7 @@ namespace GamersHub.Services.Data.Tests
             });
             await this.usersRepository.SaveChangesAsync();
 
-            var user = this.usersService.GetById<UserTest>("test");
+            var user = this.usersService.GetById<TestUser>("test");
 
             Assert.AreEqual("test", user.Username);
         }
@@ -388,7 +385,7 @@ namespace GamersHub.Services.Data.Tests
 
             await this.usersRepository.SaveChangesAsync();
 
-            var users = this.usersService.GetAllPromotableUsers<UserTest>().ToList();
+            var users = this.usersService.GetAllPromotableUsers<TestUser>().ToList();
 
             Assert.AreEqual(5, users.Count);
 
@@ -431,7 +428,7 @@ namespace GamersHub.Services.Data.Tests
 
             await this.usersRepository.SaveChangesAsync();
 
-            var users = this.usersService.GetAllPromotableUsers<UserTest>(5, 3).ToList();
+            var users = this.usersService.GetAllPromotableUsers<TestUser>(5, 3).ToList();
 
             Assert.AreEqual(5, users.Count);
 
@@ -477,7 +474,7 @@ namespace GamersHub.Services.Data.Tests
 
             await this.usersRepository.SaveChangesAsync();
 
-            var users = this.usersService.GetTopFive<UserTest>(value).ToList();
+            var users = this.usersService.GetTopFive<TestUser>(value).ToList();
 
             Assert.AreEqual(5, users.Count);
 
@@ -516,10 +513,5 @@ namespace GamersHub.Services.Data.Tests
             Assert.AreEqual(GamingExperienceType.Master, user.GamingExperience);
             Assert.AreEqual("test", user.ImgUrl);
         }
-    }
-
-    public class UserTest : IMapFrom<ApplicationUser>
-    {
-        public string Username { get; set; }
     }
 }

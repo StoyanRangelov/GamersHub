@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-using Microsoft.AspNetCore.Http;
-
-namespace GamersHub.Web.ViewModels.Games
+﻿namespace GamersHub.Web.ViewModels.Games
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+    using Microsoft.AspNetCore.Http;
+
     public class GameEditViewModel : IMapFrom<Game>
     {
         public int Id { get; set; }

@@ -1,11 +1,12 @@
-﻿using System;
-using GamersHub.Services.Data.Parties;
-using GamersHub.Web.ViewModels;
-using GamersHub.Web.ViewModels.Administration.Parties;
-using Microsoft.AspNetCore.Mvc;
-
-namespace GamersHub.Web.Areas.Administration.Controllers
+﻿namespace GamersHub.Web.Areas.Administration.Controllers
 {
+    using System;
+
+    using GamersHub.Services.Data.Parties;
+    using GamersHub.Web.ViewModels;
+    using GamersHub.Web.ViewModels.Administration.Parties;
+    using Microsoft.AspNetCore.Mvc;
+
     public class PartiesController : AdministrationController
     {
         private const int PartiesPerPage = 14;
@@ -19,15 +20,15 @@ namespace GamersHub.Web.Areas.Administration.Controllers
 
         public IActionResult Index(int id = 1)
         {
-            var parties = this.partiesService.GetAll<PartyAdministrationViewModel>( PartiesPerPage, (id - 1) * PartiesPerPage);
+            var parties = this.partiesService.GetAll<PartyAdministrationViewModel>(PartiesPerPage, (id - 1) * PartiesPerPage);
 
-            var viewModel = new PartyAdministrationIndexViewModel { Parties = parties};
+            var viewModel = new PartyAdministrationIndexViewModel { Parties = parties };
 
             var count = this.partiesService.GetCount();
 
             var pagination = new PaginationViewModel();
 
-            pagination.PagesCount = (int) Math.Ceiling((double) count / PartiesPerPage);
+            pagination.PagesCount = (int)Math.Ceiling((double)count / PartiesPerPage);
             if (pagination.PagesCount == 0)
             {
                 pagination.PagesCount = 1;
@@ -36,7 +37,6 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             pagination.CurrentPage = id;
 
             viewModel.Pagination = pagination;
-
 
             return this.View(viewModel);
         }

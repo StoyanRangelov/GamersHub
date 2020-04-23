@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-
-namespace GamersHub.Web.ViewModels.Forums
+﻿namespace GamersHub.Web.ViewModels.Forums
 {
-   public class ForumIndexViewModel
+    using System.Collections.Generic;
+
+    public class ForumIndexViewModel
     {
         public PaginationViewModel Pagination { get; set; }
 

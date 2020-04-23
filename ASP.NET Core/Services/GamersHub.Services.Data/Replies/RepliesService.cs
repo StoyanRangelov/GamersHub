@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Data.Common.Repositories;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Services.Data.Replies
+﻿namespace GamersHub.Services.Data.Replies
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using GamersHub.Data.Common.Repositories;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class RepliesService : IRepliesService
     {
         private readonly IDeletableEntityRepository<Reply> repliesRepository;

@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using GamersHub.Data.Common.Models;
-using GamersHub.Data.Common.Repositories;
-
-namespace GamersHub.Data.Models
+﻿namespace GamersHub.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using GamersHub.Data.Common.Models;
+
     public class Page : BaseDeletableModel<int>
     {
         [Required]

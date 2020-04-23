@@ -1,27 +1,24 @@
-﻿using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Data;
-using GamersHub.Services.Data.Categories;
-using GamersHub.Services.Data.Forums;
-using GamersHub.Services.Data.Posts;
-using GamersHub.Services.Data.Replies;
-using GamersHub.Services.Data.Users;
-using GamersHub.Web.ViewModels;
-using GamersHub.Web.ViewModels.Posts;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-
-namespace GamersHub.Web.Controllers
+﻿namespace GamersHub.Web.Controllers
 {
+    using System;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using GamersHub.Common;
+    using GamersHub.Services.Data.Categories;
+    using GamersHub.Services.Data.Forums;
+    using GamersHub.Services.Data.Posts;
+    using GamersHub.Services.Data.Replies;
+    using GamersHub.Web.ViewModels;
+    using GamersHub.Web.ViewModels.Posts;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [Authorize]
     public class PostsController : BaseController
     {
         private const int RepliesPerPage = 12;
-        
+
         private readonly IPostsService postsService;
         private readonly ICategoriesService categoriesService;
         private readonly IForumsService forumsService;
@@ -55,7 +52,7 @@ namespace GamersHub.Web.Controllers
 
             var pagination = new PaginationViewModel();
 
-            pagination.PagesCount = (int) Math.Ceiling((double) count / RepliesPerPage);
+            pagination.PagesCount = (int)Math.Ceiling((double)count / RepliesPerPage);
             if (pagination.PagesCount == 0)
             {
                 pagination.PagesCount = 1;
@@ -111,7 +108,7 @@ namespace GamersHub.Web.Controllers
             }
 
             this.TempData["InfoMessage"] = "Post created successfully!";
-            return this.RedirectToAction(nameof(this.ByName), new {name = inputModel.Url});
+            return this.RedirectToAction(nameof(this.ByName), new { name = inputModel.Url });
         }
 
         public IActionResult Edit(int id)
@@ -164,7 +161,7 @@ namespace GamersHub.Web.Controllers
             }
 
             this.TempData["InfoMessage"] = "Post edited successfully!";
-            return this.RedirectToAction(nameof(this.ByName), new {name = input.Url});
+            return this.RedirectToAction(nameof(this.ByName), new { name = input.Url });
         }
 
 
@@ -186,8 +183,8 @@ namespace GamersHub.Web.Controllers
                return this.NotFound();
            }
 
-            this.TempData["InfoMessage"] = "Post deleted successfully!";
-            return this.Redirect("/Administration/Posts/Index");
+           this.TempData["InfoMessage"] = "Post deleted successfully!";
+           return this.Redirect("/Administration/Posts/Index");
         }
     }
 }

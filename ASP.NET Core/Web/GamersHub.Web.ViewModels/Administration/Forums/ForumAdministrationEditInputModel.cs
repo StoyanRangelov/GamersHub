@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace GamersHub.Web.ViewModels.Administration.Forums
+﻿namespace GamersHub.Web.ViewModels.Administration.Forums
 {
     public class ForumAdministrationEditInputModel
     {
@@ -10,7 +8,7 @@ namespace GamersHub.Web.ViewModels.Administration.Forums
 
         public int[] CategoryIds { get; set; }
 
-        public  bool[] AreSelected { get; set; }
+        public bool[] AreSelected { get; set; }
 
         public CategoryEditViewModel[] Categories { get; set; }
     }

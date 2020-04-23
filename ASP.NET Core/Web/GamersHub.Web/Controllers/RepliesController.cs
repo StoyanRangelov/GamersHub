@@ -1,19 +1,15 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Data;
-using GamersHub.Services.Data.Posts;
-using GamersHub.Services.Data.Replies;
-using GamersHub.Services.Data.Users;
-using GamersHub.Web.ViewModels.Posts;
-using GamersHub.Web.ViewModels.Replies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-
-namespace GamersHub.Web.Controllers
+﻿namespace GamersHub.Web.Controllers
 {
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using GamersHub.Common;
+    using GamersHub.Services.Data.Posts;
+    using GamersHub.Services.Data.Replies;
+    using GamersHub.Web.ViewModels.Replies;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [Authorize]
     public class RepliesController : BaseController
     {
@@ -62,7 +58,7 @@ namespace GamersHub.Web.Controllers
             await this.repliesService.CreateAsync(input.PostId, userId, input.Content);
 
             this.TempData["InfoMessage"] = "Reply created successfully!";
-            return this.RedirectToAction("ByName", "Posts", new {name = input.PostUrl});
+            return this.RedirectToAction("ByName", "Posts", new { name = input.PostUrl });
         }
 
         public IActionResult Edit(int id)
@@ -117,7 +113,7 @@ namespace GamersHub.Web.Controllers
             }
 
             this.TempData["InfoMessage"] = "Reply edited successfully!";
-            return this.RedirectToAction("ByName", "Posts", new {name = input.PostUrl});
+            return this.RedirectToAction("ByName", "Posts", new { name = input.PostUrl });
         }
 
         public IActionResult Delete(int id)

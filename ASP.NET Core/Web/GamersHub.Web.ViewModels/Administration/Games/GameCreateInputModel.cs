@@ -1,13 +1,10 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Net;
-using AngleSharp.Io.Dom;
-using GamersHub.Common;
-using Microsoft.AspNetCore.Http;
-
-namespace GamersHub.Web.ViewModels.Administration.Games
+﻿namespace GamersHub.Web.ViewModels.Administration.Games
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using GamersHub.Common;
+    using Microsoft.AspNetCore.Http;
+
     public class GameCreateInputModel
     {
         [Required]

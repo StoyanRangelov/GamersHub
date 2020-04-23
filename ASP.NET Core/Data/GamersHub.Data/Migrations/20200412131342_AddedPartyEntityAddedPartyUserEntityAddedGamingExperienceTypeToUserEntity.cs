@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace GamersHub.Data.Migrations
+﻿namespace GamersHub.Data.Migrations
 {
+    using System;
+
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class AddedPartyEntityAddedPartyUserEntityAddedGamingExperienceTypeToUserEntity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,7 +28,7 @@ namespace GamersHub.Data.Migrations
                     Activity = table.Column<string>(nullable: false),
                     Capacity = table.Column<int>(nullable: false),
                     IsFull = table.Column<bool>(nullable: false),
-                    CreatorId = table.Column<string>(nullable: false)
+                    CreatorId = table.Column<string>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -45,7 +46,7 @@ namespace GamersHub.Data.Migrations
                 columns: table => new
                 {
                     PartyId = table.Column<int>(nullable: false),
-                    ApplicantId = table.Column<string>(nullable: false)
+                    ApplicantId = table.Column<string>(nullable: false),
                 },
                 constraints: table =>
                 {

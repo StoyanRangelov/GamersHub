@@ -1,6 +1,6 @@
 ﻿namespace GamersHub.Web.ViewModels.Parties
 {
-    public class PartyApplicantInputModel
+    public class PartyApplicantApproveInputModel
     {
         public string ApplicantId { get; set; }
 

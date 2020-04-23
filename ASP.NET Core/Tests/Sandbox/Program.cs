@@ -1,13 +1,11 @@
-﻿using GamersHub.Services.Data.Categories;
-using GamersHub.Services.Data.Pages;
-
-namespace Sandbox
+﻿namespace Sandbox
 {
     using System;
     using System.Diagnostics;
     using System.IO;
     using System.Threading.Tasks;
 
+    using CommandLine;
     using GamersHub.Data;
     using GamersHub.Data.Common;
     using GamersHub.Data.Common.Repositories;
@@ -15,10 +13,9 @@ namespace Sandbox
     using GamersHub.Data.Repositories;
     using GamersHub.Data.Seeding;
     using GamersHub.Services.Data;
+    using GamersHub.Services.Data.Categories;
+    using GamersHub.Services.Data.Pages;
     using GamersHub.Services.Messaging;
-
-    using CommandLine;
-
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;

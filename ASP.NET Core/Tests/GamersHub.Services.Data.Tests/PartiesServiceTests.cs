@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Data;
-using GamersHub.Data.Models;
-using GamersHub.Data.Repositories;
-using GamersHub.Services.Data.Parties;
-using GamersHub.Services.Mapping;
-using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-
-namespace GamersHub.Services.Data.Tests
+﻿namespace GamersHub.Services.Data.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using GamersHub.Data;
+    using GamersHub.Data.Models;
+    using GamersHub.Data.Repositories;
+    using GamersHub.Services.Data.Parties;
+    using GamersHub.Services.Data.Tests.TestModels;
+    using GamersHub.Services.Mapping;
+    using Microsoft.EntityFrameworkCore;
+    using NUnit.Framework;
+
     [TestFixture]
     public class PartiesServiceTests
     {
@@ -27,7 +29,7 @@ namespace GamersHub.Services.Data.Tests
             this.partiesRepository = new EfDeletableEntityRepository<Party>(new ApplicationDbContext(options.Options));
             this.partyApplicantsRepository = new EfRepository<PartyApplicant>(new ApplicationDbContext(options.Options));
             this.partiesService = new PartiesService(this.partiesRepository, this.partyApplicantsRepository);
-            AutoMapperConfig.RegisterMappings(typeof(PartyTest).Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(TestParty).Assembly);
         }
 
         [Test]
@@ -47,7 +49,7 @@ namespace GamersHub.Services.Data.Tests
             });
             await this.partiesRepository.SaveChangesAsync();
 
-            var party = this.partiesService.GetById<PartyTest>(2);
+            var party = this.partiesService.GetById<TestParty>(2);
 
             Assert.AreEqual("test", party.Game);
             Assert.AreEqual("test", party.CreatorUsername);
@@ -67,7 +69,7 @@ namespace GamersHub.Services.Data.Tests
 
             await this.partiesRepository.SaveChangesAsync();
 
-            var parties = this.partiesService.GetAll<PartyTest>(null, 0, value).ToList();
+            var parties = this.partiesService.GetAll<TestParty>(null, 0, value).ToList();
 
             Assert.AreEqual(5, parties.Count);
 
@@ -89,6 +91,7 @@ namespace GamersHub.Services.Data.Tests
                     Creator = new ApplicationUser { UserName = "skip" },
                 });
             }
+
             for (int i = 0; i < 5; i++)
             {
                 await this.partiesRepository.AddAsync(new Party
@@ -97,6 +100,7 @@ namespace GamersHub.Services.Data.Tests
                     Creator = new ApplicationUser { UserName = "test" },
                 });
             }
+
             await this.partiesRepository.AddAsync(new Party
             {
                 Game = "fail", CreatedOn = new DateTime(2020, 4, 15),
@@ -104,7 +108,7 @@ namespace GamersHub.Services.Data.Tests
             });
             await this.partiesRepository.SaveChangesAsync();
 
-            var parties = this.partiesService.GetAll<PartyTest>(5, 3).ToList();
+            var parties = this.partiesService.GetAll<TestParty>(5, 3).ToList();
 
             Assert.AreEqual(5, parties.Count);
 
@@ -130,6 +134,7 @@ namespace GamersHub.Services.Data.Tests
                     },
                 });
             }
+
             await this.partiesRepository.AddAsync(new Party
             {
                 Game = "fail", PartyApplicants = new List<PartyApplicant>
@@ -147,7 +152,7 @@ namespace GamersHub.Services.Data.Tests
             });
             await this.partiesRepository.SaveChangesAsync();
 
-            var parties = this.partiesService.GetTopFive<PartyTest>().ToList();
+            var parties = this.partiesService.GetTopFive<TestParty>().ToList();
 
             foreach (var partyTest in parties)
             {
@@ -166,6 +171,7 @@ namespace GamersHub.Services.Data.Tests
                     Creator = new ApplicationUser { UserName = "test" },
                 });
             }
+
             for (int i = 0; i < 5; i++)
             {
                 await this.partiesRepository.AddAsync(new Party
@@ -174,6 +180,7 @@ namespace GamersHub.Services.Data.Tests
                     Creator = new ApplicationUser { UserName = "test" },
                 });
             }
+
             await this.partiesRepository.AddAsync(new Party
             {
                 Game = "fail", CreatedOn = new DateTime(2020, 4, 15),
@@ -186,7 +193,7 @@ namespace GamersHub.Services.Data.Tests
             });
             await this.partiesRepository.SaveChangesAsync();
 
-            var parties = this.partiesService.GetAllByUsername<PartyTest>("test", 5, 3).ToList();
+            var parties = this.partiesService.GetAllByUsername<TestParty>("test", 5, 3).ToList();
 
             Assert.AreEqual(5, parties.Count);
 
@@ -202,7 +209,7 @@ namespace GamersHub.Services.Data.Tests
         {
             for (int i = 0; i < 5; i++)
             {
-                await this.partiesRepository.AddAsync(new Party { Game = "test", Creator = new ApplicationUser { UserName = "name"}});
+                await this.partiesRepository.AddAsync(new Party { Game = "test", Creator = new ApplicationUser { UserName = "name" } });
             }
 
             await this.partiesRepository.SaveChangesAsync();
@@ -222,6 +229,7 @@ namespace GamersHub.Services.Data.Tests
                     Creator = new ApplicationUser { UserName = "test" },
                 });
             }
+
             await this.partiesRepository.AddAsync(new Party
             {
                 Creator = new ApplicationUser { UserName = "fail" },
@@ -356,13 +364,5 @@ namespace GamersHub.Services.Data.Tests
             Assert.IsTrue(party.IsDeleted);
             Assert.IsEmpty(party.PartyApplicants);
         }
-    }
-
-
-    public class PartyTest : IMapFrom<Party>
-    {
-        public string CreatorUsername { get; set; }
-
-        public string Game { get; set; }
     }
 }

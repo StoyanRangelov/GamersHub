@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Common;
-using GamersHub.Data.Common.Repositories;
-using GamersHub.Data.Models;
-using GamersHub.Services.Data.Posts;
-using GamersHub.Services.Data.Replies;
-using GamersHub.Services.Data.Reviews;
-using GamersHub.Services.Mapping;
-using Microsoft.AspNetCore.Identity;
-
-namespace GamersHub.Services.Data.Users
+﻿namespace GamersHub.Services.Data.Users
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Common.Repositories;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class UsersService : IUsersService
     {
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
@@ -34,7 +30,6 @@ namespace GamersHub.Services.Data.Users
             var moderatorRoleId = this.rolesRepository.All()
                 .First(x => x.Name == GlobalConstants.ModeratorRoleName).Id;
 
-
             var query = this.usersRepository.All()
                 .Where(x => x.Roles
                     .Select(x => x.RoleId).All(x => !x.Equals(moderatorRoleId)))
@@ -48,7 +43,6 @@ namespace GamersHub.Services.Data.Users
             }
 
             return query.To<T>().ToList();
-            ;
         }
 
         public IEnumerable<T> GetAllBannedUsers<T>(int? take = null, int skip = 0)
@@ -62,9 +56,7 @@ namespace GamersHub.Services.Data.Users
                 query = query.Take(take.Value);
             }
 
-
             return query.To<T>().ToList();
-            ;
         }
 
         public IEnumerable<T> GetAllByRole<T>(string role)

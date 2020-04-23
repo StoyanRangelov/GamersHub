@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace GamersHub.Web.ViewModels.Administration.Parties
+﻿namespace GamersHub.Web.ViewModels.Administration.Parties
 {
+    using System.Collections.Generic;
+
     public class PartyAdministrationIndexViewModel
     {
         public PaginationViewModel Pagination { get; set; }

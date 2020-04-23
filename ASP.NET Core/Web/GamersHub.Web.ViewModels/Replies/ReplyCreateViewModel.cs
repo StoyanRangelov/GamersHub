@@ -1,13 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-using Ganss.XSS;
-
-namespace GamersHub.Web.ViewModels.Replies
+﻿namespace GamersHub.Web.ViewModels.Replies
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class ReplyCreateViewModel : IMapFrom<Reply>
     {
-
         [Required]
         public string Content { get; set; }
 

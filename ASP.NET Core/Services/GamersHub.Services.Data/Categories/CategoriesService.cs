@@ -1,16 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Common;
-using GamersHub.Data.Common.Repositories;
-using GamersHub.Data.Models;
-using GamersHub.Services.Data.ForumCategories;
-using GamersHub.Services.Data.Posts;
-using GamersHub.Services.Mapping;
-using Microsoft.EntityFrameworkCore;
-
-namespace GamersHub.Services.Data.Categories
+﻿namespace GamersHub.Services.Data.Categories
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Common.Repositories;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+    using Microsoft.EntityFrameworkCore;
+
     public class CategoriesService : ICategoriesService
     {
         private readonly IDeletableEntityRepository<Category> categoriesRepository;
@@ -181,7 +180,6 @@ namespace GamersHub.Services.Data.Categories
         {
             return this.categoriesRepository.All().Count();
         }
-
 
         /// <summary>
         /// Returns true if a category with the given name already exists in the database, otherwise returns false

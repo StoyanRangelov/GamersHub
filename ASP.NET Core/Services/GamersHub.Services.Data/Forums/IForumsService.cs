@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace GamersHub.Services.Data.Forums
+﻿namespace GamersHub.Services.Data.Forums
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public interface IForumsService
     {
         /// <summary>
@@ -30,7 +30,6 @@ namespace GamersHub.Services.Data.Forums
         /// <returns></returns>
         T GetByNameUrl<T>(string name);
 
-
         /// <summary>
         /// Returns a forum from the database by the specified forum id, returns null if such a forum does not exist
         /// </summary>
@@ -38,7 +37,6 @@ namespace GamersHub.Services.Data.Forums
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         T GetById<T>(int id);
-
 
         /// <summary>
         /// Creates a new forum with the given name and adds it to the database, returns zero if the forum name is already taken, otherwise returns the forum id
@@ -56,7 +54,6 @@ namespace GamersHub.Services.Data.Forums
         /// <param name="areSelected"></param>
         /// <returns></returns>
         Task<int?> EditAsync(int id, string name, int[] categoryIds, bool[] areSelected);
-
 
         /// <summary>
         ///  Deletes the forum with the given id and all of its relations, returns null if the forum does not exist, otherwise returns the forum id

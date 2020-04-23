@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Administration.Categories
+﻿namespace GamersHub.Web.ViewModels.Administration.Categories
 {
+    using System;
+    using System.Collections.Generic;
+
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class CategoryDeleteViewModel : IMapFrom<Category>
     {
         public int Id { get; set; }

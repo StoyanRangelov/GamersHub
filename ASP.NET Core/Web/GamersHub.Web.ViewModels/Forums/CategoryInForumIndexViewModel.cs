@@ -1,9 +1,9 @@
-﻿using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Forums
+﻿namespace GamersHub.Web.ViewModels.Forums
 {
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class CategoryInForumIndexViewModel : IMapFrom<ForumCategory>
     {
         public string CategoryName { get; set; }

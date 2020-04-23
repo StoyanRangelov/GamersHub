@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using GamersHub.Web.ViewModels.Administration.Users;
-
-namespace GamersHub.Web.ViewModels.Administration.Dashboard
+﻿namespace GamersHub.Web.ViewModels.Administration.Dashboard
 {
+    using System.Collections.Generic;
+
+    using GamersHub.Web.ViewModels.Administration.Users;
+
     public class IndexViewModel
     {
         public IEnumerable<GameDashboardViewModel> Games { get; set; }

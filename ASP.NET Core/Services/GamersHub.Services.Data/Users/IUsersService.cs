@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using GamersHub.Data.Models;
-
-namespace GamersHub.Services.Data.Users
+﻿namespace GamersHub.Services.Data.Users
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using GamersHub.Data.Models;
+
     public interface IUsersService
     {
         /// <summary>

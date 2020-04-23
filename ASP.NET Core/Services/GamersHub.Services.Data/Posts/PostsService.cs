@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Common;
-using GamersHub.Data.Common.Repositories;
-using GamersHub.Data.Models;
-using GamersHub.Services.Data.Forums;
-using GamersHub.Services.Mapping;
-using Microsoft.EntityFrameworkCore;
-
-namespace GamersHub.Services.Data.Posts
+﻿namespace GamersHub.Services.Data.Posts
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Common.Repositories;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+    using Microsoft.EntityFrameworkCore;
+
     public class PostsService : IPostsService
     {
         private readonly IDeletableEntityRepository<Post> postsRepository;
@@ -183,7 +183,7 @@ namespace GamersHub.Services.Data.Posts
             this.postsRepository.Delete(post);
             await this.postsRepository.SaveChangesAsync();
 
-            return post.Id;;
+            return post.Id;
         }
 
         public int GetCountByForumId(int forumId, string searchString = null)
@@ -213,7 +213,6 @@ namespace GamersHub.Services.Data.Posts
 
             return this.postsRepository.All().Count(x => x.Category.Name == name && x.ForumId == forumId);
         }
-
 
         private string GetNormalisedName(string name)
         {

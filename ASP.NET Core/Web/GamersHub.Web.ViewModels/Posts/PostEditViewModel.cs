@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Posts
+﻿namespace GamersHub.Web.ViewModels.Posts
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class PostEditViewModel : IMapFrom<Post>
     {
         public int Id { get; set; }

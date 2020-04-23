@@ -1,17 +1,16 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Common;
-using GamersHub.Services.Data;
-using GamersHub.Services.Data.Categories;
-using GamersHub.Services.Data.ForumCategories;
-using GamersHub.Services.Data.Forums;
-using GamersHub.Web.ViewModels;
-using GamersHub.Web.ViewModels.Administration.Forums;
-using Microsoft.AspNetCore.Mvc;
-
-namespace GamersHub.Web.Areas.Administration.Controllers
+﻿namespace GamersHub.Web.Areas.Administration.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using GamersHub.Common;
+    using GamersHub.Services.Data.Categories;
+    using GamersHub.Services.Data.Forums;
+    using GamersHub.Web.ViewModels;
+    using GamersHub.Web.ViewModels.Administration.Forums;
+    using Microsoft.AspNetCore.Mvc;
+
     public class ForumsController : AdministrationController
     {
         private const int ForumsPerPage = 14;
@@ -30,13 +29,13 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             var forums = this.forumsService
                 .GetAll<ForumAdministrationViewModel>(ForumsPerPage, (id - 1) * ForumsPerPage);
 
-            var viewModel = new ForumAdministrationIndexViewModel {Forums = forums};
+            var viewModel = new ForumAdministrationIndexViewModel { Forums = forums };
 
             var count = this.forumsService.GetCount();
 
             var pagination = new PaginationViewModel();
 
-            pagination.PagesCount = (int) Math.Ceiling((double) count / ForumsPerPage);
+            pagination.PagesCount = (int)Math.Ceiling((double)count / ForumsPerPage);
             if (pagination.PagesCount == 0)
             {
                 pagination.PagesCount = 1;
@@ -49,12 +48,10 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             return this.View(viewModel);
         }
 
-
         public IActionResult Create()
         {
             return this.View();
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Create(ForumCreateInputModel inputModel)

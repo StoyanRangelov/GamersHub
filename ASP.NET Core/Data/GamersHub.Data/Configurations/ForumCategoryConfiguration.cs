@@ -1,15 +1,15 @@
-﻿using GamersHub.Data.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace GamersHub.Data.Configurations
+﻿namespace GamersHub.Data.Configurations
 {
-    class ForumCategoryConfiguration : IEntityTypeConfiguration<ForumCategory>
+    using GamersHub.Data.Models;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+    public class ForumCategoryConfiguration : IEntityTypeConfiguration<ForumCategory>
     {
         public void Configure(EntityTypeBuilder<ForumCategory> builder)
         {
             builder
-                .HasKey(fc => new {fc.ForumId, fc.CategoryId});
+                .HasKey(fc => new { fc.ForumId, fc.CategoryId });
 
             builder
                 .HasOne(fc => fc.Forum)

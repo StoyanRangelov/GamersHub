@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Data;
-using GamersHub.Data.Models;
-using GamersHub.Data.Repositories;
-using GamersHub.Services.Data.Posts;
-using GamersHub.Services.Mapping;
-using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-
-namespace GamersHub.Services.Data.Tests
+﻿namespace GamersHub.Services.Data.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using GamersHub.Data;
+    using GamersHub.Data.Models;
+    using GamersHub.Data.Repositories;
+    using GamersHub.Services.Data.Posts;
+    using GamersHub.Services.Data.Tests.TestModels;
+    using GamersHub.Services.Mapping;
+    using Microsoft.EntityFrameworkCore;
+    using NUnit.Framework;
+
     [TestFixture]
     public class PostsServiceTests
     {
@@ -36,7 +38,7 @@ namespace GamersHub.Services.Data.Tests
         public async Task TestGetByNameUrl()
         {
             await this.postsRepository.AddAsync(new Post
-                {Name = "name: test name", Content = "test content", Category = new Category()});
+                { Name = "name: test name", Content = "test content", Category = new Category() });
             await this.postsRepository.SaveChangesAsync();
 
             var nameAsUrl = "name-test-name";
@@ -51,7 +53,7 @@ namespace GamersHub.Services.Data.Tests
         public async Task TestById()
         {
             await this.postsRepository.AddAsync(
-                new Post {Name = "name", Content = "content", Category = new Category()});
+                new Post { Name = "name", Content = "content", Category = new Category() });
             await this.postsRepository.SaveChangesAsync();
 
             var post = this.postsService.GetById<TestPost>(1);
@@ -66,7 +68,7 @@ namespace GamersHub.Services.Data.Tests
             for (int i = 0; i < 5; i++)
             {
                 await this.postsRepository.AddAsync(new Post
-                    {Name = "name", Content = "content", Category = new Category()});
+                    { Name = "name", Content = "content", Category = new Category() });
             }
 
             await this.postsRepository.SaveChangesAsync();
@@ -90,7 +92,7 @@ namespace GamersHub.Services.Data.Tests
                 await this.postsRepository.AddAsync(new Post
                 {
                     Name = "skip name", Content = "skip", Category = new Category(),
-                    CreatedOn = new DateTime(2020, 04, 15)
+                    CreatedOn = new DateTime(2020, 04, 15),
                 });
             }
 
@@ -98,19 +100,20 @@ namespace GamersHub.Services.Data.Tests
             {
                 await this.postsRepository.AddAsync(new Post
                 {
-                    Name = "name", Content = "take", Category = new Category(), CreatedOn = new DateTime(2020, 04, 14)
+                    Name = "name", Content = "take", Category = new Category(),
+                    CreatedOn = new DateTime(2020, 04, 14),
                 });
             }
 
             await this.postsRepository.AddAsync(new Post
             {
                 Name = "test name", Content = "content", Category = new Category(),
-                CreatedOn = new DateTime(2020, 04, 13)
+                CreatedOn = new DateTime(2020, 04, 13),
             });
             await this.postsRepository.AddAsync(new Post
             {
                 Name = "test name", Content = "content", Category = new Category(),
-                CreatedOn = new DateTime(2020, 04, 12)
+                CreatedOn = new DateTime(2020, 04, 12),
             });
             await this.postsRepository.SaveChangesAsync();
 
@@ -144,8 +147,8 @@ namespace GamersHub.Services.Data.Tests
                 });
             }
 
-            await this.postsRepository.AddAsync(new Post {Name = "no replies"});
-            await this.postsRepository.AddAsync(new Post {Name = "no replies"});
+            await this.postsRepository.AddAsync(new Post { Name = "no replies" });
+            await this.postsRepository.AddAsync(new Post { Name = "no replies" });
             await this.postsRepository.SaveChangesAsync();
 
             var posts = this.postsService.GetTopFive<TestPost>().ToList();
@@ -164,13 +167,13 @@ namespace GamersHub.Services.Data.Tests
             for (int i = 0; i < 5; i++)
             {
                 await this.postsRepository.AddAsync(new Post
-                    {Name = "name", Content = "content", ForumId = 1, Category = new Category()});
+                    { Name = "name", Content = "content", ForumId = 1, Category = new Category() });
             }
 
             for (int i = 2; i < 4; i++)
             {
                 await this.postsRepository.AddAsync(new Post
-                    {Name = "wrong name", Content = "wrong content", ForumId = i, Category = new Category()});
+                    { Name = "wrong name", Content = "wrong content", ForumId = i, Category = new Category() });
             }
 
             await this.postsRepository.SaveChangesAsync();
@@ -186,8 +189,6 @@ namespace GamersHub.Services.Data.Tests
             Assert.AreEqual(5, posts.Count);
         }
 
-
-
         [Test]
         public async Task TestGetAllByForumIdWithTakeAndSkipValues()
         {
@@ -196,7 +197,7 @@ namespace GamersHub.Services.Data.Tests
                 await this.postsRepository.AddAsync(new Post
                 {
                     Name = "skip name", Content = "skip", ForumId = 1, Category = new Category(),
-                    CreatedOn = new DateTime(2020, 04, 15)
+                    CreatedOn = new DateTime(2020, 04, 15),
                 });
             }
 
@@ -205,22 +206,21 @@ namespace GamersHub.Services.Data.Tests
                 await this.postsRepository.AddAsync(new Post
                 {
                     Name = "name", Content = "take", ForumId = 1, Category = new Category(),
-                    CreatedOn = new DateTime(2020, 04, 14)
+                    CreatedOn = new DateTime(2020, 04, 14),
                 });
             }
 
             await this.postsRepository.AddAsync(new Post
             {
                 Name = "test name", Content = "content", ForumId = 2, Category = new Category(),
-                CreatedOn = new DateTime(2020, 04, 13)
+                CreatedOn = new DateTime(2020, 04, 13),
             });
             await this.postsRepository.AddAsync(new Post
             {
                 Name = "test name", Content = "content", ForumId = 2, Category = new Category(),
-                CreatedOn = new DateTime(2020, 04, 12)
+                CreatedOn = new DateTime(2020, 04, 12),
             });
             await this.postsRepository.SaveChangesAsync();
-
 
             var allPosts = this.postsRepository.All().ToList();
             var posts = this.postsService.GetAllByForumId<TestPost>(1, 5, 3).ToList();
@@ -240,23 +240,22 @@ namespace GamersHub.Services.Data.Tests
             for (int i = 0; i < 10; i++)
             {
                 await this.postsRepository.AddAsync(new Post
-                    {Name = "name", Content = "content", ForumId = 1, Category = new Category {Name = "category"}});
+                    { Name = "name", Content = "content", ForumId = 1, Category = new Category { Name = "category" } });
             }
 
             await this.postsRepository.AddAsync(new Post
             {
                 Name = "wrong name", Content = "wrong content", ForumId = 1,
-                Category = new Category {Name = "wrong category"},
+                Category = new Category { Name = "wrong category" },
             });
 
             await this.postsRepository.AddAsync(new Post
             {
                 Name = "wrong forum", Content = "wrong forum", ForumId = 2,
-                Category = new Category {Name = "category"},
+                Category = new Category { Name = "category" },
             });
 
             await this.postsRepository.SaveChangesAsync();
-
 
             var posts = this.postsService.GetAllByCategoryNameAndForumId<TestPost>("category", 1, null, 0, value).ToList();
 
@@ -278,7 +277,7 @@ namespace GamersHub.Services.Data.Tests
                 {
                     Name = "skip name",
                     Content = "skip",
-                    ForumId = 1, Category = new Category {Name = "category"},
+                    ForumId = 1, Category = new Category { Name = "category" },
                     CreatedOn = new DateTime(2020, 04, 15),
                 });
             }
@@ -289,7 +288,7 @@ namespace GamersHub.Services.Data.Tests
                 {
                     Name = "name",
                     Content = "content",
-                    ForumId = 1, Category = new Category {Name = "category"},
+                    ForumId = 1, Category = new Category { Name = "category" },
                     CreatedOn = new DateTime(2020, 04, 14),
                 });
             }
@@ -298,7 +297,7 @@ namespace GamersHub.Services.Data.Tests
             {
                 Name = "name",
                 Content = "content",
-                ForumId = 2, Category = new Category {Name = "category"},
+                ForumId = 2, Category = new Category { Name = "category" },
                 CreatedOn = new DateTime(2020, 04, 14),
             });
 
@@ -306,12 +305,11 @@ namespace GamersHub.Services.Data.Tests
             {
                 Name = "name",
                 Content = "content",
-                ForumId = 1, Category = new Category {Name = "wrong category"},
+                ForumId = 1, Category = new Category { Name = "wrong category" },
                 CreatedOn = new DateTime(2020, 04, 14),
             });
 
             await this.postsRepository.SaveChangesAsync();
-
 
             var posts = this.postsService.GetAllByCategoryNameAndForumId<TestPost>("category", 1, 5, 3).ToList();
 
@@ -336,7 +334,7 @@ namespace GamersHub.Services.Data.Tests
         public async Task TestCreateAsyncWorksCorrectlyWithExistingForumAndCategory()
         {
             await this.forumsRepository.AddAsync(new Forum
-                {Id = 1, ForumCategories = new List<ForumCategory> {new ForumCategory {CategoryId = 1}}});
+                { Id = 1, ForumCategories = new List<ForumCategory> { new ForumCategory { CategoryId = 1 } } });
             await this.forumsRepository.SaveChangesAsync();
 
             var postId = await this.postsService.CreateAsync(1, 1, "name", "content", "userId");
@@ -354,7 +352,7 @@ namespace GamersHub.Services.Data.Tests
         [Test]
         public async Task TestCreateAsyncAddsNewCategoryToForumIfItDoesNotExistWhenCreatingPost()
         {
-            await this.forumsRepository.AddAsync(new Forum {Id = 1});
+            await this.forumsRepository.AddAsync(new Forum { Id = 1 });
             await this.forumsRepository.SaveChangesAsync();
 
             var postId = await this.postsService.CreateAsync(1, 1, "name", "content", "userId");
@@ -376,7 +374,6 @@ namespace GamersHub.Services.Data.Tests
             Assert.AreEqual("userId", post.UserId);
         }
 
-
         [Test]
         public async Task TestEditAsyncReturnsNullWithWrongPostId()
         {
@@ -388,7 +385,7 @@ namespace GamersHub.Services.Data.Tests
         [Test]
         public async Task TestEditAsyncWorksCorrectly()
         {
-            await this.postsRepository.AddAsync(new Post {Name = "name", Content = "content"});
+            await this.postsRepository.AddAsync(new Post { Name = "name", Content = "content" });
             await this.postsRepository.SaveChangesAsync();
 
             var postId = await this.postsService.EditAsync(1, "new name", "new content");
@@ -416,7 +413,7 @@ namespace GamersHub.Services.Data.Tests
                 Id = 5,
                 Name = "name",
                 Content = "content",
-                Replies = new List<Reply> {new Reply {PostId = 5}, new Reply {PostId = 5}, new Reply {PostId = 5}},
+                Replies = new List<Reply> { new Reply { PostId = 5 }, new Reply { PostId = 5 }, new Reply { PostId = 5 } },
             });
             await this.postsRepository.SaveChangesAsync();
 
@@ -453,12 +450,12 @@ namespace GamersHub.Services.Data.Tests
         {
             for (int i = 0; i < 5; i++)
             {
-                await this.postsRepository.AddAsync(new Post {ForumId = 1, Name = "test"});
+                await this.postsRepository.AddAsync(new Post { ForumId = 1, Name = "test" });
             }
 
             for (int i = 2; i < 5; i++)
             {
-                await this.postsRepository.AddAsync(new Post {ForumId = i, Name = "test"});
+                await this.postsRepository.AddAsync(new Post { ForumId = i, Name = "test" });
             }
 
             await this.postsRepository.SaveChangesAsync();
@@ -474,35 +471,22 @@ namespace GamersHub.Services.Data.Tests
             for (int i = 0; i < 5; i++)
             {
                 await this.postsRepository.AddAsync(new Post
-                    {ForumId = 1, Name = "test", Category = new Category {Name = "category"}});
+                    { ForumId = 1, Name = "test", Category = new Category { Name = "category" } });
             }
 
             for (int i = 2; i < 5; i++)
             {
                 await this.postsRepository.AddAsync(new Post
-                    {ForumId = i, Category = new Category {Name = "category"}});
+                    { ForumId = i, Category = new Category { Name = "category" } });
             }
 
             await this.postsRepository.AddAsync(new Post
-                {ForumId = 1, Category = new Category {Name = "wrong category"}});
+                { ForumId = 1, Category = new Category { Name = "wrong category" } });
             await this.postsRepository.SaveChangesAsync();
 
             var count = this.postsService.GetCountByCategoryNameAndForumId("category", 1, value);
 
             Assert.AreEqual(5, count);
         }
-    }
-
-    public class TestPost : IMapFrom<Post>
-    {
-        public string CategoryName { get; set; }
-
-        public int ForumId { get; set; }
-
-        public string Name { get; set; }
-
-        public string Content { get; set; }
-
-        public DateTime CreatedOn { get; set; }
     }
 }

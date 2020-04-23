@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using GamersHub.Data.Common.Models;
-
-namespace GamersHub.Data.Models
+﻿namespace GamersHub.Data.Models
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    using GamersHub.Data.Common.Models;
+
     public class Game : BaseDeletableModel<int>
     {
         public Game()

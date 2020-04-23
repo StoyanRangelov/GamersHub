@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace GamersHub.Data.Migrations
+﻿namespace GamersHub.Data.Migrations
 {
+    using System;
+
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class AddGameAndReviewEntities : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,7 +21,7 @@ namespace GamersHub.Data.Migrations
                     Title = table.Column<string>(nullable: false),
                     SubTitle = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: false),
-                    ImgUrl = table.Column<string>(nullable: false)
+                    ImgUrl = table.Column<string>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -40,7 +41,7 @@ namespace GamersHub.Data.Migrations
                     Content = table.Column<string>(nullable: false),
                     UserId = table.Column<string>(nullable: true),
                     GameId = table.Column<int>(nullable: false),
-                    IsPositive = table.Column<bool>(nullable: false)
+                    IsPositive = table.Column<bool>(nullable: false),
                 },
                 constraints: table =>
                 {

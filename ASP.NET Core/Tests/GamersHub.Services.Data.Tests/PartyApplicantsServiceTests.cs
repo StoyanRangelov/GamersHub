@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Data;
-using GamersHub.Data.Models;
-using GamersHub.Data.Repositories;
-using GamersHub.Services.Data.PartyApplicants;
-using GamersHub.Services.Mapping;
-using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-
-namespace GamersHub.Services.Data.Tests
+﻿namespace GamersHub.Services.Data.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using GamersHub.Data;
+    using GamersHub.Data.Models;
+    using GamersHub.Data.Repositories;
+    using GamersHub.Services.Data.PartyApplicants;
+    using GamersHub.Services.Data.Tests.TestModels;
+    using GamersHub.Services.Mapping;
+    using Microsoft.EntityFrameworkCore;
+    using NUnit.Framework;
+
     [TestFixture]
     public class PartyApplicantsServiceTests
     {
@@ -27,7 +29,7 @@ namespace GamersHub.Services.Data.Tests
             this.partyApplicantsRepository = new EfRepository<PartyApplicant>(new ApplicationDbContext(options.Options));
             this.partiesRepository = new EfDeletableEntityRepository<Party>(new ApplicationDbContext(options.Options));
             this.partyApplicantsService = new PartyApplicantsService(this.partyApplicantsRepository, this.partiesRepository);
-            AutoMapperConfig.RegisterMappings(typeof(PartyApplicantTest).Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(TestPartyApplicant).Assembly);
         }
 
         [Test]
@@ -44,13 +46,14 @@ namespace GamersHub.Services.Data.Tests
             await this.partiesRepository.AddAsync(new Party
             {
                 Size = 5,
-                PartyApplicants = new List<PartyApplicant> { new PartyApplicant
+                PartyApplicants = new List<PartyApplicant>
+                {
+                    new PartyApplicant
                 {
                     PartyId = 1,
                     ApplicantId = "id",
                     ApplicationStatus = ApplicationStatusType.Pending,
                 },
-
                 },
             });
             await this.partiesRepository.SaveChangesAsync();
@@ -69,13 +72,14 @@ namespace GamersHub.Services.Data.Tests
             await this.partiesRepository.AddAsync(new Party
             {
                 Size = 1,
-                PartyApplicants = new List<PartyApplicant> { new PartyApplicant
+                PartyApplicants = new List<PartyApplicant>
+                {
+                    new PartyApplicant
                     {
                         PartyId = 1,
                         ApplicantId = "id",
                         ApplicationStatus = ApplicationStatusType.Pending,
                     },
-
                 },
             });
             await this.partiesRepository.SaveChangesAsync();
@@ -131,13 +135,14 @@ namespace GamersHub.Services.Data.Tests
             await this.partiesRepository.AddAsync(new Party
             {
                 Size = 5,
-                PartyApplicants = new List<PartyApplicant> { new PartyApplicant
+                PartyApplicants = new List<PartyApplicant>
+                {
+                    new PartyApplicant
                     {
                         PartyId = 1,
                         ApplicantId = "id",
                         ApplicationStatus = ApplicationStatusType.Pending,
                     },
-
                 },
             });
             await this.partiesRepository.SaveChangesAsync();
@@ -157,7 +162,9 @@ namespace GamersHub.Services.Data.Tests
             {
                 Size = 1,
                 IsFull = true,
-                PartyApplicants = new List<PartyApplicant> { new PartyApplicant
+                PartyApplicants = new List<PartyApplicant>
+                {
+                    new PartyApplicant
                     {
                         PartyId = 1,
                         ApplicantId = "id",
@@ -184,8 +191,8 @@ namespace GamersHub.Services.Data.Tests
             {
                 await this.partyApplicantsRepository.AddAsync(new PartyApplicant
                 {
-                    Party = new Party { Game = "fail"},
-                    Applicant = new ApplicationUser { UserName = "test", CreatedOn = new DateTime( 2020, 4, 17) },
+                    Party = new Party { Game = "fail" },
+                    Applicant = new ApplicationUser { UserName = "test", CreatedOn = new DateTime(2020, 4, 17) },
                 });
             }
 
@@ -197,6 +204,7 @@ namespace GamersHub.Services.Data.Tests
                     Applicant = new ApplicationUser { UserName = "test" },
                 });
             }
+
             await this.partyApplicantsRepository.AddAsync(new PartyApplicant
             {
                 Applicant = new ApplicationUser { UserName = "fail" },
@@ -208,7 +216,7 @@ namespace GamersHub.Services.Data.Tests
             await this.partyApplicantsRepository.SaveChangesAsync();
 
             var partyApplicants = this.partyApplicantsService
-                .GetAllApplicationsByUsername<PartyApplicantTest>("test", 5, 3).ToList();
+                .GetAllApplicationsByUsername<TestPartyApplicant>("test", 5, 3).ToList();
 
             Assert.AreEqual(5, partyApplicants.Count);
 
@@ -229,13 +237,14 @@ namespace GamersHub.Services.Data.Tests
                     Applicant = new ApplicationUser { UserName = "test" },
                 });
             }
+
             await this.partyApplicantsRepository.AddAsync(new PartyApplicant
             {
-                Applicant = new ApplicationUser {UserName = "fail"},
+                Applicant = new ApplicationUser { UserName = "fail" },
             });
             await this.partyApplicantsRepository.AddAsync(new PartyApplicant
             {
-                Applicant = new ApplicationUser {UserName = "fail"},
+                Applicant = new ApplicationUser { UserName = "fail" },
             });
             await this.partyApplicantsRepository.SaveChangesAsync();
 
@@ -243,12 +252,5 @@ namespace GamersHub.Services.Data.Tests
 
             Assert.AreEqual(5, count);
         }
-    }
-
-    public class PartyApplicantTest : IMapFrom<PartyApplicant>
-    {
-        public string ApplicantUsername { get; set; }
-
-        public string PartyGame { get; set; }
     }
 }

@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace GamersHub.Services.Data.Posts
+﻿namespace GamersHub.Services.Data.Posts
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public interface IPostsService
     {
         /// <summary>
@@ -28,7 +28,6 @@ namespace GamersHub.Services.Data.Posts
         /// <param name="skip"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-
         IEnumerable<T> GetAll<T>(int? take = null, int skip = 0);
 
         /// <summary>
@@ -36,7 +35,6 @@ namespace GamersHub.Services.Data.Posts
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-
         IEnumerable<T> GetTopFive<T>();
 
         /// <summary>
@@ -48,7 +46,6 @@ namespace GamersHub.Services.Data.Posts
         /// <param name="skip"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-
         IEnumerable<T> GetAllByForumId<T>(int forumId, int? take = null, int skip = 0, string searchString = null);
 
         /// <summary>
@@ -61,9 +58,8 @@ namespace GamersHub.Services.Data.Posts
         /// <param name="skip"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-
         IEnumerable<T> GetAllByCategoryNameAndForumId<T>(string name, int id, int? take = null, int skip = 0, string searchString = null);
-        
+
         /// <summary>
         /// Creates a new post with the given forum id, category id, name, content and user id, returns null if the given forum does not exist, otherwise returns the post id
         /// </summary>
@@ -73,7 +69,6 @@ namespace GamersHub.Services.Data.Posts
         /// <param name="content"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-
         Task<int?> CreateAsync(int forumId, int categoryId, string name, string content, string userId);
 
         /// <summary>
@@ -83,33 +78,29 @@ namespace GamersHub.Services.Data.Posts
         /// <param name="name"></param>
         /// <param name="content"></param>
         /// <returns></returns>
-
         Task<int?> EditAsync(int id, string name, string content);
-        
+
         /// <summary>
         /// Deletes the post with the given id and all of its relations, returns null if the post does not exist, otherwise returns the post id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-
         Task<int?> DeleteAsync(int id);
-        
+
         /// <summary>
         /// Returns the count of all posts with the given forum id
         /// </summary>
         /// <param name="forumId"></param>
         /// <param name="searchString"></param>
         /// <returns></returns>
-
         int GetCountByForumId(int forumId, string searchString = null);
-        
+
         /// <summary>
         /// Returns the count of all posts in the database
         /// </summary>
         /// <returns></returns>
-
         int GetCount();
-        
+
         /// <summary>
         /// Returns the count of all posts in the database with the given category name and forum id
         /// </summary>
@@ -117,7 +108,6 @@ namespace GamersHub.Services.Data.Posts
         /// <param name="forumId"></param>
         /// <param name="searchString"></param>
         /// <returns></returns>
-
         int GetCountByCategoryNameAndForumId(string name, int forumId, string searchString = null);
     }
 }

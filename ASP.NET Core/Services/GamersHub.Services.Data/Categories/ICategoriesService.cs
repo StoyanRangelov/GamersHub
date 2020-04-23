@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace GamersHub.Services.Data.Categories
+﻿namespace GamersHub.Services.Data.Categories
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public interface ICategoriesService
     {
         /// <summary>
@@ -47,7 +47,6 @@ namespace GamersHub.Services.Data.Categories
         /// <param name="forumIds"></param>
         /// <param name="areSelected"></param>
         /// <returns></returns>
-
         Task<int?> EditAsync(int id, string name, string description, int[] forumIds, bool[] areSelected);
 
         /// <summary>
@@ -55,7 +54,6 @@ namespace GamersHub.Services.Data.Categories
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-
         Task<int?> DeleteAsync(int id);
 
         /// <summary>
@@ -63,9 +61,7 @@ namespace GamersHub.Services.Data.Categories
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-
         public string GetNormalisedName(string name);
-
 
         /// <summary>
         /// Returns the count of all categories in the database

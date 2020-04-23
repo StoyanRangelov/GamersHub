@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace GamersHub.Web.ViewModels.Parties
+﻿namespace GamersHub.Web.ViewModels.Parties
 {
+    using System.Collections.Generic;
+
     public class PartyIndexViewModel
     {
         public int PagesCount { get; set; }

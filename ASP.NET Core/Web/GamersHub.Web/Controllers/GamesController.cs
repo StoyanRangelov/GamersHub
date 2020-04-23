@@ -1,21 +1,18 @@
-﻿using System;
-using System.Net.Http.Headers;
-using System.Security.Claims;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
-using GamersHub.Common;
-using GamersHub.Services.Data.Games;
-using GamersHub.Services.Data.Reviews;
-using GamersHub.Web.ViewModels;
-using GamersHub.Web.ViewModels.Games;
-using GamersHub.Web.ViewModels.Posts;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace GamersHub.Web.Controllers
+﻿namespace GamersHub.Web.Controllers
 {
+    using System;
+    using System.Net.Http.Headers;
+    using System.Threading.Tasks;
+
+    using CloudinaryDotNet;
+    using CloudinaryDotNet.Actions;
+    using GamersHub.Common;
+    using GamersHub.Services.Data.Games;
+    using GamersHub.Services.Data.Reviews;
+    using GamersHub.Web.ViewModels.Games;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [Authorize]
     public class GamesController : BaseController
     {
@@ -38,7 +35,7 @@ namespace GamersHub.Web.Controllers
             var games = this.gamesService
                 .GetAll<GameViewModel>(GamesPerPage, (id - 1) * GamesPerPage, searchString);
 
-            var viewModel = new GameIndexViewModel {Games = games};
+            var viewModel = new GameIndexViewModel { Games = games };
 
             viewModel.CurrentPage = id;
 
@@ -51,11 +48,11 @@ namespace GamersHub.Web.Controllers
                 searchString = currentFilter;
             }
 
-            ViewData["CurrentFilter"] = searchString;
+            this.ViewData["CurrentFilter"] = searchString;
 
             var count = this.gamesService.GetCount(searchString);
 
-            viewModel.PagesCount = (int) Math.Ceiling((double) count / GamesPerPage);
+            viewModel.PagesCount = (int)Math.Ceiling((double)count / GamesPerPage);
             if (viewModel.PagesCount == 0)
             {
                 viewModel.PagesCount = 1;
@@ -78,7 +75,7 @@ namespace GamersHub.Web.Controllers
 
             var count = this.reviewsService.GetCountByGameId(viewModel.Id);
 
-            viewModel.PagesCount = (int)Math.Ceiling((double) count / ReviewsPerPage);
+            viewModel.PagesCount = (int)Math.Ceiling((double)count / ReviewsPerPage);
             if (viewModel.PagesCount == 0)
             {
                 viewModel.PagesCount = 1;
@@ -123,7 +120,7 @@ namespace GamersHub.Web.Controllers
                     Format = "jpg",
                 };
 
-                var uploadResult = await cloudinary.UploadAsync(uploadParams);
+                var uploadResult = await this.cloudinary.UploadAsync(uploadParams);
 
                 imageUrl = uploadResult.SecureUri.ToString();
             }
@@ -141,7 +138,7 @@ namespace GamersHub.Web.Controllers
             }
 
             this.TempData["InfoMessage"] = "Game edited successfully!";
-            return this.RedirectToAction(nameof(this.ByName), new { name = input.Url, subTitle = input.SubTitle});
+            return this.RedirectToAction(nameof(this.ByName), new { name = input.Url, subTitle = input.SubTitle });
         }
     }
 }

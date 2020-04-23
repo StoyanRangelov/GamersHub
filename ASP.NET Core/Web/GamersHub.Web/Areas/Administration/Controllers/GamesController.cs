@@ -1,16 +1,16 @@
-﻿using System;
-using System.IO;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
-using GamersHub.Services.Data.Games;
-using GamersHub.Web.ViewModels;
-using GamersHub.Web.ViewModels.Administration.Games;
-using Microsoft.AspNetCore.Mvc;
-
-namespace GamersHub.Web.Areas.Administration.Controllers
+﻿namespace GamersHub.Web.Areas.Administration.Controllers
 {
+    using System;
+    using System.Net.Http.Headers;
+    using System.Threading.Tasks;
+
+    using CloudinaryDotNet;
+    using CloudinaryDotNet.Actions;
+    using GamersHub.Services.Data.Games;
+    using GamersHub.Web.ViewModels;
+    using GamersHub.Web.ViewModels.Administration.Games;
+    using Microsoft.AspNetCore.Mvc;
+
     public class GamesController : AdministrationController
     {
         private const int GamesPerPage = 14;
@@ -27,14 +27,14 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         public IActionResult Index(int id = 1)
         {
             var games = this.gamesService
-                .GetAll<GameAdministrationViewModel>(GamesPerPage,(id - 1) * GamesPerPage);
+                .GetAll<GameAdministrationViewModel>(GamesPerPage, (id - 1) * GamesPerPage);
 
-            var viewModel = new GameAdministrationIndexViewModel {Games = games};
+            var viewModel = new GameAdministrationIndexViewModel { Games = games };
 
             var count = this.gamesService.GetCount();
 
             var pagination = new PaginationViewModel();
-            pagination.PagesCount = (int) Math.Ceiling((double) count / GamesPerPage);
+            pagination.PagesCount = (int)Math.Ceiling((double)count / GamesPerPage);
             if (pagination.PagesCount == 0)
             {
                 pagination.PagesCount = 1;
@@ -70,7 +70,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
                 Format = "jpg",
             };
 
-            var uploadResult = await cloudinary.UploadAsync(uploadParams);
+            var uploadResult = await this.cloudinary.UploadAsync(uploadParams);
 
             var imageUrl = uploadResult.SecureUri.ToString();
 

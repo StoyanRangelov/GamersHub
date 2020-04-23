@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Parties
+﻿namespace GamersHub.Web.ViewModels.Parties
 {
+    using System.Collections.Generic;
+
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class PartyHostViewModel : IMapFrom<ApplicationUser>
     {
         public string Username { get; set; }

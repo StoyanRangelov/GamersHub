@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Administration.Forums
+﻿namespace GamersHub.Web.ViewModels.Administration.Forums
 {
+    using System;
+    using System.Collections.Generic;
+
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class ForumDeleteViewModel : IMapFrom<Forum>
     {
         public int Id { get; set; }

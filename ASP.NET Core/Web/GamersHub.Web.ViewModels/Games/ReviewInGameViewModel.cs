@@ -1,10 +1,11 @@
-﻿using System;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-using Ganss.XSS;
-
-namespace GamersHub.Web.ViewModels.Games
+﻿namespace GamersHub.Web.ViewModels.Games
 {
+    using System;
+
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+    using Ganss.XSS;
+
     public class ReviewInGameViewModel : IMapFrom<Review>
     {
         public int Id { get; set; }

@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Data.Common.Repositories;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-using Microsoft.EntityFrameworkCore;
-
-namespace GamersHub.Services.Data.Parties
+﻿namespace GamersHub.Services.Data.Parties
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using GamersHub.Data.Common.Repositories;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+    using Microsoft.EntityFrameworkCore;
+
     public class PartiesService : IPartiesService
     {
         private readonly IDeletableEntityRepository<Party> partiesRepository;
@@ -74,7 +74,7 @@ namespace GamersHub.Services.Data.Parties
 
         public int GetCount(string searchString = null)
         {
-            if (searchString != null )
+            if (searchString != null)
             {
                 return this.partiesRepository.All().Count(x => x.Game.ToLower().Contains(searchString.ToLower()) ||
                                                                x.Creator.UserName.ToLower().Contains(searchString.ToLower()));

@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Data;
-using GamersHub.Data.Models;
-using GamersHub.Data.Repositories;
-using GamersHub.Services.Data.Games;
-using GamersHub.Services.Mapping;
-using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-
-namespace GamersHub.Services.Data.Tests
+﻿namespace GamersHub.Services.Data.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using GamersHub.Data;
+    using GamersHub.Data.Models;
+    using GamersHub.Data.Repositories;
+    using GamersHub.Services.Data.Games;
+    using GamersHub.Services.Data.Tests.TestModels;
+    using GamersHub.Services.Mapping;
+    using Microsoft.EntityFrameworkCore;
+    using NUnit.Framework;
+
     [TestFixture]
     public class GamesServiceTests
     {
@@ -33,23 +35,23 @@ namespace GamersHub.Services.Data.Tests
         [Test]
         public async Task TestGetTitleUrlAndSubTitleByIdWorksCorrectly()
         {
-            await this.gameRepository.AddAsync(new Game {Title = "World of Warcraft", SubTitle = "The Burning Crusade"});
+            await this.gameRepository.AddAsync(new Game { Title = "World of Warcraft", SubTitle = "The Burning Crusade" });
             await this.gameRepository.SaveChangesAsync();
 
             var routeParams = this.gamesService.GetTitleUrlAndSubTitleById(1);
             var gameUrl = routeParams[0];
-            var subTitlte = routeParams[1];
+            var subTitle = routeParams[1];
 
             Assert.AreEqual("World-of-Warcraft", gameUrl);
-            Assert.AreEqual("The Burning Crusade", subTitlte);
+            Assert.AreEqual("The Burning Crusade", subTitle);
         }
 
         [Test]
         public async Task TestGetByIdWorksCorrectly()
         {
-            await this.gameRepository.AddAsync(new Game {Title = "test"});
-            await this.gameRepository.AddAsync(new Game {Title = "Dota 2"});
-            await this.gameRepository.AddAsync(new Game {Title = "test"});
+            await this.gameRepository.AddAsync(new Game { Title = "test" });
+            await this.gameRepository.AddAsync(new Game { Title = "Dota 2" });
+            await this.gameRepository.AddAsync(new Game { Title = "test" });
             await this.gameRepository.SaveChangesAsync();
 
             var game = this.gamesService.GetById<TestGame>(2);
@@ -61,7 +63,7 @@ namespace GamersHub.Services.Data.Tests
         public async Task TestGetByNameUrlWorksCorrectly()
         {
             await this.gameRepository.AddAsync(new Game
-                {Title = "World of Warcraft", SubTitle = "The Burning Crusade"});
+                { Title = "World of Warcraft", SubTitle = "The Burning Crusade" });
             await this.gameRepository.SaveChangesAsync();
 
             var titleUrl = "World-of-Warcraft";
@@ -72,13 +74,12 @@ namespace GamersHub.Services.Data.Tests
             Assert.AreEqual("The Burning Crusade", game.SubTitle);
         }
 
-
         [Test]
         public async Task TestGetAllWorksCorrectly([Values("test", null)]string value)
         {
             for (int i = 0; i < 5; i++)
             {
-                await this.gameRepository.AddAsync(new Game {Title = "test"});
+                await this.gameRepository.AddAsync(new Game { Title = "test" });
             }
 
             await this.gameRepository.SaveChangesAsync();
@@ -98,16 +99,16 @@ namespace GamersHub.Services.Data.Tests
         {
             for (int i = 0; i < 3; i++)
             {
-                await this.gameRepository.AddAsync(new Game {Title = "skip"});
+                await this.gameRepository.AddAsync(new Game { Title = "skip" });
             }
 
             for (int i = 0; i < 5; i++)
             {
-                await this.gameRepository.AddAsync(new Game {Title = "test"});
+                await this.gameRepository.AddAsync(new Game { Title = "test" });
             }
 
-            await this.gameRepository.AddAsync(new Game {Title = "fail"});
-            await this.gameRepository.AddAsync(new Game {Title = "fail"});
+            await this.gameRepository.AddAsync(new Game { Title = "fail" });
+            await this.gameRepository.AddAsync(new Game { Title = "fail" });
             await this.gameRepository.SaveChangesAsync();
 
             var games = this.gamesService.GetAll<TestGame>(5, 3).ToList();
@@ -179,7 +180,7 @@ namespace GamersHub.Services.Data.Tests
         {
             await this.gameRepository.AddAsync(new Game
             {
-                Reviews = new List<Review> {new Review(), new Review(), new Review()},
+                Reviews = new List<Review> { new Review(), new Review(), new Review() },
             });
             await this.gameRepository.SaveChangesAsync();
 
@@ -201,7 +202,7 @@ namespace GamersHub.Services.Data.Tests
         {
             for (int i = 0; i < 5; i++)
             {
-                await this.gameRepository.AddAsync(new Game { Title = "test", SubTitle = "title"});
+                await this.gameRepository.AddAsync(new Game { Title = "test", SubTitle = "title" });
             }
 
             await this.gameRepository.SaveChangesAsync();
@@ -210,12 +211,5 @@ namespace GamersHub.Services.Data.Tests
 
             Assert.AreEqual(5, count);
         }
-    }
-
-    public class TestGame : IMapFrom<Game>
-    {
-        public string Title { get; set; }
-
-        public string SubTitle { get; set; }
     }
 }

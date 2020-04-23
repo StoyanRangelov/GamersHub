@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace GamersHub.Services.Data.ForumCategories
+﻿namespace GamersHub.Services.Data.ForumCategories
 {
     public interface IForumCategoriesService
     {
-
         /// <summary>
         /// Returns all forum categories from the database with the given category name and forum id
         /// </summary>

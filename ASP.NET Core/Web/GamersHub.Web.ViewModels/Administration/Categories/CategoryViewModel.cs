@@ -1,10 +1,9 @@
-﻿using AutoMapper;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Administration.Categories
+﻿namespace GamersHub.Web.ViewModels.Administration.Categories
 {
-   public class CategoryViewModel : IMapFrom<Category>
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
+    public class CategoryViewModel : IMapFrom<Category>
     {
         public int Id { get; set; }
 
@@ -20,6 +19,5 @@ namespace GamersHub.Web.ViewModels.Administration.Categories
         public int CategoryForumsCount { get; set; }
 
         public int PostsCount { get; set; }
-       
     }
 }

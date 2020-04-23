@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace GamersHub.Services.Data.Replies
+﻿namespace GamersHub.Services.Data.Replies
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public interface IRepliesService
     {
-        
         /// <summary>
         /// Returns a number of replies with the given post id from the database, based on the provided take and skip values
         /// </summary>
@@ -22,7 +21,6 @@ namespace GamersHub.Services.Data.Replies
         /// <param name="id"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-
         T GetById<T>(int id);
 
         /// <summary>
@@ -32,7 +30,6 @@ namespace GamersHub.Services.Data.Replies
         /// <param name="userId"></param>
         /// <param name="content"></param>
         /// <returns></returns>
-
         Task<int> CreateAsync(int postId, string userId, string content);
 
         /// <summary>
@@ -41,7 +38,6 @@ namespace GamersHub.Services.Data.Replies
         /// <param name="id"></param>
         /// <param name="content"></param>
         /// <returns></returns>
-
         Task<int?> EditAsync(int id, string content);
 
         /// <summary>
@@ -49,7 +45,6 @@ namespace GamersHub.Services.Data.Replies
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-
         Task<int?> DeleteAsync(int id);
 
         /// <summary>
@@ -57,7 +52,6 @@ namespace GamersHub.Services.Data.Replies
         /// </summary>
         /// <param name="postId"></param>
         /// <returns></returns>
-
         int GetCountByPostId(int postId);
     }
 }

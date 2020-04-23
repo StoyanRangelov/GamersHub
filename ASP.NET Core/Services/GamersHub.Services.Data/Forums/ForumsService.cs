@@ -1,23 +1,21 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Common;
-using GamersHub.Data.Common.Repositories;
-using GamersHub.Data.Models;
-using GamersHub.Services.Data.ForumCategories;
-using GamersHub.Services.Data.Posts;
-using GamersHub.Services.Mapping;
-using Microsoft.EntityFrameworkCore;
-
-namespace GamersHub.Services.Data.Forums
+﻿namespace GamersHub.Services.Data.Forums
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Common.Repositories;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+    using Microsoft.EntityFrameworkCore;
+
     public class ForumsService : IForumsService
     {
         private readonly IDeletableEntityRepository<Forum> forumsRepository;
         private readonly IDeletableEntityRepository<Post> postsRepository;
         private readonly IDeletableEntityRepository<Reply> repliesRepository;
         private readonly IRepository<ForumCategory> forumCategoriesRepository;
-
 
         public ForumsService(
             IDeletableEntityRepository<Forum> forumsRepository,
@@ -173,6 +171,7 @@ namespace GamersHub.Services.Data.Forums
             {
                 this.forumCategoriesRepository.Delete(forumCategory);
             }
+
             await this.forumCategoriesRepository.SaveChangesAsync();
 
             return forum.Id;

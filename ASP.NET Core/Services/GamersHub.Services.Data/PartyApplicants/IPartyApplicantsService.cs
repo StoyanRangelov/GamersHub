@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace GamersHub.Services.Data.PartyApplicants
+﻿namespace GamersHub.Services.Data.PartyApplicants
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public interface IPartyApplicantsService
     {
         /// <summary>

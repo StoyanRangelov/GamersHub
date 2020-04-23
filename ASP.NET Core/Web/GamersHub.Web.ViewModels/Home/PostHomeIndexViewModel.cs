@@ -1,10 +1,11 @@
-﻿using System;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Home
+﻿namespace GamersHub.Web.ViewModels.Home
 {
+    using System;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class PostHomeIndexViewModel : IMapFrom<Post>
     {
         public string Name { get; set; }

@@ -1,8 +1,9 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
-
-namespace GamersHub.Web.Infrastructure
+﻿namespace GamersHub.Web.Infrastructure
 {
+    using System.Linq;
+
+    using Microsoft.AspNetCore.Mvc.ApplicationModels;
+
     public class ControllerNameAttributeConvention : IControllerModelConvention
     {
         public void Apply(ControllerModel controller)

@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-using Ganss.XSS;
-
-namespace GamersHub.Web.ViewModels.Posts
+﻿namespace GamersHub.Web.ViewModels.Posts
 {
+    using System;
+    using System.Collections.Generic;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+    using Ganss.XSS;
+
     public class PostByNameViewModel : IMapFrom<Post>
     {
         public int Id { get; set; }

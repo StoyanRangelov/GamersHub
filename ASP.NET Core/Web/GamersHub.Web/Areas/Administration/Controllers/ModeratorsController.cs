@@ -1,14 +1,14 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Data.Users;
-using GamersHub.Web.ViewModels.Administration.Moderators;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-
-namespace GamersHub.Web.Areas.Administration.Controllers
+﻿namespace GamersHub.Web.Areas.Administration.Controllers
 {
+    using System.Threading.Tasks;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Data.Users;
+    using GamersHub.Web.ViewModels.Administration.Moderators;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+
     public class ModeratorsController : AdministrationController
     {
         private readonly IUsersService usersService;
@@ -25,7 +25,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             var moderators = this.usersService
                 .GetAllByRole<ModeratorViewModel>(GlobalConstants.ModeratorRoleName);
 
-            var viewModel = new ModeratorIndexViewModel {Moderators = moderators};
+            var viewModel = new ModeratorIndexViewModel { Moderators = moderators };
 
             return this.View(viewModel);
         }
@@ -33,7 +33,6 @@ namespace GamersHub.Web.Areas.Administration.Controllers
         public IActionResult Demote(string id)
         {
             var viewModel = this.usersService.GetById<ModeratorDemoteViewModel>(id);
-
 
             return this.View(viewModel);
         }

@@ -1,11 +1,11 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-using Ganss.XSS;
-
-namespace GamersHub.Web.ViewModels.Replies
+﻿namespace GamersHub.Web.ViewModels.Replies
 {
+    using System;
+
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+    using Ganss.XSS;
+
     public class ReplyDeleteViewModel : IMapFrom<Reply>
     {
         public int Id { get; set; }

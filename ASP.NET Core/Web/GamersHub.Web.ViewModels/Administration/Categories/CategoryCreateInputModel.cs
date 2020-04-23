@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using GamersHub.Common;
-
-namespace GamersHub.Web.ViewModels.Administration.Categories
+﻿namespace GamersHub.Web.ViewModels.Administration.Categories
 {
-   public class CategoryCreateInputModel
+    using System.ComponentModel.DataAnnotations;
+
+    using GamersHub.Common;
+
+    public class CategoryCreateInputModel
     {
         [Required]
         [StringLength(60, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 3)]

@@ -1,20 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using GamersHub.Common;
-using GamersHub.Services.Data;
-using GamersHub.Services.Data.Categories;
-using GamersHub.Services.Data.Forums;
-using GamersHub.Services.Data.Posts;
-using GamersHub.Web.ViewModels;
-using GamersHub.Web.ViewModels.Administration.Forums;
-using GamersHub.Web.ViewModels.Forums;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace GamersHub.Web.Controllers
+﻿namespace GamersHub.Web.Controllers
 {
+    using System;
+
+    using GamersHub.Services.Data.Forums;
+    using GamersHub.Services.Data.Posts;
+    using GamersHub.Web.ViewModels;
+    using GamersHub.Web.ViewModels.Forums;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [Authorize]
     public class ForumsController : BaseController
     {
@@ -35,13 +29,13 @@ namespace GamersHub.Web.Controllers
             var forums = this.forumsService
                 .GetAll<ForumViewModel>(ForumsPerPage, (id - 1) * ForumsPerPage);
 
-            var viewModel = new ForumIndexViewModel {Forums = forums};
+            var viewModel = new ForumIndexViewModel { Forums = forums };
 
             var count = this.forumsService.GetCount();
 
             var pagination = new PaginationViewModel();
 
-            pagination.PagesCount = (int) Math.Ceiling((double) count / ForumsPerPage);
+            pagination.PagesCount = (int)Math.Ceiling((double)count / ForumsPerPage);
             if (pagination.PagesCount == 0)
             {
                 pagination.PagesCount = 1;
@@ -74,14 +68,14 @@ namespace GamersHub.Web.Controllers
                 searchString = currentFilter;
             }
 
-            ViewData["CurrentFilter"] = searchString;
+            this.ViewData["CurrentFilter"] = searchString;
 
             viewModel.ForumPosts =
                 this.postsService.GetAllByForumId<PostInForumViewModel>(viewModel.Id, PostsPerPage, (id - 1) * PostsPerPage, searchString);
 
             var count = this.postsService.GetCountByForumId(viewModel.Id, searchString);
 
-            viewModel.PagesCount = (int) Math.Ceiling((double) count / PostsPerPage);
+            viewModel.PagesCount = (int)Math.Ceiling((double)count / PostsPerPage);
             if (viewModel.PagesCount == 0)
             {
                 viewModel.PagesCount = 1;

@@ -1,9 +1,10 @@
-﻿using System;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Administration.Parties
+﻿namespace GamersHub.Web.ViewModels.Administration.Parties
 {
+    using System;
+
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class PartyAdministrationViewModel : IMapFrom<Party>
     {
         public int Id { get; set; }

@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using GamersHub.Web.ViewModels.Home;
-
-namespace GamersHub.Web.Hubs
+﻿namespace GamersHub.Web.Hubs
 {
+    using System.Threading.Tasks;
+
+    using GamersHub.Web.ViewModels.Home;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.SignalR;
 

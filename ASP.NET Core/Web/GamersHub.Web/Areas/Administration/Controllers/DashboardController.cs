@@ -1,25 +1,20 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Data.Categories;
-using GamersHub.Services.Data.Forums;
-using GamersHub.Services.Data.Games;
-using GamersHub.Services.Data.Parties;
-using GamersHub.Services.Data.Posts;
-using GamersHub.Services.Data.Users;
-using GamersHub.Services.Mapping;
-using GamersHub.Web.ViewModels.Administration.Users;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json;
-
-namespace GamersHub.Web.Areas.Administration.Controllers
+﻿namespace GamersHub.Web.Areas.Administration.Controllers
 {
-    using GamersHub.Services.Data;
+    using System;
+    using System.Threading.Tasks;
+
+    using GamersHub.Common;
+    using GamersHub.Services.Data.Categories;
+    using GamersHub.Services.Data.Forums;
+    using GamersHub.Services.Data.Games;
+    using GamersHub.Services.Data.Parties;
+    using GamersHub.Services.Data.Posts;
+    using GamersHub.Services.Data.Users;
     using GamersHub.Web.ViewModels.Administration.Dashboard;
+    using GamersHub.Web.ViewModels.Administration.Users;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Distributed;
+    using Newtonsoft.Json;
 
     public class DashboardController : AdministrationController
     {
@@ -108,7 +103,6 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             }
 
             var viewModel = JsonConvert.DeserializeObject<IndexViewModel>(data);
-
 
             return this.View(viewModel);
         }

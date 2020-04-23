@@ -1,16 +1,17 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Data;
-using GamersHub.Data.Models;
-using GamersHub.Data.Repositories;
-using GamersHub.Services.Data.ForumCategories;
-using GamersHub.Services.Mapping;
-using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-
-namespace GamersHub.Services.Data.Tests
+﻿namespace GamersHub.Services.Data.Tests
 {
+    using System;
+    using System.Threading.Tasks;
+
+    using GamersHub.Data;
+    using GamersHub.Data.Models;
+    using GamersHub.Data.Repositories;
+    using GamersHub.Services.Data.ForumCategories;
+    using GamersHub.Services.Data.Tests.TestModels;
+    using GamersHub.Services.Mapping;
+    using Microsoft.EntityFrameworkCore;
+    using NUnit.Framework;
+
     [TestFixture]
     public class ForumCategoriesServiceTests
     {
@@ -27,17 +28,16 @@ namespace GamersHub.Services.Data.Tests
             AutoMapperConfig.RegisterMappings(typeof(TestForumCategory).Assembly);
         }
 
-
         [Test]
         public async Task TestGetByNameAndForumId()
         {
             await this.repository.AddAsync(new ForumCategory
-                {ForumId = 1, Category = new Category {Name = "category"}});
+                { ForumId = 1, Category = new Category { Name = "category" } });
 
             for (int i = 2; i < 5; i++)
             {
                 await this.repository.AddAsync(new ForumCategory
-                    {ForumId = i, Category = new Category {Name = Guid.NewGuid().ToString()}});
+                    { ForumId = i, Category = new Category { Name = Guid.NewGuid().ToString() } });
             }
 
             await this.repository.SaveChangesAsync();
@@ -47,12 +47,5 @@ namespace GamersHub.Services.Data.Tests
             Assert.AreEqual(1, forumCategory.ForumId);
             Assert.AreEqual("category", forumCategory.CategoryName);
         }
-    }
-
-    public class TestForumCategory : IMapFrom<ForumCategory>
-    {
-        public string CategoryName { get; set; }
-
-        public int ForumId { get; set; }
     }
 }

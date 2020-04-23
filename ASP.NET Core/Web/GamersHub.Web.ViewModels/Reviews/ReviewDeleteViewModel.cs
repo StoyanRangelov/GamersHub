@@ -1,11 +1,12 @@
-﻿using System;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-using Ganss.XSS;
-
-namespace GamersHub.Web.ViewModels.Reviews
+﻿namespace GamersHub.Web.ViewModels.Reviews
 {
+    using System;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+    using Ganss.XSS;
+
     public class ReviewDeleteViewModel : IMapFrom<Review>
     {
         public int Id { get; set; }

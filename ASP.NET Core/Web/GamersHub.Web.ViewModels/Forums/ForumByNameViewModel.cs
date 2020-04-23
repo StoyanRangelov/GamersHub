@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using AutoMapper;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Forums
+﻿namespace GamersHub.Web.ViewModels.Forums
 {
+    using System.Collections.Generic;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class ForumByNameViewModel : IMapFrom<Forum>
     {
         public int Id { get; set; }

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Text;
-using System.Text.RegularExpressions;
-using AutoMapper;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Forums
+﻿namespace GamersHub.Web.ViewModels.Forums
 {
+    using System;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class PostInForumViewModel : IMapFrom<Post>
     {
         public int Id { get; set; }

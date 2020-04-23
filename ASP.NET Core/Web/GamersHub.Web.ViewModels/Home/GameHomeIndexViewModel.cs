@@ -1,11 +1,12 @@
-﻿using System.Linq;
-using AutoMapper;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Home
+﻿namespace GamersHub.Web.ViewModels.Home
 {
+    using System.Linq;
+
+    using AutoMapper;
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class GameHomeIndexViewModel : IMapFrom<Game>, IHaveCustomMappings
     {
         public string Title { get; set; }

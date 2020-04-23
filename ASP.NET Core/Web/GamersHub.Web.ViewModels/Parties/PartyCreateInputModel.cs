@@ -1,15 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-
-namespace GamersHub.Web.ViewModels.Parties
+﻿namespace GamersHub.Web.ViewModels.Parties
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+
     public class PartyCreateInputModel
     {
         [Required]
         [StringLength(100, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 3)]
         public string Game { get; set; }
-
 
         [Required]
         [StringLength(400, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 3)]

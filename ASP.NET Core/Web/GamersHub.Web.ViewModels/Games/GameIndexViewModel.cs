@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace GamersHub.Web.ViewModels.Games
+﻿namespace GamersHub.Web.ViewModels.Games
 {
+    using System.Collections.Generic;
+
     public class GameIndexViewModel
     {
         public int PagesCount { get; set; }

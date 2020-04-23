@@ -1,24 +1,10 @@
-﻿using System;
-using System.IO;
-using CloudinaryDotNet;
-using GamersHub.Services.Data.Categories;
-using GamersHub.Services.Data.ForumCategories;
-using GamersHub.Services.Data.Forums;
-using GamersHub.Services.Data.Games;
-using GamersHub.Services.Data.Pages;
-using GamersHub.Services.Data.Parties;
-using GamersHub.Services.Data.PartyApplicants;
-using GamersHub.Services.Data.Posts;
-using GamersHub.Services.Data.Replies;
-using GamersHub.Services.Data.Reviews;
-using GamersHub.Services.Data.Users;
-using GamersHub.Web.Hubs;
-using GamersHub.Web.Infrastructure;
-using Microsoft.AspNetCore.Mvc;
-
-namespace GamersHub.Web
+﻿namespace GamersHub.Web
 {
+    using System;
+    using System.IO;
     using System.Reflection;
+
+    using CloudinaryDotNet;
     using GamersHub.Data;
     using GamersHub.Data.Common;
     using GamersHub.Data.Common.Repositories;
@@ -26,12 +12,26 @@ namespace GamersHub.Web
     using GamersHub.Data.Repositories;
     using GamersHub.Data.Seeding;
     using GamersHub.Services.Data;
+    using GamersHub.Services.Data.Categories;
+    using GamersHub.Services.Data.ForumCategories;
+    using GamersHub.Services.Data.Forums;
+    using GamersHub.Services.Data.Games;
+    using GamersHub.Services.Data.Pages;
+    using GamersHub.Services.Data.Parties;
+    using GamersHub.Services.Data.PartyApplicants;
+    using GamersHub.Services.Data.Posts;
+    using GamersHub.Services.Data.Replies;
+    using GamersHub.Services.Data.Reviews;
+    using GamersHub.Services.Data.Users;
     using GamersHub.Services.Mapping;
     using GamersHub.Services.Messaging;
+    using GamersHub.Web.Hubs;
+    using GamersHub.Web.Infrastructure;
     using GamersHub.Web.ViewModels;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -95,12 +95,10 @@ namespace GamersHub.Web
 
             services.AddRazorPages();
 
-            Account account = new Account
-            (
+            Account account = new Account(
                 this.configuration["Cloudinary:CloudName"],
                 this.configuration["Cloudinary:ApiKey"],
-                this.configuration["Cloudinary:ApiSecret"]
-            );
+                this.configuration["Cloudinary:ApiSecret"]);
 
             Cloudinary cloudinary = new Cloudinary(account);
 
@@ -109,13 +107,11 @@ namespace GamersHub.Web
                 facebookOptions.AppId = this.configuration["Facebook:AppId"];
                 facebookOptions.AppSecret = this.configuration["Facebook:AppSecret"];
             });
-            
-            services.AddSignalR();
 
+            services.AddSignalR();
 
             services.AddSingleton(this.configuration);
             services.AddSingleton(cloudinary);
-
 
             // Data repositories
             services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
@@ -123,7 +119,7 @@ namespace GamersHub.Web
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
-            services.AddTransient<IEmailSender, SendGridEmailSender>(options=> new SendGridEmailSender(this.configuration["SendGrid:ApiKey"]));
+            services.AddTransient<IEmailSender, SendGridEmailSender>(options => new SendGridEmailSender(this.configuration["SendGrid:ApiKey"]));
             services.AddTransient<IForumCategoriesService, ForumCategoriesService>();
             services.AddTransient<IPostsService, PostsService>();
             services.AddTransient<IForumsService, ForumsService>();
@@ -188,19 +184,19 @@ namespace GamersHub.Web
                     endpoints.MapControllerRoute(
                         "forum",
                         "Forums/{name:minlength(3)}/{id?}",
-                        new {controller = "Forums", action = "ByName"});
+                        new { controller = "Forums", action = "ByName" });
                     endpoints.MapControllerRoute(
                         "category",
                         "Categories/{name:minlength(3)}/{id}",
-                        new {controller = "Categories", action = "ByName"});
+                        new { controller = "Categories", action = "ByName" });
                     endpoints.MapControllerRoute(
                         "post",
                         "Posts/{name:minlength(3)}/{id?}",
-                        new {controller = "Posts", action = "ByName"});
+                        new { controller = "Posts", action = "ByName" });
                     endpoints.MapControllerRoute(
                         "game",
                         "Games/{name:minlength(3)}/{id?}",
-                        new {controller = "Games", action = "ByName"});
+                        new { controller = "Games", action = "ByName" });
                     endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                     endpoints.MapRazorPages();
                 });

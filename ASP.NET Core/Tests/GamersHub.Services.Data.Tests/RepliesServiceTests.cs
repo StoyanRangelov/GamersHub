@@ -1,17 +1,18 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Data;
-using GamersHub.Data.Common.Repositories;
-using GamersHub.Services.Data.Replies;
-using GamersHub.Data.Models;
-using GamersHub.Data.Repositories;
-using GamersHub.Services.Mapping;
-using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-
-namespace GamersHub.Services.Data.Tests
+﻿namespace GamersHub.Services.Data.Tests
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using GamersHub.Data;
+    using GamersHub.Data.Models;
+    using GamersHub.Data.Repositories;
+    using GamersHub.Services.Data.Replies;
+    using GamersHub.Services.Data.Tests.TestModels;
+    using GamersHub.Services.Mapping;
+    using Microsoft.EntityFrameworkCore;
+    using NUnit.Framework;
+
     [TestFixture]
     public class RepliesServiceTests
     {
@@ -33,10 +34,10 @@ namespace GamersHub.Services.Data.Tests
         {
             for (int i = 0; i < 5; i++)
             {
-                await this.repository.AddAsync(new Reply {PostId = 1, Content = "test Content"});
+                await this.repository.AddAsync(new Reply { PostId = 1, Content = "test Content" });
             }
 
-            await this.repository.AddAsync(new Reply {PostId = 2, Content = "test Content fail"});
+            await this.repository.AddAsync(new Reply { PostId = 2, Content = "test Content fail" });
             await this.repository.SaveChangesAsync();
 
             var replies = this.repliesService.GetAllByPostId<TestReply>(1).ToList();
@@ -58,16 +59,16 @@ namespace GamersHub.Services.Data.Tests
         {
             for (int i = 0; i < 3; i++)
             {
-                await this.repository.AddAsync(new Reply {PostId = 1, Content = "test Content skip"});
+                await this.repository.AddAsync(new Reply { PostId = 1, Content = "test Content skip" });
             }
 
             for (int i = 0; i < 5; i++)
             {
-                await this.repository.AddAsync(new Reply {PostId = 1, Content = "test Content"});
+                await this.repository.AddAsync(new Reply { PostId = 1, Content = "test Content" });
             }
 
-            await this.repository.AddAsync(new Reply {PostId = 1, Content = "test Content fail"});
-            await this.repository.AddAsync(new Reply {PostId = 2, Content = "test Content fail"});
+            await this.repository.AddAsync(new Reply { PostId = 1, Content = "test Content fail" });
+            await this.repository.AddAsync(new Reply { PostId = 2, Content = "test Content fail" });
             await this.repository.SaveChangesAsync();
 
             var replies = this.repliesService.GetAllByPostId<TestReply>(1, 5, 3).ToList();
@@ -87,8 +88,8 @@ namespace GamersHub.Services.Data.Tests
         [Test]
         public async Task TestGetById()
         {
-            await this.repository.AddAsync(new Reply {Content = "test Content 1"});
-            await this.repository.AddAsync(new Reply {Content = "test Content 2"});
+            await this.repository.AddAsync(new Reply { Content = "test Content 1" });
+            await this.repository.AddAsync(new Reply { Content = "test Content 2" });
             await this.repository.SaveChangesAsync();
 
             var reply = this.repliesService.GetById<TestReply>(2);
@@ -113,7 +114,7 @@ namespace GamersHub.Services.Data.Tests
         [Test]
         public async Task TestEditAsync()
         {
-            await this.repository.AddAsync(new Reply {Content = "test Content"});
+            await this.repository.AddAsync(new Reply { Content = "test Content" });
             await this.repository.SaveChangesAsync();
 
             var replyId = await this.repliesService.EditAsync(1, "edited test Content");
@@ -143,7 +144,7 @@ namespace GamersHub.Services.Data.Tests
         [Test]
         public async Task TestDeleteAsync()
         {
-            await this.repository.AddAsync(new Reply {Content = "test Content"});
+            await this.repository.AddAsync(new Reply { Content = "test Content" });
             await this.repository.SaveChangesAsync();
 
             var replyId = await this.repliesService.DeleteAsync(1);
@@ -159,12 +160,12 @@ namespace GamersHub.Services.Data.Tests
         {
             for (int i = 0; i < 4; i++)
             {
-                await this.repository.AddAsync(new Reply {PostId = 1, Content = "test Content"});
+                await this.repository.AddAsync(new Reply { PostId = 1, Content = "test Content" });
             }
 
             for (int i = 2; i < 5; i++)
             {
-                await this.repository.AddAsync(new Reply {PostId = i, Content = "test Content"});
+                await this.repository.AddAsync(new Reply { PostId = i, Content = "test Content" });
             }
 
             await this.repository.SaveChangesAsync();
@@ -174,12 +175,5 @@ namespace GamersHub.Services.Data.Tests
 
             Assert.AreEqual(expectedCount, actualCount);
         }
-    }
-
-    public class TestReply : IMapFrom<Reply>
-    {
-        public int PostId { get; set; }
-
-        public string Content { get; set; }
     }
 }

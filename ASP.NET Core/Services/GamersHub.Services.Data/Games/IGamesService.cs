@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace GamersHub.Services.Data.Games
+﻿namespace GamersHub.Services.Data.Games
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public interface IGamesService
     {
         /// <summary>
@@ -64,7 +64,6 @@ namespace GamersHub.Services.Data.Games
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-
         Task<int?> DeleteAsync(int id);
 
         /// <summary>

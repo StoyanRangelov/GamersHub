@@ -1,16 +1,18 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Data;
-using GamersHub.Data.Models;
-using GamersHub.Data.Repositories;
-using GamersHub.Services.Data.Reviews;
-using GamersHub.Services.Mapping;
-using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-
-namespace GamersHub.Services.Data.Tests
+﻿namespace GamersHub.Services.Data.Tests
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using GamersHub.Data;
+    using GamersHub.Data.Models;
+    using GamersHub.Data.Repositories;
+    using GamersHub.Services.Data.Reviews;
+    using GamersHub.Services.Data.Tests.TestModels;
+    using GamersHub.Services.Mapping;
+    using Microsoft.EntityFrameworkCore;
+    using NUnit.Framework;
+
     [TestFixture]
     public class ReviewsServiceTests
     {
@@ -30,7 +32,7 @@ namespace GamersHub.Services.Data.Tests
         [Test]
         public async Task TestGetByIdReturnsCorrectEntity()
         {
-            await this.repository.AddAsync(new Review {Content = "test Content"});
+            await this.repository.AddAsync(new Review { Content = "test Content" });
             await this.repository.SaveChangesAsync();
 
             var review = this.reviewsService.GetById<TestReview>(1);
@@ -67,10 +69,10 @@ namespace GamersHub.Services.Data.Tests
         {
             for (int i = 0; i < 10; i++)
             {
-                await this.repository.AddAsync(new Review {GameId = 1, Content = "test Content"});
+                await this.repository.AddAsync(new Review { GameId = 1, Content = "test Content" });
             }
 
-            await this.repository.AddAsync(new Review {GameId = 2, Content = "test Content fail"});
+            await this.repository.AddAsync(new Review { GameId = 2, Content = "test Content fail" });
             await this.repository.SaveChangesAsync();
 
             var reviews = this.reviewsService.GetAllByGameId<TestReview>(1).ToList();
@@ -92,16 +94,16 @@ namespace GamersHub.Services.Data.Tests
         {
             for (int i = 0; i < 3; i++)
             {
-                await this.repository.AddAsync(new Review {GameId = 1, Content = "test Content skip"});
+                await this.repository.AddAsync(new Review { GameId = 1, Content = "test Content skip" });
             }
 
             for (int i = 0; i < 5; i++)
             {
-                await this.repository.AddAsync(new Review {GameId = 1, Content = "test Content"});
+                await this.repository.AddAsync(new Review { GameId = 1, Content = "test Content" });
             }
 
-            await this.repository.AddAsync(new Review {GameId = 1, Content = "test Content fail"});
-            await this.repository.AddAsync(new Review {GameId = 2, Content = "test Content fail"});
+            await this.repository.AddAsync(new Review { GameId = 1, Content = "test Content fail" });
+            await this.repository.AddAsync(new Review { GameId = 2, Content = "test Content fail" });
 
             await this.repository.SaveChangesAsync();
 
@@ -122,7 +124,7 @@ namespace GamersHub.Services.Data.Tests
         [Test]
         public async Task TestEditAsyncWorksCorrectly()
         {
-            await this.repository.AddAsync(new Review {Content = "test Content", IsPositive = true});
+            await this.repository.AddAsync(new Review { Content = "test Content", IsPositive = true });
             await this.repository.SaveChangesAsync();
 
             var reviewId = await this.reviewsService.EditAsync(1, "test Content edited", false);
@@ -133,7 +135,6 @@ namespace GamersHub.Services.Data.Tests
             Assert.IsFalse(actualReview.IsPositive);
         }
 
-
         [Test]
         public async Task TestEditAsyncReturnsNullWithInvalidId()
         {
@@ -141,7 +142,6 @@ namespace GamersHub.Services.Data.Tests
 
             Assert.Null(reviewId);
         }
-
 
         [Test]
         public async Task TestDeleteAsyncReturnsNullWithInvalidId()
@@ -154,10 +154,10 @@ namespace GamersHub.Services.Data.Tests
         [Test]
         public async Task TestDeleteAsyncWorksCorrectly()
         {
-            await this.repository.AddAsync(new Review {Content = "test Content"});
+            await this.repository.AddAsync(new Review { Content = "test Content" });
             await this.repository.SaveChangesAsync();
 
-            var reviewId =await this.reviewsService.DeleteAsync(1);
+            var reviewId = await this.reviewsService.DeleteAsync(1);
 
             var review = this.repository.AllWithDeleted().First();
 
@@ -170,12 +170,12 @@ namespace GamersHub.Services.Data.Tests
         {
             for (int i = 0; i < 6; i++)
             {
-                await this.repository.AddAsync(new Review {GameId = 1, Content = "test Content"});
+                await this.repository.AddAsync(new Review { GameId = 1, Content = "test Content" });
             }
 
             for (int i = 2; i < 5; i++)
             {
-                await this.repository.AddAsync(new Review {GameId = i, Content = "test Content"});
+                await this.repository.AddAsync(new Review { GameId = i, Content = "test Content" });
             }
 
             await this.repository.SaveChangesAsync();
@@ -186,14 +186,5 @@ namespace GamersHub.Services.Data.Tests
 
             Assert.AreEqual(expectedCount, actualCount);
         }
-    }
-
-    public class TestReview : IMapFrom<Review>
-    {
-        public int GameId { get; set; }
-
-        public bool IsPositive { get; set; }
-
-        public string Content { get; set; }
     }
 }

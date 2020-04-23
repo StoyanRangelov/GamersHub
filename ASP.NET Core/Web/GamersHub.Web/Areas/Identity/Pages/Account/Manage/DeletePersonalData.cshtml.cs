@@ -1,28 +1,22 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Data.Posts;
-using GamersHub.Services.Data.Replies;
-using GamersHub.Services.Data.Reviews;
-using GamersHub.Services.Data.Users;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.Extensions.Logging;
-
-namespace GamersHub.Web.Areas.Identity.Pages.Account.Manage
+﻿namespace GamersHub.Web.Areas.Identity.Pages.Account.Manage
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.Threading.Tasks;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Data.Users;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.Extensions.Logging;
+
     public class DeletePersonalDataModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly ILogger<DeletePersonalDataModel> _logger;
-        private readonly IUsersService _usersService;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly ILogger<DeletePersonalDataModel> logger;
+        private readonly IUsersService usersService;
 
         public DeletePersonalDataModel(
             UserManager<ApplicationUser> userManager,
@@ -30,13 +24,14 @@ namespace GamersHub.Web.Areas.Identity.Pages.Account.Manage
             ILogger<DeletePersonalDataModel> logger,
             IUsersService usersService)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _logger = logger;
-            _usersService = usersService;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.logger = logger;
+            this.usersService = usersService;
         }
 
-        [BindProperty] public InputModel Input { get; set; }
+        [BindProperty]
+        public InputModel Input { get; set; }
 
         public class InputModel
         {
@@ -49,60 +44,60 @@ namespace GamersHub.Web.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGet()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
-            RequirePassword = await _userManager.HasPasswordAsync(user);
-            return Page();
+            this.RequirePassword = await this.userManager.HasPasswordAsync(user);
+            return this.Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await this.userManager.GetUserAsync(this.User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return this.NotFound($"Unable to load user with ID '{this.userManager.GetUserId(this.User)}'.");
             }
 
-            RequirePassword = await _userManager.HasPasswordAsync(user);
-            if (RequirePassword)
+            this.RequirePassword = await this.userManager.HasPasswordAsync(user);
+            if (this.RequirePassword)
             {
-                if (!await _userManager.CheckPasswordAsync(user, Input.Password))
+                if (!await this.userManager.CheckPasswordAsync(user, this.Input.Password))
                 {
-                    ModelState.AddModelError(string.Empty, "Incorrect password.");
-                    return Page();
+                    this.ModelState.AddModelError(string.Empty, "Incorrect password.");
+                    return this.Page();
                 }
             }
 
-            var isAdministrator = await _userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
+            var isAdministrator = await this.userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
             if (isAdministrator)
             {
-                await _userManager.RemoveFromRoleAsync(user, GlobalConstants.AdministratorRoleName);
+                await this.userManager.RemoveFromRoleAsync(user, GlobalConstants.AdministratorRoleName);
             }
 
-            var isModerator = await _userManager.IsInRoleAsync(user, GlobalConstants.ModeratorRoleName);
+            var isModerator = await this.userManager.IsInRoleAsync(user, GlobalConstants.ModeratorRoleName);
             if (isModerator)
             {
-                await _userManager.RemoveFromRoleAsync(user, GlobalConstants.ModeratorRoleName);
+                await this.userManager.RemoveFromRoleAsync(user, GlobalConstants.ModeratorRoleName);
             }
 
-            var userlogins = await _userManager.GetLoginsAsync(user);
+            var userlogins = await this.userManager.GetLoginsAsync(user);
             foreach (var userlogin in userlogins)
             {
-               await _userManager.RemoveLoginAsync(user, userlogin.LoginProvider, userlogin.ProviderKey);
+               await this.userManager.RemoveLoginAsync(user, userlogin.LoginProvider, userlogin.ProviderKey);
             }
 
-            await this._usersService.DeleteAsync(user.Id);
+            await this.usersService.DeleteAsync(user.Id);
 
-            await _signInManager.SignOutAsync();
+            await this.signInManager.SignOutAsync();
 
-            _logger.LogInformation("User with ID '{UserId}' deleted themselves.", user.Id);
+            this.logger.LogInformation("User with ID '{UserId}' deleted themselves.", user.Id);
 
             this.TempData["InfoMessage"] = "You have successfully deleted your account.";
-            return Redirect("~/");
+            return this.Redirect("~/");
         }
     }
 }

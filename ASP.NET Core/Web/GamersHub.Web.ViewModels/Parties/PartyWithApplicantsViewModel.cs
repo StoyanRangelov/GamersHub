@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Parties
+﻿namespace GamersHub.Web.ViewModels.Parties
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class PartyWithApplicantsViewModel : IMapFrom<Party>
     {
         public int Id { get; set; }

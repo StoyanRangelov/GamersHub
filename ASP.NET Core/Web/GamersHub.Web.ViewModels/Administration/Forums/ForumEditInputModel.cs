@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Administration.Forums
+﻿namespace GamersHub.Web.ViewModels.Administration.Forums
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class ForumEditInputModel : IMapFrom<Forum>
     {
         [Required]

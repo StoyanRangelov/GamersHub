@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace GamersHub.Services.Data.Reviews
+﻿namespace GamersHub.Services.Data.Reviews
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public interface IReviewsService
     {
         /// <summary>
@@ -14,7 +14,6 @@ namespace GamersHub.Services.Data.Reviews
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         IEnumerable<T> GetAllByGameId<T>(int gameId, int? take = null, int skip = 0);
-
 
         /// <summary>
         /// Returns a review by the given id, returns null if such a review does not exist
@@ -32,7 +31,6 @@ namespace GamersHub.Services.Data.Reviews
         /// <param name="content"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-
         Task<int> CreateAsync(int gameId, bool isPositive, string content, string userId);
 
         /// <summary>
@@ -42,23 +40,20 @@ namespace GamersHub.Services.Data.Reviews
         /// <param name="content"></param>
         /// <param name="isPositive"></param>
         /// <returns></returns>
-
         Task<int?> EditAsync(int id, string content, bool isPositive);
-        
+
         /// <summary>
         /// Deletes the review with the given id, returns null if such a review does not exist, otherwise returns the review id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-
         Task<int?> DeleteAsync(int id);
-        
+
         /// <summary>
         /// returns the count of all reviews with the given game id from the database
         /// </summary>
         /// <param name="gameId"></param>
         /// <returns></returns>
-
         int GetCountByGameId(int gameId);
     }
 }

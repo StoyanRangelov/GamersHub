@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using GamersHub.Data.Common.Models;
-
-namespace GamersHub.Data.Models
+﻿namespace GamersHub.Data.Models
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    using GamersHub.Data.Common.Models;
+
     public class Post : BaseDeletableModel<int>
     {
         public Post()
@@ -31,6 +32,5 @@ namespace GamersHub.Data.Models
         public virtual Category Category { get; set; }
 
         public virtual ICollection<Reply> Replies { get; set; }
-
     }
 }

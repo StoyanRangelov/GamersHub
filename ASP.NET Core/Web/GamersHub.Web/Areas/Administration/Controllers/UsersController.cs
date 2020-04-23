@@ -1,16 +1,16 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Data.Users;
-using GamersHub.Web.ViewModels;
-using GamersHub.Web.ViewModels.Administration.Users;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-
-namespace GamersHub.Web.Areas.Administration.Controllers
+﻿namespace GamersHub.Web.Areas.Administration.Controllers
 {
+    using System;
+    using System.Threading.Tasks;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Data.Users;
+    using GamersHub.Web.ViewModels;
+    using GamersHub.Web.ViewModels.Administration.Users;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+
     public class UsersController : AdministrationController
     {
         private const int UsersPerPage = 14;
@@ -18,7 +18,6 @@ namespace GamersHub.Web.Areas.Administration.Controllers
 
         private readonly IUsersService usersService;
         private readonly UserManager<ApplicationUser> userManager;
-
 
         public UsersController(IUsersService usersService, UserManager<ApplicationUser> userManager)
         {
@@ -31,13 +30,13 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             var users = this.usersService
                 .GetAllPromotableUsers<UserViewModel>(UsersPerPage, (id - 1) * UsersPerPage);
 
-            var viewModel = new UserIndexViewModel {Users = users};
+            var viewModel = new UserIndexViewModel { Users = users };
 
             var count = this.usersService.GetCountOfPromotableUsers();
 
             var pagination = new PaginationViewModel();
 
-            pagination.PagesCount = (int) Math.Ceiling((double) count / UsersPerPage);
+            pagination.PagesCount = (int)Math.Ceiling((double)count / UsersPerPage);
             if (pagination.PagesCount == 0)
             {
                 pagination.PagesCount = 1;
@@ -59,7 +58,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
                 return this.NotFound();
             }
 
-            var viewModel = new UserAdministrationPromoteInputModel {User = user};
+            var viewModel = new UserAdministrationPromoteInputModel { User = user };
 
             return this.View(viewModel);
         }
@@ -113,13 +112,13 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             var users = this.usersService
                 .GetAllBannedUsers<UserBannedViewModel>(BannedUsersPerPage, (id - 1) * BannedUsersPerPage);
 
-            var viewModel = new UserAdministrationBannedViewModel {BannedUsers = users};
+            var viewModel = new UserAdministrationBannedViewModel { BannedUsers = users };
 
             var count = this.usersService.GetCountOfBannedUsers();
 
             var pagination = new PaginationViewModel();
 
-            pagination.PagesCount = (int) Math.Ceiling((double) count / BannedUsersPerPage);
+            pagination.PagesCount = (int)Math.Ceiling((double)count / BannedUsersPerPage);
             if (pagination.PagesCount == 0)
             {
                 pagination.PagesCount = 1;

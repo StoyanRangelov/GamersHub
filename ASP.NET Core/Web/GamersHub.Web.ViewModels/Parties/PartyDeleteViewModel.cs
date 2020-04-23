@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Parties
+﻿namespace GamersHub.Web.ViewModels.Parties
 {
+    using System;
+    using System.Collections.Generic;
+
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class PartyDeleteViewModel : IMapFrom<Party>
     {
         public int Id { get; set; }

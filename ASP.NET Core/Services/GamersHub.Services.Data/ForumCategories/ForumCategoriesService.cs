@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Data.Common.Repositories;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Services.Data.ForumCategories
+﻿namespace GamersHub.Services.Data.ForumCategories
 {
+    using System.Linq;
+
+    using GamersHub.Data.Common.Repositories;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class ForumCategoriesService : IForumCategoriesService
     {
         private readonly IRepository<ForumCategory> forumCategoriesRepository;
@@ -15,7 +14,6 @@ namespace GamersHub.Services.Data.ForumCategories
         {
             this.forumCategoriesRepository = forumCategoriesRepository;
         }
-
 
         public T GetByCategoryNameAndForumId<T>(string categoryName, int forumId)
         {

@@ -1,19 +1,18 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Common;
-using GamersHub.Services.Data;
-using GamersHub.Services.Data.Categories;
-using GamersHub.Services.Data.ForumCategories;
-using GamersHub.Services.Data.Posts;
-using GamersHub.Web.Infrastructure;
-using GamersHub.Web.ViewModels;
-using GamersHub.Web.ViewModels.Categories;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace GamersHub.Web.Controllers
+﻿namespace GamersHub.Web.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using GamersHub.Services.Data.Categories;
+    using GamersHub.Services.Data.ForumCategories;
+    using GamersHub.Services.Data.Posts;
+    using GamersHub.Web.Infrastructure;
+    using GamersHub.Web.ViewModels.Categories;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [Authorize]
     [ControllerName("Categories")]
     public class ForumCategoriesController : BaseController
@@ -60,16 +59,14 @@ namespace GamersHub.Web.Controllers
                 searchString = currentFilter;
             }
 
-            ViewData["CurrentFilter"] = searchString;
+            this.ViewData["CurrentFilter"] = searchString;
 
             viewModel.CategoryPosts = this.postsService
-                .GetAllByCategoryNameAndForumId<PostInCategoryViewModel>(normalisedName, id, PostPerPage,
-                    (page - 1) * PostPerPage, searchString);
-
+                .GetAllByCategoryNameAndForumId<PostInCategoryViewModel>(normalisedName, id, PostPerPage, (page - 1) * PostPerPage, searchString);
 
             var count = this.postsService.GetCountByCategoryNameAndForumId(normalisedName, id, searchString);
 
-            viewModel.PagesCount = (int) Math.Ceiling((double) count / PostPerPage);
+            viewModel.PagesCount = (int)Math.Ceiling((double)count / PostPerPage);
             if (viewModel.PagesCount == 0)
             {
                 viewModel.PagesCount = 1;

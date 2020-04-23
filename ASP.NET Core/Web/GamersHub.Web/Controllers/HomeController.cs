@@ -1,23 +1,22 @@
-﻿using System;
-using System.Threading.Tasks;
-using GamersHub.Common;
-using GamersHub.Services.Data.Forums;
-using GamersHub.Services.Data.Games;
-using GamersHub.Services.Data.Pages;
-using GamersHub.Services.Data.Parties;
-using GamersHub.Services.Data.Posts;
-using GamersHub.Services.Data.Users;
-using GamersHub.Web.ViewModels.Home;
-using GamersHub.Web.ViewModels.Pages;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json;
-
-namespace GamersHub.Web.Controllers
+﻿namespace GamersHub.Web.Controllers
 {
+    using System;
     using System.Diagnostics;
+    using System.Threading.Tasks;
+
+    using GamersHub.Common;
+    using GamersHub.Services.Data.Games;
+    using GamersHub.Services.Data.Pages;
+    using GamersHub.Services.Data.Parties;
+    using GamersHub.Services.Data.Posts;
+    using GamersHub.Services.Data.Users;
     using GamersHub.Web.ViewModels;
+    using GamersHub.Web.ViewModels.Home;
+    using GamersHub.Web.ViewModels.Pages;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Distributed;
+    using Newtonsoft.Json;
 
     public class HomeController : BaseController
     {
@@ -118,15 +117,14 @@ namespace GamersHub.Web.Controllers
         public IActionResult HttpError(int statusCode)
         {
             return this.View(new HttpErrorViewModel
-                {StatusCode = statusCode, Message = GlobalConstants.HttpErrorMessage});
+                { StatusCode = statusCode, Message = GlobalConstants.HttpErrorMessage });
         }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return this.View(
-                new ErrorViewModel {RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier});
+                new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
         }
     }
 }

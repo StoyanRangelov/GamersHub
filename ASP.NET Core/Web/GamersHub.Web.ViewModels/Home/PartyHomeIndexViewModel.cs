@@ -1,9 +1,10 @@
-﻿using System;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Home
+﻿namespace GamersHub.Web.ViewModels.Home
 {
+    using System;
+
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class PartyHomeIndexViewModel : IMapFrom<Party>
     {
         public string Game { get; set; }

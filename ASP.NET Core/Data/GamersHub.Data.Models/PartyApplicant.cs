@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace GamersHub.Data.Models
+﻿namespace GamersHub.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class PartyApplicant
     {
         public int PartyId { get; set; }

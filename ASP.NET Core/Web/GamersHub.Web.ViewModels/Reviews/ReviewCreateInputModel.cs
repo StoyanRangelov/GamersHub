@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
-namespace GamersHub.Web.ViewModels.Reviews
+﻿namespace GamersHub.Web.ViewModels.Reviews
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
     public class ReviewCreateInputModel
     {
         [Display(Name = "Game")]

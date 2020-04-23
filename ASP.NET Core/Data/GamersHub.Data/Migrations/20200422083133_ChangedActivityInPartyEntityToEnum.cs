@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace GamersHub.Data.Migrations
+﻿namespace GamersHub.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class ChangedActivityInPartyEntityToEnum : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

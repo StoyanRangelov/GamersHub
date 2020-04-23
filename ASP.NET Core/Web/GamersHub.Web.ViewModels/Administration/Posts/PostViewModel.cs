@@ -1,9 +1,9 @@
-﻿using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Administration.Posts
+﻿namespace GamersHub.Web.ViewModels.Administration.Posts
 {
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class PostViewModel : IMapFrom<Post>
     {
         public int Id { get; set; }
@@ -39,6 +39,5 @@ namespace GamersHub.Web.ViewModels.Administration.Posts
                 : this.CategoryName;
 
         public int RepliesCount { get; set; }
-
     }
 }

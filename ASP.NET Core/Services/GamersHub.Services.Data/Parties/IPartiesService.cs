@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using GamersHub.Data.Models;
-
-namespace GamersHub.Services.Data.Parties
+﻿namespace GamersHub.Services.Data.Parties
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using GamersHub.Data.Models;
+
     public interface IPartiesService
     {
         /// <summary>
@@ -73,7 +74,6 @@ namespace GamersHub.Services.Data.Parties
         /// <param name="userId"></param>
         /// <returns></returns>
         Task<int?> ApplyAsync(int partyId, string userId);
-
 
         /// <summary>
         /// Edits a party by the given id and updates it with the given game, activity and description, returns null if the party does not exist, otherwise returns the party id

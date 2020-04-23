@@ -1,9 +1,9 @@
-﻿using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-using Ganss.XSS;
-
-namespace GamersHub.Web.ViewModels.Administration.Games
+﻿namespace GamersHub.Web.ViewModels.Administration.Games
 {
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+    using Ganss.XSS;
+
     public class GameDeleteViewModel : IMapFrom<Game>
     {
         public int Id { get; set; }

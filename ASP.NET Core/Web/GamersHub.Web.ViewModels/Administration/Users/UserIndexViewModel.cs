@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Administration.Users
+﻿namespace GamersHub.Web.ViewModels.Administration.Users
 {
+    using System.Collections.Generic;
+
     public class UserIndexViewModel
     {
         public PaginationViewModel Pagination { get; set; }

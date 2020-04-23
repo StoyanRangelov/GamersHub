@@ -1,9 +1,10 @@
-﻿using System;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Administration.Users
+﻿namespace GamersHub.Web.ViewModels.Administration.Users
 {
+    using System;
+
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class UserUnbanViewModel : IMapFrom<ApplicationUser>
     {
         public string Id { get; set; }

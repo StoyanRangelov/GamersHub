@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Parties
+﻿namespace GamersHub.Web.ViewModels.Parties
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class PartyEditViewModel : IMapFrom<Party>
     {
         public int Id { get; set; }
@@ -17,7 +18,8 @@ namespace GamersHub.Web.ViewModels.Parties
         [StringLength(100, ErrorMessage = GlobalConstants.StringLengthErrorMessage, MinimumLength = 3)]
         public string Game { get; set; }
 
-        [Display(Name = "Current Activity")] public string Activity { get; set; }
+        [Display(Name = "Current Activity")]
+        public string Activity { get; set; }
 
         [Display(Name = "Change Activity")]
         [EnumDataType(typeof(ActivityType))]

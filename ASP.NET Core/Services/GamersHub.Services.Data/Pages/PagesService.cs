@@ -1,11 +1,12 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Data.Common.Repositories;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Services.Data.Pages
+﻿namespace GamersHub.Services.Data.Pages
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using GamersHub.Data.Common.Repositories;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class PagesService : IPagesService
     {
         private readonly IDeletableEntityRepository<Page> pagesRepository;

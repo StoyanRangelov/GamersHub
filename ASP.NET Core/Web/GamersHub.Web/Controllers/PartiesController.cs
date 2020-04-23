@@ -1,22 +1,23 @@
-﻿using System;
-using System.Security.Claims;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Data.Parties;
-using GamersHub.Services.Data.PartyApplicants;
-using GamersHub.Services.Data.Users;
-using GamersHub.Services.Messaging;
-using GamersHub.Web.ViewModels;
-using GamersHub.Web.ViewModels.Parties;
-using GamersHub.Web.ViewModels.Replies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-
-namespace GamersHub.Web.Controllers
+﻿namespace GamersHub.Web.Controllers
 {
+    using System;
+    using System.Security.Claims;
+    using System.Text.Encodings.Web;
+    using System.Threading.Tasks;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Data.Parties;
+    using GamersHub.Services.Data.PartyApplicants;
+    using GamersHub.Services.Data.Users;
+    using GamersHub.Services.Messaging;
+    using GamersHub.Web.ViewModels;
+    using GamersHub.Web.ViewModels.Parties;
+    using GamersHub.Web.ViewModels.Replies;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+
     [Authorize]
     public class PartiesController : BaseController
     {
@@ -47,7 +48,7 @@ namespace GamersHub.Web.Controllers
             var parties = this.partiesService
                 .GetAll<PartyViewModel>(PartiesPerPage, (id - 1) * PartiesPerPage, searchString);
 
-            var viewModel = new PartyIndexViewModel {Parties = parties};
+            var viewModel = new PartyIndexViewModel { Parties = parties };
 
             viewModel.CurrentPage = id;
 
@@ -60,11 +61,10 @@ namespace GamersHub.Web.Controllers
                 searchString = currentFilter;
             }
 
-            ViewData["CurrentFilter"] = searchString;
-
+            this.ViewData["CurrentFilter"] = searchString;
 
             var count = this.partiesService.GetCount(searchString);
-            viewModel.PagesCount = (int) Math.Ceiling((double) count / PartiesPerPage);
+            viewModel.PagesCount = (int)Math.Ceiling((double)count / PartiesPerPage);
             if (viewModel.PagesCount == 0)
             {
                 viewModel.PagesCount = 1;
@@ -144,14 +144,12 @@ namespace GamersHub.Web.Controllers
 
             var viewModel = this.usersService.GetByName<PartyHostViewModel>(id);
 
-
             viewModel.UserParties = this.partiesService
                 .GetAllByUsername<PartyWithApplicantsViewModel>(id, PartiesPerPage, (page - 1) * PartiesPerPage);
 
-
             var count = this.partiesService.GetCountByUsername(id);
 
-            viewModel.PagesCount = (int) Math.Ceiling((double) count / PartiesPerPage);
+            viewModel.PagesCount = (int)Math.Ceiling((double)count / PartiesPerPage);
             if (viewModel.PagesCount == 0)
             {
                 viewModel.PagesCount = 1;
@@ -179,15 +177,12 @@ namespace GamersHub.Web.Controllers
 
             var viewModel = this.usersService.GetByName<ApplicantPartyViewModel>(id);
 
-
             viewModel.PartyApplications = this.partyApplicantsService
-                .GetAllApplicationsByUsername<ApplicantPartiesViewModel>(id, PartiesPerPage,
-                    (page - 1) * PartiesPerPage);
-
+                .GetAllApplicationsByUsername<ApplicantPartiesViewModel>(id, PartiesPerPage, (page - 1) * PartiesPerPage);
 
             var count = this.partyApplicantsService.GetApplicationsCountByUsername(id);
 
-            viewModel.PagesCount = (int) Math.Ceiling((double) count / PartiesPerPage);
+            viewModel.PagesCount = (int)Math.Ceiling((double)count / PartiesPerPage);
             if (viewModel.PagesCount == 0)
             {
                 viewModel.PagesCount = 1;
@@ -199,7 +194,7 @@ namespace GamersHub.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Approve(PartyApplicantInputModel input)
+        public async Task<IActionResult> Approve(PartyApplicantApproveInputModel input)
         {
             var approveUserId = await this.partyApplicantsService.ApproveAsync(input.PartyId, input.ApplicantId);
 
@@ -212,15 +207,15 @@ namespace GamersHub.Web.Controllers
             var username = await this.userManager.GetUserNameAsync(user);
             var email = await this.userManager.GetEmailAsync(user);
 
-            var callbackUrl = Url.Action(
+            var callbackUrl = this.Url.Action(
                 "Applications",
                 "Parties",
                 values: new { id = username },
-                protocol: Request.Scheme);
+                protocol: this.Request.Scheme);
 
             var currentUsername = this.User.Identity.Name;
 
-            await emailSender.SendEmailAsync(
+            await this.emailSender.SendEmailAsync(
                 GlobalConstants.EmailSenderFrom,
                 GlobalConstants.SystemName,
                 email,
@@ -228,10 +223,10 @@ namespace GamersHub.Web.Controllers
                 $"You application to {currentUsername}'s party has been approved. You can view your applications by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
             this.TempData["InfoMessage"] = "Successfully approved user to party. A notification email has been send to him/her.";
-            return this.RedirectToAction("Host", "Parties", new {id = this.User.Identity.Name});
+            return this.RedirectToAction("Host", "Parties", new { id = this.User.Identity.Name });
         }
 
-        public async Task<IActionResult> Decline(PartyApplicantInputModel input)
+        public async Task<IActionResult> Decline(PartyApplicantApproveInputModel input)
         {
             var declineUserId = await this.partyApplicantsService.DeclineAsync(input.PartyId, input.ApplicantId);
 
@@ -241,10 +236,10 @@ namespace GamersHub.Web.Controllers
             }
 
             this.TempData["InfoMessage"] = "Successfully declined party applicant";
-            return this.RedirectToAction("Host", "Parties", new {id = this.User.Identity.Name});
+            return this.RedirectToAction("Host", "Parties", new { id = this.User.Identity.Name });
         }
 
-        public async Task<IActionResult> CancelApplication(PartyApplicantInputModel input)
+        public async Task<IActionResult> CancelApplication(PartyApplicantApproveInputModel input)
         {
             var partyId = await this.partyApplicantsService.CancelApplicationAsync(input.PartyId, input.ApplicantId);
 
@@ -254,7 +249,7 @@ namespace GamersHub.Web.Controllers
             }
 
             this.TempData["InfoMessage"] = "Successfully canceled party application";
-            return this.RedirectToAction("Applications", "Parties", new {id = this.User.Identity.Name});
+            return this.RedirectToAction("Applications", "Parties", new { id = this.User.Identity.Name });
         }
 
         public IActionResult Edit(int id)
@@ -312,7 +307,7 @@ namespace GamersHub.Web.Controllers
                 return this.Redirect("/Administration/Parties/Index");
             }
 
-            return this.RedirectToAction("Host", "Parties", new {id = this.User.Identity.Name});
+            return this.RedirectToAction("Host", "Parties", new { id = this.User.Identity.Name });
         }
 
         public IActionResult Delete(int id)
@@ -363,7 +358,7 @@ namespace GamersHub.Web.Controllers
                 return this.Redirect("/Administration/Parties/Index");
             }
 
-            return this.RedirectToAction("Host", "Parties", new {id = input.CreatorUsername});
+            return this.RedirectToAction("Host", "Parties", new { id = input.CreatorUsername });
         }
     }
 }

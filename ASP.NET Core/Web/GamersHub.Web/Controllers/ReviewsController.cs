@@ -1,18 +1,15 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Data.Games;
-using GamersHub.Services.Data.Reviews;
-using GamersHub.Services.Data.Users;
-using GamersHub.Web.ViewModels.Replies;
-using GamersHub.Web.ViewModels.Reviews;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-
-namespace GamersHub.Web.Controllers
+﻿namespace GamersHub.Web.Controllers
 {
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using GamersHub.Common;
+    using GamersHub.Services.Data.Games;
+    using GamersHub.Services.Data.Reviews;
+    using GamersHub.Web.ViewModels.Reviews;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [Authorize]
     public class ReviewsController : BaseController
     {
@@ -60,7 +57,7 @@ namespace GamersHub.Web.Controllers
             var subTitle = routeParams[1];
 
             this.TempData["InfoMessage"] = "Review created successfully!";
-            return this.RedirectToAction("ByName", "Games", new {name = gameUrl, subTitle = subTitle});
+            return this.RedirectToAction("ByName", "Games", new { name = gameUrl, subTitle = subTitle });
         }
 
         public ActionResult Edit(int id)
@@ -85,7 +82,6 @@ namespace GamersHub.Web.Controllers
 
             return this.View(viewModel);
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Edit(ReviewEditViewModel input)
@@ -161,7 +157,7 @@ namespace GamersHub.Web.Controllers
             }
 
             this.TempData["InfoMessage"] = "Review deleted successfully!";
-            return this.RedirectToAction("ByName", "Games", new {name = input.GameUrl, subTitle = input.GameSubTitle});
+            return this.RedirectToAction("ByName", "Games", new { name = input.GameUrl, subTitle = input.GameSubTitle });
         }
     }
 }

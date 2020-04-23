@@ -1,6 +1,4 @@
-﻿using GamersHub.Data.Common.Models;
-
-namespace GamersHub.Data.Models
+﻿namespace GamersHub.Data.Models
 {
     public class ForumCategory
     {

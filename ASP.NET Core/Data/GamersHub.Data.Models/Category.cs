@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using GamersHub.Data.Common.Models;
-
-namespace GamersHub.Data.Models
+﻿namespace GamersHub.Data.Models
 {
-   public class Category : BaseDeletableModel<int>
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    using GamersHub.Data.Common.Models;
+
+    public class Category : BaseDeletableModel<int>
     {
         public Category()
         {
-            CategoryForums = new HashSet<ForumCategory>();
-            Posts = new HashSet<Post>();
+            this.CategoryForums = new HashSet<ForumCategory>();
+            this.Posts = new HashSet<Post>();
         }
 
         [Required]

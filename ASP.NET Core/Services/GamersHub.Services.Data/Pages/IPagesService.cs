@@ -1,7 +1,7 @@
-﻿using System.Threading.Tasks;
-
-namespace GamersHub.Services.Data.Pages
+﻿namespace GamersHub.Services.Data.Pages
 {
+    using System.Threading.Tasks;
+
     public interface IPagesService
     {
         /// <summary>
@@ -11,7 +11,6 @@ namespace GamersHub.Services.Data.Pages
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         T GetByName<T>(string name);
-
 
         /// <summary>
         /// edits the content of the page with the given name, returns null if the page does not exist, return page id if successful

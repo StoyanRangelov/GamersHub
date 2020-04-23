@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Data.Common.Repositories;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Services.Data.Reviews
+﻿namespace GamersHub.Services.Data.Reviews
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using GamersHub.Data.Common.Repositories;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class ReviewsService : IReviewsService
     {
         private readonly IDeletableEntityRepository<Review> reviewsRepository;
@@ -89,7 +90,7 @@ namespace GamersHub.Services.Data.Reviews
 
         public int GetCountByGameId(int gameId)
         {
-            return this.reviewsRepository.All().Count(X=>X.GameId == gameId);
+            return this.reviewsRepository.All().Count(x => x.GameId == gameId);
         }
     }
 }

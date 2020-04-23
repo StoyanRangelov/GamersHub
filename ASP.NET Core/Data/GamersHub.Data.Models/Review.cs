@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using GamersHub.Data.Common.Models;
-
-namespace GamersHub.Data.Models
+﻿namespace GamersHub.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using GamersHub.Data.Common.Models;
+
     public class Review : BaseDeletableModel<int>
     {
         [Required]

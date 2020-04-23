@@ -1,8 +1,8 @@
-﻿using System.Text;
-using System.Text.RegularExpressions;
-
-namespace GamersHub.Common
+﻿namespace GamersHub.Common
 {
+    using System.Text;
+    using System.Text.RegularExpressions;
+
     public static class UrlParser
     {
         public static string ParseToUrl(string input)

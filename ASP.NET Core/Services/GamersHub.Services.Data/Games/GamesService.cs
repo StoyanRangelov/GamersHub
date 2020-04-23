@@ -1,24 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Common;
-using GamersHub.Data.Common.Repositories;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-using Microsoft.EntityFrameworkCore;
-
-namespace GamersHub.Services.Data.Games
+﻿namespace GamersHub.Services.Data.Games
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Common.Repositories;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+    using Microsoft.EntityFrameworkCore;
+
     public class GamesService : IGamesService
     {
         private readonly IDeletableEntityRepository<Game> gamesRepository;
-        private readonly IDeletableEntityRepository<Review> reviewsRepositorty;
+        private readonly IDeletableEntityRepository<Review> reviewsRepository;
 
-        public GamesService(IDeletableEntityRepository<Game> gamesRepository,
-            IDeletableEntityRepository<Review> reviewsRepositorty)
+        public GamesService(
+            IDeletableEntityRepository<Game> gamesRepository,
+            IDeletableEntityRepository<Review> reviewsRepository)
         {
             this.gamesRepository = gamesRepository;
-            this.reviewsRepositorty = reviewsRepositorty;
+            this.reviewsRepository = reviewsRepository;
         }
 
         public string[] GetTitleUrlAndSubTitleById(int id)
@@ -125,10 +127,10 @@ namespace GamersHub.Services.Data.Games
 
             foreach (var review in game.Reviews)
             {
-                this.reviewsRepositorty.Delete(review);
+                this.reviewsRepository.Delete(review);
             }
 
-            await this.reviewsRepositorty.SaveChangesAsync();
+            await this.reviewsRepository.SaveChangesAsync();
 
             this.gamesRepository.Delete(game);
             await this.gamesRepository.SaveChangesAsync();
@@ -153,7 +155,6 @@ namespace GamersHub.Services.Data.Games
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-
         private string GetNormalisedName(string name)
         {
             var forums = this.gamesRepository.All().Select(x => x.Title).ToList();

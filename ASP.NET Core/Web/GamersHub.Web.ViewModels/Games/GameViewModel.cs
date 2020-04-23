@@ -1,11 +1,12 @@
-﻿using System.Linq;
-using AutoMapper;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Games
+﻿namespace GamersHub.Web.ViewModels.Games
 {
+    using System.Linq;
+
+    using AutoMapper;
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class GameViewModel : IMapFrom<Game>, IHaveCustomMappings
     {
         public string Title { get; set; }
@@ -24,9 +25,9 @@ namespace GamersHub.Web.ViewModels.Games
         {
             configuration.CreateMap<Game, GameViewModel>()
                 .ForMember(x => x.NegativeReviews, y => y
-                    .MapFrom(x => x.Reviews.Count(x => x.IsPositive == false)))
-                .ForMember(x=>x.PositiveReviews, y => y
-                    .MapFrom(x=>x.Reviews.Count(x=>x.IsPositive)));
+                    .MapFrom(x => x.Reviews.Count(r => r.IsPositive == false)))
+                .ForMember(x => x.PositiveReviews, y => y
+                    .MapFrom(x => x.Reviews.Count(r => r.IsPositive)));
         }
     }
 }

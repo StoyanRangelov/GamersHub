@@ -1,15 +1,17 @@
-﻿using System;
-using System.Threading.Tasks;
-using GamersHub.Data;
-using GamersHub.Data.Models;
-using GamersHub.Data.Repositories;
-using GamersHub.Services.Data.Pages;
-using GamersHub.Services.Mapping;
-using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-
-namespace GamersHub.Services.Data.Tests
+﻿namespace GamersHub.Services.Data.Tests
 {
+    using System;
+    using System.Threading.Tasks;
+
+    using GamersHub.Data;
+    using GamersHub.Data.Models;
+    using GamersHub.Data.Repositories;
+    using GamersHub.Services.Data.Pages;
+    using GamersHub.Services.Data.Tests.TestModels;
+    using GamersHub.Services.Mapping;
+    using Microsoft.EntityFrameworkCore;
+    using NUnit.Framework;
+
     [TestFixture]
     public class PagesServiceTests
     {
@@ -23,16 +25,16 @@ namespace GamersHub.Services.Data.Tests
                 .UseInMemoryDatabase(Guid.NewGuid().ToString());
             this.repository = new EfDeletableEntityRepository<Page>(new ApplicationDbContext(options.Options));
             this.service = new PagesService(this.repository);
-            AutoMapperConfig.RegisterMappings(typeof(PageTest).Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(TestPage).Assembly);
         }
 
         [Test]
         public async Task TestGetByName()
         {
-            await this.repository.AddAsync(new Page {Name = "test", Content = "test"});
+            await this.repository.AddAsync(new Page { Name = "test", Content = "test" });
             await this.repository.SaveChangesAsync();
 
-            var page = this.service.GetByName<PageTest>("test");
+            var page = this.service.GetByName<TestPage>("test");
 
             Assert.AreEqual("test", page.Name);
             Assert.AreEqual("test", page.Content);
@@ -49,7 +51,7 @@ namespace GamersHub.Services.Data.Tests
         [Test]
         public async Task TestEditAsyncWorksCorrectly()
         {
-            await this.repository.AddAsync(new Page {Name = "test", Content = "content"});
+            await this.repository.AddAsync(new Page { Name = "test", Content = "content" });
             await this.repository.SaveChangesAsync();
 
             var pageId = await this.service.EditAsync("test", "test");
@@ -59,12 +61,5 @@ namespace GamersHub.Services.Data.Tests
             Assert.AreEqual(1, pageId);
             Assert.AreEqual("test", page.Content);
         }
-    }
-
-    public class PageTest : IMapFrom<Page>
-    {
-        public string Name { get; set; }
-
-        public string Content { get; set; }
     }
 }

@@ -1,11 +1,11 @@
 ﻿// ReSharper disable VirtualMemberCallInConstructor
 
-using System.ComponentModel.DataAnnotations;
-
 namespace GamersHub.Data.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
     using GamersHub.Data.Common.Models;
     using Microsoft.AspNetCore.Identity;
 

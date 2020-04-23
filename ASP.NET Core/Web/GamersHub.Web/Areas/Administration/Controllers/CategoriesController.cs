@@ -1,17 +1,16 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using GamersHub.Common;
-using GamersHub.Services.Data;
-using GamersHub.Services.Data.Categories;
-using GamersHub.Services.Data.ForumCategories;
-using GamersHub.Services.Data.Forums;
-using GamersHub.Web.ViewModels;
-using GamersHub.Web.ViewModels.Administration.Categories;
-using Microsoft.AspNetCore.Mvc;
-
-namespace GamersHub.Web.Areas.Administration.Controllers
+﻿namespace GamersHub.Web.Areas.Administration.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using GamersHub.Common;
+    using GamersHub.Services.Data.Categories;
+    using GamersHub.Services.Data.Forums;
+    using GamersHub.Web.ViewModels;
+    using GamersHub.Web.ViewModels.Administration.Categories;
+    using Microsoft.AspNetCore.Mvc;
+
     public class CategoriesController : AdministrationController
     {
         private const int CategoriesPerPage = 14;
@@ -30,13 +29,13 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             var categories = this.categoriesService
                 .GetAll<CategoryViewModel>(CategoriesPerPage, (id - 1) * CategoriesPerPage);
 
-            var viewModel = new CategoryIndexViewModel {Categories = categories};
+            var viewModel = new CategoryIndexViewModel { Categories = categories };
 
             var count = this.categoriesService.GetCount();
 
             var pagination = new PaginationViewModel();
 
-            pagination.PagesCount = (int) Math.Ceiling((double) count / CategoriesPerPage);
+            pagination.PagesCount = (int)Math.Ceiling((double)count / CategoriesPerPage);
             if (pagination.PagesCount == 0)
             {
                 pagination.PagesCount = 1;
@@ -147,7 +146,6 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             this.TempData["InfoMessage"] = "Category edited successfully!";
             return this.RedirectToAction(nameof(this.Index));
         }
-
 
         public IActionResult Delete(int id)
         {

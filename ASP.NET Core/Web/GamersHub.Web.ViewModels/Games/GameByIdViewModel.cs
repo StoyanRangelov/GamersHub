@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-using Ganss.XSS;
-
-namespace GamersHub.Web.ViewModels.Games
+﻿namespace GamersHub.Web.ViewModels.Games
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using AutoMapper;
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+    using Ganss.XSS;
+
     public class GameByIdViewModel : IMapFrom<Game>, IHaveCustomMappings
     {
         public int Id { get; set; }

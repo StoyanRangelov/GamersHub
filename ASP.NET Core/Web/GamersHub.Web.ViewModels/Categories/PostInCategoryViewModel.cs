@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-
-namespace GamersHub.Web.ViewModels.Categories
+﻿namespace GamersHub.Web.ViewModels.Categories
 {
+    using System;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+
     public class PostInCategoryViewModel : IMapFrom<Post>
     {
         public int Id { get; set; }

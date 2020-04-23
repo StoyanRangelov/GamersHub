@@ -1,11 +1,12 @@
-﻿using System;
-using GamersHub.Common;
-using GamersHub.Data.Models;
-using GamersHub.Services.Mapping;
-using Ganss.XSS;
-
-namespace GamersHub.Web.ViewModels.Replies
+﻿namespace GamersHub.Web.ViewModels.Replies
 {
+    using System;
+
+    using GamersHub.Common;
+    using GamersHub.Data.Models;
+    using GamersHub.Services.Mapping;
+    using Ganss.XSS;
+
     public class ReplyPostViewModel : IMapFrom<Post>
     {
         public int Id { get; set; }
