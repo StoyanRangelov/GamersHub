@@ -2,6 +2,8 @@
 {
     public static class GlobalConstants
     {
+        public const string EmailSenderFrom = "StoyanRangelov@students.softuni.bg";
+
         public const string DefaultUserImageUrl = "https://res.cloudinary.com/dhagvwgd6/image/upload/v1587461693/blank-profile-picture-973460_960_720_k1x6xs.webp";
 
         public const string Posts = "Posts";

@@ -5,9 +5,10 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Linq;
 using System.Threading.Tasks;
+using GamersHub.Common;
 using GamersHub.Data.Models;
+using GamersHub.Services.Messaging;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
@@ -99,7 +100,10 @@ namespace GamersHub.Web.Areas.Identity.Pages.Account.Manage
                     pageHandler: null,
                     values: new { userId = userId, email = Input.NewEmail, code = code },
                     protocol: Request.Scheme);
+
                 await _emailSender.SendEmailAsync(
+                    GlobalConstants.EmailSenderFrom,
+                    GlobalConstants.SystemName,
                     Input.NewEmail,
                     "Confirm your email",
                     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
@@ -135,7 +139,10 @@ namespace GamersHub.Web.Areas.Identity.Pages.Account.Manage
                 pageHandler: null,
                 values: new { area = "Identity", userId = userId, code = code },
                 protocol: Request.Scheme);
+
             await _emailSender.SendEmailAsync(
+                GlobalConstants.EmailSenderFrom,
+                GlobalConstants.SystemName,
                 email,
                 "Confirm your email",
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");

@@ -1,0 +1,26 @@
+﻿@page
+@model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Confirm email";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col text-center text-white">
+            <h1 class="display-5">You have successfully confirmed your Email.</h1>
+            <a asp-controller="Home" asp-action="Index" type="submit" class="btn btn-primary btn-lg mt-2">To Homepage</a>
+            <div class="d-block btn-toolbar mt-4">
+                <div class="btn-group mr-2">
+                    <a asp-controller="Forums" asp-action="Index" type="submit" class="btn btn-primary btn-lg">To Forums</a>
+                </div>
+                <div class="btn-group mr-2">
+                    <a asp-controller="Games" asp-action="Index" type="submit" class="btn btn-primary btn-lg">To Reviews</a>
+                </div>
+                <div class="btn-group mr-2">
+                    <a asp-controller="Parties" asp-action="Index" type="submit" class="btn btn-primary btn-lg">To Parties</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="_StatusMessage" model="Model.StatusMessage" />

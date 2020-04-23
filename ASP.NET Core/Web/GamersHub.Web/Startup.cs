@@ -121,7 +121,7 @@ namespace GamersHub.Web
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<IEmailSender, SendGridEmailSender>(options=> new SendGridEmailSender(this.configuration["SendGrid:ApiKey"]));
             services.AddTransient<IForumCategoriesService, ForumCategoriesService>();
             services.AddTransient<IPostsService, PostsService>();
             services.AddTransient<IForumsService, ForumsService>();
