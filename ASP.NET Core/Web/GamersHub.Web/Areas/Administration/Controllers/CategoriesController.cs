@@ -1,4 +1,6 @@
-﻿namespace GamersHub.Web.Areas.Administration.Controllers
+﻿using GamersHub.Web.ViewModels.Administration.Categories.InputModels;
+
+namespace GamersHub.Web.Areas.Administration.Controllers
 {
     using System;
     using System.Linq;

@@ -1,4 +1,4 @@
-﻿namespace GamersHub.Web.ViewModels.Administration.Forums
+﻿namespace GamersHub.Web.ViewModels.Administration.Forums.InputModels
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;

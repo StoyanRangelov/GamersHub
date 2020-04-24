@@ -1,4 +1,4 @@
-﻿namespace GamersHub.Web.ViewModels.Replies
+﻿namespace GamersHub.Web.ViewModels.Replies.InputModels
 {
     public class ReplyDeleteInputModel
     {

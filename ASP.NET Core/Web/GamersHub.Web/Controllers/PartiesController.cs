@@ -1,4 +1,6 @@
-﻿namespace GamersHub.Web.Controllers
+﻿using GamersHub.Web.ViewModels.Parties.InputModels;
+
+namespace GamersHub.Web.Controllers
 {
     using System;
     using System.Security.Claims;

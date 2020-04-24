@@ -1,4 +1,4 @@
-﻿namespace GamersHub.Web.ViewModels.Posts
+﻿namespace GamersHub.Web.ViewModels.Posts.InputModels
 {
     public class PostDeleteInputModel
     {

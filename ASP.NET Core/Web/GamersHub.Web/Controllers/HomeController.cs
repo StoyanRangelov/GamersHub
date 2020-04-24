@@ -1,4 +1,6 @@
-﻿namespace GamersHub.Web.Controllers
+﻿using GamersHub.Web.ViewModels.Pages.InputModels;
+
+namespace GamersHub.Web.Controllers
 {
     using System;
     using System.Diagnostics;

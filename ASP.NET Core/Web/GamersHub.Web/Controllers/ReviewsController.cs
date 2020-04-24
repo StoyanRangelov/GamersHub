@@ -7,6 +7,7 @@
     using GamersHub.Services.Data.Games;
     using GamersHub.Services.Data.Reviews;
     using GamersHub.Web.ViewModels.Reviews;
+    using GamersHub.Web.ViewModels.Reviews.InputModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 

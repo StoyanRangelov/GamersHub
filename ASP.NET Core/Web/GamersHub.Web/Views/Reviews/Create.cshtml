@@ -1,4 +1,4 @@
-﻿@model GamersHub.Web.ViewModels.Reviews.ReviewCreateInputModel
+﻿@model GamersHub.Web.ViewModels.Reviews.InputModels.ReviewCreateInputModel
 @{
     ViewData["Title"] = "Create Review";
     var games = Model.Games.Select(x => new SelectListItem($"{x.Title} {x.SubTitle}", x.Id.ToString()));

@@ -1,4 +1,4 @@
-﻿namespace GamersHub.Web.ViewModels.Reviews
+﻿namespace GamersHub.Web.ViewModels.Reviews.InputModels
 {
     public class ReviewDeleteInputModel
     {

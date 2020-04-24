@@ -1,4 +1,4 @@
-﻿namespace GamersHub.Web.ViewModels.Administration.Games
+﻿namespace GamersHub.Web.ViewModels.Administration.Games.InputModels
 {
     using System.ComponentModel.DataAnnotations;
 

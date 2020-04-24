@@ -1,4 +1,4 @@
-﻿namespace GamersHub.Web.ViewModels.Administration.Users
+﻿namespace GamersHub.Web.ViewModels.Administration.Users.InputModels
 {
     public class UserAdministrationPromoteInputModel
     {

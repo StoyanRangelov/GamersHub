@@ -1,4 +1,6 @@
-﻿namespace GamersHub.Web.Areas.Administration.Controllers
+﻿using GamersHub.Web.ViewModels.Administration.Games.InputModels;
+
+namespace GamersHub.Web.Areas.Administration.Controllers
 {
     using System;
     using System.Net.Http.Headers;

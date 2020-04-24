@@ -1,4 +1,4 @@
-﻿namespace GamersHub.Web.ViewModels.Parties
+﻿namespace GamersHub.Web.ViewModels.Parties.InputModels
 {
     using System.ComponentModel.DataAnnotations;
 

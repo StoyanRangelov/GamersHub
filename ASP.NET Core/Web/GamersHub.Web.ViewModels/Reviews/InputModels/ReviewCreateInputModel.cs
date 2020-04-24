@@ -1,4 +1,4 @@
-﻿namespace GamersHub.Web.ViewModels.Reviews
+﻿namespace GamersHub.Web.ViewModels.Reviews.InputModels
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
