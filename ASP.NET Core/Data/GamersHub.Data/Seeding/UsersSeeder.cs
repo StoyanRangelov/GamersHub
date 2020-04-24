@@ -1,4 +1,6 @@
-﻿namespace GamersHub.Data.Seeding
+﻿using GamersHub.Common;
+
+namespace GamersHub.Data.Seeding
 {
     using System;
     using System.Linq;
@@ -27,6 +29,7 @@
                 UserName = "administrator",
                 GamingExperience = GamingExperienceType.Advanced,
                 DiscordUsername = "Admin#1234",
+                ImgUrl = GlobalConstants.DefaultUserImageUrl,
             }, "9j7hgdyw");
 
             await userManager.CreateAsync(
@@ -36,6 +39,7 @@
                     UserName = "moderator",
                     GamingExperience = GamingExperienceType.Advanced,
                     DiscordUsername = "Mod#1234",
+                    ImgUrl = GlobalConstants.DefaultUserImageUrl,
                 }, "9j7hgdyw");
 
             await userManager.CreateAsync(
@@ -45,6 +49,7 @@
                     UserName = "testUser1",
                     GamingExperience = GamingExperienceType.Advanced,
                     DiscordUsername = "Test1#1234",
+                    ImgUrl = GlobalConstants.DefaultUserImageUrl,
                 }, "9j7hgdyw");
 
             await userManager.CreateAsync(
@@ -54,6 +59,7 @@
                     UserName = "testUser2",
                     GamingExperience = GamingExperienceType.Advanced,
                     DiscordUsername = "Test2#1234",
+                    ImgUrl = GlobalConstants.DefaultUserImageUrl,
                 }, "9j7hgdyw");
         }
     }

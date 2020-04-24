@@ -144,6 +144,7 @@
                     Email = this.Input.Email,
                     GamingExperience = this.Input.GamingExperience,
                     DiscordUsername = this.Input.DiscordUsername,
+                    ImgUrl = GlobalConstants.DefaultUserImageUrl,
                 };
                 var result = await this.userManager.CreateAsync(user);
                 if (result.Succeeded)
