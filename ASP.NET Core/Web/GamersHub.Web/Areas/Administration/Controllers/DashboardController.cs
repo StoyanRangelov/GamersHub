@@ -98,7 +98,7 @@
                     data,
                     new DistributedCacheEntryOptions
                     {
-                        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(3),
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(1),
                     });
             }
 

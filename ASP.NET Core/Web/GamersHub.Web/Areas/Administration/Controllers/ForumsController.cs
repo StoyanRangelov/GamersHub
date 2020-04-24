@@ -68,7 +68,7 @@ namespace GamersHub.Web.Areas.Administration.Controllers
             if (forumId == 0)
             {
                 this.ModelState.AddModelError(
-                    string.Empty,
+                    nameof(inputModel.Name),
                     string.Format(GlobalConstants.ForumNameAlreadyExistsErrorMessage, inputModel.Name));
             }
 

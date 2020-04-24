@@ -64,7 +64,7 @@ namespace GamersHub.Web.Controllers
                 data = JsonConvert.SerializeObject(homeIndexViewModel);
                 await this.distributedCache.SetStringAsync("HomeIndexViewModel", data, new DistributedCacheEntryOptions
                 {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5),
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(1),
                 });
             }
 
