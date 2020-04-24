@@ -15,10 +15,10 @@
         <div class="col text-center text-white">
             <h1 class="display-5 text-uppercase">Error.</h1>
             <h1 class="display-5">An error occurred while processing your request.</h1>
-            <h1 class="display-5">Please contant customer support and provide the following Request ID:</h1>
+            <h1 class="display-5">Please contant customer support and provide the following Request ID</h1>
             @if (this.Model.ShowRequestId)
             {
-                <h1 class="display-5">Please contant customer support and provide them the following Request ID: <code>@this.Model.RequestId</code></h1>
+                <code>@this.Model.RequestId</code>
             }
         </div>
     </div>
