@@ -4,23 +4,21 @@
     ViewData["Title"] = "Confirm email";
 }
 
-<partial name="_StatusMessage" model="Model.StatusMessage" />
+<partial name="_StatusMessage" model="Model.StatusMessage"/>
 
 <div class="container">
-    <div class="row">
-        <div class="col text-center text-white">
-            <a asp-page="" asp-controller="Home" asp-action="Index" type="submit" class="btn btn-primary btn-lg mt-2">To Homepage</a>
-            <div class="d-block btn-toolbar mt-4">
-                <div class="btn-group mr-2">
-                    <a asp-page="" asp-controller="Forums" asp-action="Index" type="submit" class="btn btn-primary btn-lg">To Forums</a>
-                </div>
-                <div class="btn-group mr-2">
-                    <a asp-page="" asp-controller="Games" asp-action="Index" type="submit" class="btn btn-primary btn-lg">To Reviews</a>
-                </div>
-                <div class="btn-group mr-2">
-                    <a asp-page="" asp-controller="Parties" asp-action="Index" type="submit" class="btn btn-primary btn-lg">To Parties</a>
-                </div>
-            </div>
+    <div class="row btn-toolbar text-center" role="toolbar">
+        <div class="col btn-group mr-2" role="group">
+            <a asp-area="" asp-page="" asp-controller="Home" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Back to Homepage</a>
+        </div>
+        <div class="col btn-group mr-2" role="group">
+            <a asp-area="" asp-page="" asp-controller="Forums" asp-action="Index" type="submit" class="btn btn-primary btn-lg">To Forums</a>
+        </div>
+        <div class="col btn-group mr-2" role="group">
+            <a asp-area="" asp-page="" asp-controller="Games" asp-action="Index" type="submit" class="btn btn-primary btn-lg">To Reviews</a>
+        </div>
+        <div class="col btn-group mr-2" role="group">
+            <a asp-area="" asp-page="" asp-controller="Parties" asp-action="Index" type="submit" class="btn btn-primary btn-lg">To Parties</a>
         </div>
     </div>
 </div>

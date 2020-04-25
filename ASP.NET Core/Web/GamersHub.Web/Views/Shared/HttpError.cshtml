@@ -16,18 +16,20 @@
             <h1 class="display-5">Oops, something went wrong.</h1>
             <h1 class="display-1 text-uppercase">Error - @Model.StatusCode</h1>
             <h1 class="display-5">@Model.Message</h1>
-            <a asp-controller="Home" asp-action="Index" type="submit" class="btn btn-primary btn-lg mt-2">Back to Homepage</a>
-            <div class="d-block btn-toolbar mt-4">
-                <div class="btn-group mr-2">
-                    <a asp-controller="Forums" asp-action="Index" type="submit" class="btn btn-primary btn-lg">To Forums</a>
-                </div>
-                <div class="btn-group mr-2">
-                    <a asp-controller="Games" asp-action="Index" type="submit" class="btn btn-primary btn-lg">To Reviews</a>
-                </div>
-                <div class="btn-group mr-2">
-                    <a asp-controller="Parties" asp-action="Index" type="submit" class="btn btn-primary btn-lg">To Parties</a>
-                </div>
-            </div>
+        </div>
+    </div>
+    <div class="row btn-toolbar text-center" role="toolbar">
+        <div class="col btn-group mr-2" role="group">
+            <a asp-controller="Home" asp-action="Index" type="submit" class="btn btn-primary btn-lg">Back to Homepage</a>
+        </div>
+        <div class="col btn-group mr-2" role="group">
+            <a asp-controller="Forums" asp-action="Index" type="submit" class="btn btn-primary btn-lg">To Forums</a>
+        </div>
+        <div class="col btn-group mr-2" role="group">
+            <a asp-controller="Games" asp-action="Index" type="submit" class="btn btn-primary btn-lg">To Reviews</a>
+        </div>
+        <div class="col btn-group mr-2" role="group">
+            <a asp-controller="Parties" asp-action="Index" type="submit" class="btn btn-primary btn-lg">To Parties</a>
         </div>
     </div>
 </div>
