@@ -33,6 +33,12 @@
             this.categoriesService = categoriesService;
         }
 
+        public IActionResult Test()
+        {
+            return this.Ok();
+
+        }
+
         public IActionResult ByName(string name, int id, string searchString, string currentFilter, int page = 1)
         {
             var normalisedName = this.categoriesService.GetNormalisedName(name);
